@@ -1,4 +1,4 @@
-import type { StaticPage } from "./types.js";
+import type { StaticPage } from "./types";
 
 export const siteName = "Demo Site";
 

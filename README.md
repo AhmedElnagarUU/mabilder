@@ -7,10 +7,20 @@ static HTML pages with React server-side rendering and writes them to
 The generated site is plain HTML and CSS. It runs without React, Next.js, or
 JavaScript at runtime.
 
-## Generate the site
+## Generate from the page
 
 ```bash
 npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000), click **Generate website**,
+then click **Open generated website**. The app serves the generated files
+through `/preview/`.
+
+## Generate from the command line
+
+```bash
 npm run generate:site
 ```
 
@@ -26,7 +36,7 @@ generated-sites/demo-site/
 └── styles.css
 ```
 
-## Preview the generated site
+## Preview the generated site without Next.js
 
 Serve the output directory with any static file server. For example, with
 Python:
@@ -55,14 +65,8 @@ directly in a browser also works.
 - `styles.ts` holds the shared responsive stylesheet.
 - `generate-site.ts` writes the HTML pages and `styles.css`.
 - `scripts/generate-site.ts` is the command-line entry point.
-
-## Run the Next.js app
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000).
+- `src/app/api/generate-site/route.ts` runs the generator for the button.
+- `src/app/preview/[...file]/route.ts` serves the generated files.
 
 ## Checks
 

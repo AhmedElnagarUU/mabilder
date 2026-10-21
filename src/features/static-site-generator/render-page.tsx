@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-head-element, @next/next/no-css-tags -- this renders a standalone document, not a Next.js page */
-import { renderToStaticMarkup } from "react-dom/server";
-import { siteName } from "./pages.js";
-import type { StaticPage } from "./types.js";
+import { siteName } from "./pages";
+import type { StaticPage } from "./types";
 
 type PageProps = {
   page: StaticPage;
@@ -35,7 +34,7 @@ function SiteHeader({ page, pages }: PageProps) {
   );
 }
 
-function Page({ page, pages }: PageProps) {
+export function Page({ page, pages }: PageProps) {
   return (
     <html lang="en">
       <head>
@@ -76,9 +75,4 @@ function Page({ page, pages }: PageProps) {
       </body>
     </html>
   );
-}
-
-export function renderPage(page: StaticPage, pages: StaticPage[]): string {
-  const markup = renderToStaticMarkup(<Page page={page} pages={pages} />);
-  return `<!DOCTYPE html>\n${markup}\n`;
 }

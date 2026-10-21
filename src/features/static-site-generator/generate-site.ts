@@ -1,8 +1,8 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { pages } from "./pages.js";
-import { renderPage } from "./render-page.js";
-import { styles } from "./styles.js";
+import { pages } from "./pages";
+import { renderPage } from "./render-document";
+import { styles } from "./styles";
 
 export async function generateSite(outputDirectory: string): Promise<void> {
   await mkdir(outputDirectory, { recursive: true });
