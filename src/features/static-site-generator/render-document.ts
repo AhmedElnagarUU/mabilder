@@ -1,5 +1,5 @@
 import { createElement } from "react";
-import { renderToStaticMarkup } from "react-dom/server.browser";
+import { renderToStaticMarkup } from "react-dom/server";
 import { Page } from "./render-page";
 import type { StaticPage } from "./types";
 

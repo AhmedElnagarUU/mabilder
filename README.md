@@ -68,6 +68,10 @@ directly in a browser also works.
 - `src/app/api/generate-site/route.ts` runs the generator for the button.
 - `src/app/preview/[...file]/route.ts` serves the generated files.
 
+The generator is compiled before `dev` and `build`, then the button runs that
+compiled CLI in a child process. This keeps React DOM's server renderer out of
+the Next.js route bundle.
+
 ## Checks
 
 ```bash

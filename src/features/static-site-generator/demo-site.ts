@@ -1,5 +1,8 @@
+import { execFile } from "node:child_process";
 import path from "node:path";
-import { generateSite } from "./generate-site";
+import { promisify } from "node:util";
+
+const execFileAsync = promisify(execFile);
 
 export const demoPreviewPath = "/preview/index.html";
 
@@ -8,5 +11,15 @@ export function getDemoSiteDirectory(): string {
 }
 
 export async function generateDemoSite(): Promise<void> {
-  await generateSite(getDemoSiteDirectory());
+  const generatorScript = path.join(
+    process.cwd(),
+    ".generator-build",
+    "scripts",
+    "generate-site.js",
+  );
+
+  await execFileAsync(process.execPath, [generatorScript], {
+    cwd: process.cwd(),
+    windowsHide: true,
+  });
 }

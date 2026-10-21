@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "tsc -p tsconfig.generator.json",
     "dev": "next dev",
+    "prebuild": "tsc -p tsconfig.generator.json",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",

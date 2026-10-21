@@ -12,10 +12,7 @@ async function main(): Promise<void> {
   console.log(`Generated static site at ${outputDirectory}`);
 }
 
-main().then(
-  () => process.exit(0),
-  (error: unknown) => {
-    console.error(error);
-    process.exit(1);
-  },
-);
+main().catch((error: unknown) => {
+  console.error(error);
+  process.exitCode = 1;
+});
