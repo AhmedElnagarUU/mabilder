@@ -1,0 +1,1884 @@
+{
+  "site": {
+    "name": "Agenvo",
+    "homeHref": "index.html"
+  },
+  "navigation": {
+    "items": [
+      {
+        "label": "apout",
+        "href": "about.html"
+      },
+      {
+        "label": "Services",
+        "href": "services.html"
+      },
+      {
+        "label": "Work",
+        "href": "our-work.html"
+      },
+      {
+        "label": "Profile",
+        "href": "profile.html"
+      },
+      {
+        "label": "Contact",
+        "href": "contact.html"
+      }
+    ],
+    "cta": {
+      "label": "Inquire",
+      "href": "contact.html"
+    },
+    "mobileCtaLabel": "Start a project",
+    "menuLabel": "Toggle menu"
+  },
+  "footer": {
+    "blurb": "Architecture, engineering and interiors for those who build legacies, not just buildings.",
+    "social": [
+      {
+        "label": "Instagram",
+        "href": "#",
+        "icon": "instagram"
+      },
+      {
+        "label": "LinkedIn",
+        "href": "#",
+        "icon": "linkedin"
+      },
+      {
+        "label": "Email",
+        "href": "mailto:hello@agenvo.com",
+        "icon": "mail"
+      }
+    ],
+    "columns": [
+      {
+        "title": "Explore",
+        "links": [
+          {
+            "label": "Studio",
+            "href": "about.html"
+          },
+          {
+            "label": "Services",
+            "href": "services.html"
+          },
+          {
+            "label": "Work",
+            "href": "our-work.html"
+          },
+          {
+            "label": "Profile",
+            "href": "profile.html"
+          },
+          {
+            "label": "Contact",
+            "href": "contact.html"
+          }
+        ]
+      },
+      {
+        "title": "Expertise",
+        "links": [
+          {
+            "label": "Architecture",
+            "href": "services.html#architecture"
+          },
+          {
+            "label": "Structural engineering",
+            "href": "services.html#engineering"
+          },
+          {
+            "label": "Interior architecture",
+            "href": "services.html#interiors"
+          },
+          {
+            "label": "Masterplanning",
+            "href": "services.html#advisory"
+          },
+          {
+            "label": "Sustainability",
+            "href": "services.html#advisory"
+          }
+        ]
+      }
+    ],
+    "studios": [
+      {
+        "lines": [
+          "Bahnhofstrasse 42",
+          "8001 Zürich, Switzerland"
+        ],
+        "email": "hello@agenvo.com",
+        "phone": "+41 44 123 4567",
+        "phoneHref": "tel:+41441234567"
+      },
+      {
+        "lines": [
+          "Alserkal Avenue, Unit 12",
+          "Al Quoz, Dubai, UAE"
+        ],
+        "email": "dubai@agenvo.com",
+        "phone": "+971 4 123 4567",
+        "phoneHref": "tel:+97141234567"
+      }
+    ],
+    "copyright": "© 2026 Agenvo. All rights reserved.",
+    "legal": [
+      {
+        "label": "Privacy",
+        "href": "#"
+      },
+      {
+        "label": "Imprint",
+        "href": "#"
+      },
+      {
+        "label": "Home",
+        "href": "index.html"
+      }
+    ]
+  },
+  "pages": {
+    "home": {
+      "meta": {
+        "title": "MOOD",
+        "description": "its work in ny way"
+      },
+      "hero": {
+        "eyebrow": "flrfmrfrr  r r r r",
+        "title": "hollow in our websitt",
+        "body": "foe crete u futures",
+        "image": {
+          "src": "https://img.magnific.com/free-photo/photorealistic-hummingbird-outdoors-nature_23-2151474112.jpg?semt=ais_hybrid&w=740&q=80",
+          "alt": "Luxury residence"
+        }
+      },
+      "marquee": [
+        "Corporate Tower — 2024",
+        "Water Pavilion — 2023",
+        "Forest Retreat — 2023",
+        "Skyline Residence — 2022",
+        "Marina Complex — 2022"
+      ],
+      "stats": [
+        {
+          "value": "180",
+          "label": "Projects"
+        },
+        {
+          "value": "16",
+          "label": "Countries"
+        },
+        {
+          "value": "42",
+          "label": "Awards"
+        },
+        {
+          "value": "15yr",
+          "label": "Experience"
+        }
+      ],
+      "studio": {
+        "eyebrow": "The Studio",
+        "title": "Where precision meets poetry.",
+        "paragraphs": [
+          "Agenvo is a collective of architects, structural engineers, and interior designers united by a single belief: great spaces should feel inevitable. We work at the intersection of art and engineering.",
+          "From concept sketches to construction oversight, we guide every phase with obsessive attention to material, light, and proportion."
+        ],
+        "images": [
+          {
+            "src": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=500&q=80",
+            "alt": "Studio"
+          },
+          {
+            "src": "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=500&q=80",
+            "alt": "Model"
+          },
+          {
+            "src": "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=500&q=80",
+            "alt": "Building"
+          }
+        ],
+        "link": {
+          "label": "Meet the studio",
+          "href": "about.html"
+        }
+      },
+      "process": {
+        "eyebrow": "How We Work",
+        "title": "A disciplined creative process",
+        "steps": [
+          {
+            "number": "01",
+            "title": "Discovery",
+            "body": "Site analysis, client vision workshops, and feasibility studies."
+          },
+          {
+            "number": "02",
+            "title": "Concept",
+            "body": "Schematic design, 3D massing, and material palette exploration."
+          },
+          {
+            "number": "03",
+            "title": "Development",
+            "body": "Detailed drawings, BIM coordination, and engineering integration."
+          },
+          {
+            "number": "04",
+            "title": "Delivery",
+            "body": "Construction administration and final styling oversight."
+          }
+        ]
+      },
+      "projects": {
+        "eyebrow": "Selected Work",
+        "title": "Recent projects",
+        "link": {
+          "label": "View all",
+          "href": "our-work.html"
+        },
+        "items": [
+          {
+            "title": "Corporate Tower",
+            "meta": "Dubai, UAE — 2024",
+            "category": "Commercial",
+            "image": {
+              "src": "https://img.magnific.com/free-photo/photorealistic-hummingbird-outdoors-nature_23-2151474112.jpg?semt=ais_hybrid&w=740&q=80",
+              "alt": "Corporate Tower"
+            }
+          },
+          {
+            "title": "Water Pavilion",
+            "meta": "Lake Como, IT — 2023",
+            "category": "Cultural",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80",
+              "alt": "Water Pavilion"
+            }
+          },
+          {
+            "title": "Forest Retreat",
+            "meta": "Swiss Alps — 2023",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80",
+              "alt": "Forest Retreat"
+            }
+          },
+          {
+            "title": "Skyline Residence",
+            "meta": "Singapore — 2022",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=600&q=80",
+              "alt": "Skyline Residence"
+            }
+          },
+          {
+            "title": "Concept Structure",
+            "meta": "London, UK — 2022",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&q=80",
+              "alt": "Concept Structure"
+            }
+          }
+        ]
+      },
+      "services": {
+        "eyebrow": "What we do",
+        "title": "Three disciplines, one studio.",
+        "items": [
+          {
+            "title": "Architecture",
+            "body": "Residential, commercial, and mixed-use projects from concept to completion documents.",
+            "icon": "building-2"
+          },
+          {
+            "title": "Engineering",
+            "body": "Structural, MEP, and sustainability consulting integrated into every design decision.",
+            "icon": "ruler"
+          },
+          {
+            "title": "Interiors",
+            "body": "Bespoke interior architecture with custom furniture and lighting design.",
+            "icon": "sofa"
+          }
+        ]
+      },
+      "contact": {
+        "eyebrow": "Get in Touch",
+        "title": "Let's build something remarkable.",
+        "body": "Whether you have a site, a sketch, or just an ambition — we'd love to hear from you.",
+        "email": "hello@agenvo.com",
+        "phone": "+41 44 123 4567",
+        "address": "Bahnhofstrasse 42, 8001 Zürich",
+        "form": {
+          "namePlaceholder": "Name",
+          "emailPlaceholder": "Email",
+          "projectTypePlaceholder": "Project Type",
+          "messagePlaceholder": "Tell us about your project...",
+          "submitLabel": "Send Inquiry",
+          "successMessage": "Thank you — your enquiry has been noted. In this demo no message is actually sent."
+        }
+      }
+    },
+    "about": {
+      "meta": {
+        "title": "The Studio — AGENVO",
+        "description": "Agenvo is an architecture, engineering and interiors practice founded in Zurich in 2008. Meet the people, principles and history behind the work."
+      },
+      "hero": {
+        "eyebrow": "Studio — The practice",
+        "title": "A practice built on *patience.*",
+        "body": "We are architects, engineers and interior designers who believe the best buildings are not rushed into existence. They are listened for, tested, and slowly made inevitable.",
+        "facts": [
+          {
+            "value": "2008",
+            "label": "Founded"
+          },
+          {
+            "value": "64",
+            "label": "People"
+          },
+          {
+            "value": "2",
+            "label": "Studios"
+          }
+        ],
+        "image": {
+          "src": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=80",
+          "alt": "Agenvo studio interior"
+        }
+      },
+      "marquee": [
+        "Zurich",
+        "Dubai",
+        "Architecture",
+        "Engineering",
+        "Interiors",
+        "Urbanism",
+        "Research"
+      ],
+      "intro": {
+        "eyebrow": "Who we are",
+        "title": "An independent studio, deliberately small.",
+        "quote": "Agenvo was founded on a simple conviction: that architecture should serve the life inside it long after the photographs have faded.",
+        "paragraphs": [
+          "We started in 2008 with two architects, a borrowed drafting table and a commission for a family house above Lake Zurich. Eighteen years later, the studio has grown to sixty-four people across Zurich and Dubai — but the working method has not changed. Every project still begins with a long conversation, a site visit in bad weather, and a physical model.",
+          "Our structure is intentionally integrated. Architects sit beside structural engineers, sustainability specialists and interior designers from the first sketch. This means fewer handoffs, fewer compromises, and a building that behaves as one coherent idea rather than a negotiation between disciplines.",
+          "We work across residential, commercial, cultural and hospitality projects, at scales from a single room to a district masterplan. What unites the work is not a signature style but a set of standards: honest materials, generous light, calm proportions, and details that reward a second look.",
+          "We are equally comfortable restoring a century-old facade and engineering a forty-storey tower. The common thread is care — for the client's ambition, the craftspeople who execute it, and the city that will live with it."
+        ],
+        "image": {
+          "src": "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&q=80",
+          "alt": "Architect reviewing drawings"
+        },
+        "caption": "Model-making workshop, Zurich — where every project begins in the hand before it reaches the screen.",
+        "stats": [
+          {
+            "value": "180",
+            "label": "Projects delivered"
+          },
+          {
+            "value": "16",
+            "label": "Countries"
+          },
+          {
+            "value": "42",
+            "label": "Awards"
+          },
+          {
+            "value": "96%",
+            "label": "Client return rate"
+          }
+        ]
+      },
+      "beliefs": {
+        "eyebrow": "What we believe",
+        "title": "Four principles.\nNo exceptions.",
+        "body": "These are not marketing values. They are the questions we ask in every design review, on every project, at every scale.",
+        "items": [
+          {
+            "number": "01",
+            "title": "Restraint",
+            "body": "The most powerful move is often the one we remove. We edit relentlessly so that what remains — a stair, a window, a wall — can be experienced fully. Restraint is not minimalism for its own sake; it is clarity earned through iteration."
+          },
+          {
+            "number": "02",
+            "title": "Material honesty",
+            "body": "Stone should look like stone. Timber should age like timber. We specify materials for how they will look in twenty years, not how they photograph on opening day, and we detail them so they can be repaired rather than replaced."
+          },
+          {
+            "number": "03",
+            "title": "Longevity",
+            "body": "A building is a promise to a place. We design for adaptability, low operational carbon and graceful ageing, testing each scheme against a fifty-year horizon. The greenest building is the one that does not need replacing."
+          },
+          {
+            "number": "04",
+            "title": "Collaboration",
+            "body": "We are not authors working alone. Clients, engineers, craftspeople and future occupants all hold knowledge the building needs. Our job is to convene that knowledge early and keep it in the room until the last detail is resolved."
+          }
+        ]
+      },
+      "timeline": {
+        "eyebrow": "Our history",
+        "title": "Eighteen years,\none conversation.",
+        "body": "A studio evolves the way a building does — slowly, in layers, with each decision making the next one clearer. These are the moments that shaped how we work.",
+        "link": {
+          "label": "Meet the people",
+          "href": "profile.html"
+        },
+        "items": [
+          {
+            "year": "2008",
+            "title": "Two architects, one table",
+            "body": "Elena Marchetti and Jonas Frei establish Agenvo in a former print workshop in Zurich's Kreis 5. The first commission is a private house in Küsnacht, completed on a modest budget and still unaltered today."
+          },
+          {
+            "year": "2011",
+            "title": "First international project",
+            "body": "A lakeside pavilion on Lake Como brings the studio into Italy. The project establishes our long-running collaboration with local stonemasons and timber fabricators."
+          },
+          {
+            "year": "2014",
+            "title": "Engineering brought in-house",
+            "body": "Rather than outsourcing structure, we build a dedicated engineering team. The move halves coordination time on complex projects and gives architects direct access to structural thinking from day one."
+          },
+          {
+            "year": "2016",
+            "title": "Dubai studio opens",
+            "body": "A second studio opens in Dubai's Design District to serve clients across the Gulf, with a focus on commercial towers, hospitality and large-scale masterplanning."
+          },
+          {
+            "year": "2019",
+            "title": "Water Pavilion wins the ARIA Prize",
+            "body": "The pavilion is recognised for its cantilevered stone roof and zero-discharge water system. It remains our most-visited built work and a testing ground for low-impact construction."
+          },
+          {
+            "year": "2022",
+            "title": "Carbon-neutral operations",
+            "body": "Both studios transition to verified carbon-neutral operations. We publish our first project carbon assessments and begin specifying embodied-carbon budgets on every new commission."
+          },
+          {
+            "year": "2024",
+            "title": "Corporate Tower completes",
+            "body": "Our largest project to date opens in Dubai: 48 storeys, a publicly accessible sky lobby, and a facade that cuts solar gain by 38% against the local baseline."
+          },
+          {
+            "year": "2026",
+            "title": "Sixty-four people, sixteen countries",
+            "body": "The studio is now employee-owned, with a mandate to remain independent. Current research explores low-carbon concrete, prefabricated stone and the adaptive reuse of post-war office stock."
+          }
+        ]
+      },
+      "studioLife": {
+        "eyebrow": "Inside the studio",
+        "title": "Where the work happens",
+        "body": "No corner offices, no closed doors. Models are built in the open, drawings are pinned to walls, and the best ideas usually arrive at the long table.",
+        "items": [
+          {
+            "image": {
+              "src": "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=1000&q=80",
+              "alt": "Open studio workspace"
+            },
+            "caption": "The open studio, Zurich — models, samples and drawings share the same table."
+          },
+          {
+            "image": {
+              "src": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=700&q=80",
+              "alt": "Meeting room"
+            }
+          },
+          {
+            "image": {
+              "src": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=700&q=80",
+              "alt": "Team discussion"
+            }
+          },
+          {
+            "image": {
+              "src": "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=700&q=80",
+              "alt": "Model making"
+            },
+            "caption": "Every scheme is studied in physical model at 1:200 and 1:50."
+          },
+          {
+            "image": {
+              "src": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=700&q=80",
+              "alt": "Material library"
+            },
+            "caption": "A working material library, not a showroom — samples are borrowed, scuffed and returned."
+          },
+          {
+            "image": {
+              "src": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=700&q=80",
+              "alt": "Studio team"
+            },
+            "caption": "Friday reviews are open to everyone, from interns to partners."
+          }
+        ]
+      },
+      "leadership": {
+        "eyebrow": "Leadership",
+        "title": "The people who hold the line",
+        "link": {
+          "label": "Full team profile",
+          "href": "profile.html"
+        },
+        "items": [
+          {
+            "name": "Elena Marchetti",
+            "role": "Founding Partner, Architecture",
+            "bio": "Trained in Milan and Zurich, Elena leads design across the studio's cultural and residential work. She is a visiting critic at ETH and a stubborn defender of the physical model.",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=700&q=80",
+              "alt": "Elena Marchetti"
+            },
+            "href": "profile.html"
+          },
+          {
+            "name": "Jonas Frei",
+            "role": "Founding Partner, Engineering",
+            "bio": "Jonas built the studio's engineering practice around a simple question: what is the least structure this idea needs? He leads long-span, timber and adaptive-reuse projects.",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=700&q=80",
+              "alt": "Jonas Frei"
+            },
+            "href": "profile.html"
+          },
+          {
+            "name": "Amara Okafor",
+            "role": "Partner, Interiors",
+            "bio": "Amara leads interior architecture and the studio's furniture collaborations. Her work is guided by tactility, daylight and the belief that rooms should be generous before they are beautiful.",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=700&q=80",
+              "alt": "Amara Okafor"
+            },
+            "href": "profile.html"
+          }
+        ]
+      },
+      "awards": {
+        "eyebrow": "Recognition",
+        "title": "Awarded for the work,\nnot the noise.",
+        "body": "We are grateful for the recognition, but we measure success in occupied buildings, returning clients and neighbourhoods that age well.",
+        "items": [
+          {
+            "year": "2025",
+            "title": "RIBA International Prize — Shortlist, Corporate Tower"
+          },
+          {
+            "year": "2024",
+            "title": "Dezeen Awards — Commercial Building of the Year"
+          },
+          {
+            "year": "2023",
+            "title": "Swiss Architecture Award — Forest Retreat"
+          },
+          {
+            "year": "2022",
+            "title": "Architizer A+ Award — Adaptive Reuse, Kant Garagen"
+          },
+          {
+            "year": "2019",
+            "title": "ARIA Prize — Water Pavilion, Lake Como"
+          }
+        ]
+      },
+      "cta": {
+        "eyebrow": "Work with us",
+        "title": "Tell us what you are trying to build.",
+        "body": "We take on a limited number of commissions each year so that every project receives the attention it deserves. Early conversations are always welcome.",
+        "primary": {
+          "label": "Start a conversation",
+          "href": "contact.html"
+        }
+      }
+    },
+    "services": {
+      "meta": {
+        "title": "Services — AGENVO",
+        "description": "Architecture, structural engineering, interior architecture, masterplanning and sustainability services from Agenvo. An integrated practice from first sketch to final handover."
+      },
+      "hero": {
+        "eyebrow": "Services — What we do",
+        "title": "One practice.\n*Every discipline.*",
+        "body": "Architecture, structure, interiors and sustainability under one roof — so the idea survives contact with reality.",
+        "image": {
+          "src": "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1920&q=80",
+          "alt": "Architectural drawings and model"
+        }
+      },
+      "index": [
+        {
+          "number": "01",
+          "title": "Architecture",
+          "href": "#architecture"
+        },
+        {
+          "number": "02",
+          "title": "Engineering",
+          "href": "#engineering"
+        },
+        {
+          "number": "03",
+          "title": "Interiors",
+          "href": "#interiors"
+        },
+        {
+          "number": "04",
+          "title": "Advisory",
+          "href": "#advisory"
+        }
+      ],
+      "architecture": {
+        "eyebrow": "01 — Architecture",
+        "title": "Buildings that belong to their place.",
+        "paragraphs": [
+          "We design from the outside in and the inside out at the same time. Context, climate, daylight and the client's daily life are studied together, so that the plan is not a diagram imposed on a site but a response to it.",
+          "Our scope runs from feasibility and concept design through planning approval, technical documentation and construction administration. We remain on site until the last handle is fitted."
+        ],
+        "stats": [
+          {
+            "value": "48",
+            "label": "Live commissions"
+          },
+          {
+            "value": "12",
+            "label": "Countries built in"
+          }
+        ],
+        "points": [
+          "Residential — private houses, villas and multi-family housing",
+          "Commercial — offices, headquarters, retail and mixed-use",
+          "Cultural and civic — pavilions, galleries, education",
+          "Hospitality — hotels, restaurants and destination resorts",
+          "Adaptive reuse and heritage transformation"
+        ],
+        "images": [
+          {
+            "src": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1000&q=80",
+            "alt": "Corporate tower facade"
+          },
+          {
+            "src": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80",
+            "alt": "Residential exterior"
+          },
+          {
+            "src": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80",
+            "alt": "Pavilion"
+          }
+        ]
+      },
+      "engineering": {
+        "eyebrow": "02 — Engineering",
+        "title": "Structure as an idea, not an obstacle.",
+        "paragraphs": [
+          "Our in-house structural and MEP engineers are part of the design conversation from the first meeting. That means fewer surprises, faster decisions, and structures that make the architecture possible rather than merely holding it up.",
+          "We specialise in long-span concrete, hybrid timber, and the careful intervention of existing structures. Every scheme is modelled, load-tested in principle, and costed before it leaves the studio."
+        ],
+        "stats": [
+          {
+            "value": "38%",
+            "label": "Average solar gain reduction on our tower facades"
+          },
+          {
+            "value": "-42%",
+            "label": "Embodied carbon vs. baseline on recent timber projects"
+          },
+          {
+            "value": "0",
+            "label": "Structural failures across 180 completed projects"
+          }
+        ],
+        "points": [
+          "Structural concept and detailed design",
+          "MEP coordination and building services",
+          "Facade engineering and thermal modelling",
+          "Existing-structure surveys and strengthening",
+          "Construction methodology and site supervision"
+        ],
+        "image": {
+          "src": "https://images.unsplash.com/photo-1503387837-b154d5074bd2?w=1000&q=80",
+          "alt": "Structural frame under construction"
+        },
+        "link": {
+          "label": "See the engineering work",
+          "href": "our-work.html"
+        }
+      },
+      "interiors": {
+        "eyebrow": "03 — Interiors",
+        "title": "Rooms that feel finished\nbefore they are furnished.",
+        "body": "Interior architecture is not decoration applied at the end. We design the shell, the light, the joinery and the furniture together, so that every element has a reason to be there and nothing fights for attention.",
+        "cards": [
+          {
+            "title": "Spatial planning",
+            "body": "We begin with how a room is used at 7am and at 11pm, then design the plan around those routines. Circulation, storage and sightlines are resolved before a single finish is chosen.",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=700&q=80",
+              "alt": "Living room interior"
+            }
+          },
+          {
+            "title": "Bespoke joinery",
+            "body": "Kitchens, libraries, wardrobes and staircases are drawn to the millimetre and made by workshops we have worked with for over a decade. Built-in, not bolted on.",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=700&q=80",
+              "alt": "Material and furniture detail"
+            }
+          },
+          {
+            "title": "Light and material",
+            "body": "We layer daylight, architectural lighting and lamps so a room can shift from bright and social to quiet and intimate. Materials are chosen for how they feel barefoot, not just in photographs.",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=700&q=80",
+              "alt": "Lighting detail"
+            }
+          }
+        ],
+        "includesTitle": "What the service includes",
+        "includes": [
+          "Concept and mood direction",
+          "Space planning and layouts",
+          "Material and finish schedules",
+          "Custom furniture design",
+          "Lighting design and specification",
+          "Art and object curation",
+          "Procurement and installation",
+          "Final styling and handover"
+        ],
+        "audienceTitle": "Who it is for",
+        "audience": [
+          "Private clients who want a home that works as well as it looks. Hoteliers and restaurateurs building an atmosphere that guests remember. Developers who understand that interior quality is what sells the last unit as quickly as the first.",
+          "We take on full-scope interiors and focused commissions — a single kitchen, a stair, a suite of rooms — where our involvement can meaningfully raise the whole."
+        ]
+      },
+      "advisory": {
+        "eyebrow": "04 — Advisory & specialist services",
+        "title": "Beyond the building.",
+        "body": "Not every client needs a full architectural commission. Sometimes the most useful thing we can do is help you decide what to build, whether to buy a site, or how to make an existing building perform. These services can stand alone or sit alongside a design commission.",
+        "items": [
+          {
+            "title": "Feasibility & site appraisal",
+            "body": "Before you commit capital, we test what a site can realistically hold: planning constraints, massing options, build cost, and the value of each scenario. You receive a clear recommendation, not a stack of drawings.",
+            "meta": "Typical duration — 3 to 6 weeks",
+            "icon": "map"
+          },
+          {
+            "title": "Masterplanning & urban design",
+            "body": "For districts, campuses and mixed-use sites, we establish the public realm, density, movement and phasing that allow individual buildings to be designed well later. We often work alongside landscape architects and transport consultants.",
+            "meta": "Typical duration — 3 to 9 months",
+            "icon": "layout-grid"
+          },
+          {
+            "title": "Sustainability & carbon strategy",
+            "body": "We set embodied and operational carbon budgets at concept stage, then track them through design. Services include lifecycle assessment, retrofit strategy, certification support (LEED, BREEAM, Minergie) and passive-design modelling.",
+            "meta": "Typical duration — ongoing",
+            "icon": "leaf"
+          },
+          {
+            "title": "Adaptive reuse & heritage",
+            "body": "The greenest building is usually the one already standing. We survey, assess and transform existing structures — offices, factories, villas — retaining what has value and inserting what a new use requires, with a light touch.",
+            "meta": "Typical duration — 6 to 18 months",
+            "icon": "landmark"
+          },
+          {
+            "title": "Design review & second opinions",
+            "body": "Already working with an architect? We offer independent design reviews for developers, boards and private clients — a candid assessment of the scheme, its risks and the highest-value changes before construction begins.",
+            "meta": "Typical duration — 1 to 3 weeks",
+            "icon": "search-check"
+          },
+          {
+            "title": "Construction oversight",
+            "body": "For clients building with another designer, we can act as the owner's representative on site: reviewing workmanship, chairing site meetings, managing variations and protecting the design intent through to handover.",
+            "meta": "Typical duration — project dependent",
+            "icon": "hard-hat"
+          }
+        ]
+      },
+      "process": {
+        "eyebrow": "How an engagement runs",
+        "title": "From first call to final key",
+        "body": "Most commissions follow the same rhythm. The pace changes with scale, but the sequence of decisions does not.",
+        "steps": [
+          {
+            "number": "01",
+            "title": "Conversation",
+            "body": "A no-obligation meeting to understand the site, the ambition and the budget. We will tell you honestly if we are the right studio for the job.",
+            "meta": "Week 0"
+          },
+          {
+            "number": "02",
+            "title": "Proposal",
+            "body": "A written scope, fee structure and programme, with the team named. No hidden stages, no vague allowances — you know what you are buying.",
+            "meta": "Weeks 1–2"
+          },
+          {
+            "number": "03",
+            "title": "Design",
+            "body": "Concept, development and technical design, with regular reviews and a physical model at each key milestone. Decisions are documented as we go.",
+            "meta": "Months 1–8"
+          },
+          {
+            "number": "04",
+            "title": "Delivery",
+            "body": "Tender support, contractor selection, site inspections and handover. We stay engaged until the building is performing as designed.",
+            "meta": "Months 8–24"
+          }
+        ]
+      },
+      "fees": {
+        "eyebrow": "Fees & engagement",
+        "title": "Clear from the start.",
+        "body": "We do not publish a price list, because no two projects are the same. We do commit to a fixed scope and a transparent fee before work begins, and we never bill for time we did not agree.",
+        "link": {
+          "label": "Request a fee proposal",
+          "href": "contact.html"
+        },
+        "items": [
+          {
+            "title": "Percentage fee",
+            "body": "For full architectural services, fees are typically a percentage of construction cost, staged against deliverables. This aligns our effort with the scale of the build and is standard practice across the profession."
+          },
+          {
+            "title": "Fixed fee",
+            "body": "For well-defined scopes — a feasibility study, a single interior, a design review — we quote a fixed sum. You know the total before we start, and scope changes are agreed in writing."
+          },
+          {
+            "title": "Retainer",
+            "body": "For developers and long-term clients, a monthly retainer provides ongoing design advice, site visits and planning support across multiple projects or a phased development."
+          },
+          {
+            "title": "What is included",
+            "body": "Every proposal names the team, the deliverables, the number of review meetings and the exclusions. Travel, printing and specialist consultants are itemised separately so there are no surprises at invoice stage."
+          }
+        ]
+      },
+      "faq": {
+        "eyebrow": "Common questions",
+        "title": "Before you write.",
+        "body": "A few things clients ask us most often. If your question is not here, ask it directly — we answer every enquiry personally.",
+        "link": {
+          "label": "Ask us anything",
+          "href": "contact.html"
+        },
+        "items": [
+          {
+            "question": "Do you work outside Switzerland and the UAE?",
+            "answer": "Yes. We have built in sixteen countries across Europe, the Middle East and Asia. For projects further afield we usually partner with a local architect of record while retaining design leadership, which keeps the process smooth across regulatory systems."
+          },
+          {
+            "question": "What size projects do you take on?",
+            "answer": "Our work ranges from a single room or staircase to masterplans of several hundred thousand square metres. What matters is not the size but whether the project offers a genuine design question and a client who wants to engage with it."
+          },
+          {
+            "question": "How early should we contact you?",
+            "answer": "As early as possible — ideally before you have purchased a site. A feasibility conversation can save significant cost and heartache later. That said, we regularly join projects at planning stage or even on site, and we are comfortable taking over an existing design."
+          },
+          {
+            "question": "Can you work with our existing architect or contractor?",
+            "answer": "Frequently. We provide design review, engineering, interiors or sustainability input to projects led by others, and we are happy to work alongside your contractor from the outset. Clear roles and a written scope keep these collaborations productive."
+          },
+          {
+            "question": "How do you approach sustainability?",
+            "answer": "As a design constraint, not an add-on. We set carbon budgets early, prioritise retention and low-carbon materials, model daylight and energy performance throughout, and report actual performance after occupancy. We are happy to work to LEED, BREEAM, Minergie or a bespoke standard."
+          },
+          {
+            "question": "Do you take on interior-only projects?",
+            "answer": "Yes. Interior architecture is a full service in its own right, led by Amara Okafor. We take on complete homes, hospitality interiors, and focused commissions such as kitchens, libraries or a single floor of a workplace."
+          }
+        ]
+      },
+      "cta": {
+        "eyebrow": "Next step",
+        "title": "A short conversation is usually enough to know.",
+        "body": "Tell us about the site, the brief, or the problem you are trying to solve. We will respond within two working days with an honest view and a suggested next step.",
+        "primary": {
+          "label": "Book a call",
+          "href": "contact.html"
+        },
+        "secondary": {
+          "label": "See our work",
+          "href": "our-work.html"
+        }
+      }
+    },
+    "work": {
+      "meta": {
+        "title": "Our Work — AGENVO",
+        "description": "Selected architecture, interiors and engineering projects by Agenvo across Europe, the Middle East and Asia — from private houses to 48-storey towers."
+      },
+      "hero": {
+        "eyebrow": "Our work — Selected projects",
+        "title": "Built to be\n*lived in.*",
+        "body": "Twenty-two projects, seven countries, eighteen years. A selection of the work we are proudest of — and the thinking behind it.",
+        "facts": [
+          {
+            "value": "180",
+            "label": "Completed"
+          },
+          {
+            "value": "42",
+            "label": "Awards"
+          },
+          {
+            "value": "16",
+            "label": "Countries"
+          }
+        ],
+        "image": {
+          "src": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&q=80",
+          "alt": "Agenvo tower project"
+        }
+      },
+      "marquee": [
+        "Corporate Tower",
+        "Water Pavilion",
+        "Forest Retreat",
+        "Skyline Residence",
+        "Marina Complex",
+        "Kant Garagen"
+      ],
+      "featured": {
+        "eyebrow": "Featured — 01",
+        "meta": "Dubai, UAE — 2024",
+        "title": "Corporate Tower",
+        "body": "A 48-storey headquarters designed around a simple move: lift the public life of the building into the sky. A three-level sky lobby, planted terraces on every sixth floor and a facade that shades itself without looking defensive.",
+        "image": {
+          "src": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1400&q=80",
+          "alt": "Corporate Tower Dubai"
+        },
+        "facts": [
+          {
+            "label": "Client",
+            "value": "Meridian Holdings"
+          },
+          {
+            "label": "Scope",
+            "value": "Architecture, engineering"
+          },
+          {
+            "label": "Area",
+            "value": "84,000 m²"
+          },
+          {
+            "label": "Status",
+            "value": "Completed 2024"
+          },
+          {
+            "label": "Recognition",
+            "value": "RIBA International Shortlist"
+          }
+        ],
+        "tags": [
+          "Commercial",
+          "High-rise",
+          "LEED Gold"
+        ]
+      },
+      "grid": {
+        "eyebrow": "Archive",
+        "title": "Selected projects",
+        "countLabel": "projects shown",
+        "filters": [
+          {
+            "label": "All work",
+            "value": "all"
+          },
+          {
+            "label": "Residential",
+            "value": "residential"
+          },
+          {
+            "label": "Commercial",
+            "value": "commercial"
+          },
+          {
+            "label": "Cultural",
+            "value": "cultural"
+          },
+          {
+            "label": "Hospitality",
+            "value": "hospitality"
+          },
+          {
+            "label": "Adaptive reuse",
+            "value": "adaptive-reuse"
+          }
+        ],
+        "items": [
+          {
+            "title": "Water Pavilion",
+            "meta": "Lake Como, Italy — 2023",
+            "category": "Cultural",
+            "body": "A cantilevered stone roof, a reflecting pool, and a building that almost disappears into the lake.",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80",
+              "alt": "Water Pavilion"
+            },
+            "href": "#water-pavilion"
+          },
+          {
+            "title": "Forest Retreat",
+            "meta": "Swiss Alps — 2023",
+            "category": "Residential",
+            "body": "Three timber volumes stepped into a slope, each opening to a different horizon. Heated entirely by ground source.",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+              "alt": "Forest Retreat"
+            },
+            "href": "#forest-retreat"
+          },
+          {
+            "title": "Skyline Residence",
+            "meta": "Singapore — 2022",
+            "category": "Residential",
+            "body": "A tropical villa organised around a shaded courtyard, with deep eaves and cross-ventilation instead of air conditioning.",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=800&q=80",
+              "alt": "Skyline Residence"
+            },
+            "href": "#skyline-residence"
+          },
+          {
+            "title": "Marina Complex",
+            "meta": "Dubai, UAE — 2022",
+            "category": "Commercial",
+            "body": "Three towers on a shared podium, arranged to preserve views and shade a new public waterfront promenade.",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?w=800&q=80",
+              "alt": "Marina Complex"
+            },
+            "href": "#marina-complex"
+          },
+          {
+            "title": "Kant Garagen",
+            "meta": "Zurich, Switzerland — 2022",
+            "category": "Adaptive reuse",
+            "body": "A 1960s car park transformed into studios and workshops, keeping 82% of the original concrete structure.",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=800&q=80",
+              "alt": "Kant Garagen adaptive reuse"
+            },
+            "href": "#kant-garagen"
+          },
+          {
+            "title": "Casa Luce",
+            "meta": "Lake Zurich, Switzerland — 2021",
+            "category": "Residential",
+            "body": "Our founding commission, revisited: a family house that has aged with its owners and remains unaltered eighteen years on.",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80",
+              "alt": "Casa Luce"
+            },
+            "href": "#casa-luce"
+          },
+          {
+            "title": "Atelier Nord",
+            "meta": "Copenhagen, Denmark — 2021",
+            "category": "Commercial",
+            "body": "A workplace for a design-led manufacturer, built around a timber-framed central street and a public ground-floor canteen.",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&q=80",
+              "alt": "Atelier Nord"
+            },
+            "href": "#atelier-nord"
+          },
+          {
+            "title": "Villa Selva",
+            "meta": "Tuscany, Italy — 2020",
+            "category": "Hospitality",
+            "body": "A twelve-room hotel in a restored stone farmhouse, with new interventions kept deliberately quiet and reversible.",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=80",
+              "alt": "Villa Selva hotel"
+            },
+            "href": "#villa-selva"
+          },
+          {
+            "title": "Tide House",
+            "meta": "Comporta, Portugal — 2019",
+            "category": "Residential",
+            "body": "A low, single-storey house on sandy ground, raised on timber piles and clad in weathered pine that will silver with the salt air.",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80",
+              "alt": "Tide House"
+            },
+            "href": "#tide-house"
+          }
+        ]
+      },
+      "caseStudies": [
+        {
+          "id": "water-pavilion",
+          "variant": "dark",
+          "eyebrow": "Case study — Water Pavilion",
+          "title": "A roof that floats,\na floor that reflects.",
+          "intro": "Lake Como, Italy. A cultural pavilion for a private foundation, open to the public for six months of the year. The brief asked for a room for concerts, readings and silence — and a building that would not compete with the lake.",
+          "body": [],
+          "images": [
+            {
+              "src": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1000&q=80",
+              "alt": "Water Pavilion exterior"
+            },
+            {
+              "src": "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=1000&q=80",
+              "alt": "Water Pavilion interior"
+            }
+          ],
+          "facts": [],
+          "blocks": [
+            {
+              "title": "The challenge",
+              "body": "The site sits on a narrow strip between a protected shoreline and a working road. Construction access was limited to a single six-metre gate, and nothing could be built in the lake itself."
+            },
+            {
+              "title": "The move",
+              "body": "We lifted the main volume onto four stone piers, allowing the lake to be seen beneath the building and the ground plane to remain public. The roof cantilevers eight metres, held by a post-tensioned stone beam."
+            },
+            {
+              "title": "The result",
+              "body": "A column-free room for 180 people, naturally lit from above, with a shallow reflecting pool that cools incoming air. The pavilion operates off-grid for water and harvests rainwater from the roof."
+            }
+          ],
+          "stats": [
+            {
+              "value": "1,240",
+              "label": "m² built area"
+            },
+            {
+              "value": "8 m",
+              "label": "Roof cantilever"
+            },
+            {
+              "value": "180",
+              "label": "Seat capacity"
+            },
+            {
+              "value": "2019",
+              "label": "ARIA Prize winner"
+            }
+          ]
+        },
+        {
+          "id": "forest-retreat",
+          "variant": "split",
+          "eyebrow": "Case study — Forest Retreat",
+          "title": "Three volumes,\none slope.",
+          "intro": "A family house in the Swiss Alps, designed for two generations to share without living in each other's pockets. Three timber volumes step down the slope, connected by a glazed spine that becomes the life of the house in winter.",
+          "body": [
+            "The upper volume holds the living spaces and a long terrace facing the valley. The middle volume contains the bedrooms, set back behind a timber screen for privacy. The lowest volume is a self-contained apartment for visiting family, with its own entrance and kitchen.",
+            "All three volumes share the same spruce structure, exposed internally and charred externally. The roof is planted with local sedum, and the house draws all its heat from a ground-source loop buried beneath the meadow."
+          ],
+          "images": [
+            {
+              "src": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1000&q=80",
+              "alt": "Forest Retreat exterior"
+            },
+            {
+              "src": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600&q=80",
+              "alt": "Forest Retreat living room"
+            },
+            {
+              "src": "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&q=80",
+              "alt": "Forest Retreat interior detail"
+            }
+          ],
+          "facts": [
+            {
+              "label": "Client",
+              "value": "Private"
+            },
+            {
+              "label": "Scope",
+              "value": "Architecture, interiors"
+            },
+            {
+              "label": "Area",
+              "value": "420 m²"
+            },
+            {
+              "label": "Energy",
+              "value": "Ground-source heat pump"
+            },
+            {
+              "label": "Status",
+              "value": "Completed 2023"
+            }
+          ],
+          "blocks": [],
+          "stats": []
+        },
+        {
+          "id": "kant-garagen",
+          "variant": "sand",
+          "eyebrow": "Case study — Kant Garagen",
+          "title": "The building was\nalready there.",
+          "intro": "A 1960s multi-storey car park in Zurich, due for demolition. We argued for retention — and turned it into forty studios, a workshop, a bakery and a rooftop garden, keeping 82% of the original concrete frame.",
+          "body": [],
+          "images": [
+            {
+              "src": "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=1000&q=80",
+              "alt": "Kant Garagen studios"
+            },
+            {
+              "src": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600&q=80",
+              "alt": "Kant Garagen workspace"
+            },
+            {
+              "src": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=600&q=80",
+              "alt": "Kant Garagen interior"
+            }
+          ],
+          "facts": [],
+          "blocks": [],
+          "stats": [
+            {
+              "value": "82%",
+              "label": "Structure retained"
+            },
+            {
+              "value": "-61%",
+              "label": "Embodied carbon vs. new build"
+            },
+            {
+              "value": "40",
+              "label": "Studios created"
+            },
+            {
+              "value": "2022",
+              "label": "Architizer A+ Award"
+            }
+          ],
+          "quote": {
+            "text": "\"Agenvo showed us that the most sustainable building on the site was the one we were about to knock down. That argument changed the entire project.\"",
+            "author": "Martin Keller — Development Director, Kant Immobilien"
+          }
+        }
+      ],
+      "numbers": {
+        "eyebrow": "By the numbers",
+        "title": "What eighteen years\nadds up to.",
+        "body": "We do not chase volume. The numbers below reflect work we chose to take on, and the relationships that followed.",
+        "stats": [
+          {
+            "value": "180",
+            "label": "Projects completed"
+          },
+          {
+            "value": "16",
+            "label": "Countries"
+          },
+          {
+            "value": "42",
+            "label": "Awards"
+          },
+          {
+            "value": "96%",
+            "label": "Clients who return"
+          }
+        ]
+      },
+      "clients": {
+        "eyebrow": "Selected clients",
+        "title": "Trusted with the brief.",
+        "body": "Private families, family offices, developers and cultural institutions. Many have worked with us for more than a decade.",
+        "names": [
+          "Meridian Holdings",
+          "Kant Immobilien",
+          "Fondazione Lago",
+          "Nord Atelier",
+          "Selva Collection",
+          "Hoffmann Group",
+          "Casa Luce Trust",
+          "Tide Foundation"
+        ]
+      },
+      "cta": {
+        "eyebrow": "Your project",
+        "title": "The next one could be yours.",
+        "body": "Every project in this archive began with a conversation. If you have a site, a sketch or a question, we would like to hear it.",
+        "primary": {
+          "label": "Start a project",
+          "href": "contact.html"
+        },
+        "secondary": {
+          "label": "Our services",
+          "href": "services.html"
+        }
+      }
+    },
+    "profile": {
+      "meta": {
+        "title": "Profile — AGENVO",
+        "description": "Meet the partners, associates and studio team at Agenvo — sixty-four architects, engineers and designers working from Zurich and Dubai."
+      },
+      "hero": {
+        "eyebrow": "Profile — The people",
+        "title": "Sixty-four people.\n*One standard.*",
+        "body": "Architects, engineers, interior designers, model-makers and researchers — working across two studios, one shared table.",
+        "image": {
+          "src": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1920&q=80",
+          "alt": "Agenvo team"
+        }
+      },
+      "facts": [
+        {
+          "value": "64",
+          "label": "People"
+        },
+        {
+          "value": "14",
+          "label": "Nationalities"
+        },
+        {
+          "value": "2",
+          "label": "Studios"
+        },
+        {
+          "value": "38",
+          "label": "Average age"
+        }
+      ],
+      "partners": {
+        "eyebrow": "Partners",
+        "title": "The ones who sign\nthe drawings.",
+        "body": "Agenvo is employee-owned and led by four partners. Each remains directly involved in projects — reviewing drawings, visiting sites, and sitting in the room when difficult decisions are made. There is no layer between the client and the people doing the work.",
+        "items": [
+          {
+            "name": "Elena Marchetti",
+            "seniority": "Founding Partner",
+            "role": "Architecture & Design",
+            "bio": "Trained in Milan and at ETH Zurich. Elena leads the studio's cultural and residential work, and is responsible for design quality across every commission. She is a visiting critic at ETH and a vocal defender of drawing by hand.",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80",
+              "alt": "Elena Marchetti"
+            },
+            "tags": [
+              "Cultural",
+              "Residential"
+            ],
+            "email": "elena@agenvo.com"
+          },
+          {
+            "name": "Jonas Frei",
+            "seniority": "Founding Partner",
+            "role": "Engineering & Structure",
+            "bio": "A structural engineer who thinks like an architect. Jonas built the in-house engineering team and leads long-span, timber and adaptive-reuse projects. He is the person who asks whether a column can simply disappear.",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80",
+              "alt": "Jonas Frei"
+            },
+            "tags": [
+              "Structure",
+              "Reuse"
+            ],
+            "email": "jonas@agenvo.com"
+          },
+          {
+            "name": "Amara Okafor",
+            "seniority": "Partner",
+            "role": "Interiors & Furniture",
+            "bio": "Amara leads interior architecture, material research and the studio's furniture collaborations. Her work is guided by tactility, daylight and the conviction that a room should be generous before it is beautiful. Previously at David Chipperfield Architects.",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80",
+              "alt": "Amara Okafor"
+            },
+            "tags": [
+              "Interiors",
+              "Hospitality"
+            ],
+            "email": "amara@agenvo.com"
+          },
+          {
+            "name": "Rafael Costa",
+            "seniority": "Partner",
+            "role": "Dubai Studio & Delivery",
+            "bio": "Rafael runs the Dubai studio and the practice's delivery group. He has overseen more than forty completed projects across the Gulf, and is known for protecting design intent through the least glamorous phases of construction.",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&q=80",
+              "alt": "Rafael Costa"
+            },
+            "tags": [
+              "Commercial",
+              "Delivery"
+            ],
+            "email": "rafael@agenvo.com"
+          }
+        ]
+      },
+      "associates": {
+        "eyebrow": "Associates & leads",
+        "title": "The next generation",
+        "body": "Associates lead projects day to day and sit on the studio's design review. Several have been with Agenvo for more than a decade.",
+        "items": [
+          {
+            "name": "Sofia Lindqvist",
+            "role": "Associate, Architecture",
+            "bio": "Leads residential and hospitality projects. Joined 2013 from Stockholm.",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&q=80",
+              "alt": "Sofia Lindqvist"
+            },
+            "tags": []
+          },
+          {
+            "name": "Tobias Meier",
+            "role": "Associate, Engineering",
+            "bio": "Timber and long-span specialist. Teaches at FH Graubünden.",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&q=80",
+              "alt": "Tobias Meier"
+            },
+            "tags": []
+          },
+          {
+            "name": "Lena Haddad",
+            "role": "Associate, Dubai Studio",
+            "bio": "Runs commercial and mixed-use projects across the Gulf. Joined 2016.",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&q=80",
+              "alt": "Lena Haddad"
+            },
+            "tags": []
+          },
+          {
+            "name": "Marco Bianchi",
+            "role": "Associate, Interiors",
+            "bio": "Leads furniture and joinery design. Runs the material library.",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80",
+              "alt": "Marco Bianchi"
+            },
+            "tags": []
+          }
+        ]
+      },
+      "departments": {
+        "eyebrow": "How the studio is organised",
+        "title": "Four groups,\nno silos.",
+        "body": "Project teams are assembled around the needs of the brief, not the org chart. An architect, engineer and interior designer are assigned to every project from day one, supported by the specialist groups below.",
+        "items": [
+          {
+            "title": "Design studio",
+            "body": "Architects and urban designers working across all sectors. Responsible for concept, planning and the drawings that define the building. Every project has a named design lead who stays with it from first sketch to handover.",
+            "meta": "24 people"
+          },
+          {
+            "title": "Engineering",
+            "body": "Structural, facade and building-services engineers. They sit in the same room as the architects and are involved from feasibility onward, so structural logic informs the design rather than arriving after it.",
+            "meta": "15 people"
+          },
+          {
+            "title": "Interiors",
+            "body": "Interior architects, furniture designers and a full-time material researcher. They work alongside the design team from concept stage and lead the studio's collaborations with craftspeople and manufacturers.",
+            "meta": "13 people"
+          },
+          {
+            "title": "Delivery & research",
+            "body": "Site architects, technical coordinators and a small research group working on low-carbon concrete, prefabricated stone and adaptive reuse. Research findings feed directly into live projects rather than sitting in a drawer.",
+            "meta": "12 people"
+          }
+        ]
+      },
+      "culture": {
+        "eyebrow": "Life at Agenvo",
+        "title": "A studio that\nmakes room.",
+        "body": "We work hard, but we do not mistake hours for output. The studio is set up to protect concentration, encourage argument, and let people have a life outside the building.",
+        "image": {
+          "src": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=80",
+          "alt": "Studio meeting"
+        },
+        "items": [
+          {
+            "title": "Protected Fridays",
+            "body": "Friday afternoons are reserved for studio-wide reviews, research and model-making. No client meetings, no deadlines. It is where much of our best thinking happens.",
+            "icon": "clock"
+          },
+          {
+            "title": "Employee ownership",
+            "body": "Since 2023 the studio has been majority employee-owned. Everyone who has been with us for three years receives a stake, and the partners are accountable to the whole studio.",
+            "icon": "users"
+          },
+          {
+            "title": "Learning budget",
+            "body": "Every person has an annual budget for courses, conferences and travel. We also fund one research sabbatical each year, open to anyone in the studio regardless of seniority.",
+            "icon": "book-open"
+          },
+          {
+            "title": "Parental support",
+            "body": "Six months of fully paid parental leave for all parents, with a phased return and no expectation of evening calls. Several of our project leads work four-day weeks.",
+            "icon": "heart-handshake"
+          },
+          {
+            "title": "Studio exchange",
+            "body": "Every year, four people swap between Zurich and Dubai for a month. It keeps the two studios genuinely one practice, and gives younger staff international site experience.",
+            "icon": "globe"
+          },
+          {
+            "title": "Make things",
+            "body": "The workshop is open to everyone, not just model-makers. Furniture prototypes, material tests and the occasional wonky chair come out of it. We believe designing is inseparable from making.",
+            "icon": "hammer"
+          }
+        ]
+      },
+      "careers": {
+        "eyebrow": "Careers",
+        "title": "Come and\nbuild with us.",
+        "body": "We are always interested in meeting thoughtful architects, engineers and designers — whether or not there is a role advertised. Send a portfolio and a short note about what you want to learn.",
+        "email": "careers@agenvo.com",
+        "items": [
+          {
+            "title": "Project Architect — Residential",
+            "meta": "Zurich · Full-time · 5+ years",
+            "label": "Apply",
+            "href": "mailto:careers@agenvo.com?subject=Project%20Architect%20Residential"
+          },
+          {
+            "title": "Structural Engineer — Timber",
+            "meta": "Zurich · Full-time · 3–8 years",
+            "label": "Apply",
+            "href": "mailto:careers@agenvo.com?subject=Structural%20Engineer%20Timber"
+          },
+          {
+            "title": "Interior Designer — Hospitality",
+            "meta": "Dubai · Full-time · 4+ years",
+            "label": "Apply",
+            "href": "mailto:careers@agenvo.com?subject=Interior%20Designer%20Hospitality"
+          },
+          {
+            "title": "Part 2 Architectural Assistant",
+            "meta": "Zurich · 12-month placement",
+            "label": "Apply",
+            "href": "mailto:careers@agenvo.com?subject=Part%202%20Placement"
+          },
+          {
+            "title": "Sustainability & Carbon Analyst",
+            "meta": "Zurich or Dubai · Full-time",
+            "label": "Apply",
+            "href": "mailto:careers@agenvo.com?subject=Sustainability%20Analyst"
+          }
+        ]
+      },
+      "press": [
+        {
+          "eyebrow": "Teaching",
+          "title": "Sharing the\nmethod.",
+          "items": [
+            {
+              "label": "ETH Zurich — Visiting design critic, 2018–present"
+            },
+            {
+              "label": "FH Graubünden — Timber structures seminar"
+            },
+            {
+              "label": "AA Visiting School — Dubai, 2022 & 2024"
+            },
+            {
+              "label": "Milan Politecnico — Studio critic, 2015–2017"
+            }
+          ]
+        },
+        {
+          "eyebrow": "Speaking",
+          "title": "In the\nconversation.",
+          "items": [
+            {
+              "label": "World Architecture Festival — Singapore, 2024"
+            },
+            {
+              "label": "Dezeen Talks — London, 2023"
+            },
+            {
+              "label": "Swissbau — Basel, 2022 & 2024"
+            },
+            {
+              "label": "Design Doha — Doha, 2023"
+            }
+          ]
+        },
+        {
+          "eyebrow": "Press",
+          "title": "Written\nabout.",
+          "items": [
+            {
+              "label": "Domus — \"The quiet radicalism of Agenvo\", 2024"
+            },
+            {
+              "label": "Dezeen — Corporate Tower feature, 2024"
+            },
+            {
+              "label": "Architectural Review — Water Pavilion, 2020"
+            },
+            {
+              "label": "Monocle — \"Zurich's slow builders\", 2023"
+            }
+          ],
+          "link": {
+            "label": "Press enquiries",
+            "href": "mailto:press@agenvo.com"
+          }
+        }
+      ],
+      "cta": {
+        "eyebrow": "Work with this team",
+        "title": "You will be working with the people you meet.",
+        "body": "No account managers, no handoffs to a junior team. The partner you meet at the first conversation will still be reviewing the drawings at handover.",
+        "primary": {
+          "label": "Meet us",
+          "href": "contact.html"
+        }
+      }
+    },
+    "contact": {
+      "meta": {
+        "title": "Contact — AGENVO",
+        "description": "Contact Agenvo in Zurich or Dubai. Start a project, request a fee proposal, or ask about careers and press. We reply to every enquiry within two working days."
+      },
+      "hero": {
+        "eyebrow": "Contact — Let's talk",
+        "title": "Begin with\n*a conversation.*",
+        "body": "Tell us about the site, the brief, or the problem you are trying to solve. Every enquiry is read by a partner and answered within two working days.",
+        "image": {
+          "src": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=80",
+          "alt": "Agenvo studio"
+        }
+      },
+      "methods": [
+        {
+          "eyebrow": "New projects",
+          "value": "hello@agenvo.com",
+          "body": "Briefs, site enquiries and fee proposals",
+          "href": "mailto:hello@agenvo.com",
+          "icon": "mail"
+        },
+        {
+          "eyebrow": "Zurich studio",
+          "value": "+41 44 123 4567",
+          "body": "Monday to Friday, 09:00–18:00 CET",
+          "href": "tel:+41441234567",
+          "icon": "phone"
+        },
+        {
+          "eyebrow": "Dubai studio",
+          "value": "+971 4 123 4567",
+          "body": "Sunday to Thursday, 09:00–18:00 GST",
+          "href": "tel:+97141234567",
+          "icon": "phone"
+        }
+      ],
+      "enquiry": {
+        "eyebrow": "Project enquiry",
+        "title": "What are you\nplanning?",
+        "body": "The more you can tell us now, the more useful our first response will be. But do not worry if the brief is still forming — that is usually where the best projects begin.",
+        "steps": [
+          {
+            "label": "What happens next",
+            "body": "A partner reads your enquiry and replies within two working days — usually with a few questions and a proposed time to talk."
+          },
+          {
+            "label": "If it is a fit",
+            "body": "We arrange a site visit or a studio meeting, then prepare a written proposal with scope, team, programme and fee."
+          },
+          {
+            "label": "If it is not",
+            "body": "We will tell you honestly, and where we can, point you toward a studio better suited to the work."
+          }
+        ],
+        "emailLabel": "Prefer email?",
+        "email": "hello@agenvo.com — send any drawings, site plans or references you already have.",
+        "cardTitle": "Start a project",
+        "requiredNote": "Fields marked * are required.",
+        "form": {
+          "nameLabel": "Full name *",
+          "namePlaceholder": "Your name",
+          "emailLabel": "Email *",
+          "emailPlaceholder": "you@company.com",
+          "phoneLabel": "Phone",
+          "phonePlaceholder": "+41 ...",
+          "companyLabel": "Company / organisation",
+          "companyPlaceholder": "Optional",
+          "serviceLabel": "Service required *",
+          "servicePlaceholder": "Select a service",
+          "services": [
+            "Architecture — full commission",
+            "Architecture — feasibility",
+            "Structural engineering",
+            "Interior architecture",
+            "Masterplanning",
+            "Sustainability / carbon strategy",
+            "Adaptive reuse",
+            "Design review / second opinion",
+            "Not sure yet"
+          ],
+          "budgetLabel": "Indicative budget",
+          "budgetPlaceholder": "Select a range",
+          "budgets": [
+            "Under CHF 500k",
+            "CHF 500k – 2m",
+            "CHF 2m – 10m",
+            "CHF 10m – 50m",
+            "Above CHF 50m",
+            "Prefer to discuss"
+          ],
+          "locationLabel": "Project location",
+          "locationPlaceholder": "City, country",
+          "timelineLabel": "Desired start",
+          "timelinePlaceholder": "Select a timeframe",
+          "timelines": [
+            "As soon as possible",
+            "Within 3 months",
+            "3–6 months",
+            "6–12 months",
+            "Exploratory — no fixed date"
+          ],
+          "messageLabel": "Tell us about the project *",
+          "messagePlaceholder": "The site, the ambition, the constraints — and anything you have already drawn or decided.",
+          "consent": "I agree to Agenvo storing these details in order to respond to my enquiry. We never share client information with third parties.",
+          "submitLabel": "Send enquiry",
+          "replyNote": "We reply within two working days.",
+          "successMessage": "Thank you — your enquiry has been noted. In this demo no message is actually sent, but in the live studio you would hear from a partner within two working days."
+        }
+      },
+      "offices": {
+        "eyebrow": "Studios",
+        "title": "Two cities, one practice",
+        "body": "Both studios are open to visitors by appointment. If you are nearby, we would rather meet in person.",
+        "items": [
+          {
+            "tag": "Head studio",
+            "city": "Zurich",
+            "timezone": "CET",
+            "address": [
+              "Bahnhofstrasse 42",
+              "8001 Zürich, Switzerland"
+            ],
+            "phone": "+41 44 123 4567",
+            "phoneHref": "tel:+41441234567",
+            "email": "zurich@agenvo.com",
+            "directions": "Tram 2, 6, 7, 8, 9 to Paradeplatz. The studio entrance is through the courtyard at number 42; please ring the Agenvo bell.",
+            "mapLabel": "Open in maps",
+            "mapHref": "https://maps.google.com/?q=Bahnhofstrasse+42+8001+Zurich",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1515488764276-beab7607c1e6?w=1000&q=80",
+              "alt": "Zurich"
+            }
+          },
+          {
+            "tag": "Gulf studio",
+            "city": "Dubai",
+            "timezone": "GST",
+            "address": [
+              "Alserkal Avenue, Unit 12",
+              "Al Quoz, Dubai, UAE"
+            ],
+            "phone": "+971 4 123 4567",
+            "phoneHref": "tel:+97141234567",
+            "email": "dubai@agenvo.com",
+            "directions": "Alserkal Avenue is off Sheikh Zayed Road, behind the Noor Bank metro stop. Visitor parking is available on site; the studio is the second door on the left after the courtyard.",
+            "mapLabel": "Open in maps",
+            "mapHref": "https://maps.google.com/?q=Alserkal+Avenue+Dubai",
+            "image": {
+              "src": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1000&q=80",
+              "alt": "Dubai"
+            }
+          }
+        ]
+      },
+      "departments": {
+        "eyebrow": "Direct lines",
+        "title": "The right person\nfirst time.",
+        "body": "For general enquiries use the form above. If your question is specific, these addresses reach the relevant team directly — no switchboard, no gatekeeping.",
+        "items": [
+          {
+            "tag": "New business",
+            "email": "hello@agenvo.com",
+            "body": "Project briefs, fee proposals and site enquiries."
+          },
+          {
+            "tag": "Careers",
+            "email": "careers@agenvo.com",
+            "body": "Portfolios, placements and speculative applications."
+          },
+          {
+            "tag": "Press",
+            "email": "press@agenvo.com",
+            "body": "Media requests, image libraries and interviews."
+          },
+          {
+            "tag": "Billing & accounts",
+            "email": "accounts@agenvo.com",
+            "body": "Invoices, supplier payments and contract administration."
+          },
+          {
+            "tag": "Suppliers & makers",
+            "email": "studio@agenvo.com",
+            "body": "Craftspeople, fabricators and material samples."
+          },
+          {
+            "tag": "Research",
+            "email": "research@agenvo.com",
+            "body": "Academic collaborations, publications and data requests."
+          }
+        ]
+      },
+      "faq": {
+        "eyebrow": "Practicalities",
+        "title": "Good to know\nbefore we meet.",
+        "body": "A short list of the things people most often ask before a first conversation. If yours is not here, just ask.",
+        "noteTitle": "Studio visits",
+        "noteBody": "We welcome visitors by appointment, Monday to Friday. Please email the studio at least two days ahead so we can make sure the right people are in.",
+        "items": [
+          {
+            "question": "How quickly will I hear back?",
+            "answer": "Within two working days, always. If your enquiry is urgent — a planning deadline, a site acquisition, a problem on site — say so in the subject line and we will prioritise it."
+          },
+          {
+            "question": "Do you charge for a first meeting?",
+            "answer": "No. The first conversation, whether in the studio or on site, is free and without obligation. We only charge once there is an agreed scope and a signed proposal."
+          },
+          {
+            "question": "What should I bring to the first meeting?",
+            "answer": "Whatever you have. A site address, a survey, a mood board, a rough budget or simply a description of how you want to live or work. Drawings are helpful but never required — many of our best projects started with a conversation and a walk around the site."
+          },
+          {
+            "question": "Can we visit the studio?",
+            "answer": "Yes. We prefer to meet clients in person, surrounded by drawings and models. Email the studio to arrange a time, and let us know if you would like to see a particular project — we can usually arrange a visit to a completed building too."
+          },
+          {
+            "question": "Do you work with clients remotely?",
+            "answer": "Frequently. Roughly a third of our current projects are outside Switzerland and the UAE, and we run them with a mix of video reviews, shared models and regular site visits. For projects far from either studio we usually partner with a local architect of record."
+          },
+          {
+            "question": "How do I send drawings or large files?",
+            "answer": "Email us first and we will send a secure upload link. Please do not send large attachments unprompted — they often fail silently. For initial conversations, a few low-resolution images or a PDF under 10 MB is plenty."
+          }
+        ]
+      },
+      "newsletter": {
+        "eyebrow": "Studio notes",
+        "title": "A letter, four\ntimes a year.",
+        "body": "New projects, works in progress, material research and the occasional strong opinion. No newsletters about newsletters, and you can leave whenever you like.",
+        "label": "Email address",
+        "placeholder": "Your email address",
+        "buttonLabel": "Subscribe",
+        "successMessage": "Thank you — you are on the list. (Demo only: no email is sent.)",
+        "note": "By subscribing you agree to our privacy policy. We use a small European provider and never sell data."
+      },
+      "cta": {
+        "eyebrow": "Still deciding?",
+        "title": "Have a look at what we have built first.",
+        "body": "The work is the best introduction to how we think. Browse the archive, then come back when something resonates.",
+        "primary": {
+          "label": "View our work",
+          "href": "our-work.html"
+        },
+        "secondary": {
+          "label": "About the studio",
+          "href": "about.html"
+        }
+      }
+    }
+  }
+}

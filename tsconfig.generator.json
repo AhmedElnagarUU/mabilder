@@ -1,9 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ES2022"],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "CommonJS",
-    "jsx": "react-jsx",
     "strict": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -16,6 +15,7 @@
   "include": [
     "scripts/**/*.ts",
     "src/features/static-site-generator/**/*.ts",
-    "src/features/static-site-generator/**/*.tsx"
+    "src/features/site-creation/**/*.ts",
+    "src/shared/**/*.ts"
   ]
 }

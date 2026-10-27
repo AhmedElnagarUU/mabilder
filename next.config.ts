@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  serverExternalPackages: ["mongoose", "@langchain/google-genai"],
   experimental: {
     agentFeedback: true,
   },

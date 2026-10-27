@@ -1,16 +1,40 @@
-import { mkdir, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { pages } from "./pages";
-import { renderPage } from "./render-document";
-import { styles } from "./styles";
+import type { SiteContent } from "./content/types";
+import { getAgenvoAssetsDirectory, getSiteDirectory } from "./site-paths";
+import { pageTemplates } from "./templates/registry";
 
-export async function generateSite(outputDirectory: string): Promise<void> {
-  await mkdir(outputDirectory, { recursive: true });
-  await writeFile(path.join(outputDirectory, "styles.css"), styles, "utf8");
+async function copyAssets(outputDirectory: string): Promise<void> {
+  const outputAssetsDirectory = path.join(outputDirectory, "assets");
+  await mkdir(outputAssetsDirectory, { recursive: true });
 
-  for (const page of pages) {
-    const fileName = `${page.slug}.html`;
-    const html = renderPage(page, pages);
-    await writeFile(path.join(outputDirectory, fileName), html, "utf8");
+  for (const assetName of ["site.css", "site.js"]) {
+    await copyFile(
+      path.join(getAgenvoAssetsDirectory(), assetName),
+      path.join(outputAssetsDirectory, assetName),
+    );
   }
+}
+
+export async function generateSite(
+  siteId: string,
+  content: SiteContent,
+): Promise<void> {
+  const outputDirectory = getSiteDirectory(siteId);
+
+  await rm(outputDirectory, { recursive: true, force: true });
+  await mkdir(outputDirectory, { recursive: true });
+  await copyAssets(outputDirectory);
+
+  for (const template of pageTemplates) {
+    await writeFile(
+      path.join(outputDirectory, template.fileName),
+      template.render(content),
+      "utf8",
+    );
+  }
+}
+
+export async function deleteGeneratedSite(siteId: string): Promise<void> {
+  await rm(getSiteDirectory(siteId), { recursive: true, force: true });
 }

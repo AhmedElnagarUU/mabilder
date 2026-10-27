@@ -1,0 +1,60 @@
+import { deleteSite, getSite } from "@/features/site-creation/service";
+import { databaseErrorResponse } from "@/shared/db/errors";
+
+export const dynamic = "force-dynamic";
+
+export async function GET(
+  _request: Request,
+  context: RouteContext<"/api/sites/[siteId]">,
+) {
+  try {
+    const { siteId } = await context.params;
+    const site = await getSite(siteId);
+
+    if (!site) {
+      return Response.json({ error: "Site not found." }, { status: 404 });
+    }
+
+    return Response.json({ site });
+  } catch (error) {
+    const unavailable = databaseErrorResponse(error);
+
+    if (unavailable) {
+      return unavailable;
+    }
+
+    console.error(error);
+    return Response.json(
+      { error: "Failed to load the site." },
+      { status: 500 },
+    );
+  }
+}
+
+export async function DELETE(
+  _request: Request,
+  context: RouteContext<"/api/sites/[siteId]">,
+) {
+  try {
+    const { siteId } = await context.params;
+    const removed = await deleteSite(siteId);
+
+    if (!removed) {
+      return Response.json({ error: "Site not found." }, { status: 404 });
+    }
+
+    return Response.json({ ok: true });
+  } catch (error) {
+    const unavailable = databaseErrorResponse(error);
+
+    if (unavailable) {
+      return unavailable;
+    }
+
+    console.error(error);
+    return Response.json(
+      { error: "Failed to delete the site." },
+      { status: 500 },
+    );
+  }
+}
