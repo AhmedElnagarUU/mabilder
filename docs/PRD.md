@@ -94,18 +94,32 @@ Details: `docs/block-system-plan.md`.
   HTML/CSS template from `theme-sources/<name>/` into a theme. See the plan.
 - [later] Theme picker in the wizard and the editor.
 
-## 10. Out of scope for v1 (planned later)
+## 10. Languages: Arabic and English [v1]
+
+The product serves customers in Arabic- and English-speaking markets.
+
+- **App UI** (landing, dashboard, wizard, editor) is available in English and Arabic, at `/en/…` and
+  `/ar/…`. Arabic is right-to-left. A language switcher keeps the current page.
+- **Each generated website has one language**, English or Arabic, chosen in the wizard. The AI writes
+  the copy in that language and the site renders RTL for Arabic. Customer facts (names, numbers) are
+  shown as entered.
+- [later] Bilingual websites (both languages on one site with a switcher).
+
+Technical design: `docs/i18n-plan.md`.
+
+## 11. Out of scope for v1 (planned later)
 
 - Accounts and login (better-auth), with owner checks on every site API
-- Arabic/English UI and RTL (next-intl)
+- Bilingual generated websites
 - Payments (Polar)
 - File uploads (S3): logo, project photos, team photos
 - Publishing to a public domain / custom domains
 - Customers uploading their own templates
 
-## 11. Success criteria for v1
+## 12. Success criteria for v1
 
 - A brief with only the required fields produces a complete site with no empty or fake sections.
 - A rich brief produces a multi-page site where every fact on the page comes from the customer.
 - The customer can reorder and hide blocks, and changes survive a copy regeneration.
 - Every block in the Agenvo theme renders with full, minimal, and empty-optional sample data.
+- The app UI works in English and Arabic (RTL), and an Arabic website renders correctly right-to-left.

@@ -123,9 +123,10 @@ Page    { id: string; slug: "index" | "about" | "services" | "projects" | "conta
           title: string; meta: { title: string; description: string }; blocks: Block[] }
 SiteContent {
   theme: string                       // "agenvo"
+  locale: "en" | "ar"                 // one language per site, see docs/i18n-plan.md §2
   facts: Facts
-  nav: { items: Link[]; cta: Link }
-  footer: { blurb: string; copyright: string }
+  nav: { items: Link[]; cta: Link; menuLabel: string }
+  footer: { blurb: string; copyright: string; photoCreditLabel: string }
   pages: Page[]                       // at least one page; first page slug is "index"
 }
 ```
@@ -202,6 +203,9 @@ Theme {
 - A theme must implement: `hero`, `intro`, `services`, `cta`, `contact`. A block type the theme lacks
   is skipped by composition.
 - Hidden blocks are not rendered. Tone is assigned to **visible** blocks in order.
+- `renderDocument` sets `<html lang="{locale}" dir="rtl|ltr">`. Themes use logical CSS
+  (`ms-`/`me-`/`ps-`/`pe-`/`start-`/`end-`, `text-start`) so Arabic sites render right-to-left, and
+  load an Arabic-capable font for `ar`.
 - `render-site.ts` returns one HTML file per page. `generate-site.ts` writes them and copies assets.
 - The Agenvo port reuses the current markup and classes from `templates/*.ts` (same look), changing
   only where data comes from and making the background come from `tone`.
@@ -212,6 +216,7 @@ Theme {
 brief → buildFacts → profile (AI) → compose → copy per page (AI) → images (Pexels) → zod parse → save → render
 ```
 
+- **Language:** the AI writes every copy field in `content.locale`. Facts keep the customer's spelling.
 - **Copy:** one AI call per page. The input is the brief, profile, facts, and for each block its type,
   variant, and the JSON shape of its AI-writable fields. The output is `{ blocks: [{ id, props }] }`. Each
   block is validated with its schema. Failed blocks are retried once in a single follow-up call. Fact
@@ -233,11 +238,12 @@ brief → buildFacts → profile (AI) → compose → copy per page (AI) → ima
 | # | Task | Acceptance |
 |---|---|---|
 | M1 | Catalog: `common.ts`, `facts.ts`, `types.ts`, 18 block files with fixtures, `catalog.ts`, `site-content.ts` | Every fixture passes its schema; generator tsc, tsc, lint pass; nothing existing changed |
-| M2 | Agenvo theme + `render-site.ts` + `scripts/check-theme.ts` | Check renders every implemented block × `full`/`minimal` × both tones with no error, no `undefined`/`[object Object]` in output |
+| I1 | App UI i18n (see `docs/i18n-plan.md`) | `/en` + `/ar` work, Arabic is RTL, no hardcoded strings in landing/dashboard/wizard |
+| M2 | Agenvo theme + `render-site.ts` + `scripts/check-theme.ts` | Check renders every implemented block × `full`/`minimal` × both tones × `en`/`ar` with no error, no `undefined`/`[object Object]` in output; `ar` output has `dir="rtl"` |
 | M3 | `buildFacts` + composition | Script prints composed pages for a thin and a rich brief; matches the recipes table |
 | M4 | Switch the pipeline: service, repository, `generate-site`, seed (fixtures, no AI); delete old `templates/`, `content/types.ts`, both `base-content.ts`, `content/agenvo.json`, `generation/paths.ts` | `npm run seed:site` builds a previewable site; build passes. The editor is temporarily broken until M7. |
 | M5 | AI copy per block | Thin and rich briefs generate valid sites; facts unchanged |
 | M6 | Pexels images + credits | Image slots filled, stable on re-render |
-| M7 | Editor: move feature, block list reorder/hide, inline edit on blocks | Reorder/hide persists and survives regenerate |
-| M8 | Wizard: projects fields | Projects page appears when projects are entered |
+| M7 | Editor: move feature, block list reorder/hide, inline edit on blocks, editor strings in `en`/`ar` | Reorder/hide persists and survives regenerate; editor works in both locales |
+| M8 | Wizard: projects fields + website language field | Projects page appears when projects are entered; an `ar` site is written in Arabic and renders RTL |
 | later | team/testimonials fields, logo upload (S3), theme import pipeline, theme picker | — |

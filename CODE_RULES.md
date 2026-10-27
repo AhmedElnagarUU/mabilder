@@ -9,7 +9,6 @@
 Some sections below describe the target stack. These parts are **not set up yet**. Do not add them
 unless your task explicitly says so:
 
-- i18n (`next-intl`, `src/messages/*`, `/en` and `/ar` routes): §6 applies to new code once it is set up
 - Auth (`better-auth`) and owner checks
 - S3 uploads
 - Polar payments
@@ -78,9 +77,7 @@ You must NOT add any npm package that is not on the approved list below. If you 
 | `@aws-sdk/s3-request-presigner` | Presigned upload URLs |
 | `@polar-sh/sdk` | Polar payment provider integration |
 | `lucide-react` | Icons |
-
-**In use, pending approval:** `@langchain/core`, `@langchain/google-genai` (AI calls in
-`site-creation/generation`). Keep using them where they are; don't add new LangChain packages.
+| `@langchain/core`, `@langchain/google-genai` | AI calls (`site-creation/generation`) |
 
 External HTTP APIs (e.g. Pexels) are called with the built-in `fetch`. Never add an SDK package for them.
 
@@ -90,14 +87,20 @@ Dev tooling: `typescript`, `eslint`, `@types/*`. Nothing else without approval.
 
 No numeric limit is enforced. The test: if a file stops being easy to scan top-to-bottom, split it along feature/responsibility lines.
 
-## 6. i18n & RTL by default (applies once i18n is set up, see §0)
+## 6. i18n & RTL by default
 
-- **No hardcoded user-facing strings. Ever.** All text renders through the translation layer (`next-intl`). Every task tells you which string keys you introduce. Add them to BOTH `src/messages/en.json` and `src/messages/ar.json`.
-- Arabic translations are provided in each task. Use them verbatim; do not invent your own.
+Full design: `docs/i18n-plan.md`.
+
+- **No hardcoded user-facing strings. Ever.** All text renders through the translation layer (`next-intl`). Add every key to BOTH `src/messages/en.json` and `src/messages/ar.json`. They must always have the same keys (`npm run check:messages`).
+- Keys are namespaced by feature (`common`, `landing`, `dashboard`, `siteCreation`, `editor`).
+- Arabic translations: if the task provides them, use them verbatim. Otherwise write natural Modern Standard Arabic and list every new key in your report so a human can review it.
 - The product UI supports `en` and `ar` locales from day one. Routes are prefixed: `/en/...`, `/ar/...`. The `<html>` element gets `lang` and `dir="rtl"` for Arabic.
+- i18n setup lives in `src/shared/i18n/`. Internal links use `Link`/`useRouter` from `src/shared/i18n/navigation.ts`, never `next/link` directly.
+- Next 16 calls middleware "proxy": the locale middleware is `src/proxy.ts`.
+- `src/app/api/**` and `src/app/preview/**` are not localized. API errors return a stable `code`; the UI translates the code.
 - Layout must not break in RTL: always use CSS logical properties (Tailwind: `ms-*`, `me-*`, `ps-*`, `pe-*`, `text-start`, `text-end`, `start-0`, `end-0`). NEVER use directional properties (`ml-*`, `mr-*`, `pl-*`, `pr-*`, `text-left`, `text-right`, `left-0`, `right-0`) in layout-critical styles. Icons with direction (arrows) must flip via `rtl:rotate-180`.
 - Business-language rule: user-facing labels never use web-design terminology ("component", "grid", "section container", "breakpoint"). In the editor UI, call blocks "sections" only if no better business word exists.
-- This section covers **the app's own UI**. Generated customer websites are rendered by themes and are not translated through `next-intl`.
+- This section covers **the app's own UI**. Generated customer websites are not translated through `next-intl`: each site has one `locale`, the AI writes its copy in that language, and themes must render correctly in RTL (logical CSS, `dir` set by the theme document).
 
 ## 7. Stack conventions (binding)
 
@@ -135,5 +138,6 @@ Full design: `docs/block-system-plan.md`.
   - `npm run lint`
   - `npx tsc --noEmit`
   - `npx tsc -p tsconfig.generator.json --noEmit` (generator code)
+  - `npm run check:messages` (once it exists)
   - `npm run build`
 - Manually verify the acceptance criteria in your task file (curl for APIs, browser for UI).
