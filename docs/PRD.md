@@ -100,18 +100,31 @@ The product serves customers in Arabic- and English-speaking markets.
 
 - **App UI** (landing, dashboard, wizard, editor) is available in English and Arabic, at `/en/…` and
   `/ar/…`. Arabic is right-to-left. A language switcher keeps the current page.
-- **Each generated website has one language**, English or Arabic, chosen in the wizard. The AI writes
-  the copy in that language and the site renders RTL for Arabic. Customer facts (names, numbers) are
-  shown as entered.
-- [later] Bilingual websites (both languages on one site with a switcher).
+- **Each generated website is English, Arabic, or both**, chosen by the customer in the wizard. For
+  two languages, the customer also picks the default one. The AI writes the copy in the default language
+  and translates it into the second. Arabic renders right-to-left. A two-language site has a language
+  link on every page that opens the same page in the other language. Customer facts (names, numbers)
+  are shown as entered.
+- Block order and hidden blocks are shared by both languages. The customer arranges the site once.
+- Two languages per site is a Pro feature (see §11).
 
 Technical design: `docs/i18n-plan.md`.
 
-## 11. Out of scope for v1 (planned later)
+## 11. Accounts and plans [v1]
 
-- Accounts and login (better-auth), with owner checks on every site API
-- Bilingual generated websites
-- Payments (Polar)
+- **Accounts:** customers sign up and sign in with email and password (better-auth). Each website
+  belongs to one account, and nobody else can see, edit, or preview it.
+- **Plans:** Free and Pro, paid monthly through Polar. The plan decides the number of websites, whether
+  a site can have two languages, and how many AI generations per month. The exact limits are proposed in
+  `docs/auth-billing-plan.md` and need the owner's confirmation.
+- Customers upgrade through Polar checkout and manage or cancel through the Polar customer portal.
+- When a limit is reached, the customer sees a clear message in their language with an upgrade button.
+- [later] Email verification, password reset, social login, team accounts.
+
+Technical design: `docs/auth-billing-plan.md`.
+
+## Out of scope for v1 (planned later)
+
 - File uploads (S3): logo, project photos, team photos
 - Publishing to a public domain / custom domains
 - Customers uploading their own templates
@@ -123,3 +136,5 @@ Technical design: `docs/i18n-plan.md`.
 - The customer can reorder and hide blocks, and changes survive a copy regeneration.
 - Every block in the Agenvo theme renders with full, minimal, and empty-optional sample data.
 - The app UI works in English and Arabic (RTL), and an Arabic website renders correctly right-to-left.
+- A customer can make a website in English, Arabic, or both, with a working language link.
+- A customer only ever sees their own websites, and plan limits are enforced on the server.

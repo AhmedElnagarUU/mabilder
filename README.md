@@ -8,6 +8,8 @@ a finished static website they can edit.
 
 - `docs/PRD.md`: what the product is and who it's for
 - `docs/block-system-plan.md`: how sites are built from blocks, plus the milestones
+- `docs/i18n-plan.md`: Arabic/English for the app UI and the generated websites
+- `docs/auth-billing-plan.md`: accounts (better-auth) and paid plans (Polar)
 - `CODE_RULES.md`: rules every change must follow
 - `AGENTS.md`: instructions for AI agents working in this repo
 

@@ -7,7 +7,7 @@ There are **two separate language systems**. Don't mix them:
 | | 1. App UI | 2. Generated customer websites |
 |---|---|---|
 | What | landing, dashboard, wizard, editor | the static HTML sites we generate |
-| Who picks the language | the visitor (URL `/en/…` or `/ar/…`) | the customer, once per site in the wizard |
+| Who picks the language | the visitor (URL `/en/…` or `/ar/…`) | the customer, per site: English, Arabic, or both |
 | Where text comes from | `src/messages/en.json` + `ar.json` via `next-intl` | block props, written by AI in the site's language |
 | RTL | `<html dir="rtl">` + logical Tailwind classes | the theme's document sets `dir="rtl"`; themes use logical CSS |
 
@@ -88,15 +88,21 @@ Namespaced by feature. The key names say where the text is used, not what it say
 
 ## 2. Generated customer websites
 
-- `SiteContent.locale: "en" | "ar"`, chosen in the wizard (default: the current UI locale).
-- The AI writes all copy in that language. Facts (names, numbers) are kept as the customer typed them.
+- The customer chooses **English only, Arabic only, or both**, plus the default language for a
+  two-language site. Stored as `SiteContent.locales` + `defaultLocale`. The wizard defaults to the
+  current UI locale.
+- Layout is shared and text is per language: each block's `props`, each page's `meta`, `nav` and
+  `footer` are stored per locale (see `docs/block-system-plan.md`, "Site content").
+- The AI writes the default language, then translates page by page into the second one. Facts (names,
+  numbers) are kept as the customer typed them.
+- Two-language output: `en/…`, `ar/…`, and a root redirect to the default language. The nav has a
+  language link to the same page in the other language.
 - The theme's `renderDocument` sets `<html lang dir>`. A theme must look right in RTL:
   - Use logical CSS, avoiding `left`/`right`, `ml`/`mr`, and so on.
   - Load an Arabic-capable font when `locale` is `ar`.
 - Theme render files contain no text (CODE_RULES §8), so a theme needs no translation files. Small
   fixed labels like the menu button or photo credits are props in `nav` / `footer`.
-- `scripts/check-theme.ts` also renders an `ar` sample with `dir="rtl"`.
-- Bilingual sites (both languages on one site) are **later**.
+- `scripts/check-theme.ts` also renders an `ar` sample with `dir="rtl"` and a two-language sample.
 
 ## Milestone I1 (one delegated task)
 

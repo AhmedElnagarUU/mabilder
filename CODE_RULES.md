@@ -9,9 +9,10 @@
 Some sections below describe the target stack. These parts are **not set up yet**. Do not add them
 unless your task explicitly says so:
 
-- Auth (`better-auth`) and owner checks
 - S3 uploads
-- Polar payments
+
+Auth (better-auth) and Polar billing are planned in `docs/auth-billing-plan.md` (milestones A1, B1).
+Until A1 lands, site APIs have no session check. Do not add one in unrelated tasks.
 
 ## 1. KISS: Keep It Simple
 
@@ -108,6 +109,11 @@ Full design: `docs/i18n-plan.md`.
 - **No Server Actions.** Do not use Next.js Server Actions under any circumstance. All API endpoints and mutations must be implemented as route handlers (`route.ts`) under `src/app/api/**` exclusively. Every endpoint path is defined in the task file. Do not invent different paths.
 - **mongoose** through the shared connection singleton in `src/shared/db/`. Each feature that persists data must define a `model.ts` beside its `repository.ts`, with a Mongoose schema and model for every collection it writes. Repositories must write through that model so MongoDB-bound data is validated at runtime; TypeScript interfaces remain the source of static typing. Validate external input with `zod` at API boundaries.
 - **Auth** via better-auth (email/password), session cookie based. Every owner-scoped API must verify the session and that `site.ownerId === session.user.id`; otherwise return `401` (no session) or `404` (not owner).
+- **Auth code** lives in `src/features/auth/`. Pages and APIs check the session on the server
+  (`requireSession`). The proxy cookie check is only a fast redirect, never the security check.
+- **Polar**: the webhook (signature verified with `POLAR_WEBHOOK_SECRET`) is the only source of truth
+  for a user's plan. Plan limits live only in `src/features/billing/plans.ts` and are enforced on the
+  server; a limit returns `402` with `code: "plan_limit_reached"`.
 - **S3**: presigned PUT uploads from the browser; objects are served from the bucket's public base URL (`S3_PUBLIC_BASE_URL`). Key pattern: `sites/{siteId}/{slotId}/{uuid}.{ext}`.
 - **Env vars** are documented in `.env.example` (names only). Never commit real secrets.
 - **Static generator code** (`src/features/static-site-generator/**`, `src/features/site-creation/**`
