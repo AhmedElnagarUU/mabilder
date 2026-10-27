@@ -112,8 +112,10 @@ Full design: `docs/i18n-plan.md`.
 - **Auth code** lives in `src/features/auth/`. Pages and APIs check the session on the server
   (`requireSession`). The proxy cookie check is only a fast redirect, never the security check.
 - **Polar**: the webhook (signature verified with `POLAR_WEBHOOK_SECRET`) is the only source of truth
-  for a user's plan. Plan limits live only in `src/features/billing/plans.ts` and are enforced on the
-  server; a limit returns `402` with `code: "plan_limit_reached"`.
+  for a user's subscription. Access (`trial` / `active` / `expired`) comes only from
+  `src/features/billing/access.ts` and is enforced on the server; `expired` returns `402` with
+  `code: "subscription_required"`. One website per account (`409 site_exists`). AI generation is never
+  counted or limited by plan.
 - **S3**: presigned PUT uploads from the browser; objects are served from the bucket's public base URL (`S3_PUBLIC_BASE_URL`). Key pattern: `sites/{siteId}/{slotId}/{uuid}.{ext}`.
 - **Env vars** are documented in `.env.example` (names only). Never commit real secrets.
 - **Static generator code** (`src/features/static-site-generator/**`, `src/features/site-creation/**`

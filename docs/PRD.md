@@ -106,19 +106,22 @@ The product serves customers in Arabic- and English-speaking markets.
   link on every page that opens the same page in the other language. Customer facts (names, numbers)
   are shown as entered.
 - Block order and hidden blocks are shared by both languages. The customer arranges the site once.
-- Two languages per site is a Pro feature (see §11).
+- English, Arabic, or both are available in the trial and in Pro.
 
 Technical design: `docs/i18n-plan.md`.
 
 ## 11. Accounts and plans [v1]
 
-- **Accounts:** customers sign up and sign in with email and password (better-auth). Each website
-  belongs to one account, and nobody else can see, edit, or preview it.
-- **Plans:** Free and Pro, paid monthly through Polar. The plan decides the number of websites, whether
-  a site can have two languages, and how many AI generations per month. The exact limits are proposed in
-  `docs/auth-billing-plan.md` and need the owner's confirmation.
-- Customers upgrade through Polar checkout and manage or cancel through the Polar customer portal.
-- When a limit is reached, the customer sees a clear message in their language with an upgrade button.
+- **Accounts:** customers sign up and sign in with email and password (better-auth).
+- **One website per account.** An account is one business, so it has exactly one website. Nobody else
+  can see, edit, or preview it.
+- **15-day free trial** from sign-up, with no card needed and every feature included.
+- **One paid plan (Pro), monthly through Polar.** Customers subscribe through Polar checkout and manage
+  or cancel through the Polar customer portal.
+- **AI generation is included** in the trial and in Pro, with no count limit.
+- **After the trial without a subscription**, the website is kept and can still be previewed, but
+  editing and AI generation are locked. The customer sees a clear message in their language with a
+  subscribe button.
 - [later] Email verification, password reset, social login, team accounts.
 
 Technical design: `docs/auth-billing-plan.md`.
@@ -137,4 +140,5 @@ Technical design: `docs/auth-billing-plan.md`.
 - Every block in the Agenvo theme renders with full, minimal, and empty-optional sample data.
 - The app UI works in English and Arabic (RTL), and an Arabic website renders correctly right-to-left.
 - A customer can make a website in English, Arabic, or both, with a working language link.
-- A customer only ever sees their own websites, and plan limits are enforced on the server.
+- A customer only ever sees their own website. One website per account, a 15-day trial, and the
+  subscription lock are all enforced on the server.

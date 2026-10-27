@@ -49,29 +49,38 @@ src/app/[locale]/sign-up/page.tsx
 
 ## 2. Billing (Polar)
 
-### Plans (proposed, the owner must confirm)
+### Access model
 
-| | Free | Pro (`POLAR_PRODUCT_ID_PRO`, monthly) |
-|---|---|---|
-| Websites | 1 | 10 |
-| Languages per site | 1 | 1 or 2 (English + Arabic) |
-| AI generations (create + regenerate) | 3 per month | 100 per month |
-| Themes | all | all |
-| Download / publish | later | later |
+There is **one paid plan (Pro, monthly)** and a **15-day free trial**. There is no free-forever plan.
 
-Limits live in **one** place: `src/features/billing/plans.ts`.
+| | Trial (15 days) | Pro (`POLAR_PRODUCT_ID_PRO`, monthly) | Trial ended, no subscription |
+|---|---|---|---|
+| Websites per account | 1 | 1 | 1 (kept, not deleted) |
+| Languages | English, Arabic, or both | same | — |
+| AI generation / regeneration | included, no count limit | included, no count limit | locked |
+| Edit, reorder, hide blocks | yes | yes | locked (read-only view) |
+| Preview | yes | yes | yes |
+
+- **One website per account.** An account is one business. The rule is enforced in two places: the
+  wizard is only reachable when the user has no site, and `createSite` returns
+  `409 { code: "site_exists" }` if one already exists. The site model has a **unique index on `ownerId`**.
+- **The trial starts at sign-up**: `trialEndsAt = user.createdAt + 15 days`. No card is needed and it
+  isn't created in Polar. Polar is only used when the customer subscribes.
+- **AI generation is not counted** and has no plan limit. Only the existing AI rate limiter
+  (`generation/rate-limit.ts`) applies, to protect the API quota.
+- The duration lives in **one** place: `src/features/billing/plans.ts` (`TRIAL_DAYS = 15`).
 
 ### Files
 
 ```text
 src/features/billing/
   model.ts                 Subscription { userId, polarSubscriptionId, polarCustomerId, productId,
-                           status, currentPeriodEnd, updatedAt }; Usage { userId, month, generations }
+                           status, currentPeriodEnd, updatedAt }
   repository.ts
   polar.ts                 Polar client: new Polar({ accessToken, server: POLAR_SERVER })
-  plans.ts                 plan limits (table above)
-  entitlements.ts          getEntitlements(userId) → { plan, maxSites, maxLocales, generationsLeft }
-  service.ts               createCheckout, createPortalSession, handleWebhookEvent, recordGeneration
+  plans.ts                 TRIAL_DAYS = 15
+  access.ts                getAccess(user) → { state: "trial" | "active" | "expired", trialEndsAt?, renewsAt? }
+  service.ts               createCheckout, createPortalSession, handleWebhookEvent
   components/upgrade-button.tsx  components/plan-badge.tsx
 src/app/api/billing/checkout/route.ts   POST → { url }   (Polar checkout, customerExternalId = userId)
 src/app/api/billing/portal/route.ts     POST → { url }   (Polar customer portal)
@@ -86,14 +95,12 @@ src/app/[locale]/billing/page.tsx       current plan, usage, upgrade / manage bu
   An invalid signature returns 403.
 - Handle subscription events (created, updated, active, canceled, revoked) as an idempotent **upsert**
   by `polarSubscriptionId`. Link the user through the customer's `externalId` (= our userId).
-- The plan is Pro while the status is `active` (or `canceled` until `currentPeriodEnd`). Otherwise it's Free.
-- `site-creation/service.ts` checks entitlements **on the server** before:
-  - create site: site count
-  - choosing two languages
-  - generate/regenerate: generations left
-
-  When a limit is hit, it returns `402 { code: "plan_limit_reached", limit: "sites" | "locales" | "generations" }`,
-  and the UI shows a translated message with an upgrade button.
+- Access is `active` while the subscription status is `active` (or `canceled` until
+  `currentPeriodEnd`). Otherwise it's `trial` before `trialEndsAt`, and `expired` after.
+- `site-creation/service.ts` checks access **on the server** before create, generate/regenerate, and
+  save content. When access is `expired`, it returns `402 { code: "subscription_required" }`, and the UI
+  shows a translated message with a subscribe button. Preview and reading the site stay allowed.
+- The dashboard shows the trial days left and a subscribe button during the trial.
 - `POLAR_SERVER` is `sandbox` in development and `production` live.
 - Check the exact SDK method names against the installed `@polar-sh/sdk` types. Don't guess from memory.
 
@@ -105,7 +112,7 @@ src/app/[locale]/billing/page.tsx       current plan, usage, upgrade / manage bu
 
 | # | Task | Acceptance |
 |---|---|---|
-| A1 | better-auth: sign up/in/out, proxy redirect, `ownerId` on sites, owner checks on all site APIs + preview, translated auth pages | Signed-out → redirected; user A gets 404 for user B's site; all gates pass |
-| B1 | Polar: plans, checkout, portal, webhook, entitlements enforced in site-creation, billing page | Sandbox checkout upgrades the user through the webhook; limits return 402 with a translated message; an invalid webhook signature returns 403 |
+| A1 | better-auth: sign up/in/out, proxy redirect, `ownerId` (unique) on sites, one site per account (`409 site_exists`), owner checks on all site APIs + preview, translated auth pages | Signed-out → redirected; user A gets 404 for user B's site; a second site returns 409; all gates pass |
+| B1 | Polar: 15-day trial, checkout, portal, webhook, access checks in site-creation, billing page | New user is in trial; sandbox checkout makes the user `active` through the webhook; an expired trial gets 402 `subscription_required` on edit/generate but can still preview; an invalid webhook signature returns 403 |
 
 Order: M1 → I1 → A1 → M2 … M8, with B1 any time after A1.
