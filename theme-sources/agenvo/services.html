@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services — AGENVO</title>
+  <meta name="description" content="Architecture, structural engineering, interior architecture, masterplanning and sustainability services from Agenvo. An integrated practice from first sketch to final handover." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['DM Sans', 'sans-serif'], display: ['Cormorant Garamond', 'serif'] },
+          colors: { cream: '#F4EFE6', charcoal: '#1C1C1C', brass: '#B8956C', sand: '#E9E2D6' }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body class="bg-cream text-charcoal font-sans">
+
+  <nav id="site-nav" class="fixed top-0 left-0 right-0 z-50 text-white">
+    <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 py-5 flex items-center justify-between">
+      <a href="index.html" class="font-display text-2xl font-semibold tracking-wide">Agenvo</a>
+      <div class="hidden lg:flex items-center gap-9 text-[11px] uppercase tracking-[0.2em]">
+        <a href="about.html" class="nav-link">Studio</a>
+        <a href="services.html" class="nav-link" aria-current="page">Services</a>
+        <a href="our-work.html" class="nav-link">Work</a>
+        <a href="profile.html" class="nav-link">Profile</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="contact.html" class="hidden sm:inline-flex text-[11px] uppercase tracking-[0.2em] border border-white/30 px-5 py-2.5 hover:bg-white hover:text-charcoal transition">Inquire</a>
+        <button id="menu-toggle" class="lg:hidden p-1" aria-label="Toggle menu" aria-expanded="false"><i data-lucide="menu" class="w-5 h-5"></i></button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="menu-panel lg:hidden bg-charcoal/95 border-t border-white/10">
+      <div class="px-6 py-6 flex flex-col text-sm uppercase tracking-[0.18em]">
+        <a href="about.html" class="py-3 border-b border-white/5">Studio</a>
+        <a href="services.html" class="py-3 border-b border-white/5">Services</a>
+        <a href="our-work.html" class="py-3 border-b border-white/5">Work</a>
+        <a href="profile.html" class="py-3 border-b border-white/5">Profile</a>
+        <a href="contact.html" class="py-3 border-b border-white/5">Contact</a>
+        <a href="contact.html" class="mt-4 text-center bg-brass text-charcoal px-5 py-3 text-[11px] font-semibold tracking-widest">Start a project</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="relative min-h-[78vh] flex items-end bg-charcoal">
+    <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1920&q=80" alt="Architectural drawings and model" class="absolute inset-0 w-full h-full object-cover opacity-50" />
+    <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/55 to-charcoal/25"></div>
+    <div class="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-10 lg:px-16 pb-16 lg:pb-20">
+      <p class="text-white/50 text-[11px] uppercase tracking-[0.3em] mb-5 reveal">Services — What we do</p>
+      <h1 class="font-display text-5xl md:text-7xl lg:text-8xl text-cream leading-[0.95] max-w-4xl reveal">
+        One practice.<br /><em class="italic">Every discipline.</em>
+      </h1>
+      <p class="text-white/55 mt-7 max-w-xl text-sm leading-relaxed reveal">Architecture, structure, interiors and sustainability under one roof — so the idea survives contact with reality.</p>
+    </div>
+  </section>
+
+  <!-- Service index -->
+  <section class="border-b border-charcoal/10 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 divide-x divide-charcoal/10">
+      <a href="#architecture" class="py-6 md:py-8 px-4 md:px-6 group">
+        <span class="text-[10px] uppercase tracking-[0.2em] text-brass">01</span>
+        <p class="font-display text-xl mt-1 group-hover:text-brass transition">Architecture</p>
+      </a>
+      <a href="#engineering" class="py-6 md:py-8 px-4 md:px-6 group">
+        <span class="text-[10px] uppercase tracking-[0.2em] text-brass">02</span>
+        <p class="font-display text-xl mt-1 group-hover:text-brass transition">Engineering</p>
+      </a>
+      <a href="#interiors" class="py-6 md:py-8 px-4 md:px-6 group">
+        <span class="text-[10px] uppercase tracking-[0.2em] text-brass">03</span>
+        <p class="font-display text-xl mt-1 group-hover:text-brass transition">Interiors</p>
+      </a>
+      <a href="#advisory" class="py-6 md:py-8 px-4 md:px-6 group">
+        <span class="text-[10px] uppercase tracking-[0.2em] text-brass">04</span>
+        <p class="font-display text-xl mt-1 group-hover:text-brass transition">Advisory</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- Architecture -->
+  <section id="architecture" class="py-24 lg:py-32 px-6 md:px-10 lg:px-16 scroll-mt-20">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12 lg:gap-16">
+      <div class="lg:col-span-5">
+        <p class="text-[11px] uppercase tracking-[0.3em] text-brass mb-4 reveal">01 — Architecture</p>
+        <h2 class="font-display text-4xl md:text-5xl leading-tight reveal">Buildings that belong to their place.</h2>
+        <p class="text-gray-600 text-sm leading-relaxed mt-6 reveal">We design from the outside in and the inside out at the same time. Context, climate, daylight and the client's daily life are studied together, so that the plan is not a diagram imposed on a site but a response to it.</p>
+        <p class="text-gray-600 text-sm leading-relaxed mt-4 reveal">Our scope runs from feasibility and concept design through planning approval, technical documentation and construction administration. We remain on site until the last handle is fitted.</p>
+        <div class="mt-8 grid grid-cols-2 gap-6 border-t border-charcoal/10 pt-6">
+          <div class="reveal">
+            <p class="font-display text-3xl">48</p>
+            <p class="text-[10px] uppercase tracking-[0.2em] text-gray-500 mt-1">Live commissions</p>
+          </div>
+          <div class="reveal">
+            <p class="font-display text-3xl">12</p>
+            <p class="text-[10px] uppercase tracking-[0.2em] text-gray-500 mt-1">Countries built in</p>
+          </div>
+        </div>
+        <ul class="mt-8 space-y-3 text-sm text-gray-600 reveal">
+          <li class="flex gap-3"><i data-lucide="check" class="w-4 h-4 text-brass shrink-0 mt-0.5"></i> Residential — private houses, villas and multi-family housing</li>
+          <li class="flex gap-3"><i data-lucide="check" class="w-4 h-4 text-brass shrink-0 mt-0.5"></i> Commercial — offices, headquarters, retail and mixed-use</li>
+          <li class="flex gap-3"><i data-lucide="check" class="w-4 h-4 text-brass shrink-0 mt-0.5"></i> Cultural and civic — pavilions, galleries, education</li>
+          <li class="flex gap-3"><i data-lucide="check" class="w-4 h-4 text-brass shrink-0 mt-0.5"></i> Hospitality — hotels, restaurants and destination resorts</li>
+          <li class="flex gap-3"><i data-lucide="check" class="w-4 h-4 text-brass shrink-0 mt-0.5"></i> Adaptive reuse and heritage transformation</li>
+        </ul>
+      </div>
+      <div class="lg:col-span-7 grid gap-4">
+        <div class="img-zoom overflow-hidden reveal">
+          <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1000&q=80" alt="Corporate tower facade" class="w-full h-80 md:h-[420px] object-cover" />
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="img-zoom overflow-hidden reveal">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80" alt="Residential exterior" class="w-full h-48 md:h-56 object-cover" />
+          </div>
+          <div class="img-zoom overflow-hidden reveal">
+            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80" alt="Pavilion" class="w-full h-48 md:h-56 object-cover" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Engineering -->
+  <section id="engineering" class="bg-charcoal text-cream py-24 lg:py-32 px-6 md:px-10 lg:px-16 scroll-mt-20">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12 lg:gap-16">
+      <div class="lg:col-span-7 order-2 lg:order-1 grid gap-4">
+        <div class="img-zoom overflow-hidden reveal">
+          <img src="https://images.unsplash.com/photo-1503387837-b154d5074bd2?w=1000&q=80" alt="Structural frame under construction" class="w-full h-80 md:h-[400px] object-cover" />
+        </div>
+        <div class="grid md:grid-cols-3 gap-4">
+          <div class="border border-white/10 p-5 reveal">
+            <p class="font-display text-3xl text-brass">38%</p>
+            <p class="text-[10px] uppercase tracking-[0.15em] text-white/40 mt-2">Average solar gain reduction on our tower facades</p>
+          </div>
+          <div class="border border-white/10 p-5 reveal">
+            <p class="font-display text-3xl text-brass">-42%</p>
+            <p class="text-[10px] uppercase tracking-[0.15em] text-white/40 mt-2">Embodied carbon vs. baseline on recent timber projects</p>
+          </div>
+          <div class="border border-white/10 p-5 reveal">
+            <p class="font-display text-3xl text-brass">0</p>
+            <p class="text-[10px] uppercase tracking-[0.15em] text-white/40 mt-2">Structural failures across 180 completed projects</p>
+          </div>
+        </div>
+      </div>
+      <div class="lg:col-span-5 order-1 lg:order-2">
+        <p class="text-[11px] uppercase tracking-[0.3em] text-brass mb-4 reveal">02 — Engineering</p>
+        <h2 class="font-display text-4xl md:text-5xl leading-tight reveal">Structure as an idea, not an obstacle.</h2>
+        <p class="text-white/50 text-sm leading-relaxed mt-6 reveal">Our in-house structural and MEP engineers are part of the design conversation from the first meeting. That means fewer surprises, faster decisions, and structures that make the architecture possible rather than merely holding it up.</p>
+        <p class="text-white/50 text-sm leading-relaxed mt-4 reveal">We specialise in long-span concrete, hybrid timber, and the careful intervention of existing structures. Every scheme is modelled, load-tested in principle, and costed before it leaves the studio.</p>
+        <ul class="mt-8 space-y-3 text-sm text-white/60 reveal">
+          <li class="flex gap-3"><i data-lucide="check" class="w-4 h-4 text-brass shrink-0 mt-0.5"></i> Structural concept and detailed design</li>
+          <li class="flex gap-3"><i data-lucide="check" class="w-4 h-4 text-brass shrink-0 mt-0.5"></i> MEP coordination and building services</li>
+          <li class="flex gap-3"><i data-lucide="check" class="w-4 h-4 text-brass shrink-0 mt-0.5"></i> Facade engineering and thermal modelling</li>
+          <li class="flex gap-3"><i data-lucide="check" class="w-4 h-4 text-brass shrink-0 mt-0.5"></i> Existing-structure surveys and strengthening</li>
+          <li class="flex gap-3"><i data-lucide="check" class="w-4 h-4 text-brass shrink-0 mt-0.5"></i> Construction methodology and site supervision</li>
+        </ul>
+        <a href="our-work.html" class="inline-flex items-center gap-2 mt-8 text-[11px] uppercase tracking-[0.2em] text-brass link-underline reveal">See the engineering work <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interiors -->
+  <section id="interiors" class="py-24 lg:py-32 px-6 md:px-10 lg:px-16 scroll-mt-20">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid lg:grid-cols-12 gap-10 items-end mb-14">
+        <div class="lg:col-span-7">
+          <p class="text-[11px] uppercase tracking-[0.3em] text-brass mb-4 reveal">03 — Interiors</p>
+          <h2 class="font-display text-4xl md:text-5xl leading-tight reveal">Rooms that feel finished<br />before they are furnished.</h2>
+        </div>
+        <div class="lg:col-span-5">
+          <p class="text-sm text-gray-600 leading-relaxed reveal">Interior architecture is not decoration applied at the end. We design the shell, the light, the joinery and the furniture together, so that every element has a reason to be there and nothing fights for attention.</p>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-3 gap-4">
+        <div class="reveal">
+          <div class="img-zoom overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=700&q=80" alt="Living room interior" class="w-full h-72 object-cover" />
+          </div>
+          <h3 class="font-display text-2xl mt-5">Spatial planning</h3>
+          <p class="text-sm text-gray-600 leading-relaxed mt-2">We begin with how a room is used at 7am and at 11pm, then design the plan around those routines. Circulation, storage and sightlines are resolved before a single finish is chosen.</p>
+        </div>
+        <div class="reveal">
+          <div class="img-zoom overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=700&q=80" alt="Material and furniture detail" class="w-full h-72 object-cover" />
+          </div>
+          <h3 class="font-display text-2xl mt-5">Bespoke joinery</h3>
+          <p class="text-sm text-gray-600 leading-relaxed mt-2">Kitchens, libraries, wardrobes and staircases are drawn to the millimetre and made by workshops we have worked with for over a decade. Built-in, not bolted on.</p>
+        </div>
+        <div class="reveal">
+          <div class="img-zoom overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=700&q=80" alt="Lighting detail" class="w-full h-72 object-cover" />
+          </div>
+          <h3 class="font-display text-2xl mt-5">Light and material</h3>
+          <p class="text-sm text-gray-600 leading-relaxed mt-2">We layer daylight, architectural lighting and lamps so a room can shift from bright and social to quiet and intimate. Materials are chosen for how they feel barefoot, not just in photographs.</p>
+        </div>
+      </div>
+      <div class="mt-12 grid md:grid-cols-2 gap-10 border-t border-charcoal/10 pt-10">
+        <div class="reveal">
+          <h3 class="font-display text-2xl mb-3">What the service includes</h3>
+          <div class="grid sm:grid-cols-2 gap-x-8 gap-y-2 text-sm text-gray-600">
+            <p class="flex gap-2"><i data-lucide="minus" class="w-4 h-4 text-brass shrink-0 mt-0.5"></i> Concept and mood direction</p>
+            <p class="flex gap-2"><i data-lucide="minus" class="w-4 h-4 text-brass shrink-0 mt-0.5"></i> Space planning and layouts</p>
+            <p class="flex gap-2"><i data-lucide="minus" class="w-4 h-4 text-brass shrink-0 mt-0.5"></i> Material and finish schedules</p>
+            <p class="flex gap-2"><i data-lucide="minus" class="w-4 h-4 text-brass shrink-0 mt-0.5"></i> Custom furniture design</p>
+            <p class="flex gap-2"><i data-lucide="minus" class="w-4 h-4 text-brass shrink-0 mt-0.5"></i> Lighting design and specification</p>
+            <p class="flex gap-2"><i data-lucide="minus" class="w-4 h-4 text-brass shrink-0 mt-0.5"></i> Art and object curation</p>
+            <p class="flex gap-2"><i data-lucide="minus" class="w-4 h-4 text-brass shrink-0 mt-0.5"></i> Procurement and installation</p>
+            <p class="flex gap-2"><i data-lucide="minus" class="w-4 h-4 text-brass shrink-0 mt-0.5"></i> Final styling and handover</p>
+          </div>
+        </div>
+        <div class="reveal">
+          <h3 class="font-display text-2xl mb-3">Who it is for</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">Private clients who want a home that works as well as it looks. Hoteliers and restaurateurs building an atmosphere that guests remember. Developers who understand that interior quality is what sells the last unit as quickly as the first.</p>
+          <p class="text-sm text-gray-600 leading-relaxed mt-4">We take on full-scope interiors and focused commissions — a single kitchen, a stair, a suite of rooms — where our involvement can meaningfully raise the whole.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Advisory / other services -->
+  <section id="advisory" class="bg-sand/60 py-24 lg:py-32 px-6 md:px-10 lg:px-16 scroll-mt-20">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid lg:grid-cols-12 gap-10 mb-14">
+        <div class="lg:col-span-5">
+          <p class="text-[11px] uppercase tracking-[0.3em] text-brass mb-4 reveal">04 — Advisory & specialist services</p>
+          <h2 class="font-display text-4xl md:text-5xl leading-tight reveal">Beyond the building.</h2>
+        </div>
+        <div class="lg:col-span-7">
+          <p class="text-sm text-gray-600 leading-relaxed reveal">Not every client needs a full architectural commission. Sometimes the most useful thing we can do is help you decide what to build, whether to buy a site, or how to make an existing building perform. These services can stand alone or sit alongside a design commission.</p>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-x-12 gap-y-10">
+        <div class="border-t border-charcoal/15 pt-6 reveal">
+          <div class="flex items-start justify-between gap-4">
+            <h3 class="font-display text-2xl">Feasibility & site appraisal</h3>
+            <i data-lucide="map" class="w-5 h-5 text-brass shrink-0"></i>
+          </div>
+          <p class="text-sm text-gray-600 leading-relaxed mt-3">Before you commit capital, we test what a site can realistically hold: planning constraints, massing options, build cost, and the value of each scenario. You receive a clear recommendation, not a stack of drawings.</p>
+          <p class="text-[10px] uppercase tracking-[0.2em] text-gray-400 mt-4">Typical duration — 3 to 6 weeks</p>
+        </div>
+        <div class="border-t border-charcoal/15 pt-6 reveal">
+          <div class="flex items-start justify-between gap-4">
+            <h3 class="font-display text-2xl">Masterplanning & urban design</h3>
+            <i data-lucide="layout-grid" class="w-5 h-5 text-brass shrink-0"></i>
+          </div>
+          <p class="text-sm text-gray-600 leading-relaxed mt-3">For districts, campuses and mixed-use sites, we establish the public realm, density, movement and phasing that allow individual buildings to be designed well later. We often work alongside landscape architects and transport consultants.</p>
+          <p class="text-[10px] uppercase tracking-[0.2em] text-gray-400 mt-4">Typical duration — 3 to 9 months</p>
+        </div>
+        <div class="border-t border-charcoal/15 pt-6 reveal">
+          <div class="flex items-start justify-between gap-4">
+            <h3 class="font-display text-2xl">Sustainability & carbon strategy</h3>
+            <i data-lucide="leaf" class="w-5 h-5 text-brass shrink-0"></i>
+          </div>
+          <p class="text-sm text-gray-600 leading-relaxed mt-3">We set embodied and operational carbon budgets at concept stage, then track them through design. Services include lifecycle assessment, retrofit strategy, certification support (LEED, BREEAM, Minergie) and passive-design modelling.</p>
+          <p class="text-[10px] uppercase tracking-[0.2em] text-gray-400 mt-4">Typical duration — ongoing</p>
+        </div>
+        <div class="border-t border-charcoal/15 pt-6 reveal">
+          <div class="flex items-start justify-between gap-4">
+            <h3 class="font-display text-2xl">Adaptive reuse & heritage</h3>
+            <i data-lucide="landmark" class="w-5 h-5 text-brass shrink-0"></i>
+          </div>
+          <p class="text-sm text-gray-600 leading-relaxed mt-3">The greenest building is usually the one already standing. We survey, assess and transform existing structures — offices, factories, villas — retaining what has value and inserting what a new use requires, with a light touch.</p>
+          <p class="text-[10px] uppercase tracking-[0.2em] text-gray-400 mt-4">Typical duration — 6 to 18 months</p>
+        </div>
+        <div class="border-t border-charcoal/15 pt-6 reveal">
+          <div class="flex items-start justify-between gap-4">
+            <h3 class="font-display text-2xl">Design review & second opinions</h3>
+            <i data-lucide="search-check" class="w-5 h-5 text-brass shrink-0"></i>
+          </div>
+          <p class="text-sm text-gray-600 leading-relaxed mt-3">Already working with an architect? We offer independent design reviews for developers, boards and private clients — a candid assessment of the scheme, its risks and the highest-value changes before construction begins.</p>
+          <p class="text-[10px] uppercase tracking-[0.2em] text-gray-400 mt-4">Typical duration — 1 to 3 weeks</p>
+        </div>
+        <div class="border-t border-charcoal/15 pt-6 reveal">
+          <div class="flex items-start justify-between gap-4">
+            <h3 class="font-display text-2xl">Construction oversight</h3>
+            <i data-lucide="hard-hat" class="w-5 h-5 text-brass shrink-0"></i>
+          </div>
+          <p class="text-sm text-gray-600 leading-relaxed mt-3">For clients building with another designer, we can act as the owner's representative on site: reviewing workmanship, chairing site meetings, managing variations and protecting the design intent through to handover.</p>
+          <p class="text-[10px] uppercase tracking-[0.2em] text-gray-400 mt-4">Typical duration — project dependent</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="py-24 lg:py-32 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+        <div>
+          <p class="text-[11px] uppercase tracking-[0.3em] text-brass mb-4 reveal">How an engagement runs</p>
+          <h2 class="font-display text-4xl md:text-5xl reveal">From first call to final key</h2>
+        </div>
+        <p class="text-sm text-gray-600 max-w-sm leading-relaxed reveal">Most commissions follow the same rhythm. The pace changes with scale, but the sequence of decisions does not.</p>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="border-t border-charcoal/15 pt-6 reveal">
+          <span class="font-display text-4xl text-brass/50">01</span>
+          <h3 class="font-medium mt-3">Conversation</h3>
+          <p class="text-sm text-gray-600 leading-relaxed mt-2">A no-obligation meeting to understand the site, the ambition and the budget. We will tell you honestly if we are the right studio for the job.</p>
+          <p class="text-[10px] uppercase tracking-[0.18em] text-gray-400 mt-4">Week 0</p>
+        </div>
+        <div class="border-t border-charcoal/15 pt-6 reveal">
+          <span class="font-display text-4xl text-brass/50">02</span>
+          <h3 class="font-medium mt-3">Proposal</h3>
+          <p class="text-sm text-gray-600 leading-relaxed mt-2">A written scope, fee structure and programme, with the team named. No hidden stages, no vague allowances — you know what you are buying.</p>
+          <p class="text-[10px] uppercase tracking-[0.18em] text-gray-400 mt-4">Weeks 1–2</p>
+        </div>
+        <div class="border-t border-charcoal/15 pt-6 reveal">
+          <span class="font-display text-4xl text-brass/50">03</span>
+          <h3 class="font-medium mt-3">Design</h3>
+          <p class="text-sm text-gray-600 leading-relaxed mt-2">Concept, development and technical design, with regular reviews and a physical model at each key milestone. Decisions are documented as we go.</p>
+          <p class="text-[10px] uppercase tracking-[0.18em] text-gray-400 mt-4">Months 1–8</p>
+        </div>
+        <div class="border-t border-charcoal/15 pt-6 reveal">
+          <span class="font-display text-4xl text-brass/50">04</span>
+          <h3 class="font-medium mt-3">Delivery</h3>
+          <p class="text-sm text-gray-600 leading-relaxed mt-2">Tender support, contractor selection, site inspections and handover. We stay engaged until the building is performing as designed.</p>
+          <p class="text-[10px] uppercase tracking-[0.18em] text-gray-400 mt-4">Months 8–24</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fee models -->
+  <section class="bg-charcoal text-cream py-24 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-4">
+        <p class="text-[11px] uppercase tracking-[0.3em] text-brass mb-4 reveal">Fees & engagement</p>
+        <h2 class="font-display text-4xl leading-tight reveal">Clear from the start.</h2>
+        <p class="text-sm text-white/45 leading-relaxed mt-6 reveal">We do not publish a price list, because no two projects are the same. We do commit to a fixed scope and a transparent fee before work begins, and we never bill for time we did not agree.</p>
+        <a href="contact.html" class="inline-flex items-center gap-2 mt-8 text-[11px] uppercase tracking-[0.2em] text-brass link-underline reveal">Request a fee proposal <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></a>
+      </div>
+      <div class="lg:col-span-8 divide-y divide-white/10 border-t border-white/10">
+        <div class="py-6 grid md:grid-cols-[180px_1fr] gap-4 reveal">
+          <p class="text-[11px] uppercase tracking-[0.2em] text-brass">Percentage fee</p>
+          <p class="text-sm text-white/55 leading-relaxed">For full architectural services, fees are typically a percentage of construction cost, staged against deliverables. This aligns our effort with the scale of the build and is standard practice across the profession.</p>
+        </div>
+        <div class="py-6 grid md:grid-cols-[180px_1fr] gap-4 reveal">
+          <p class="text-[11px] uppercase tracking-[0.2em] text-brass">Fixed fee</p>
+          <p class="text-sm text-white/55 leading-relaxed">For well-defined scopes — a feasibility study, a single interior, a design review — we quote a fixed sum. You know the total before we start, and scope changes are agreed in writing.</p>
+        </div>
+        <div class="py-6 grid md:grid-cols-[180px_1fr] gap-4 reveal">
+          <p class="text-[11px] uppercase tracking-[0.2em] text-brass">Retainer</p>
+          <p class="text-sm text-white/55 leading-relaxed">For developers and long-term clients, a monthly retainer provides ongoing design advice, site visits and planning support across multiple projects or a phased development.</p>
+        </div>
+        <div class="py-6 grid md:grid-cols-[180px_1fr] gap-4 reveal">
+          <p class="text-[11px] uppercase tracking-[0.2em] text-brass">What is included</p>
+          <p class="text-sm text-white/55 leading-relaxed">Every proposal names the team, the deliverables, the number of review meetings and the exclusions. Travel, printing and specialist consultants are itemised separately so there are no surprises at invoice stage.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-24 lg:py-32 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-4">
+        <p class="text-[11px] uppercase tracking-[0.3em] text-brass mb-4 reveal">Common questions</p>
+        <h2 class="font-display text-4xl md:text-5xl leading-tight reveal">Before you write.</h2>
+        <p class="text-sm text-gray-600 leading-relaxed mt-6 reveal">A few things clients ask us most often. If your question is not here, ask it directly — we answer every enquiry personally.</p>
+        <a href="contact.html" class="inline-flex items-center gap-2 mt-6 text-[11px] uppercase tracking-[0.2em] text-brass link-underline reveal">Ask us anything <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></a>
+      </div>
+      <div class="lg:col-span-8 divide-y divide-charcoal/10 border-t border-charcoal/10">
+        <details class="faq py-5 reveal">
+          <summary class="flex items-center justify-between gap-6">
+            <span class="font-display text-xl">Do you work outside Switzerland and the UAE?</span>
+            <i data-lucide="plus" class="faq-icon w-4 h-4 text-brass shrink-0"></i>
+          </summary>
+          <p class="text-sm text-gray-600 leading-relaxed mt-4 pr-10">Yes. We have built in sixteen countries across Europe, the Middle East and Asia. For projects further afield we usually partner with a local architect of record while retaining design leadership, which keeps the process smooth across regulatory systems.</p>
+        </details>
+        <details class="faq py-5 reveal">
+          <summary class="flex items-center justify-between gap-6">
+            <span class="font-display text-xl">What size projects do you take on?</span>
+            <i data-lucide="plus" class="faq-icon w-4 h-4 text-brass shrink-0"></i>
+          </summary>
+          <p class="text-sm text-gray-600 leading-relaxed mt-4 pr-10">Our work ranges from a single room or staircase to masterplans of several hundred thousand square metres. What matters is not the size but whether the project offers a genuine design question and a client who wants to engage with it.</p>
+        </details>
+        <details class="faq py-5 reveal">
+          <summary class="flex items-center justify-between gap-6">
+            <span class="font-display text-xl">How early should we contact you?</span>
+            <i data-lucide="plus" class="faq-icon w-4 h-4 text-brass shrink-0"></i>
+          </summary>
+          <p class="text-sm text-gray-600 leading-relaxed mt-4 pr-10">As early as possible — ideally before you have purchased a site. A feasibility conversation can save significant cost and heartache later. That said, we regularly join projects at planning stage or even on site, and we are comfortable taking over an existing design.</p>
+        </details>
+        <details class="faq py-5 reveal">
+          <summary class="flex items-center justify-between gap-6">
+            <span class="font-display text-xl">Can you work with our existing architect or contractor?</span>
+            <i data-lucide="plus" class="faq-icon w-4 h-4 text-brass shrink-0"></i>
+          </summary>
+          <p class="text-sm text-gray-600 leading-relaxed mt-4 pr-10">Frequently. We provide design review, engineering, interiors or sustainability input to projects led by others, and we are happy to work alongside your contractor from the outset. Clear roles and a written scope keep these collaborations productive.</p>
+        </details>
+        <details class="faq py-5 reveal">
+          <summary class="flex items-center justify-between gap-6">
+            <span class="font-display text-xl">How do you approach sustainability?</span>
+            <i data-lucide="plus" class="faq-icon w-4 h-4 text-brass shrink-0"></i>
+          </summary>
+          <p class="text-sm text-gray-600 leading-relaxed mt-4 pr-10">As a design constraint, not an add-on. We set carbon budgets early, prioritise retention and low-carbon materials, model daylight and energy performance throughout, and report actual performance after occupancy. We are happy to work to LEED, BREEAM, Minergie or a bespoke standard.</p>
+        </details>
+        <details class="faq py-5 reveal">
+          <summary class="flex items-center justify-between gap-6">
+            <span class="font-display text-xl">Do you take on interior-only projects?</span>
+            <i data-lucide="plus" class="faq-icon w-4 h-4 text-brass shrink-0"></i>
+          </summary>
+          <p class="text-sm text-gray-600 leading-relaxed mt-4 pr-10">Yes. Interior architecture is a full service in its own right, led by Amara Okafor. We take on complete homes, hospitality interiors, and focused commissions such as kitchens, libraries or a single floor of a workplace.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="px-6 md:px-10 lg:px-16 pb-24">
+    <div class="max-w-7xl mx-auto bg-charcoal text-cream px-8 py-16 md:px-16 md:py-20 grid lg:grid-cols-2 gap-10 items-center reveal">
+      <div>
+        <p class="text-[11px] uppercase tracking-[0.3em] text-brass mb-4">Next step</p>
+        <h2 class="font-display text-4xl md:text-5xl leading-tight">A short conversation is usually enough to know.</h2>
+      </div>
+      <div class="lg:justify-self-end">
+        <p class="text-sm text-white/50 leading-relaxed mb-6 max-w-sm">Tell us about the site, the brief, or the problem you are trying to solve. We will respond within two working days with an honest view and a suggested next step.</p>
+        <div class="flex flex-wrap gap-3">
+          <a href="contact.html" class="inline-flex items-center gap-3 bg-brass text-charcoal text-[11px] uppercase tracking-[0.2em] px-8 py-4 hover:bg-cream transition">Book a call <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+          <a href="our-work.html" class="inline-flex items-center gap-3 border border-white/20 text-[11px] uppercase tracking-[0.2em] px-8 py-4 hover:border-brass hover:text-brass transition">See our work</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-charcoal text-cream">
+    <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 pt-16 pb-8">
+      <div class="grid gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-4">
+          <a href="index.html" class="font-display text-3xl">Agenvo</a>
+          <p class="mt-5 text-sm text-white/45 leading-relaxed max-w-xs">Architecture, engineering and interiors for those who build legacies, not just buildings.</p>
+          <div class="mt-6 flex gap-3">
+            <a href="#" aria-label="Instagram" class="w-9 h-9 border border-white/15 flex items-center justify-center hover:border-brass hover:text-brass transition"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+            <a href="#" aria-label="LinkedIn" class="w-9 h-9 border border-white/15 flex items-center justify-center hover:border-brass hover:text-brass transition"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
+            <a href="#" aria-label="Email" class="w-9 h-9 border border-white/15 flex items-center justify-center hover:border-brass hover:text-brass transition"><i data-lucide="mail" class="w-4 h-4"></i></a>
+          </div>
+        </div>
+        <div class="lg:col-span-2">
+          <p class="text-[10px] uppercase tracking-[0.25em] text-brass mb-5">Explore</p>
+          <ul class="space-y-3 text-sm text-white/55">
+            <li><a href="about.html" class="hover:text-cream transition">Studio</a></li>
+            <li><a href="services.html" class="hover:text-cream transition">Services</a></li>
+            <li><a href="our-work.html" class="hover:text-cream transition">Work</a></li>
+            <li><a href="profile.html" class="hover:text-cream transition">Profile</a></li>
+            <li><a href="contact.html" class="hover:text-cream transition">Contact</a></li>
+          </ul>
+        </div>
+        <div class="lg:col-span-3">
+          <p class="text-[10px] uppercase tracking-[0.25em] text-brass mb-5">Expertise</p>
+          <ul class="space-y-3 text-sm text-white/55">
+            <li><a href="services.html#architecture" class="hover:text-cream transition">Architecture</a></li>
+            <li><a href="services.html#engineering" class="hover:text-cream transition">Structural engineering</a></li>
+            <li><a href="services.html#interiors" class="hover:text-cream transition">Interior architecture</a></li>
+            <li><a href="services.html#advisory" class="hover:text-cream transition">Masterplanning</a></li>
+            <li><a href="services.html#advisory" class="hover:text-cream transition">Sustainability</a></li>
+          </ul>
+        </div>
+        <div class="lg:col-span-3">
+          <p class="text-[10px] uppercase tracking-[0.25em] text-brass mb-5">Studios</p>
+          <div class="space-y-4 text-sm text-white/55 leading-relaxed">
+            <p>Bahnhofstrasse 42<br />8001 Zürich, Switzerland</p>
+            <p>Alserkal Avenue, Unit 12<br />Al Quoz, Dubai, UAE</p>
+            <p><a href="mailto:hello@agenvo.com" class="hover:text-cream transition">hello@agenvo.com</a><br /><a href="tel:+41441234567" class="hover:text-cream transition">+41 44 123 4567</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-14 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between gap-4 text-[11px] text-white/35">
+        <p>© <span data-year>2026</span> Agenvo. All rights reserved.</p>
+        <div class="flex gap-6">
+          <a href="#" class="hover:text-brass transition">Privacy</a>
+          <a href="#" class="hover:text-brass transition">Imprint</a>
+          <a href="../index.html" class="hover:text-brass transition">All demos</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="../smooth-scroll.js"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — AGENVO</title>
+  <meta name="description" content="Contact Agenvo in Zurich or Dubai. Start a project, request a fee proposal, or ask about careers and press. We reply to every enquiry within two working days." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['DM Sans', 'sans-serif'], display: ['Cormorant Garamond', 'serif'] },
+          colors: { cream: '#F4EFE6', charcoal: '#1C1C1C', brass: '#B8956C', sand: '#E9E2D6' }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body class="bg-cream text-charcoal font-sans">
+
+  <nav id="site-nav" class="fixed top-0 left-0 right-0 z-50 text-white">
+    <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 py-5 flex items-center justify-between">
+      <a href="index.html" class="font-display text-2xl font-semibold tracking-wide">Agenvo</a>
+      <div class="hidden lg:flex items-center gap-9 text-[11px] uppercase tracking-[0.2em]">
+        <a href="about.html" class="nav-link">Studio</a>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="our-work.html" class="nav-link">Work</a>
+        <a href="profile.html" class="nav-link">Profile</a>
+        <a href="contact.html" class="nav-link" aria-current="page">Contact</a>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="#enquiry" class="hidden sm:inline-flex text-[11px] uppercase tracking-[0.2em] border border-white/30 px-5 py-2.5 hover:bg-white hover:text-charcoal transition">Inquire</a>
+        <button id="menu-toggle" class="lg:hidden p-1" aria-label="Toggle menu" aria-expanded="false"><i data-lucide="menu" class="w-5 h-5"></i></button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="menu-panel lg:hidden bg-charcoal/95 border-t border-white/10">
+      <div class="px-6 py-6 flex flex-col text-sm uppercase tracking-[0.18em]">
+        <a href="about.html" class="py-3 border-b border-white/5">Studio</a>
+        <a href="services.html" class="py-3 border-b border-white/5">Services</a>
+        <a href="our-work.html" class="py-3 border-b border-white/5">Work</a>
+        <a href="profile.html" class="py-3 border-b border-white/5">Profile</a>
+        <a href="contact.html" class="py-3 border-b border-white/5">Contact</a>
+        <a href="#enquiry" class="mt-4 text-center bg-brass text-charcoal px-5 py-3 text-[11px] font-semibold tracking-widest">Start a project</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="relative min-h-[64vh] flex items-end bg-charcoal">
+    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=80" alt="Agenvo studio" class="absolute inset-0 w-full h-full object-cover opacity-45" />
+    <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/60 to-charcoal/30"></div>
+    <div class="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-10 lg:px-16 pb-16 lg:pb-20">
+      <p class="text-white/50 text-[11px] uppercase tracking-[0.3em] mb-5 reveal">Contact — Let's talk</p>
+      <h1 class="font-display text-5xl md:text-7xl lg:text-8xl text-cream leading-[0.95] max-w-4xl reveal">
+        Begin with<br /><em class="italic">a conversation.</em>
+      </h1>
+      <p class="text-white/55 mt-7 max-w-xl text-sm leading-relaxed reveal">Tell us about the site, the brief, or the problem you are trying to solve. Every enquiry is read by a partner and answered within two working days.</p>
+    </div>
+  </section>
+
+  <!-- Contact methods -->
+  <section class="border-b border-charcoal/10 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-charcoal/10">
+      <a href="mailto:hello@agenvo.com" class="py-8 md:py-10 md:px-8 first:md:pl-0 group">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <p class="text-[10px] uppercase tracking-[0.2em] text-brass mb-2">New projects</p>
+            <p class="font-display text-2xl group-hover:text-brass transition">hello@agenvo.com</p>
+            <p class="text-xs text-gray-500 mt-2">Briefs, site enquiries and fee proposals</p>
+          </div>
+          <i data-lucide="mail" class="w-5 h-5 text-brass shrink-0 mt-1"></i>
+        </div>
+      </a>
+      <a href="tel:+41441234567" class="py-8 md:py-10 md:px-8 group">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <p class="text-[10px] uppercase tracking-[0.2em] text-brass mb-2">Zurich studio</p>
+            <p class="font-display text-2xl group-hover:text-brass transition">+41 44 123 4567</p>
+            <p class="text-xs text-gray-500 mt-2">Monday to Friday, 09:00–18:00 CET</p>
+          </div>
+          <i data-lucide="phone" class="w-5 h-5 text-brass shrink-0 mt-1"></i>
+        </div>
+      </a>
+      <a href="tel:+97141234567" class="py-8 md:py-10 md:px-8 last:md:pr-0 group">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <p class="text-[10px] uppercase tracking-[0.2em] text-brass mb-2">Dubai studio</p>
+            <p class="font-display text-2xl group-hover:text-brass transition">+971 4 123 4567</p>
+            <p class="text-xs text-gray-500 mt-2">Sunday to Thursday, 09:00–18:00 GST</p>
+          </div>
+          <i data-lucide="phone" class="w-5 h-5 text-brass shrink-0 mt-1"></i>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Enquiry form -->
+  <section id="enquiry" class="py-24 lg:py-32 px-6 md:px-10 lg:px-16 scroll-mt-16">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12 lg:gap-16">
+      <div class="lg:col-span-5">
+        <div class="h-px bg-brass line-draw mb-6" data-line></div>
+        <p class="text-[11px] uppercase tracking-[0.3em] text-brass mb-4 reveal">Project enquiry</p>
+        <h2 class="font-display text-4xl md:text-5xl leading-tight reveal">What are you<br />planning?</h2>
+        <p class="text-sm text-gray-600 leading-relaxed mt-6 reveal">The more you can tell us now, the more useful our first response will be. But do not worry if the brief is still forming — that is usually where the best projects begin.</p>
+
+        <div class="mt-10 space-y-6">
+          <div class="reveal">
+            <p class="text-[10px] uppercase tracking-[0.2em] text-brass mb-1">What happens next</p>
+            <p class="text-sm text-gray-600 leading-relaxed">A partner reads your enquiry and replies within two working days — usually with a few questions and a proposed time to talk.</p>
+          </div>
+          <div class="reveal">
+            <p class="text-[10px] uppercase tracking-[0.2em] text-brass mb-1">If it is a fit</p>
+            <p class="text-sm text-gray-600 leading-relaxed">We arrange a site visit or a studio meeting, then prepare a written proposal with scope, team, programme and fee.</p>
+          </div>
+          <div class="reveal">
+            <p class="text-[10px] uppercase tracking-[0.2em] text-brass mb-1">If it is not</p>
+            <p class="text-sm text-gray-600 leading-relaxed">We will tell you honestly, and where we can, point you toward a studio better suited to the work.</p>
+          </div>
+        </div>
+
+        <div class="mt-10 border-t border-charcoal/10 pt-6 reveal">
+          <p class="text-[10px] uppercase tracking-[0.2em] text-brass mb-2">Prefer email?</p>
+          <p class="text-sm text-gray-600 leading-relaxed">Write directly to <a href="mailto:hello@agenvo.com" class="text-charcoal link-underline">hello@agenvo.com</a> with any drawings, site plans or references you already have.</p>
+        </div>
+      </div>
+
+      <div class="lg:col-span-7">
+        <div class="bg-charcoal text-cream p-8 md:p-10 reveal">
+          <h3 class="font-display text-2xl mb-1">Start a project</h3>
+          <p class="text-xs text-white/40 mb-8">Fields marked * are required.</p>
+
+          <form data-form class="space-y-5">
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label for="name" class="block text-[10px] uppercase tracking-[0.18em] text-white/45 mb-2">Full name *</label>
+                <input id="name" name="name" type="text" required placeholder="Your name" class="form-field" />
+              </div>
+              <div>
+                <label for="email" class="block text-[10px] uppercase tracking-[0.18em] text-white/45 mb-2">Email *</label>
+                <input id="email" name="email" type="email" required placeholder="you@company.com" class="form-field" />
+              </div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label for="phone" class="block text-[10px] uppercase tracking-[0.18em] text-white/45 mb-2">Phone</label>
+                <input id="phone" name="phone" type="tel" placeholder="+41 ..." class="form-field" />
+              </div>
+              <div>
+                <label for="company" class="block text-[10px] uppercase tracking-[0.18em] text-white/45 mb-2">Company / organisation</label>
+                <input id="company" name="company" type="text" placeholder="Optional" class="form-field" />
+              </div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label for="service" class="block text-[10px] uppercase tracking-[0.18em] text-white/45 mb-2">Service required *</label>
+                <select id="service" name="service" required class="form-field">
+                  <option value="" disabled selected>Select a service</option>
+                  <option>Architecture — full commission</option>
+                  <option>Architecture — feasibility</option>
+                  <option>Structural engineering</option>
+                  <option>Interior architecture</option>
+                  <option>Masterplanning</option>
+                  <option>Sustainability / carbon strategy</option>
+                  <option>Adaptive reuse</option>
+                  <option>Design review / second opinion</option>
+                  <option>Not sure yet</option>
+                </select>
+              </div>
+              <div>
+                <label for="budget" class="block text-[10px] uppercase tracking-[0.18em] text-white/45 mb-2">Indicative budget</label>
+                <select id="budget" name="budget" class="form-field">
+                  <option value="" disabled selected>Select a range</option>
+                  <option>Under CHF 500k</option>
+                  <option>CHF 500k – 2m</option>
+                  <option>CHF 2m – 10m</option>
+                  <option>CHF 10m – 50m</option>
+                  <option>Above CHF 50m</option>
+                  <option>Prefer to discuss</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label for="location" class="block text-[10px] uppercase tracking-[0.18em] text-white/45 mb-2">Project location</label>
+                <input id="location" name="location" type="text" placeholder="City, country" class="form-field" />
+              </div>
+              <div>
+                <label for="timeline" class="block text-[10px] uppercase tracking-[0.18em] text-white/45 mb-2">Desired start</label>
+                <select id="timeline" name="timeline" class="form-field">
+                  <option value="" disabled selected>Select a timeframe</option>
+                  <option>As soon as possible</option>
+                  <option>Within 3 months</option>
+                  <option>3–6 months</option>
+                  <option>6–12 months</option>
+                  <option>Exploratory — no fixed date</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label for="message" class="block text-[10px] uppercase tracking-[0.18em] text-white/45 mb-2">Tell us about the project *</label>
+              <textarea id="message" name="message" rows="5" required placeholder="The site, the ambition, the constraints — and anything you have already drawn or decided." class="form-field resize-none"></textarea>
+            </div>
+
+            <label class="flex items-start gap-3 text-xs text-white/40 leading-relaxed">
+              <input type="checkbox" required class="mt-0.5 accent-[#B8956C]" />
+              <span>I agree to Agenvo storing these details in order to respond to my enquiry. We never share client information with third parties.</span>
+            </label>
+
+            <div class="flex flex-col sm:flex-row sm:items-center gap-4 pt-2">
+              <button type="submit" class="inline-flex items-center justify-center gap-3 bg-brass text-charcoal text-[11px] uppercase tracking-[0.2em] font-semibold px-8 py-4 hover:bg-cream transition">Send enquiry <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+              <p class="text-[11px] text-white/35">We reply within two working days.</p>
+            </div>
+
+            <p data-form-message class="hidden text-sm text-brass border border-brass/40 bg-brass/10 px-4 py-3">Thank you — your enquiry has been noted. In this demo no message is actually sent, but in the live studio you would hear from a partner within two working days.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Offices -->
+  <section class="bg-sand/60 py-24 lg:py-32 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+          <p class="text-[11px] uppercase tracking-[0.3em] text-brass mb-4 reveal">Studios</p>
+          <h2 class="font-display text-4xl md:text-5xl reveal">Two cities, one practice</h2>
+        </div>
+        <p class="text-sm text-gray-600 max-w-sm leading-relaxed reveal">Both studios are open to visitors by appointment. If you are nearby, we would rather meet in person.</p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-10">
+        <!-- Zurich -->
+        <article class="reveal">
+          <div class="img-zoom overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1515488764276-beab7607c1e6?w=1000&q=80" alt="Zurich" class="w-full h-64 md:h-80 object-cover" />
+          </div>
+          <div class="bg-cream p-7 md:p-9 -mt-10 relative mx-4 md:mx-8">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <p class="text-[10px] uppercase tracking-[0.2em] text-brass mb-1">Head studio</p>
+                <h3 class="font-display text-3xl">Zurich</h3>
+              </div>
+              <span class="text-[10px] uppercase tracking-[0.18em] border border-charcoal/15 px-2.5 py-1">CET</span>
+            </div>
+            <p class="text-sm text-gray-600 leading-relaxed mt-4">Bahnhofstrasse 42<br />8001 Zürich, Switzerland</p>
+            <div class="mt-4 text-sm text-gray-600 space-y-1">
+              <p><a href="tel:+41441234567" class="link-underline">+41 44 123 4567</a></p>
+              <p><a href="mailto:zurich@agenvo.com" class="link-underline">zurich@agenvo.com</a></p>
+            </div>
+            <p class="text-xs text-gray-500 leading-relaxed mt-4">Tram 2, 6, 7, 8, 9 to Paradeplatz. The studio entrance is through the courtyard at number 42; please ring the Agenvo bell.</p>
+            <a href="https://maps.google.com/?q=Bahnhofstrasse+42+8001+Zurich" target="_blank" rel="noopener" class="inline-flex items-center gap-2 mt-5 text-[11px] uppercase tracking-[0.18em] text-brass link-underline">Open in maps <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></a>
+          </div>
+        </article>
+
+        <!-- Dubai -->
+        <article class="reveal">
+          <div class="img-zoom overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1000&q=80" alt="Dubai" class="w-full h-64 md:h-80 object-cover" />
+          </div>
+          <div class="bg-cream p-7 md:p-9 -mt-10 relative mx-4 md:mx-8">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <p class="text-[10px] uppercase tracking-[0.2em] text-brass mb-1">Gulf studio</p>
+                <h3 class="font-display text-3xl">Dubai</h3>
+              </div>
+              <span class="text-[10px] uppercase tracking-[0.18em] border border-charcoal/15 px-2.5 py-1">GST</span>
+            </div>
+            <p class="text-sm text-gray-600 leading-relaxed mt-4">Alserkal Avenue, Unit 12<br />Al Quoz, Dubai, UAE</p>
+            <div class="mt-4 text-sm text-gray-600 space-y-1">
+              <p><a href="tel:+97141234567" class="link-underline">+971 4 123 4567</a></p>
+              <p><a href="mailto:dubai@agenvo.com" class="link-underline">dubai@agenvo.com</a></p>
+            </div>
+            <p class="text-xs text-gray-500 leading-relaxed mt-4">Alserkal Avenue is off Sheikh Zayed Road, behind the Noor Bank metro stop. Visitor parking is available on site; the studio is the second door on the left after the courtyard.</p>
+            <a href="https://maps.google.com/?q=Alserkal+Avenue+Dubai" target="_blank" rel="noopener" class="inline-flex items-center gap-2 mt-5 text-[11px] uppercase tracking-[0.18em] text-brass link-underline">Open in maps <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Department contacts -->
+  <section class="py-24 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid lg:grid-cols-12 gap-10 mb-12">
+        <div class="lg:col-span-5">
+          <p class="text-[11px] uppercase tracking-[0.3em] text-brass mb-4 reveal">Direct lines</p>
+          <h2 class="font-display text-4xl md:text-5xl leading-tight reveal">The right person<br />first time.</h2>
+        </div>
+        <div class="lg:col-span-7">
+          <p class="text-sm text-gray-600 leading-relaxed reveal">For general enquiries use the form above. If your question is specific, these addresses reach the relevant team directly — no switchboard, no gatekeeping.</p>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-8">
+        <div class="border-t border-charcoal/15 pt-5 reveal">
+          <p class="text-[10px] uppercase tracking-[0.18em] text-brass mb-1">New business</p>
+          <a href="mailto:hello@agenvo.com" class="font-display text-2xl link-underline">hello@agenvo.com</a>
+          <p class="text-sm text-gray-600 leading-relaxed mt-2">Project briefs, fee proposals and site enquiries.</p>
+        </div>
+        <div class="border-t border-charcoal/15 pt-5 reveal">
+          <p class="text-[10px] uppercase tracking-[0.18em] text-brass mb-1">Careers</p>
+          <a href="mailto:careers@agenvo.com" class="font-display text-2xl link-underline">careers@agenvo.com</a>
+          <p class="text-sm text-gray-600 leading-relaxed mt-2">Portfolios, placements and speculative applications.</p>
+        </div>
+        <div class="border-t border-charcoal/15 pt-5 reveal">
+          <p class="text-[10px] uppercase tracking-[0.18em] text-brass mb-1">Press</p>
+          <a href="mailto:press@agenvo.com" class="font-display text-2xl link-underline">press@agenvo.com</a>
+          <p class="text-sm text-gray-600 leading-relaxed mt-2">Media requests, image libraries and interviews.</p>
+        </div>
+        <div class="border-t border-charcoal/15 pt-5 reveal">
+          <p class="text-[10px] uppercase tracking-[0.18em] text-brass mb-1">Billing & accounts</p>
+          <a href="mailto:accounts@agenvo.com" class="font-display text-2xl link-underline">accounts@agenvo.com</a>
+          <p class="text-sm text-gray-600 leading-relaxed mt-2">Invoices, supplier payments and contract administration.</p>
+        </div>
+        <div class="border-t border-charcoal/15 pt-5 reveal">
+          <p class="text-[10px] uppercase tracking-[0.18em] text-brass mb-1">Suppliers & makers</p>
+          <a href="mailto:studio@agenvo.com" class="font-display text-2xl link-underline">studio@agenvo.com</a>
+          <p class="text-sm text-gray-600 leading-relaxed mt-2">Craftspeople, fabricators and material samples.</p>
+        </div>
+        <div class="border-t border-charcoal/15 pt-5 reveal">
+          <p class="text-[10px] uppercase tracking-[0.18em] text-brass mb-1">Research</p>
+          <a href="mailto:research@agenvo.com" class="font-display text-2xl link-underline">research@agenvo.com</a>
+          <p class="text-sm text-gray-600 leading-relaxed mt-2">Academic collaborations, publications and data requests.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-charcoal text-cream py-24 lg:py-32 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-4">
+        <p class="text-[11px] uppercase tracking-[0.3em] text-brass mb-4 reveal">Practicalities</p>
+        <h2 class="font-display text-4xl md:text-5xl leading-tight reveal">Good to know<br />before we meet.</h2>
+        <p class="text-sm text-white/45 leading-relaxed mt-6 reveal">A short list of the things people most often ask before a first conversation. If yours is not here, just ask.</p>
+        <div class="mt-8 border border-white/10 p-6 reveal">
+          <p class="text-[10px] uppercase tracking-[0.2em] text-brass mb-2">Studio visits</p>
+          <p class="text-sm text-white/50 leading-relaxed">We welcome visitors by appointment, Monday to Friday. Please email the studio at least two days ahead so we can make sure the right people are in.</p>
+        </div>
+      </div>
+      <div class="lg:col-span-8 divide-y divide-white/10 border-t border-white/10">
+        <details class="faq py-5 reveal">
+          <summary class="flex items-center justify-between gap-6">
+            <span class="font-display text-xl">How quickly will I hear back?</span>
+            <i data-lucide="plus" class="faq-icon w-4 h-4 text-brass shrink-0"></i>
+          </summary>
+          <p class="text-sm text-white/50 leading-relaxed mt-4 pr-10">Within two working days, always. If your enquiry is urgent — a planning deadline, a site acquisition, a problem on site — say so in the subject line and we will prioritise it.</p>
+        </details>
+        <details class="faq py-5 reveal">
+          <summary class="flex items-center justify-between gap-6">
+            <span class="font-display text-xl">Do you charge for a first meeting?</span>
+            <i data-lucide="plus" class="faq-icon w-4 h-4 text-brass shrink-0"></i>
+          </summary>
+          <p class="text-sm text-white/50 leading-relaxed mt-4 pr-10">No. The first conversation, whether in the studio or on site, is free and without obligation. We only charge once there is an agreed scope and a signed proposal.</p>
+        </details>
+        <details class="faq py-5 reveal">
+          <summary class="flex items-center justify-between gap-6">
+            <span class="font-display text-xl">What should I bring to the first meeting?</span>
+            <i data-lucide="plus" class="faq-icon w-4 h-4 text-brass shrink-0"></i>
+          </summary>
+          <p class="text-sm text-white/50 leading-relaxed mt-4 pr-10">Whatever you have. A site address, a survey, a mood board, a rough budget or simply a description of how you want to live or work. Drawings are helpful but never required — many of our best projects started with a conversation and a walk around the site.</p>
+        </details>
+        <details class="faq py-5 reveal">
+          <summary class="flex items-center justify-between gap-6">
+            <span class="font-display text-xl">Can we visit the studio?</span>
+            <i data-lucide="plus" class="faq-icon w-4 h-4 text-brass shrink-0"></i>
+          </summary>
+          <p class="text-sm text-white/50 leading-relaxed mt-4 pr-10">Yes. We prefer to meet clients in person, surrounded by drawings and models. Email the studio to arrange a time, and let us know if you would like to see a particular project — we can usually arrange a visit to a completed building too.</p>
+        </details>
+        <details class="faq py-5 reveal">
+          <summary class="flex items-center justify-between gap-6">
+            <span class="font-display text-xl">Do you work with clients remotely?</span>
+            <i data-lucide="plus" class="faq-icon w-4 h-4 text-brass shrink-0"></i>
+          </summary>
+          <p class="text-sm text-white/50 leading-relaxed mt-4 pr-10">Frequently. Roughly a third of our current projects are outside Switzerland and the UAE, and we run them with a mix of video reviews, shared models and regular site visits. For projects far from either studio we usually partner with a local architect of record.</p>
+        </details>
+        <details class="faq py-5 reveal">
+          <summary class="flex items-center justify-between gap-6">
+            <span class="font-display text-xl">How do I send drawings or large files?</span>
+            <i data-lucide="plus" class="faq-icon w-4 h-4 text-brass shrink-0"></i>
+          </summary>
+          <p class="text-sm text-white/50 leading-relaxed mt-4 pr-10">Email us first and we will send a secure upload link. Please do not send large attachments unprompted — they often fail silently. For initial conversations, a few low-resolution images or a PDF under 10 MB is plenty.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="py-24 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <p class="text-[11px] uppercase tracking-[0.3em] text-brass mb-4 reveal">Studio notes</p>
+        <h2 class="font-display text-4xl md:text-5xl leading-tight reveal">A letter, four<br />times a year.</h2>
+        <p class="text-sm text-gray-600 leading-relaxed mt-6 max-w-md reveal">New projects, works in progress, material research and the occasional strong opinion. No newsletters about newsletters, and you can leave whenever you like.</p>
+      </div>
+      <form data-form class="reveal">
+        <div class="flex flex-col sm:flex-row gap-3">
+          <label for="newsletter-email" class="sr-only">Email address</label>
+          <input id="newsletter-email" type="email" required placeholder="Your email address" class="form-field light-field flex-1" />
+          <button type="submit" class="bg-charcoal text-cream text-[11px] uppercase tracking-[0.2em] px-7 py-4 hover:bg-brass hover:text-charcoal transition whitespace-nowrap">Subscribe</button>
+        </div>
+        <p data-form-message class="hidden mt-4 text-sm text-brass">Thank you — you are on the list. (Demo only: no email is sent.)</p>
+        <p class="text-[11px] text-gray-500 mt-3">By subscribing you agree to our privacy policy. We use a small European provider and never sell data.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="px-6 md:px-10 lg:px-16 pb-24">
+    <div class="max-w-7xl mx-auto bg-sand/70 px-8 py-16 md:px-16 md:py-20 grid lg:grid-cols-2 gap-10 items-center reveal">
+      <div>
+        <p class="text-[11px] uppercase tracking-[0.3em] text-brass mb-4">Still deciding?</p>
+        <h2 class="font-display text-4xl md:text-5xl leading-tight">Have a look at what we have built first.</h2>
+      </div>
+      <div class="lg:justify-self-end">
+        <p class="text-sm text-gray-600 leading-relaxed mb-6 max-w-sm">The work is the best introduction to how we think. Browse the archive, then come back when something resonates.</p>
+        <div class="flex flex-wrap gap-3">
+          <a href="our-work.html" class="inline-flex items-center gap-3 bg-charcoal text-cream text-[11px] uppercase tracking-[0.2em] px-8 py-4 hover:bg-brass hover:text-charcoal transition">View our work <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+          <a href="about.html" class="inline-flex items-center gap-3 border border-charcoal/20 text-[11px] uppercase tracking-[0.2em] px-8 py-4 hover:border-brass hover:text-brass transition">About the studio</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-charcoal text-cream">
+    <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 pt-16 pb-8">
+      <div class="grid gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-4">
+          <a href="index.html" class="font-display text-3xl">Agenvo</a>
+          <p class="mt-5 text-sm text-white/45 leading-relaxed max-w-xs">Architecture, engineering and interiors for those who build legacies, not just buildings.</p>
+          <div class="mt-6 flex gap-3">
+            <a href="#" aria-label="Instagram" class="w-9 h-9 border border-white/15 flex items-center justify-center hover:border-brass hover:text-brass transition"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+            <a href="#" aria-label="LinkedIn" class="w-9 h-9 border border-white/15 flex items-center justify-center hover:border-brass hover:text-brass transition"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
+            <a href="#" aria-label="Email" class="w-9 h-9 border border-white/15 flex items-center justify-center hover:border-brass hover:text-brass transition"><i data-lucide="mail" class="w-4 h-4"></i></a>
+          </div>
+        </div>
+        <div class="lg:col-span-2">
+          <p class="text-[10px] uppercase tracking-[0.25em] text-brass mb-5">Explore</p>
+          <ul class="space-y-3 text-sm text-white/55">
+            <li><a href="about.html" class="hover:text-cream transition">Studio</a></li>
+            <li><a href="services.html" class="hover:text-cream transition">Services</a></li>
+            <li><a href="our-work.html" class="hover:text-cream transition">Work</a></li>
+            <li><a href="profile.html" class="hover:text-cream transition">Profile</a></li>
+            <li><a href="contact.html" class="hover:text-cream transition">Contact</a></li>
+          </ul>
+        </div>
+        <div class="lg:col-span-3">
+          <p class="text-[10px] uppercase tracking-[0.25em] text-brass mb-5">Expertise</p>
+          <ul class="space-y-3 text-sm text-white/55">
+            <li><a href="services.html#architecture" class="hover:text-cream transition">Architecture</a></li>
+            <li><a href="services.html#engineering" class="hover:text-cream transition">Structural engineering</a></li>
+            <li><a href="services.html#interiors" class="hover:text-cream transition">Interior architecture</a></li>
+            <li><a href="services.html#advisory" class="hover:text-cream transition">Masterplanning</a></li>
+            <li><a href="services.html#advisory" class="hover:text-cream transition">Sustainability</a></li>
+          </ul>
+        </div>
+        <div class="lg:col-span-3">
+          <p class="text-[10px] uppercase tracking-[0.25em] text-brass mb-5">Studios</p>
+          <div class="space-y-4 text-sm text-white/55 leading-relaxed">
+            <p>Bahnhofstrasse 42<br />8001 Zürich, Switzerland</p>
+            <p>Alserkal Avenue, Unit 12<br />Al Quoz, Dubai, UAE</p>
+            <p><a href="mailto:hello@agenvo.com" class="hover:text-cream transition">hello@agenvo.com</a><br /><a href="tel:+41441234567" class="hover:text-cream transition">+41 44 123 4567</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-14 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between gap-4 text-[11px] text-white/35">
+        <p>© <span data-year>2026</span> Agenvo. All rights reserved.</p>
+        <div class="flex gap-6">
+          <a href="#" class="hover:text-brass transition">Privacy</a>
+          <a href="#" class="hover:text-brass transition">Imprint</a>
+          <a href="../index.html" class="hover:text-brass transition">All demos</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="../smooth-scroll.js"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>

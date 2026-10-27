@@ -1,80 +1,41 @@
 # nextbuilder
 
-A minimal Next.js project with one feature: a generator that renders five
-static HTML pages with React server-side rendering and writes them to
-`generated-sites/demo-site/`.
+A website builder for architecture, interior design, decoration, and construction businesses.
+The customer describes their business, adds what they have (logo, projects, team, …), and gets
+a finished static website they can edit.
 
-The generated site is plain HTML and CSS. It runs without React, Next.js, or
-JavaScript at runtime.
+## Docs
 
-## Generate from the page
+- `docs/PRD.md`: what the product is and who it's for
+- `docs/block-system-plan.md`: how sites are built from blocks, plus the milestones
+- `CODE_RULES.md`: rules every change must follow
+- `AGENTS.md`: instructions for AI agents working in this repo
+
+## Folders
+
+```text
+src/app/                 routes only (pages + API route handlers)
+src/features/            one folder per feature (owns its components, logic, types)
+src/shared/              code used by 2+ features (db connection, UI primitives)
+scripts/                 CLI scripts (compiled with tsconfig.generator.json)
+theme-sources/<name>/    original HTML/CSS templates, input for theme import
+docs/                    product and technical docs
+docs/app-ui-reference/   design reference for the app's own UI
+generated-sites/         generated output (git-ignored)
+```
+
+## Run
 
 ```bash
+cp .env.example .env     # fill in the values
 npm install
 npm run dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000), click **Generate website**,
-then click **Open generated website**. The app serves the generated files
-through `/preview/`.
-
-## Generate from the command line
-
-```bash
-npm run generate:site
-```
-
-The command compiles the generator with TypeScript and writes:
-
-```text
-generated-sites/demo-site/
-├── index.html
-├── about.html
-├── services.html
-├── projects.html
-├── contact.html
-└── styles.css
-```
-
-## Preview the generated site without Next.js
-
-Serve the output directory with any static file server. For example, with
-Python:
-
-```bash
-python -m http.server 8000 --directory generated-sites/demo-site
-```
-
-Or with `serve`:
-
-```bash
-npx serve generated-sites/demo-site
-```
-
-Then open the URL printed by the server (for Python, that is
-`http://localhost:8000`).
-
-The pages use relative links, so opening `generated-sites/demo-site/index.html`
-directly in a browser also works.
-
-## How it works
-
-- `src/features/static-site-generator/pages.ts` holds the page content.
-- `render-page.tsx` builds the shared layout and calls
-  `renderToStaticMarkup`.
-- `styles.ts` holds the shared responsive stylesheet.
-- `generate-site.ts` writes the HTML pages and `styles.css`.
-- `scripts/generate-site.ts` is the command-line entry point.
-- `src/app/api/generate-site/route.ts` runs the generator for the button.
-- `src/app/preview/[...file]/route.ts` serves the generated files.
-
-The generator is compiled before `dev` and `build`, then the button runs that
-compiled CLI in a child process. This keeps React DOM's server renderer out of
-the Next.js route bundle.
 
 ## Checks
 
 ```bash
 npm run lint
+npx tsc --noEmit
 npm run build
 ```

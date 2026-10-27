@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Ochen gives modern operators a live, calm view of cash flow, spend and forecast.">
+  <title>Ochen — Studio overview</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-bg"></div>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-mark" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 5a4 4 0 1 1 0 8 4 4 0 0 1 0-8Z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></symbol>
+    <symbol id="i-swap" viewBox="0 0 24 24"><path d="M4 8h14M14 4l4 4-4 4M20 16H6M10 20l-4-4 4-4"/></symbol>
+    <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h13v4"/><path d="M3 7v10a2 2 0 0 0 2 2h14a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1H5a2 2 0 0 1-2-1Z"/><path d="M16 13h2"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 8h16M4 16h16"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-export" viewBox="0 0 24 24"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 1.8 4.8L19 9.5l-5.2 1.7L12 16l-1.8-4.8L5 9.5l5.2-1.7L12 3Z"/><path d="m19 15 .8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-1.2L19 15Z"/></symbol>
+    <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-pulse" viewBox="0 0 24 24"><path d="M2 12h4l2.5-7 4 14 2.5-7H22"/></symbol>
+    <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"/></symbol>
+  </svg>
+
+  <div class="dash">
+    <aside class="rail" aria-label="Quick navigation">
+      <button class="rail-btn on" aria-label="Overview"><svg class="icon"><use href="#i-grid"></use></svg></button>
+      <button class="rail-btn" aria-label="Analytics"><svg class="icon"><use href="#i-chart"></use></svg></button>
+      <button class="rail-btn" aria-label="Transactions"><svg class="icon"><use href="#i-swap"></use></svg></button>
+      <button class="rail-btn" aria-label="Cash flow"><svg class="icon"><use href="#i-wallet"></use></svg></button>
+      <button class="rail-btn" aria-label="Forecast"><svg class="icon"><use href="#i-pulse"></use></svg><span class="rail-dot"></span></button>
+      <div class="rail-spacer"></div>
+      <div class="rail-bottom">
+        <button class="rail-btn" aria-label="Settings"><svg class="icon"><use href="#i-settings"></use></svg></button>
+        <button class="rail-btn" aria-label="Help"><svg class="icon"><use href="#i-compass"></use></svg></button>
+        <span class="rail-avatar">AL</span>
+      </div>
+    </aside>
+
+    <header class="topbar">
+      <a class="logo" href="landing.html"><span class="logo-mark"><svg class="icon"><use href="#i-mark"></use></svg></span> Ochen</a>
+      <nav class="topnav" aria-label="Main">
+        <a class="on" href="#"><svg class="icon"><use href="#i-grid"></use></svg> Overview</a>
+        <a href="#"><svg class="icon"><use href="#i-chart"></use></svg> Analytics</a>
+        <a href="#"><svg class="icon"><use href="#i-swap"></use></svg> Transactions</a>
+        <a href="#"><svg class="icon"><use href="#i-wallet"></use></svg> Cash Flow</a>
+      </nav>
+      <div class="top-actions">
+        <div class="avatar-stack" aria-hidden="true"><span>AL</span><span>MK</span></div>
+        <button class="icon-btn" aria-label="Notifications"><svg class="icon"><use href="#i-bell"></use></svg></button>
+        <button class="icon-btn" aria-label="Menu"><svg class="icon"><use href="#i-menu"></use></svg></button>
+      </div>
+    </header>
+
+    <main class="dash-content">
+      <div class="dash-head">
+        <div>
+          <h1>Good morning, <span>Alex.</span></h1>
+          <p>Get a clear view of your business performance, financial trends, key changes, and opportunities this month.</p>
+        </div>
+        <div class="head-actions">
+          <button class="btn btn-outline-light"><svg class="icon"><use href="#i-export"></use></svg> Export report</button>
+          <button class="btn btn-white"><svg class="icon"><use href="#i-spark"></use></svg> Ask Ochen</button>
+        </div>
+      </div>
+
+      <div class="dash-cards">
+        <div class="card-row top">
+          <section class="card">
+            <div class="card-top">
+              <div class="card-label"><span class="label-icon"><svg class="icon"><use href="#i-wallet"></use></svg></span> Net cash flow</div>
+              <button class="card-menu" aria-label="Net cash flow options"><svg class="icon"><use href="#i-more"></use></svg></button>
+            </div>
+            <div class="kpi-value">$284,650</div>
+            <div class="kpi-delta"><b><svg class="icon"><use href="#i-up"></use></svg> 45.0%</b><span>vs last month</span></div>
+            <div class="sparkline">
+              <svg viewBox="0 0 400 86" preserveAspectRatio="none" aria-label="Net cash flow trend">
+                <defs>
+                  <linearGradient id="spark-fill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#0b8b86" stop-opacity=".17"/>
+                    <stop offset="1" stop-color="#0b8b86" stop-opacity="0"/>
+                  </linearGradient>
+                  <linearGradient id="spark-line" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0" stop-color="#7eddd5"/>
+                    <stop offset="1" stop-color="#087572"/>
+                  </linearGradient>
+                </defs>
+                <g stroke="rgba(7,63,66,.06)" stroke-width="1">
+                  <line x1="0" y1="18" x2="400" y2="18"/>
+                  <line x1="0" y1="42" x2="400" y2="42"/>
+                  <line x1="0" y1="66" x2="400" y2="66"/>
+                </g>
+                <path d="M0 69 C28 68 42 70 64 64 S100 48 126 54 S164 61 190 47 S228 30 254 37 S292 43 318 28 S356 21 400 10 L400 86 L0 86Z" fill="url(#spark-fill)"/>
+                <path d="M0 69 C28 68 42 70 64 64 S100 48 126 54 S164 61 190 47 S228 30 254 37 S292 43 318 28 S356 21 400 10" fill="none" stroke="url(#spark-line)" stroke-width="2"/>
+                <circle cx="400" cy="10" r="2.8" fill="#fff" stroke="#087572" stroke-width="1.5"/>
+              </svg>
+              <div class="sparkline-labels"><span>JAN</span><span>MAR</span><span>MAY</span><span>JUL</span><span>SEP</span><span>NOV</span></div>
+            </div>
+          </section>
+
+          <section class="card">
+            <div class="card-top">
+              <div class="card-label"><span class="label-icon"><svg class="icon"><use href="#i-wallet"></use></svg></span> Cash balance</div>
+              <button class="select-pill">This Year <svg class="icon"><use href="#i-chev"></use></svg></button>
+            </div>
+            <div class="kpi-value">$48,590<small>USD</small></div>
+            <div class="kpi-delta"><b><svg class="icon"><use href="#i-up"></use></svg> 8.4%</b><span>vs previous period</span></div>
+            <div class="dot-chart">
+              <div class="dot-axis"><span>$60K</span><span>$40K</span><span>$20K</span><span>$0</span></div>
+              <div class="dot-plot">
+                <div class="dot-columns" data-dot-chart></div>
+                <div class="dot-labels"><span>JAN</span><span>FEB</span><span>MAR</span><span>APR</span><span>MAY</span><span>JUN</span><span>JUL</span><span>AUG</span><span>SEP</span><span>OCT</span><span>NOV</span><span>DEC</span></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="promo">
+            <div class="promo-kicker"><svg class="icon"><use href="#i-spark"></use></svg> Ochen signal / live</div>
+            <h2>Revenue is<br>accelerating.</h2>
+            <p>Revenue rose 12.8% this quarter, up 4.7%, boosting operating margin.</p>
+            <button class="btn btn-white">View forecast <svg class="icon"><use href="#i-arrow"></use></svg></button>
+            <div class="promo-spark" aria-hidden="true"><i style="height:28%"></i><i style="height:42%"></i><i style="height:35%"></i><i style="height:58%"></i><i style="height:72%"></i><i style="height:64%"></i><i style="height:88%"></i><i style="height:100%"></i></div>
+          </section>
+        </div>
+
+        <div class="card-row bottom">
+          <section class="card spend-card">
+            <div class="card-top">
+              <div>
+                <h2 class="card-title">Where your money goes</h2>
+                <p class="card-sub">30.0k spent this quarter</p>
+              </div>
+              <span class="spend-chip"><svg class="icon"><use href="#i-check"></use></svg> Save $0.94k</span>
+            </div>
+            <div class="spend-list">
+              <div class="spend-row">
+                <span class="spend-name">Payroll</span>
+                <span class="spend-amount">$24,900</span>
+                <span class="spend-track"><i class="spend-fill" style="width:82%"></i></span>
+                <span class="spend-pct">48%</span>
+              </div>
+              <div class="spend-row">
+                <span class="spend-name">Marketing</span>
+                <span class="spend-amount">$8,520</span>
+                <span class="spend-track"><i class="spend-fill" style="width:53%"></i></span>
+                <span class="spend-pct">32%</span>
+              </div>
+              <div class="spend-row">
+                <span class="spend-name">Operations</span>
+                <span class="spend-amount">$10,660</span>
+                <span class="spend-track"><i class="spend-fill" style="width:27%"></i></span>
+                <span class="spend-pct">12%</span>
+              </div>
+              <div class="spend-row">
+                <span class="spend-name">Research and development</span>
+                <span class="spend-amount">$6,280</span>
+                <span class="spend-track"><i class="spend-fill" style="width:17%"></i></span>
+                <span class="spend-pct">8%</span>
+              </div>
+            </div>
+            <div class="spend-foot"><span><i></i> 14 accounts connected</span><span>Synced 2m ago</span></div>
+          </section>
+
+          <section class="card activity-card">
+            <div class="card-top">
+              <div>
+                <h2 class="card-title">Recent activity</h2>
+                <p class="card-sub">Across all connected accounts</p>
+              </div>
+              <a class="view-link" href="#">View all <svg class="icon"><use href="#i-arrow"></use></svg></a>
+            </div>
+            <div class="activity-list">
+              <div class="activity-row">
+                <span class="activity-logo stripe">S</span>
+                <div class="activity-info"><b>Stripe</b><small>Revenue · Aug 12</small></div>
+                <span class="activity-amount">+$2,480</span>
+              </div>
+              <div class="activity-row">
+                <span class="activity-logo square">□</span>
+                <div class="activity-info"><b>Square</b><small>Revenue · Aug 11</small></div>
+                <span class="activity-amount negative">-$1,850</span>
+              </div>
+              <div class="activity-row">
+                <span class="activity-logo paypal">P</span>
+                <div class="activity-info"><b>PayPal</b><small>Revenue · Aug 10</small></div>
+                <span class="activity-amount">+$3,300</span>
+              </div>
+              <div class="activity-row">
+                <span class="activity-logo amazon">a</span>
+                <div class="activity-info"><b>Amazon</b><small>Revenue · Aug 09</small></div>
+                <span class="activity-amount">+$1,750</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="card perf-card">
+            <div class="perf-head">
+              <div>
+                <h2 class="card-title">Financial performance</h2>
+                <p class="card-sub">This year vs last year</p>
+                <div class="perf-legend"><span><i></i> This year</span><span><i></i> Last year</span></div>
+              </div>
+              <button class="select-pill">Revenue <svg class="icon"><use href="#i-chev"></use></svg></button>
+            </div>
+            <div class="perf-chart">
+              <div class="perf-grid"><i></i><i></i><i></i><i></i></div>
+              <div class="perf-bars">
+                <div class="perf-col"><span class="perf-bar" style="height:34%"></span><span class="perf-bar current" style="height:42%"></span></div>
+                <div class="perf-col"><span class="perf-bar" style="height:42%"></span><span class="perf-bar current" style="height:52%"></span></div>
+                <div class="perf-col"><span class="perf-bar" style="height:38%"></span><span class="perf-bar current" style="height:47%"></span></div>
+                <div class="perf-col"><span class="perf-bar" style="height:50%"></span><span class="perf-bar current" style="height:60%"></span></div>
+                <div class="perf-col"><span class="perf-bar" style="height:46%"></span><span class="perf-bar current" style="height:55%"></span></div>
+                <div class="perf-col"><span class="perf-bar" style="height:56%"></span><span class="perf-bar current" style="height:66%"></span></div>
+                <div class="perf-col"><span class="perf-bar" style="height:52%"></span><span class="perf-bar current" style="height:62%"></span></div>
+                <div class="perf-col"><span class="perf-bar" style="height:62%"></span><span class="perf-bar current" style="height:73%"></span></div>
+                <div class="perf-col"><span class="perf-bar" style="height:58%"></span><span class="perf-bar current" style="height:68%"></span></div>
+                <div class="perf-col selected">
+                  <span class="perf-bar" style="height:62%"></span>
+                  <span class="perf-bar current" style="height:84%">
+                    <span class="perf-tip"><b>OCT 2026</b><span>$18,420</span></span>
+                  </span>
+                </div>
+                <div class="perf-col"><span class="perf-bar" style="height:68%"></span><span class="perf-bar current" style="height:78%"></span></div>
+                <div class="perf-col"><span class="perf-bar" style="height:74%"></span><span class="perf-bar current" style="height:90%"></span></div>
+              </div>
+            </div>
+            <div class="perf-labels">
+              <span>JAN</span><span>FEB</span><span>MAR</span><span>APR</span><span>MAY</span><span>JUN</span><span>JUL</span><span>AUG</span><span>SEP</span><span class="selected">OCT</span><span>NOV</span><span>DEC</span>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      const host = document.querySelector('[data-dot-chart]');
+      if (!host) return;
+      const heights = [4, 6, 5, 7, 9, 8, 10, 9, 11, 10, 12, 11];
+      heights.forEach((count, colIndex) => {
+        const col = document.createElement('div');
+        col.className = 'dot-col' + (colIndex === 9 ? ' highlight' : '');
+        for (let i = 0; i < count; i++) col.appendChild(document.createElement('i'));
+        host.appendChild(col);
+      });
+    })();
+  </script>
+</body>
+</html>

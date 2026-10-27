@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AGENVO — Advancing Architectural Excellence</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['DM Sans', 'sans-serif'],
+            display: ['Cormorant Garamond', 'serif']
+          },
+          colors: { cream: '#F4EFE6', charcoal: '#1C1C1C', brass: '#B8956C' }
+        }
+      }
+    }
+  </script>
+  <style>
+    html.lenis, html.lenis body { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto !important; }
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .marquee { animation: scroll 40s linear infinite; }
+    @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .img-zoom img { transition: transform 0.8s cubic-bezier(0.4,0,0.2,1); }
+    .img-zoom:hover img { transform: scale(1.06); }
+    .line-draw { width: 0; transition: width 1s ease; }
+    .line-draw.visible { width: 60px; }
+    .counter { font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body class="bg-cream text-charcoal font-sans">
+
+  <!-- Minimal Nav -->
+  <nav class="fixed top-0 left-0 right-0 z-50 mix-blend-difference">
+    <div class="max-w-7xl mx-auto px-8 lg:px-16 py-6 flex items-center justify-between text-white">
+      <a href="index.html" class="font-display text-2xl font-semibold tracking-wide">Agenvo</a>
+      <div class="hidden md:flex items-center gap-10 text-xs uppercase tracking-[0.2em]">
+        <a href="about.html" class="hover:opacity-70 transition">Studio</a>
+        <a href="services.html" class="hover:opacity-70 transition">Services</a>
+        <a href="our-work.html" class="hover:opacity-70 transition">Work</a>
+        <a href="profile.html" class="hover:opacity-70 transition">Profile</a>
+        <a href="contact.html" class="hover:opacity-70 transition">Contact</a>
+      </div>
+      <a href="contact.html" class="text-xs uppercase tracking-[0.2em] border border-white/40 px-5 py-2 hover:bg-white hover:text-charcoal transition">Inquire</a>
+    </div>
+  </nav>
+
+  <!-- Full-bleed Hero -->
+  <section class="relative h-screen min-h-[600px] flex items-end">
+    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=80" alt="Luxury residence" class="absolute inset-0 w-full h-full object-cover" />
+    <div class="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-charcoal/20 to-transparent"></div>
+    <div class="relative z-10 w-full max-w-7xl mx-auto px-8 lg:px-16 pb-16 lg:pb-24">
+      <p class="text-white/70 text-xs uppercase tracking-[0.3em] mb-4 reveal">Est. 2008 — Zurich & Dubai</p>
+      <h1 class="font-display text-5xl md:text-7xl lg:text-8xl text-white leading-[0.95] max-w-4xl reveal">
+        Spaces that <em class="italic text-white">endure</em> beyond trends.
+      </h1>
+      <p class="text-white/60 mt-6 max-w-md text-sm leading-relaxed reveal">Architecture and engineering for those who build legacies, not just buildings.</p>
+    </div>
+  </section>
+
+  <!-- Marquee -->
+  <section class="bg-charcoal text-cream py-5 overflow-hidden">
+    <div class="flex marquee whitespace-nowrap">
+      <span class="text-sm uppercase tracking-[0.4em] mx-12 opacity-60">Corporate Tower — 2024</span>
+      <span class="text-sm uppercase tracking-[0.4em] mx-12 opacity-60">Water Pavilion — 2023</span>
+      <span class="text-sm uppercase tracking-[0.4em] mx-12 opacity-60">Forest Retreat — 2023</span>
+      <span class="text-sm uppercase tracking-[0.4em] mx-12 opacity-60">Skyline Residence — 2022</span>
+      <span class="text-sm uppercase tracking-[0.4em] mx-12 opacity-60">Marina Complex — 2022</span>
+      <span class="text-sm uppercase tracking-[0.4em] mx-12 opacity-60">Corporate Tower — 2024</span>
+      <span class="text-sm uppercase tracking-[0.4em] mx-12 opacity-60">Water Pavilion — 2023</span>
+      <span class="text-sm uppercase tracking-[0.4em] mx-12 opacity-60">Forest Retreat — 2023</span>
+      <span class="text-sm uppercase tracking-[0.4em] mx-12 opacity-60">Skyline Residence — 2022</span>
+      <span class="text-sm uppercase tracking-[0.4em] mx-12 opacity-60">Marina Complex — 2022</span>
+    </div>
+  </section>
+
+  <!-- Stats Bar -->
+  <section class="bg-charcoal text-cream border-t border-white/10">
+    <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
+      <div class="py-10 px-8 text-center reveal">
+        <div class="font-display text-4xl md:text-5xl counter" data-count="180">0</div>
+        <div class="text-xs uppercase tracking-widest text-white/50 mt-2">Projects</div>
+      </div>
+      <div class="py-10 px-8 text-center reveal">
+        <div class="font-display text-4xl md:text-5xl counter" data-count="16">0</div>
+        <div class="text-xs uppercase tracking-widest text-white/50 mt-2">Countries</div>
+      </div>
+      <div class="py-10 px-8 text-center reveal">
+        <div class="font-display text-4xl md:text-5xl counter" data-count="42">0</div>
+        <div class="text-xs uppercase tracking-widest text-white/50 mt-2">Awards</div>
+      </div>
+      <div class="py-10 px-8 text-center reveal">
+        <div class="font-display text-4xl md:text-5xl">15<span class="text-2xl">yr</span></div>
+        <div class="text-xs uppercase tracking-widest text-white/50 mt-2">Experience</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About / Studio -->
+  <section id="studio" class="py-24 lg:py-32 px-8 lg:px-16">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+      <div>
+        <div class="h-px bg-brass line-draw mb-6" data-line></div>
+        <p class="text-xs uppercase tracking-[0.3em] text-brass mb-4 reveal">The Studio</p>
+        <h2 class="font-display text-4xl md:text-5xl leading-tight reveal">Where precision meets poetry.</h2>
+        <p class="text-gray-600 mt-6 leading-relaxed reveal">Agenvo is a collective of architects, structural engineers, and interior designers united by a single belief: great spaces should feel inevitable. We work at the intersection of art and engineering.</p>
+        <p class="text-gray-600 mt-4 leading-relaxed reveal">From concept sketches to construction oversight, we guide every phase with obsessive attention to material, light, and proportion.</p>
+      </div>
+      <div class="grid grid-cols-2 gap-4 reveal">
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=500&q=80" alt="Studio" class="rounded-sm w-full h-48 object-cover" />
+        <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=500&q=80" alt="Model" class="rounded-sm w-full h-48 object-cover mt-8" />
+        <img src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=500&q=80" alt="Building" class="rounded-sm w-full h-48 object-cover col-span-2" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section id="process" class="py-24 bg-charcoal text-cream px-8 lg:px-16">
+    <div class="max-w-7xl mx-auto">
+      <p class="text-xs uppercase tracking-[0.3em] text-brass mb-4 reveal">How We Work</p>
+      <h2 class="font-display text-4xl md:text-5xl mb-16 reveal">A disciplined creative process</h2>
+      <div class="grid md:grid-cols-4 gap-8">
+        <div class="reveal">
+          <div class="font-display text-5xl text-brass/40 mb-4">01</div>
+          <h3 class="font-medium mb-2">Discovery</h3>
+          <p class="text-sm text-white/50 leading-relaxed">Site analysis, client vision workshops, and feasibility studies.</p>
+        </div>
+        <div class="reveal">
+          <div class="font-display text-5xl text-brass/40 mb-4">02</div>
+          <h3 class="font-medium mb-2">Concept</h3>
+          <p class="text-sm text-white/50 leading-relaxed">Schematic design, 3D massing, and material palette exploration.</p>
+        </div>
+        <div class="reveal">
+          <div class="font-display text-5xl text-brass/40 mb-4">03</div>
+          <h3 class="font-medium mb-2">Development</h3>
+          <p class="text-sm text-white/50 leading-relaxed">Detailed drawings, BIM coordination, and engineering integration.</p>
+        </div>
+        <div class="reveal">
+          <div class="font-display text-5xl text-brass/40 mb-4">04</div>
+          <h3 class="font-medium mb-2">Delivery</h3>
+          <p class="text-sm text-white/50 leading-relaxed">Construction administration and final styling oversight.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio Grid -->
+  <section id="work" class="py-24 px-8 lg:px-16">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex items-end justify-between mb-12">
+        <div>
+          <p class="text-xs uppercase tracking-[0.3em] text-brass mb-2 reveal">Selected Work</p>
+          <h2 class="font-display text-4xl md:text-5xl reveal">Recent projects</h2>
+        </div>
+        <a href="our-work.html" class="text-xs uppercase tracking-widest text-brass hover:underline reveal hidden md:inline-flex items-center gap-1">View all <i data-lucide="arrow-right" class="w-3 h-3"></i></a>
+      </div>
+      <div class="grid md:grid-cols-12 gap-4">
+        <div class="md:col-span-7 img-zoom overflow-hidden rounded-sm reveal">
+          <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=900&q=80" alt="Corporate Tower" class="w-full h-80 md:h-[480px] object-cover" />
+          <div class="mt-4 flex justify-between items-start">
+            <div><h3 class="font-display text-2xl">Corporate Tower</h3><p class="text-sm text-gray-500 mt-1">Dubai, UAE — 2024</p></div>
+            <span class="text-xs text-brass uppercase tracking-widest">Commercial</span>
+          </div>
+        </div>
+        <div class="md:col-span-5 img-zoom overflow-hidden rounded-sm reveal">
+          <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80" alt="Water Pavilion" class="w-full h-64 md:h-[480px] object-cover" />
+          <div class="mt-4 flex justify-between items-start">
+            <div><h3 class="font-display text-2xl">Water Pavilion</h3><p class="text-sm text-gray-500 mt-1">Lake Como, IT — 2023</p></div>
+            <span class="text-xs text-brass uppercase tracking-widest">Cultural</span>
+          </div>
+        </div>
+        <div class="md:col-span-4 img-zoom overflow-hidden rounded-sm reveal">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80" alt="Forest Retreat" class="w-full h-64 object-cover" />
+          <div class="mt-4"><h3 class="font-display text-xl">Forest Retreat</h3><p class="text-sm text-gray-500">Swiss Alps — 2023</p></div>
+        </div>
+        <div class="md:col-span-4 img-zoom overflow-hidden rounded-sm reveal">
+          <img src="https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=600&q=80" alt="Skyline Residence" class="w-full h-64 object-cover" />
+          <div class="mt-4"><h3 class="font-display text-xl">Skyline Residence</h3><p class="text-sm text-gray-500">Singapore — 2022</p></div>
+        </div>
+        <div class="md:col-span-4 img-zoom overflow-hidden rounded-sm reveal">
+          <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&q=80" alt="Concept Structure" class="w-full h-64 object-cover" />
+          <div class="mt-4"><h3 class="font-display text-xl">Concept Structure</h3><p class="text-sm text-gray-500">London, UK — 2022</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="py-24 bg-cream border-t border-charcoal/10 px-8 lg:px-16">
+    <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-12">
+      <div class="reveal">
+        <div class="w-12 h-px bg-brass mb-6"></div>
+        <i data-lucide="building-2" class="w-6 h-6 text-brass mb-4"></i>
+        <h3 class="font-display text-2xl mb-3">Architecture</h3>
+        <p class="text-sm text-gray-600 leading-relaxed">Residential, commercial, and mixed-use projects from concept to completion documents.</p>
+      </div>
+      <div class="reveal">
+        <div class="w-12 h-px bg-brass mb-6"></div>
+        <i data-lucide="ruler" class="w-6 h-6 text-brass mb-4"></i>
+        <h3 class="font-display text-2xl mb-3">Engineering</h3>
+        <p class="text-sm text-gray-600 leading-relaxed">Structural, MEP, and sustainability consulting integrated into every design decision.</p>
+      </div>
+      <div class="reveal">
+        <div class="w-12 h-px bg-brass mb-6"></div>
+        <i data-lucide="sofa" class="w-6 h-6 text-brass mb-4"></i>
+        <h3 class="font-display text-2xl mb-3">Interiors</h3>
+        <p class="text-sm text-gray-600 leading-relaxed">Bespoke interior architecture with custom furniture and lighting design.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-24 bg-charcoal text-cream px-8 lg:px-16">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16">
+      <div class="reveal">
+        <p class="text-xs uppercase tracking-[0.3em] text-brass mb-4">Get in Touch</p>
+        <h2 class="font-display text-4xl md:text-5xl leading-tight">Let's build something remarkable.</h2>
+        <p class="text-white/50 mt-6 text-sm leading-relaxed">Whether you have a site, a sketch, or just an ambition — we'd love to hear from you.</p>
+        <div class="mt-10 space-y-3 text-sm text-white/60">
+          <p class="flex items-center gap-2"><i data-lucide="mail" class="w-4 h-4 text-brass"></i> hello@agenvo.com</p>
+          <p class="flex items-center gap-2"><i data-lucide="phone" class="w-4 h-4 text-brass"></i> +41 44 123 4567</p>
+          <p class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-brass"></i> Bahnhofstrasse 42, 8001 Zürich</p>
+        </div>
+      </div>
+      <form class="space-y-5 reveal" onsubmit="return false">
+        <div class="grid grid-cols-2 gap-4">
+          <input type="text" placeholder="Name" class="bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-sm placeholder:text-white/30 focus:outline-none focus:border-brass transition" />
+          <input type="email" placeholder="Email" class="bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-sm placeholder:text-white/30 focus:outline-none focus:border-brass transition" />
+        </div>
+        <input type="text" placeholder="Project Type" class="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-sm placeholder:text-white/30 focus:outline-none focus:border-brass transition" />
+        <textarea rows="4" placeholder="Tell us about your project..." class="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-sm placeholder:text-white/30 focus:outline-none focus:border-brass transition resize-none"></textarea>
+        <button class="bg-brass text-charcoal text-xs uppercase tracking-widest font-semibold px-8 py-3.5 hover:bg-cream transition">Send Inquiry</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="py-10 bg-charcoal text-white/40 text-xs text-center border-t border-white/10">
+    <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-5 uppercase tracking-[0.18em] text-[10px]">
+      <a href="about.html" class="hover:text-brass transition">Studio</a>
+      <a href="services.html" class="hover:text-brass transition">Services</a>
+      <a href="our-work.html" class="hover:text-brass transition">Work</a>
+      <a href="profile.html" class="hover:text-brass transition">Profile</a>
+      <a href="contact.html" class="hover:text-brass transition">Contact</a>
+    </div>
+    <a href="../index.html" class="hover:text-brass transition inline-flex items-center gap-1"><i data-lucide="arrow-left" class="w-3 h-3"></i> Back to all demos</a>
+    <p class="mt-2">© 2024 Agenvo. All rights reserved.</p>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="../smooth-scroll.js"></script>
+  <script>
+    lucide.createIcons();
+    document.querySelectorAll('.reveal').forEach(el => {
+      new IntersectionObserver(([e]) => { if (e.isIntersecting) e.target.classList.add('visible'); }, { threshold: 0.15 }).observe(el);
+    });
+    document.querySelectorAll('[data-line]').forEach(el => {
+      new IntersectionObserver(([e]) => { if (e.isIntersecting) e.target.classList.add('visible'); }, { threshold: 0.5 }).observe(el);
+    });
+    document.querySelectorAll('[data-count]').forEach(el => {
+      new IntersectionObserver(([e]) => {
+        if (!e.isIntersecting) return;
+        const t = +el.dataset.count; let c = 0;
+        const iv = setInterval(() => { c += Math.ceil(t / 40); if (c >= t) { c = t; clearInterval(iv); } el.textContent = c; }, 30);
+      }, { threshold: 0.5 }).observe(el);
+    });
+  </script>
+</body>
+</html>

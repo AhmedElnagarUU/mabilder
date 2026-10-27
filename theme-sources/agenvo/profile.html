@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile — AGENVO</title>
+  <meta name="description" content="Meet the partners, associates and studio team at Agenvo — sixty-four architects, engineers and designers working from Zurich and Dubai." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['DM Sans', 'sans-serif'], display: ['Cormorant Garamond', 'serif'] },
+          colors: { cream: '#F4EFE6', charcoal: '#1C1C1C', brass: '#B8956C', sand: '#E9E2D6' }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body class="bg-cream text-charcoal font-sans">
+
+  <nav id="site-nav" class="fixed top-0 left-0 right-0 z-50 text-white">
+    <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 py-5 flex items-center justify-between">
+      <a href="index.html" class="font-display text-2xl font-semibold tracking-wide">Agenvo</a>
+      <div class="hidden lg:flex items-center gap-9 text-[11px] uppercase tracking-[0.2em]">
+        <a href="about.html" class="nav-link">Studio</a>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="our-work.html" class="nav-link">Work</a>
+        <a href="profile.html" class="nav-link" aria-current="page">Profile</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="contact.html" class="hidden sm:inline-flex text-[11px] uppercase tracking-[0.2em] border border-white/30 px-5 py-2.5 hover:bg-white hover:text-charcoal transition">Inquire</a>
+        <button id="menu-toggle" class="lg:hidden p-1" aria-label="Toggle menu" aria-expanded="false"><i data-lucide="menu" class="w-5 h-5"></i></button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="menu-panel lg:hidden bg-charcoal/95 border-t border-white/10">
+      <div class="px-6 py-6 flex flex-col text-sm uppercase tracking-[0.18em]">
+        <a href="about.html" class="py-3 border-b border-white/5">Studio</a>
+        <a href="services.html" class="py-3 border-b border-white/5">Services</a>
+        <a href="our-work.html" class="py-3 border-b border-white/5">Work</a>
+        <a href="profile.html" class="py-3 border-b border-white/5">Profile</a>
+        <a href="contact.html" class="py-3 border-b border-white/5">Contact</a>
+        <a href="contact.html" class="mt-4 text-center bg-brass text-charcoal px-5 py-3 text-[11px] font-semibold tracking-widest">Start a project</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="relative min-h-[76vh] flex items-end bg-charcoal">
+    <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1920&q=80" alt="Agenvo team" class="absolute inset-0 w-full h-full object-cover opacity-50" />
+    <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/55 to-charcoal/25"></div>
+    <div class="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-10 lg:px-16 pb-16 lg:pb-20">
+      <p class="text-white/50 text-[11px] uppercase tracking-[0.3em] mb-5 reveal">Profile — The people</p>
+      <h1 class="font-display text-5xl md:text-7xl lg:text-8xl text-cream leading-[0.95] max-w-4xl reveal">
+        Sixty-four people.<br /><em class="italic">One standard.</em>
+      </h1>
+      <p class="text-white/55 mt-7 max-w-xl text-sm leading-relaxed reveal">Architects, engineers, interior designers, model-makers and researchers — working across two studios, one shared table.</p>
+    </div>
+  </section>
+
+  <!-- Quick facts -->
+  <section class="bg-charcoal text-cream border-t border-white/10 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
+      <div class="py-8 px-4 md:px-8 reveal"><p class="font-display text-3xl">64</p><p class="text-[10px] uppercase tracking-[0.2em] text-white/40 mt-1">People</p></div>
+      <div class="py-8 px-4 md:px-8 reveal"><p class="font-display text-3xl">14</p><p class="text-[10px] uppercase tracking-[0.2em] text-white/40 mt-1">Nationalities</p></div>
+      <div class="py-8 px-4 md:px-8 reveal"><p class="font-display text-3xl">2</p><p class="text-[10px] uppercase tracking-[0.2em] text-white/40 mt-1">Studios</p></div>
+      <div class="py-8 px-4 md:px-8 reveal"><p class="font-display text-3xl">38</p><p class="text-[10px] uppercase tracking-[0.2em] text-white/40 mt-1">Average age</p></div>
+    </div>
+  </section>
+
+  <!-- Partners -->
+  <section class="py-24 lg:py-32 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid lg:grid-cols-12 gap-10 mb-14">
+        <div class="lg:col-span-6">
+          <div class="h-px bg-brass line-draw mb-6" data-line></div>
+          <p class="text-[11px] uppercase tracking-[0.3em] text-brass mb-4 reveal">Partners</p>
+          <h2 class="font-display text-4xl md:text-5xl leading-tight reveal">The ones who sign<br />the drawings.</h2>
+        </div>
+        <div class="lg:col-span-6 lg:pt-10">
+          <p class="text-sm text-gray-600 leading-relaxed reveal">Agenvo is employee-owned and led by four partners. Each remains directly involved in projects — reviewing drawings, visiting sites, and sitting in the room when difficult decisions are made. There is no layer between the client and the people doing the work.</p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-x-8 gap-y-14">
+        <!-- Elena -->
+        <article class="reveal">
+          <div class="grid sm:grid-cols-5 gap-6">
+            <div class="sm:col-span-2 portrait overflow-hidden aspect-[4/5] bg-charcoal/5">
+              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80" alt="Elena Marchetti" class="w-full h-full object-cover" />
+            </div>
+            <div class="sm:col-span-3 flex flex-col">
+              <p class="text-[10px] uppercase tracking-[0.2em] text-brass">Founding Partner</p>
+              <h3 class="font-display text-3xl mt-1">Elena Marchetti</h3>
+              <p class="text-sm text-gray-500 mt-1">Architecture & Design</p>
+              <p class="text-sm text-gray-600 leading-relaxed mt-4">Trained in Milan and at ETH Zurich. Elena leads the studio's cultural and residential work, and is responsible for design quality across every commission. She is a visiting critic at ETH and a vocal defender of drawing by hand.</p>
+              <div class="mt-auto pt-5 flex flex-wrap gap-2">
+                <span class="text-[10px] uppercase tracking-[0.15em] border border-charcoal/15 px-2.5 py-1">Cultural</span>
+                <span class="text-[10px] uppercase tracking-[0.15em] border border-charcoal/15 px-2.5 py-1">Residential</span>
+              </div>
+              <a href="mailto:elena@agenvo.com" class="inline-flex items-center gap-2 mt-5 text-[11px] uppercase tracking-[0.18em] text-brass link-underline">elena@agenvo.com <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Jonas -->
+        <article class="reveal">
+          <div class="grid sm:grid-cols-5 gap-6">
+            <div class="sm:col-span-2 portrait overflow-hidden aspect-[4/5] bg-charcoal/5">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80" alt="Jonas Frei" class="w-full h-full object-cover" />
+            </div>
+            <div class="sm:col-span-3 flex flex-col">
+              <p class="text-[10px] uppercase tracking-[0.2em] text-brass">Founding Partner</p>
+              <h3 class="font-display text-3xl mt-1">Jonas Frei</h3>
+              <p class="text-sm text-gray-500 mt-1">Engineering & Structure</p>
+              <p class="text-sm text-gray-600 leading-relaxed mt-4">A structural engineer who thinks like an architect. Jonas built the in-house engineering team and leads long-span, timber and adaptive-reuse projects. He is the person who asks whether a column can simply disappear.</p>
+              <div class="mt-auto pt-5 flex flex-wrap gap-2">
+                <span class="text-[10px] uppercase tracking-[0.15em] border border-charcoal/15 px-2.5 py-1">Structure</span>
+                <span class="text-[10px] uppercase tracking-[0.15em] border border-charcoal/15 px-2.5 py-1">Reuse</span>
+              </div>
+              <a href="mailto:jonas@agenvo.com" class="inline-flex items-center gap-2 mt-5 text-[11px] uppercase tracking-[0.18em] text-brass link-underline">jonas@agenvo.com <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Amara -->
+        <article class="reveal">
+          <div class="grid sm:grid-cols-5 gap-6">
+            <div class="sm:col-span-2 portrait overflow-hidden aspect-[4/5] bg-charcoal/5">
+              <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80" alt="Amara Okafor" class="w-full h-full object-cover" />
+            </div>
+            <div class="sm:col-span-3 flex flex-col">
+              <p class="text-[10px] uppercase tracking-[0.2em] text-brass">Partner</p>
+              <h3 class="font-display text-3xl mt-1">Amara Okafor</h3>
+              <p class="text-sm text-gray-500 mt-1">Interiors & Furniture</p>
+              <p class="text-sm text-gray-600 leading-relaxed mt-4">Amara leads interior architecture, material research and the studio's furniture collaborations. Her work is guided by tactility, daylight and the conviction that a room should be generous before it is beautiful. Previously at David Chipperfield Architects.</p>
+              <div class="mt-auto pt-5 flex flex-wrap gap-2">
+                <span class="text-[10px] uppercase tracking-[0.15em] border border-charcoal/15 px-2.5 py-1">Interiors</span>
+                <span class="text-[10px] uppercase tracking-[0.15em] border border-charcoal/15 px-2.5 py-1">Hospitality</span>
+              </div>
+              <a href="mailto:amara@agenvo.com" class="inline-flex items-center gap-2 mt-5 text-[11px] uppercase tracking-[0.18em] text-brass link-underline">amara@agenvo.com <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Rafael -->
+        <article class="reveal">
+          <div class="grid sm:grid-cols-5 gap-6">
+            <div class="sm:col-span-2 portrait overflow-hidden aspect-[4/5] bg-charcoal/5">
+              <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&q=80" alt="Rafael Costa" class="w-full h-full object-cover" />
+            </div>
+            <div class="sm:col-span-3 flex flex-col">
+              <p class="text-[10px] uppercase tracking-[0.2em] text-brass">Partner</p>
+              <h3 class="font-display text-3xl mt-1">Rafael Costa</h3>
+              <p class="text-sm text-gray-500 mt-1">Dubai Studio & Delivery</p>
+              <p class="text-sm text-gray-600 leading-relaxed mt-4">Rafael runs the Dubai studio and the practice's delivery group. He has overseen more than forty completed projects across the Gulf, and is known for protecting design intent through the least glamorous phases of construction.</p>
+              <div class="mt-auto pt-5 flex flex-wrap gap-2">
+                <span class="text-[10px] uppercase tracking-[0.15em] border border-charcoal/15 px-2.5 py-1">Commercial</span>
+                <span class="text-[10px] uppercase tracking-[0.15em] border border-charcoal/15 px-2.5 py-1">Delivery</span>
+              </div>
+              <a href="mailto:rafael@agenvo.com" class="inline-flex items-center gap-2 mt-5 text-[11px] uppercase tracking-[0.18em] text-brass link-underline">rafael@agenvo.com <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Associates -->
+  <section class="bg-sand/60 py-24 lg:py-32 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+          <p class="text-[11px] uppercase tracking-[0.3em] text-brass mb-4 reveal">Associates & leads</p>
+          <h2 class="font-display text-4xl md:text-5xl reveal">The next generation</h2>
+        </div>
+        <p class="text-sm text-gray-600 max-w-sm leading-relaxed reveal">Associates lead projects day to day and sit on the studio's design review. Several have been with Agenvo for more than a decade.</p>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10">
+        <article class="reveal">
+          <div class="portrait overflow-hidden aspect-[4/5] bg-charcoal/5">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500&q=80" alt="Sofia Lindqvist" class="w-full h-full object-cover" />
+          </div>
+          <h3 class="font-display text-2xl mt-4">Sofia Lindqvist</h3>
+          <p class="text-[10px] uppercase tracking-[0.18em] text-brass mt-1">Associate, Architecture</p>
+          <p class="text-sm text-gray-600 leading-relaxed mt-2">Leads residential and hospitality projects. Joined 2013 from Stockholm.</p>
+        </article>
+        <article class="reveal">
+          <div class="portrait overflow-hidden aspect-[4/5] bg-charcoal/5">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&q=80" alt="Tobias Meier" class="w-full h-full object-cover" />
+          </div>
+          <h3 class="font-display text-2xl mt-4">Tobias Meier</h3>
+          <p class="text-[10px] uppercase tracking-[0.18em] text-brass mt-1">Associate, Engineering</p>
+          <p class="text-sm text-gray-600 leading-relaxed mt-2">Timber and long-span specialist. Teaches at FH Graubünden.</p>
+        </article>
+        <article class="reveal">
+          <div class="portrait overflow-hidden aspect-[4/5] bg-charcoal/5">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&q=80" alt="Lena Haddad" class="w-full h-full object-cover" />
+          </div>
+          <h3 class="font-display text-2xl mt-4">Lena Haddad</h3>
+          <p class="text-[10px] uppercase tracking-[0.18em] text-brass mt-1">Associate, Dubai Studio</p>
+          <p class="text-sm text-gray-600 leading-relaxed mt-2">Runs commercial and mixed-use projects across the Gulf. Joined 2016.</p>
+        </article>
+        <article class="reveal">
+          <div class="portrait overflow-hidden aspect-[4/5] bg-charcoal/5">
+            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&q=80" alt="Marco Bianchi" class="w-full h-full object-cover" />
+          </div>
+          <h3 class="font-display text-2xl mt-4">Marco Bianchi</h3>
+          <p class="text-[10px] uppercase tracking-[0.18em] text-brass mt-1">Associate, Interiors</p>
+          <p class="text-sm text-gray-600 leading-relaxed mt-2">Leads furniture and joinery design. Runs the material library.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Studio team / departments -->
+  <section class="py-24 lg:py-32 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid lg:grid-cols-12 gap-10 mb-14">
+        <div class="lg:col-span-5">
+          <p class="text-[11px] uppercase tracking-[0.3em] text-brass mb-4 reveal">How the studio is organised</p>
+          <h2 class="font-display text-4xl md:text-5xl leading-tight reveal">Four groups,<br />no silos.</h2>
+        </div>
+        <div class="lg:col-span-7">
+          <p class="text-sm text-gray-600 leading-relaxed reveal">Project teams are assembled around the needs of the brief, not the org chart. An architect, engineer and interior designer are assigned to every project from day one, supported by the specialist groups below.</p>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-x-12 gap-y-10">
+        <div class="border-t border-charcoal/15 pt-6 reveal">
+          <div class="flex items-baseline justify-between gap-4">
+            <h3 class="font-display text-2xl">Design studio</h3>
+            <span class="text-[11px] text-brass tracking-widest">24 people</span>
+          </div>
+          <p class="text-sm text-gray-600 leading-relaxed mt-3">Architects and urban designers working across all sectors. Responsible for concept, planning and the drawings that define the building. Every project has a named design lead who stays with it from first sketch to handover.</p>
+        </div>
+        <div class="border-t border-charcoal/15 pt-6 reveal">
+          <div class="flex items-baseline justify-between gap-4">
+            <h3 class="font-display text-2xl">Engineering</h3>
+            <span class="text-[11px] text-brass tracking-widest">15 people</span>
+          </div>
+          <p class="text-sm text-gray-600 leading-relaxed mt-3">Structural, facade and building-services engineers. They sit in the same room as the architects and are involved from feasibility onward, so structural logic informs the design rather than arriving after it.</p>
+        </div>
+        <div class="border-t border-charcoal/15 pt-6 reveal">
+          <div class="flex items-baseline justify-between gap-4">
+            <h3 class="font-display text-2xl">Interiors</h3>
+            <span class="text-[11px] text-brass tracking-widest">13 people</span>
+          </div>
+          <p class="text-sm text-gray-600 leading-relaxed mt-3">Interior architects, furniture designers and a full-time material researcher. They work alongside the design team from concept stage and lead the studio's collaborations with craftspeople and manufacturers.</p>
+        </div>
+        <div class="border-t border-charcoal/15 pt-6 reveal">
+          <div class="flex items-baseline justify-between gap-4">
+            <h3 class="font-display text-2xl">Delivery & research</h3>
+            <span class="text-[11px] text-brass tracking-widest">12 people</span>
+          </div>
+          <p class="text-sm text-gray-600 leading-relaxed mt-3">Site architects, technical coordinators and a small research group working on low-carbon concrete, prefabricated stone and adaptive reuse. Research findings feed directly into live projects rather than sitting in a drawer.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Culture -->
+  <section class="bg-charcoal text-cream py-24 lg:py-32 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12 lg:gap-16">
+      <div class="lg:col-span-5">
+        <p class="text-[11px] uppercase tracking-[0.3em] text-brass mb-4 reveal">Life at Agenvo</p>
+        <h2 class="font-display text-4xl md:text-5xl leading-tight reveal">A studio that<br />makes room.</h2>
+        <p class="text-sm text-white/50 leading-relaxed mt-6 reveal">We work hard, but we do not mistake hours for output. The studio is set up to protect concentration, encourage argument, and let people have a life outside the building.</p>
+        <div class="mt-8 img-zoom overflow-hidden reveal">
+          <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=80" alt="Studio meeting" class="w-full h-64 object-cover" />
+        </div>
+      </div>
+      <div class="lg:col-span-7 grid sm:grid-cols-2 gap-x-8 gap-y-10 lg:pt-10">
+        <div class="reveal">
+          <i data-lucide="clock" class="w-5 h-5 text-brass mb-3"></i>
+          <h3 class="font-display text-2xl mb-2">Protected Fridays</h3>
+          <p class="text-sm text-white/50 leading-relaxed">Friday afternoons are reserved for studio-wide reviews, research and model-making. No client meetings, no deadlines. It is where much of our best thinking happens.</p>
+        </div>
+        <div class="reveal">
+          <i data-lucide="users" class="w-5 h-5 text-brass mb-3"></i>
+          <h3 class="font-display text-2xl mb-2">Employee ownership</h3>
+          <p class="text-sm text-white/50 leading-relaxed">Since 2023 the studio has been majority employee-owned. Everyone who has been with us for three years receives a stake, and the partners are accountable to the whole studio.</p>
+        </div>
+        <div class="reveal">
+          <i data-lucide="book-open" class="w-5 h-5 text-brass mb-3"></i>
+          <h3 class="font-display text-2xl mb-2">Learning budget</h3>
+          <p class="text-sm text-white/50 leading-relaxed">Every person has an annual budget for courses, conferences and travel. We also fund one research sabbatical each year, open to anyone in the studio regardless of seniority.</p>
+        </div>
+        <div class="reveal">
+          <i data-lucide="heart-handshake" class="w-5 h-5 text-brass mb-3"></i>
+          <h3 class="font-display text-2xl mb-2">Parental support</h3>
+          <p class="text-sm text-white/50 leading-relaxed">Six months of fully paid parental leave for all parents, with a phased return and no expectation of evening calls. Several of our project leads work four-day weeks.</p>
+        </div>
+        <div class="reveal">
+          <i data-lucide="globe" class="w-5 h-5 text-brass mb-3"></i>
+          <h3 class="font-display text-2xl mb-2">Studio exchange</h3>
+          <p class="text-sm text-white/50 leading-relaxed">Every year, four people swap between Zurich and Dubai for a month. It keeps the two studios genuinely one practice, and gives younger staff international site experience.</p>
+        </div>
+        <div class="reveal">
+          <i data-lucide="hammer" class="w-5 h-5 text-brass mb-3"></i>
+          <h3 class="font-display text-2xl mb-2">Make things</h3>
+          <p class="text-sm text-white/50 leading-relaxed">The workshop is open to everyone, not just model-makers. Furniture prototypes, material tests and the occasional wonky chair come out of it. We believe designing is inseparable from making.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Careers -->
+  <section class="py-24 lg:py-32 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid lg:grid-cols-12 gap-10 mb-12">
+        <div class="lg:col-span-5">
+          <p class="text-[11px] uppercase tracking-[0.3em] text-brass mb-4 reveal">Careers</p>
+          <h2 class="font-display text-4xl md:text-5xl leading-tight reveal">Come and<br />build with us.</h2>
+          <p class="text-sm text-gray-600 leading-relaxed mt-6 reveal">We are always interested in meeting thoughtful architects, engineers and designers — whether or not there is a role advertised. Send a portfolio and a short note about what you want to learn.</p>
+          <a href="mailto:careers@agenvo.com" class="inline-flex items-center gap-2 mt-6 text-[11px] uppercase tracking-[0.2em] text-brass link-underline reveal">careers@agenvo.com <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></a>
+        </div>
+        <div class="lg:col-span-7 divide-y divide-charcoal/10 border-t border-charcoal/10">
+          <div class="py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 reveal">
+            <div>
+              <h3 class="font-medium">Project Architect — Residential</h3>
+              <p class="text-sm text-gray-500 mt-1">Zurich · Full-time · 5+ years</p>
+            </div>
+            <a href="mailto:careers@agenvo.com?subject=Project%20Architect%20Residential" class="text-[10px] uppercase tracking-[0.18em] border border-charcoal/20 px-4 py-2 hover:border-brass hover:text-brass transition whitespace-nowrap">Apply</a>
+          </div>
+          <div class="py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 reveal">
+            <div>
+              <h3 class="font-medium">Structural Engineer — Timber</h3>
+              <p class="text-sm text-gray-500 mt-1">Zurich · Full-time · 3–8 years</p>
+            </div>
+            <a href="mailto:careers@agenvo.com?subject=Structural%20Engineer%20Timber" class="text-[10px] uppercase tracking-[0.18em] border border-charcoal/20 px-4 py-2 hover:border-brass hover:text-brass transition whitespace-nowrap">Apply</a>
+          </div>
+          <div class="py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 reveal">
+            <div>
+              <h3 class="font-medium">Interior Designer — Hospitality</h3>
+              <p class="text-sm text-gray-500 mt-1">Dubai · Full-time · 4+ years</p>
+            </div>
+            <a href="mailto:careers@agenvo.com?subject=Interior%20Designer%20Hospitality" class="text-[10px] uppercase tracking-[0.18em] border border-charcoal/20 px-4 py-2 hover:border-brass hover:text-brass transition whitespace-nowrap">Apply</a>
+          </div>
+          <div class="py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 reveal">
+            <div>
+              <h3 class="font-medium">Part 2 Architectural Assistant</h3>
+              <p class="text-sm text-gray-500 mt-1">Zurich · 12-month placement</p>
+            </div>
+            <a href="mailto:careers@agenvo.com?subject=Part%202%20Placement" class="text-[10px] uppercase tracking-[0.18em] border border-charcoal/20 px-4 py-2 hover:border-brass hover:text-brass transition whitespace-nowrap">Apply</a>
+          </div>
+          <div class="py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 reveal">
+            <div>
+              <h3 class="font-medium">Sustainability & Carbon Analyst</h3>
+              <p class="text-sm text-gray-500 mt-1">Zurich or Dubai · Full-time</p>
+            </div>
+            <a href="mailto:careers@agenvo.com?subject=Sustainability%20Analyst" class="text-[10px] uppercase tracking-[0.18em] border border-charcoal/20 px-4 py-2 hover:border-brass hover:text-brass transition whitespace-nowrap">Apply</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Speaking / teaching / press -->
+  <section class="bg-sand/60 py-24 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid lg:grid-cols-3 gap-12">
+        <div>
+          <p class="text-[11px] uppercase tracking-[0.3em] text-brass mb-4 reveal">Teaching</p>
+          <h2 class="font-display text-3xl leading-tight reveal">Sharing the<br />method.</h2>
+          <ul class="mt-6 space-y-4 text-sm text-gray-600 reveal">
+            <li><span class="text-charcoal">ETH Zurich</span> — Visiting design critic, 2018–present</li>
+            <li><span class="text-charcoal">FH Graubünden</span> — Timber structures seminar</li>
+            <li><span class="text-charcoal">AA Visiting School</span> — Dubai, 2022 & 2024</li>
+            <li><span class="text-charcoal">Milan Politecnico</span> — Studio critic, 2015–2017</li>
+          </ul>
+        </div>
+        <div>
+          <p class="text-[11px] uppercase tracking-[0.3em] text-brass mb-4 reveal">Speaking</p>
+          <h2 class="font-display text-3xl leading-tight reveal">In the<br />conversation.</h2>
+          <ul class="mt-6 space-y-4 text-sm text-gray-600 reveal">
+            <li><span class="text-charcoal">World Architecture Festival</span> — Singapore, 2024</li>
+            <li><span class="text-charcoal">Dezeen Talks</span> — London, 2023</li>
+            <li><span class="text-charcoal">Swissbau</span> — Basel, 2022 & 2024</li>
+            <li><span class="text-charcoal">Design Doha</span> — Doha, 2023</li>
+          </ul>
+        </div>
+        <div>
+          <p class="text-[11px] uppercase tracking-[0.3em] text-brass mb-4 reveal">Press</p>
+          <h2 class="font-display text-3xl leading-tight reveal">Written<br />about.</h2>
+          <ul class="mt-6 space-y-4 text-sm text-gray-600 reveal">
+            <li><span class="text-charcoal">Domus</span> — "The quiet radicalism of Agenvo", 2024</li>
+            <li><span class="text-charcoal">Dezeen</span> — Corporate Tower feature, 2024</li>
+            <li><span class="text-charcoal">Architectural Review</span> — Water Pavilion, 2020</li>
+            <li><span class="text-charcoal">Monocle</span> — "Zurich's slow builders", 2023</li>
+          </ul>
+          <a href="mailto:press@agenvo.com" class="inline-flex items-center gap-2 mt-6 text-[11px] uppercase tracking-[0.2em] text-brass link-underline reveal">Press enquiries <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="px-6 md:px-10 lg:px-16 py-24">
+    <div class="max-w-7xl mx-auto bg-charcoal text-cream px-8 py-16 md:px-16 md:py-20 grid lg:grid-cols-2 gap-10 items-center reveal">
+      <div>
+        <p class="text-[11px] uppercase tracking-[0.3em] text-brass mb-4">Work with this team</p>
+        <h2 class="font-display text-4xl md:text-5xl leading-tight">You will be working with the people you meet.</h2>
+      </div>
+      <div class="lg:justify-self-end">
+        <p class="text-sm text-white/50 leading-relaxed mb-6 max-w-sm">No account managers, no handoffs to a junior team. The partner you meet at the first conversation will still be reviewing the drawings at handover.</p>
+        <a href="contact.html" class="inline-flex items-center gap-3 bg-brass text-charcoal text-[11px] uppercase tracking-[0.2em] px-8 py-4 hover:bg-cream transition">Meet us <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-charcoal text-cream">
+    <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 pt-16 pb-8">
+      <div class="grid gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-4">
+          <a href="index.html" class="font-display text-3xl">Agenvo</a>
+          <p class="mt-5 text-sm text-white/45 leading-relaxed max-w-xs">Architecture, engineering and interiors for those who build legacies, not just buildings.</p>
+          <div class="mt-6 flex gap-3">
+            <a href="#" aria-label="Instagram" class="w-9 h-9 border border-white/15 flex items-center justify-center hover:border-brass hover:text-brass transition"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+            <a href="#" aria-label="LinkedIn" class="w-9 h-9 border border-white/15 flex items-center justify-center hover:border-brass hover:text-brass transition"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
+            <a href="#" aria-label="Email" class="w-9 h-9 border border-white/15 flex items-center justify-center hover:border-brass hover:text-brass transition"><i data-lucide="mail" class="w-4 h-4"></i></a>
+          </div>
+        </div>
+        <div class="lg:col-span-2">
+          <p class="text-[10px] uppercase tracking-[0.25em] text-brass mb-5">Explore</p>
+          <ul class="space-y-3 text-sm text-white/55">
+            <li><a href="about.html" class="hover:text-cream transition">Studio</a></li>
+            <li><a href="services.html" class="hover:text-cream transition">Services</a></li>
+            <li><a href="our-work.html" class="hover:text-cream transition">Work</a></li>
+            <li><a href="profile.html" class="hover:text-cream transition">Profile</a></li>
+            <li><a href="contact.html" class="hover:text-cream transition">Contact</a></li>
+          </ul>
+        </div>
+        <div class="lg:col-span-3">
+          <p class="text-[10px] uppercase tracking-[0.25em] text-brass mb-5">Expertise</p>
+          <ul class="space-y-3 text-sm text-white/55">
+            <li><a href="services.html#architecture" class="hover:text-cream transition">Architecture</a></li>
+            <li><a href="services.html#engineering" class="hover:text-cream transition">Structural engineering</a></li>
+            <li><a href="services.html#interiors" class="hover:text-cream transition">Interior architecture</a></li>
+            <li><a href="services.html#advisory" class="hover:text-cream transition">Masterplanning</a></li>
+            <li><a href="services.html#advisory" class="hover:text-cream transition">Sustainability</a></li>
+          </ul>
+        </div>
+        <div class="lg:col-span-3">
+          <p class="text-[10px] uppercase tracking-[0.25em] text-brass mb-5">Studios</p>
+          <div class="space-y-4 text-sm text-white/55 leading-relaxed">
+            <p>Bahnhofstrasse 42<br />8001 Zürich, Switzerland</p>
+            <p>Alserkal Avenue, Unit 12<br />Al Quoz, Dubai, UAE</p>
+            <p><a href="mailto:hello@agenvo.com" class="hover:text-cream transition">hello@agenvo.com</a><br /><a href="tel:+41441234567" class="hover:text-cream transition">+41 44 123 4567</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-14 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between gap-4 text-[11px] text-white/35">
+        <p>© <span data-year>2026</span> Agenvo. All rights reserved.</p>
+        <div class="flex gap-6">
+          <a href="#" class="hover:text-brass transition">Privacy</a>
+          <a href="#" class="hover:text-brass transition">Imprint</a>
+          <a href="../index.html" class="hover:text-brass transition">All demos</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="../smooth-scroll.js"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>

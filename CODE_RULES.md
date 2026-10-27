@@ -4,30 +4,59 @@
 
 ---
 
-## 1. KISS — Keep It Simple
+## 0. Current project status
+
+Some sections below describe the target stack. These parts are **not set up yet**. Do not add them
+unless your task explicitly says so:
+
+- i18n (`next-intl`, `src/messages/*`, `/en` and `/ar` routes): §6 applies to new code once it is set up
+- Auth (`better-auth`) and owner checks
+- S3 uploads
+- Polar payments
+
+## 1. KISS: Keep It Simple
 
 - Code must be simple enough to read and review with zero ambiguity about what is right or wrong.
 - No clever abstractions, no premature generalization, no "frameworks inside the framework".
 - Optimize for readability over cleverness. If two implementations exist, pick the boring one.
 - Do not add comments explaining obvious code; write code so obvious it needs no comments.
 
-## 2. Feature-based structure — never organize by file type
+## 2. Feature-based structure: never organize by file type
 
 The codebase is organized by **feature/module**, not by technical type.
 
+```text
+src/
+  app/                          routes only: page.tsx, layout.tsx, route.ts
+  features/
+    <feature>/
+      components/               React components of this feature
+      model.ts                  Mongoose schema/model (if it persists data)
+      repository.ts             data access through model.ts
+      service.ts                feature logic called by routes
+      types.ts                  zod schemas + inferred types
+      <sub-area>/               group related files when the feature grows
+  shared/
+    db/                         MongoDB connection, db error helpers
+    ui/                         generic UI primitives (button, field, card, icon, logo)
+scripts/                        CLI entry points (compiled with tsconfig.generator.json)
+theme-sources/<name>/           original HTML/CSS templates (input for theme import, never imported by code)
+docs/                           PRD, plans, design references
 ```
 
-
 - Each feature owns its components, hooks, API logic, schemas, and types under `src/features/<feature>/`.
-- A route file in `src/app/api/**` must contain no business logic: parse request → call feature function → return response.
-- Anything used by **two or more features** goes in `src/shared/` so common project code has one centralized home. Anything used by one feature stays in that feature.
-- Keep shared code focused on reusable cross-feature concerns; for example, MongoDB connection setup belongs in `src/shared/db/`, while feature-specific data access stays with its owning feature.
+- A route file in `src/app/**` must contain no business logic: parse request → call feature function → return response.
+- `src/shared/` holds **generic, domain-free** code only (db connection, UI primitives). Domain code
+  (blocks, themes, site content, briefs) stays in its feature, even when another feature uses it.
+- A feature may import another feature's **types, schemas, and public functions** (e.g. `site-creation`
+  imports the block catalog from `static-site-generator`). Imports go one way: never create a cycle
+  between two features.
 - Any feature can be understood, modified, or removed without breaking unrelated features.
 
 ## 3. One responsibility per function
 
 - Each function does exactly one thing.
-- Related functions stay grouped together in the same module — do not scatter them.
+- Related functions stay grouped together in the same module. Do not scatter them.
 - No giant inline blocks inside route handlers or components; extract named functions.
 - There is no hard line-count limit, but if a file becomes hard to follow, split it along feature/responsibility lines.
 
@@ -50,31 +79,61 @@ You must NOT add any npm package that is not on the approved list below. If you 
 | `@polar-sh/sdk` | Polar payment provider integration |
 | `lucide-react` | Icons |
 
+**In use, pending approval:** `@langchain/core`, `@langchain/google-genai` (AI calls in
+`site-creation/generation`). Keep using them where they are; don't add new LangChain packages.
+
+External HTTP APIs (e.g. Pexels) are called with the built-in `fetch`. Never add an SDK package for them.
+
 Dev tooling: `typescript`, `eslint`, `@types/*`. Nothing else without approval.
 
-## 5. File/function length — guideline, not hard limit
+## 5. File/function length: guideline, not hard limit
 
 No numeric limit is enforced. The test: if a file stops being easy to scan top-to-bottom, split it along feature/responsibility lines.
 
-## 6. i18n & RTL by default
+## 6. i18n & RTL by default (applies once i18n is set up, see §0)
 
-- **No hardcoded user-facing strings. Ever.** All text renders through the translation layer (`next-intl`). Every task tells you which string keys you introduce — add them to BOTH `src/messages/en.json` and `src/messages/ar.json`.
+- **No hardcoded user-facing strings. Ever.** All text renders through the translation layer (`next-intl`). Every task tells you which string keys you introduce. Add them to BOTH `src/messages/en.json` and `src/messages/ar.json`.
 - Arabic translations are provided in each task. Use them verbatim; do not invent your own.
 - The product UI supports `en` and `ar` locales from day one. Routes are prefixed: `/en/...`, `/ar/...`. The `<html>` element gets `lang` and `dir="rtl"` for Arabic.
 - Layout must not break in RTL: always use CSS logical properties (Tailwind: `ms-*`, `me-*`, `ps-*`, `pe-*`, `text-start`, `text-end`, `start-0`, `end-0`). NEVER use directional properties (`ml-*`, `mr-*`, `pl-*`, `pr-*`, `text-left`, `text-right`, `left-0`, `right-0`) in layout-critical styles. Icons with direction (arrows) must flip via `rtl:rotate-180`.
-- Business-language rule: user-facing labels never use web-design terminology ("component", "grid", "section container", "breakpoint").
+- Business-language rule: user-facing labels never use web-design terminology ("component", "grid", "section container", "breakpoint"). In the editor UI, call blocks "sections" only if no better business word exists.
+- This section covers **the app's own UI**. Generated customer websites are rendered by themes and are not translated through `next-intl`.
 
 ## 7. Stack conventions (binding)
 
 - **Next.js App Router + TypeScript.** Server Components by default; `"use client"` only where interactivity requires it.
-- **No Server Actions.** Do not use Next.js Server Actions under any circumstance. All API endpoints and mutations must be implemented as route handlers (`route.ts`) under `src/app/api/**` exclusively. Every endpoint path is defined in the task file — do not invent different paths.
+- **No Server Actions.** Do not use Next.js Server Actions under any circumstance. All API endpoints and mutations must be implemented as route handlers (`route.ts`) under `src/app/api/**` exclusively. Every endpoint path is defined in the task file. Do not invent different paths.
 - **mongoose** through the shared connection singleton in `src/shared/db/`. Each feature that persists data must define a `model.ts` beside its `repository.ts`, with a Mongoose schema and model for every collection it writes. Repositories must write through that model so MongoDB-bound data is validated at runtime; TypeScript interfaces remain the source of static typing. Validate external input with `zod` at API boundaries.
 - **Auth** via better-auth (email/password), session cookie based. Every owner-scoped API must verify the session and that `site.ownerId === session.user.id`; otherwise return `401` (no session) or `404` (not owner).
 - **S3**: presigned PUT uploads from the browser; objects are served from the bucket's public base URL (`S3_PUBLIC_BASE_URL`). Key pattern: `sites/{siteId}/{slotId}/{uuid}.{ext}`.
-- **Env vars** are documented in `.env.example`; never commit real secrets.
+- **Env vars** are documented in `.env.example` (names only). Never commit real secrets.
+- **Static generator code** (`src/features/static-site-generator/**`, `src/features/site-creation/**`
+  non-component files, `scripts/**`) must also compile with `tsconfig.generator.json` (CommonJS, no
+  `@/` path aliases, use relative imports).
 
+## 8. Block system rules
 
+Full design: `docs/block-system-plan.md`.
+
+- **Catalog vs theme.** The block catalog (`static-site-generator/blocks/`) defines each block's data
+  (zod schema, kind, needs, fixtures). Themes (`static-site-generator/themes/<id>/`) only render.
+  A theme never adds or renames props. A new block type is a catalog change and needs human approval.
+- **Facts are never written by AI.** `fact` blocks get their data from code (facts built from the
+  brief). AI output is only accepted for `copy` block props and is validated with the block's zod schema.
+- **A fact block never renders without its facts.** Its `needs(facts)` check decides it.
+- **All dynamic output is escaped** with the helpers in `static-site-generator/content/html.ts`
+  (`renderText`, `escapeAttribute`). Never interpolate raw strings into HTML.
+- **Every block's root element** is `<section data-block="{blockId}" …>`.
+- **No hardcoded template copy** in theme render files. All visible text comes from props.
+- Composition (which blocks and pages) is **pure rules**: no AI, no IO, deterministic for the same input.
+
+## 9. Git & verification
 
 - Create a focused Git commit for completed work; do not include unrelated changes.
 - When an epic is complete, confirm all its milestones and acceptance criteria are done, update its `STATUS.md`, and create a commit for the completed epic.
-- Manually verify the acceptance criteria in your task file (curl for APIs, browser for UI, both locales).
+- Run the checks before calling work done:
+  - `npm run lint`
+  - `npx tsc --noEmit`
+  - `npx tsc -p tsconfig.generator.json --noEmit` (generator code)
+  - `npm run build`
+- Manually verify the acceptance criteria in your task file (curl for APIs, browser for UI).
