@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed:site": "tsc -p tsconfig.generator.json && node --env-file=.env .generator-build/scripts/seed-site.js"
+    "seed:site": "tsc -p tsconfig.generator.json && node --env-file=.env .generator-build/scripts/seed-site.js",
+    "check:blocks": "tsc -p tsconfig.generator.json && node .generator-build/scripts/check-blocks.js"
   },
   "dependencies": {
     "@langchain/core": "^1.3.0",

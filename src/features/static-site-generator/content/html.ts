@@ -20,7 +20,7 @@ export function escapeAttribute(value: string): string {
 export const renderAttribute = escapeAttribute;
 
 const internalPagePattern =
-  /^(index|about|services|our-work|profile|contact)\.html(#[\w-]+)?$/;
+  /^(index|about|services|our-work|profile|contact|projects)\.html(#[\w-]+)?$/;
 
 export function isSafeHref(value: string): boolean {
   if (internalPagePattern.test(value)) {
