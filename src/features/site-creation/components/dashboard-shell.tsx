@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
-import Link from "next/link";
+import { getTranslations } from "next-intl/server";
+import { LocaleSwitcher } from "@/shared/i18n/locale-switcher";
+import { Link } from "@/shared/i18n/navigation";
 import { buttonClass } from "@/shared/ui/button";
 import { Icon } from "@/shared/ui/icon";
 import { Logo } from "@/shared/ui/logo";
@@ -30,7 +32,10 @@ function SidebarLink({
   );
 }
 
-export function DashboardShell({ children }: { children: ReactNode }) {
+export async function DashboardShell({ children }: { children: ReactNode }) {
+  const t = await getTranslations("siteCreation");
+  const common = await getTranslations("common");
+
   return (
     <div className="relative min-h-screen p-3.5">
       <div
@@ -50,33 +55,52 @@ export function DashboardShell({ children }: { children: ReactNode }) {
             </span>
             <div className="min-w-0 flex-1">
               <b className="block text-[11px] font-medium tracking-[-0.01em]">
-                Website Studio
+                {common("appName")}
               </b>
               <small className="mono-label block text-[6.5px] tracking-[0.06em] text-faint">
-                Six-page studio
+                {t("shell.badge")}
               </small>
             </div>
             <span className="rounded border border-line px-1 py-0.5 font-mono text-[6px] tracking-[0.08em] text-faint">
-              STUDIO
+              {t("shell.badgeTag")}
             </span>
           </div>
 
           <p className="mono-label px-2 text-[7px] tracking-[0.14em] text-faint">
-            Your studio
+            {t("shell.yourStudio")}
           </p>
-          <nav aria-label="Studio" className="mt-2 flex flex-col gap-0.5">
-            <SidebarLink href="/dashboard" label="Overview" icon="grid" active />
-            <SidebarLink href="/dashboard/new" label="New website" icon="plus" />
+          <nav
+            aria-label={t("shell.studioAria")}
+            className="mt-2 flex flex-col gap-0.5"
+          >
+            <SidebarLink
+              href="/dashboard"
+              label={t("shell.overview")}
+              icon="grid"
+              active
+            />
+            <SidebarLink
+              href="/dashboard/new"
+              label={t("shell.newWebsite")}
+              icon="plus"
+            />
           </nav>
 
           <p className="mono-label mt-4 px-2 text-[7px] tracking-[0.14em] text-faint">
-            Public site
+            {t("shell.publicSite")}
           </p>
-          <nav aria-label="Public site" className="mt-2 flex flex-col gap-0.5">
-            <SidebarLink href="/" label="Landing page" icon="home" />
+          <nav
+            aria-label={t("shell.publicSiteAria")}
+            className="mt-2 flex flex-col gap-0.5"
+          >
+            <SidebarLink
+              href="/"
+              label={t("shell.landingPage")}
+              icon="home"
+            />
             <SidebarLink
               href="/#how-it-works"
-              label="How it works"
+              label={t("shell.howItWorks")}
               icon="spark"
             />
           </nav>
@@ -85,25 +109,25 @@ export function DashboardShell({ children }: { children: ReactNode }) {
             <div className="relative mb-3 overflow-hidden rounded-[15px] bg-[linear-gradient(160deg,#0a5b5c,#032b2e)] p-4 text-white shadow-[0_18px_34px_-22px_rgba(2,38,41,0.6)]">
               <span
                 aria-hidden
-                className="absolute -top-11 -right-10 h-[110px] w-[110px] rounded-full bg-[radial-gradient(closest-side,rgba(255,255,255,0.2),transparent)]"
+                className="absolute -top-11 -end-10 h-[110px] w-[110px] rounded-full bg-[radial-gradient(closest-side,rgba(255,255,255,0.2),transparent)]"
               />
               <p className="mono-label relative text-[7px] tracking-[0.14em] text-white/40">
-                Quietly powerful
+                {t("shell.promoKicker")}
               </p>
               <h2 className="relative mt-2.5 font-display text-[17px] leading-[1.12] font-normal tracking-[-0.04em]">
-                Your next site
+                {t("shell.promoTitle1")}
                 <br />
-                is one brief away.
+                {t("shell.promoTitle2")}
               </h2>
               <p className="relative mt-1.5 text-[9px] leading-[1.5] text-white/45">
-                Four steps. Six pages. One calm editor.
+                {t("shell.promoBody")}
               </p>
               <Link
                 href="/dashboard/new"
                 className="relative mt-3.5 flex h-8 items-center justify-between rounded-full bg-white px-3 text-[9.5px] font-medium text-ink"
               >
-                Start a site
-                <Icon name="arrow" className="h-3 w-3" />
+                {t("shell.startSite")}
+                <Icon name="arrow" className="h-3 w-3 rtl:rotate-180" />
               </Link>
             </div>
 
@@ -112,9 +136,11 @@ export function DashboardShell({ children }: { children: ReactNode }) {
                 W
               </span>
               <div className="min-w-0 flex-1">
-                <b className="block text-[10.5px] font-medium">Website Studio</b>
+                <b className="block text-[10.5px] font-medium">
+                  {common("appName")}
+                </b>
                 <small className="block text-[8px] text-faint">
-                  Personal workspace
+                  {t("shell.personalWorkspace")}
                 </small>
               </div>
             </div>
@@ -122,16 +148,20 @@ export function DashboardShell({ children }: { children: ReactNode }) {
         </aside>
 
         <div className="min-w-0 flex-1 px-1 pb-8 lg:px-0">
-          <div className="glass mb-4 flex h-14 items-center justify-between gap-3 rounded-full pr-1.5 pl-4 lg:hidden">
+          <div className="glass mb-4 flex h-14 items-center justify-between gap-3 rounded-full pe-1.5 ps-4 lg:hidden">
             <Logo />
-            <Link
-              href="/dashboard/new"
-              className={buttonClass("primary", "sm", "px-3.5")}
-            >
-              New website
-            </Link>
+            <div className="flex items-center gap-1.5">
+              <LocaleSwitcher
+                className={buttonClass("secondary", "sm", "px-3")}
+              />
+              <Link
+                href="/dashboard/new"
+                className={buttonClass("primary", "sm", "px-3.5")}
+              >
+                {t("shell.newWebsite")}
+              </Link>
+            </div>
           </div>
-
           {children}
         </div>
       </div>

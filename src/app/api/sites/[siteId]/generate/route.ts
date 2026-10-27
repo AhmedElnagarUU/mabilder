@@ -13,7 +13,10 @@ export async function POST(
     const site = await generateContent(siteId);
 
     if (!site) {
-      return Response.json({ error: "Site not found." }, { status: 404 });
+      return Response.json(
+        { error: "Site not found.", code: "site_not_found" },
+        { status: 404 },
+      );
     }
 
     return Response.json({ ok: true, site });
@@ -29,6 +32,7 @@ export async function POST(
       {
         error:
           "AI generation failed. Your draft is saved and you can retry from the editor.",
+        code: "generation_failed",
       },
       { status: 500 },
     );

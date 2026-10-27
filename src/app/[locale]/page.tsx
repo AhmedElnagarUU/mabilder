@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import {
   LandingCta,
   LandingFooter,
@@ -9,13 +10,22 @@ import { LandingHeader } from "@/features/landing/components/landing-header";
 import { LandingHero } from "@/features/landing/components/landing-hero";
 import { LandingSteps } from "@/features/landing/components/landing-steps";
 
-export const metadata: Metadata = {
-  title: "Website Studio — from a short brief to a finished website",
-  description:
-    "Describe a business, let AI write six pages, then edit every word and image in a live visual editor.",
-};
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]">): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "landing.meta" });
 
-export default function LandingPage() {
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
+
+export default async function LandingPage({ params }: PageProps<"/[locale]">) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
   return (
     <div className="flex-1">
       <LandingHeader />

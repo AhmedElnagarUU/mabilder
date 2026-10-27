@@ -1,0 +1,449 @@
+{
+  "common": {
+    "appName": "Website Studio",
+    "appDescription": "Describe a business, generate six pages with AI, then edit every word and image visually.",
+    "language": "العربية",
+    "switchLanguage": "Switch to Arabic",
+    "notFound": {
+      "title": "Page not found",
+      "description": "This page does not exist in the studio.",
+      "back": "Back to the landing page"
+    }
+  },
+  "landing": {
+    "meta": {
+      "title": "Website Studio — from a short brief to a finished website",
+      "description": "Describe a business, let AI write six pages, then edit every word and image in a live visual editor."
+    },
+    "nav": {
+      "main": "Main",
+      "howItWorks": "How it works",
+      "capabilities": "Capabilities",
+      "principle": "The principle",
+      "openDashboard": "Open dashboard"
+    },
+    "hero": {
+      "eyebrow": "AI website studio",
+      "eyebrowAccent": "/ one short brief",
+      "titleLine1": "A finished website",
+      "titleLine2": "from a short brief.",
+      "body": "Website Studio is the AI studio for small businesses that need a considered web presence. Answer four steps and get six pages — then <em>shape them in one calm editor.</em>",
+      "primaryCta": "Open dashboard",
+      "secondaryCta": "See how it works",
+      "meta": "Four steps · Six pages · No code",
+      "preview": {
+        "aiDraft": "AI draft",
+        "sixPagesWritten": "Six pages written",
+        "liveEditor": "Live editor",
+        "clickAnyWord": "Click any word",
+        "url": "studio / northline-studio",
+        "preview": "PREVIEW",
+        "ready": "READY",
+        "version": "2.0",
+        "siteStatus": "Site status",
+        "readyToEdit": "Ready to edit",
+        "sampleSite": "Northline Studio",
+        "sampleTagline": "A calm architectural practice in Zurich.",
+        "sixPages": "Six pages",
+        "kpis": {
+          "pages": "Pages",
+          "wordsDrafted": "Words drafted",
+          "imagesPlaced": "Images placed"
+        },
+        "tableTitle": "The site, page by page",
+        "tableNote": "DRAFTED / READY",
+        "tags": {
+          "ready": "Ready"
+        },
+        "rows": {
+          "home": {
+            "name": "Home",
+            "detail": "Hero, services, selected work"
+          },
+          "studio": {
+            "name": "Studio",
+            "detail": "Story, approach, team"
+          },
+          "services": {
+            "name": "Services",
+            "detail": "Four offerings, process"
+          },
+          "contact": {
+            "name": "Contact",
+            "detail": "Form, email, location"
+          }
+        }
+      }
+    },
+    "pages": {
+      "home": "Home",
+      "studio": "Studio",
+      "services": "Services",
+      "work": "Work",
+      "profile": "Profile",
+      "contact": "Contact"
+    },
+    "trio": {
+      "website": {
+        "title": "A complete website",
+        "body": "Six pages written from one brief, in a single consistent voice."
+      },
+      "editor": {
+        "title": "A real visual editor",
+        "body": "Edit the generated page itself — type, images, links and lists."
+      },
+      "static": {
+        "title": "Static by default",
+        "body": "Fast HTML output with no runtime to maintain and no page builder."
+      }
+    },
+    "steps": {
+      "eyebrow": "02 — How it works",
+      "titleLine1": "Four steps.",
+      "titleLine2": "One finished site.",
+      "body": "There is no page builder to learn. The brief is the starting point, the AI draft is the first version, and the editor is where it becomes the business's own.",
+      "meta": {
+        "briefLabel": "The brief",
+        "briefValue": "Four short steps",
+        "draftLabel": "The draft",
+        "draftValue": "Six pages, one voice",
+        "editorLabel": "The editor",
+        "editorValue": "Click, type, save",
+        "outputLabel": "The output",
+        "outputValue": "Static, fast HTML"
+      },
+      "items": {
+        "brief": {
+          "title": "Write the brief",
+          "body": "Name the business, describe what it does, and add the services worth showing. Only the first three answers are required.",
+          "note": "About two minutes"
+        },
+        "pages": {
+          "title": "AI drafts six pages",
+          "body": "Home, studio, services, work, profile and contact — written from the facts you supplied. No invented awards, clients or history.",
+          "note": "One pass"
+        },
+        "shape": {
+          "title": "Shape it visually",
+          "body": "Click any headline, paragraph, image or link in the live preview. The page you edit is the page the website serves.",
+          "note": "Live editor"
+        },
+        "share": {
+          "title": "Share the result",
+          "body": "Save once and the static site is rebuilt. Every site gets its own preview link, ready to send to the business.",
+          "note": "Ready to share"
+        }
+      },
+      "quote": {
+        "line1": "A website shouldn't feel like a form you filled in.",
+        "line2": "It should feel like the business itself.",
+        "body": "One profile feeds every page, so the site reads like one brand from home to contact."
+      },
+      "startBrief": "Start a brief",
+      "startBriefAria": "Start a website brief"
+    },
+    "features": {
+      "eyebrow": "03 — Capabilities",
+      "titleLine1": "Everything it takes.",
+      "titleLine2": "Nothing it doesn't.",
+      "intro": "A complete website studio, reduced to the few things that matter: the brief, the draft, and the editor. The rest stays out of your way.",
+      "write": {
+        "eyebrow": "01 / Write",
+        "titleLine1": "It writes like a",
+        "titleLine2": "careful copywriter.",
+        "body": "Brief it once. The draft follows the business, its audience and its tone — then needs a light touch, not a rewrite.",
+        "mockNote": "DRAFT 01 / IN THE BUSINESS'S VOICE",
+        "mockTitle": "Spaces made for long, quiet afternoons.",
+        "mockBody": "Northline Studio designs calm residential architecture for people who would rather live slowly."
+      },
+      "ground": {
+        "eyebrow": "02 / Ground",
+        "titleLine1": "Only what",
+        "titleLine2": "you told it.",
+        "body": "Blank fields stay blank. Every award, client and claim on the website comes from the brief.",
+        "steps": {
+          "facts": {
+            "label": "The facts you supply",
+            "note": "BRIEF"
+          },
+          "draft": {
+            "label": "A six-page draft",
+            "note": "AI"
+          },
+          "review": {
+            "label": "Your review",
+            "note": "EDITOR"
+          },
+          "output": {
+            "label": "A static site",
+            "note": "OUTPUT"
+          }
+        }
+      },
+      "complete": {
+        "eyebrow": "03 / Complete",
+        "value": "6",
+        "unit": "pages",
+        "note": "Home through contact / every site",
+        "body": "The same business profile feeds every page, so nothing reads like an afterthought."
+      },
+      "shape": {
+        "eyebrow": "04 / Shape",
+        "titleLine1": "The preview",
+        "titleLine2": "is the page.",
+        "body": "Open any page, switch between edit and preview, and check the result exactly as a visitor would see it."
+      }
+    },
+    "principle": {
+      "eyebrow": "04 — The principle",
+      "tagline": "Built for small teams",
+      "note": "Six pages · One voice",
+      "quote": "“The business already knows what it is. <em>The website should catch up.</em>”",
+      "meta": "Website Studio / design principle",
+      "noTemplates": "No templates to choose"
+    },
+    "cta": {
+      "eyebrow": "05 — Start here",
+      "titleLine1": "Your next site starts",
+      "titleLine2": "with a short brief.",
+      "body": "Open the dashboard, answer four steps, and let the first draft do the heavy lifting.",
+      "button": "Open dashboard",
+      "note": "No code. No page builder. Everything editable.",
+      "metaFourSteps": "Four steps",
+      "metaSixPages": "Six pages",
+      "metaLiveEditor": "Live editor",
+      "tagline": "AI website studio / six pages per brief",
+      "copyright": "© 2026 Website Studio"
+    },
+    "footer": {
+      "brandLine": "Website Studio / AI website studio",
+      "navAria": "Footer",
+      "howItWorks": "How it works",
+      "capabilities": "Capabilities",
+      "dashboard": "Dashboard",
+      "status": "Studio ready"
+    }
+  },
+  "dashboard": {
+    "meta": {
+      "title": "Dashboard",
+      "description": "Create and manage the websites in your studio."
+    },
+    "breadcrumb": "Overview",
+    "siteCount": "{count, plural, =0 {No sites} one {# site} other {# sites}}",
+    "newWebsite": "New website",
+    "title": "Your websites",
+    "subtitle": "Open a site to refine its copy and images, or start a new brief from scratch.",
+    "note": "Six pages per brief / one calm editor",
+    "kpis": {
+      "total": {
+        "label": "Total websites",
+        "detail": "Across the studio",
+        "note": "All time"
+      },
+      "ready": {
+        "label": "Ready",
+        "detail": "Preview available",
+        "note": "Live static"
+      },
+      "inProgress": {
+        "label": "In progress",
+        "detail": "Draft or generating",
+        "note": "Working"
+      },
+      "attention": {
+        "label": "Needs attention",
+        "detail": "Failed generation",
+        "note": "Review",
+        "allClear": "All clear"
+      }
+    },
+    "empty": {
+      "kicker": "The studio is quiet",
+      "title": "No websites yet.",
+      "body": "Start with a short brief. The first draft of all six pages will be ready in a few minutes.",
+      "cta": "Create your first website"
+    },
+    "recent": {
+      "title": "Recent websites",
+      "count": "{count, plural, =0 {No sites in the studio} one {# site in the studio} other {# sites in the studio}}",
+      "startAnother": "Start another"
+    },
+    "aria": {
+      "metrics": "Key metrics",
+      "websites": "Your websites"
+    },
+    "card": {
+      "editAria": "Edit {name}",
+      "sixPages": "Six pages",
+      "updated": "Updated {date}",
+      "edit": "Edit",
+      "preview": "Preview"
+    },
+    "status": {
+      "draft": "Draft",
+      "generating": "Generating",
+      "ready": "Ready",
+      "error": "Needs attention"
+    },
+    "errors": {
+      "invalid_request": "Some details need attention. Please review the fields below.",
+      "site_not_found": "This website no longer exists.",
+      "database_unavailable": "The database is unreachable right now. Please try again in a moment.",
+      "create_failed": "Could not create the website. Please try again.",
+      "load_failed": "Could not load saved websites. Check the database connection and reload the page.",
+      "delete_failed": "Could not delete the website. Please try again.",
+      "save_failed": "Could not save your changes. Please try again.",
+      "generation_failed": "AI generation failed. Your draft is saved and you can retry.",
+      "default": "Something went wrong. Please try again."
+    }
+  },
+  "siteCreation": {
+    "meta": {
+      "title": "New website",
+      "description": "Build a brief in four steps and let AI write the first draft."
+    },
+    "header": {
+      "backToDashboard": "Back to dashboard"
+    },
+    "eyebrow": "New website / 01—04",
+    "title": "Start with the brief.",
+    "intro": "Four steps. Only the first three fields are required; everything else sharpens the copy.",
+    "stepper": {
+      "aria": "Website brief steps",
+      "stepOf": "Step {current} of {total}"
+    },
+    "steps": {
+      "basics": {
+        "title": "Basics",
+        "description": "Name, industry, and what the business does."
+      },
+      "offer": {
+        "title": "Offer",
+        "description": "Services, audience, and tone of voice."
+      },
+      "details": {
+        "title": "Details",
+        "description": "Contact, track record, and optional extras."
+      },
+      "review": {
+        "title": "Review",
+        "description": "Check the brief before AI writes."
+      }
+    },
+    "stepIntro": {
+      "basics": {
+        "title": "Tell us about the business",
+        "description": "These three answers are all the AI needs to start."
+      },
+      "offer": {
+        "title": "What should the site sell?",
+        "description": "Optional, but specific services and a clear audience make stronger copy."
+      },
+      "details": {
+        "title": "Add the details that matter",
+        "description": "Only include facts you can stand behind. Blank fields are never invented."
+      },
+      "review": {
+        "title": "Review the brief",
+        "description": "One last look before AI writes all six pages."
+      }
+    },
+    "sections": {
+      "contactLocation": "Contact and location",
+      "trackRecord": "Track record"
+    },
+    "fields": {
+      "businessName": "Business name",
+      "industry": "Industry",
+      "description": "What does the business do?",
+      "services": "Services",
+      "audience": "Audience",
+      "tone": "Tone",
+      "location": "Location",
+      "email": "Email",
+      "phone": "Phone",
+      "website": "Website",
+      "yearsInBusiness": "Years in business",
+      "projectCount": "Projects completed",
+      "awards": "Awards and recognition",
+      "notableClients": "Notable clients",
+      "extraDetails": "Anything else"
+    },
+    "placeholders": {
+      "businessName": "Northline Studio",
+      "industry": "Architecture",
+      "description": "Describe the business, what it offers, and what makes it different.",
+      "services": "One service per line. Leave blank to let the AI infer from the description.",
+      "audience": "Homeowners and developers",
+      "tone": "Warm, confident, minimal",
+      "location": "Zurich, Switzerland",
+      "email": "hello@example.com",
+      "phone": "+41 44 123 4567",
+      "website": "example.com",
+      "yearsInBusiness": "12",
+      "projectCount": "140",
+      "awards": "One per line, for example: 2023 - Swiss Architecture Prize",
+      "notableClients": "One per line. Only add names you have permission to publish.",
+      "extraDetails": "Founding story, philosophy, notable projects, or other facts to use."
+    },
+    "review": {
+      "basics": "Basics",
+      "offer": "Offer",
+      "details": "Details",
+      "edit": "Edit",
+      "notProvided": "Not provided",
+      "note": "AI writes six pages from this brief: home, studio, services, work, profile, and contact. You can edit everything afterwards."
+    },
+    "buttons": {
+      "back": "Back",
+      "continue": "Continue",
+      "createWebsite": "Create website",
+      "creating": "Creating...",
+      "writingPages": "Writing pages...",
+      "openEditor": "Open the editor"
+    },
+    "status": {
+      "saving": "Saving your business details...",
+      "generating": "Writing your six pages with AI. This can take a few minutes; keep this tab open."
+    },
+    "errors": {
+      "missingFields": "Please add: {fields}.",
+      "invalid_request": "Some details need attention. Please review the fields below.",
+      "site_not_found": "This website no longer exists.",
+      "database_unavailable": "The database is unreachable right now. Please try again in a moment.",
+      "create_failed": "Could not save the business details. Please try again.",
+      "load_failed": "Could not load the site. Please reload the page.",
+      "delete_failed": "Could not delete the website. Please try again.",
+      "save_failed": "Could not save your changes. Please try again.",
+      "generation_failed": "AI generation failed. Your draft is saved and you can retry.",
+      "default": "Something went wrong. Please try again."
+    },
+    "shell": {
+      "badge": "Six-page studio",
+      "badgeTag": "STUDIO",
+      "yourStudio": "Your studio",
+      "studioAria": "Studio",
+      "overview": "Overview",
+      "newWebsite": "New website",
+      "publicSite": "Public site",
+      "publicSiteAria": "Public site",
+      "landingPage": "Landing page",
+      "howItWorks": "How it works",
+      "promoKicker": "Quietly powerful",
+      "promoTitle1": "Your next site",
+      "promoTitle2": "is one brief away.",
+      "promoBody": "Four steps. Six pages. One calm editor.",
+      "startSite": "Start a site",
+      "personalWorkspace": "Personal workspace"
+    },
+    "delete": {
+      "aria": "Delete website",
+      "label": "Delete",
+      "question": "Delete?",
+      "deleting": "Deleting...",
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    }
+  }
+}

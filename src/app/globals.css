@@ -51,6 +51,22 @@ body {
   letter-spacing: -0.011em;
 }
 
+[dir="rtl"] body {
+  font-family: var(--font-arabic), var(--font-sans);
+  letter-spacing: 0;
+}
+
+[dir="rtl"] .font-display {
+  font-family: var(--font-arabic), var(--font-display);
+}
+
+[dir="rtl"] .mono-label,
+[dir="rtl"] .eyebrow {
+  font-family: var(--font-arabic), var(--font-mono);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
 body::before {
   content: "";
   position: fixed;

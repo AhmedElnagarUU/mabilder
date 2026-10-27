@@ -1,4 +1,7 @@
-import Link from "next/link";
+"use client";
+
+import { useTranslations } from "next-intl";
+import { Link } from "@/shared/i18n/navigation";
 
 export function Logo({
   href = "/",
@@ -7,6 +10,8 @@ export function Logo({
   href?: string;
   showName?: boolean;
 }) {
+  const t = useTranslations("common");
+
   return (
     <Link
       href={href}
@@ -24,7 +29,7 @@ export function Logo({
       </span>
       {showName ? (
         <span className="font-display text-[17px] font-medium tracking-[-0.045em] text-ink">
-          Website Studio
+          {t("appName")}
         </span>
       ) : null}
     </Link>

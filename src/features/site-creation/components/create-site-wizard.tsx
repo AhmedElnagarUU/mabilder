@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
+import { useTranslations } from "next-intl";
+import { Link, useRouter } from "@/shared/i18n/navigation";
 import { buttonClass } from "@/shared/ui/button";
 import { Field, TextAreaField } from "@/shared/ui/field";
 import { Logo } from "@/shared/ui/logo";
@@ -27,6 +27,25 @@ type FormState = {
   extraDetails: string;
 };
 
+type WizardError = {
+  code: string;
+  fields?: string[];
+  paths?: string[];
+};
+
+type CreateResponse = {
+  site?: { id: string };
+  error?: string;
+  code?: string;
+  errors?: { path: string }[];
+};
+
+type GenerateResponse = {
+  ok?: boolean;
+  error?: string;
+  code?: string;
+};
+
 const emptyForm: FormState = {
   businessName: "",
   industry: "",
@@ -45,77 +64,70 @@ const emptyForm: FormState = {
   extraDetails: "",
 };
 
-const stepHeadings = [
-  {
-    title: "Tell us about the business",
-    description: "These three answers are all the AI needs to start.",
-  },
-  {
-    title: "What should the site sell?",
-    description:
-      "Optional, but specific services and a clear audience make stronger copy.",
-  },
-  {
-    title: "Add the details that matter",
-    description:
-      "Only include facts you can stand behind. Blank fields are never invented.",
-  },
-  {
-    title: "Review the brief",
-    description: "One last look before AI writes all six pages.",
-  },
-];
+const requiredFields = [
+  "businessName",
+  "industry",
+  "description",
+] as const satisfies readonly (keyof FormState)[];
 
-type CreateResponse = {
-  site?: { id: string };
-  error?: string;
-};
+const errorCodes = new Set([
+  "invalid_request",
+  "site_not_found",
+  "database_unavailable",
+  "create_failed",
+  "load_failed",
+  "delete_failed",
+  "save_failed",
+  "generation_failed",
+]);
 
-type GenerateResponse = {
-  ok?: boolean;
-  error?: string;
-};
+function errorCodeFrom(code: string | undefined, fallback: string): string {
+  return code && errorCodes.has(code) ? code : fallback;
+}
 
 function isBlank(value: string): boolean {
   return value.trim() === "";
 }
 
 export function CreateSiteWizard() {
+  const t = useTranslations("siteCreation");
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<FormState>(emptyForm);
   const [busy, setBusy] = useState<"idle" | "creating" | "generating">("idle");
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+  const [statusKey, setStatusKey] = useState<"saving" | "generating" | null>(
+    null,
+  );
+  const [error, setError] = useState<WizardError | null>(null);
   const [failedSiteId, setFailedSiteId] = useState<string | null>(null);
 
   const isLastStep = step === wizardSteps.length - 1;
+  const stepKey = wizardSteps[step].key;
 
   function update(key: keyof FormState, value: string): void {
     setForm((current) => ({ ...current, [key]: value }));
-    setError("");
+    setError(null);
   }
 
   function goNext(): void {
     if (step === 0) {
-      const missing: string[] = [];
-
-      if (isBlank(form.businessName)) missing.push("business name");
-      if (isBlank(form.industry)) missing.push("industry");
-      if (isBlank(form.description)) missing.push("description");
+      const missing = requiredFields.filter((key) => isBlank(form[key]));
 
       if (missing.length > 0) {
-        setError(`Add the ${missing.join(", ")} to continue.`);
+        setError({
+          code: "missingFields",
+          fields: missing.map((key) => t(`fields.${key}`)),
+        });
         return;
       }
     }
 
-    setError("");
+    setError(null);
     setStep((current) => Math.min(current + 1, wizardSteps.length - 1));
   }
 
   function goBack(): void {
-    setError("");
+    setError(null);
     setStep((current) => Math.max(current - 1, 0));
   }
 
@@ -124,7 +136,7 @@ export function CreateSiteWizard() {
       return;
     }
 
-    setError("");
+    setError(null);
     setStep(index);
   }
 
@@ -141,9 +153,9 @@ export function CreateSiteWizard() {
     }
 
     setBusy("creating");
-    setError("");
+    setError(null);
     setFailedSiteId(null);
-    setMessage("Saving your business details...");
+    setStatusKey("saving");
 
     try {
       const createResponse = await fetch("/api/sites", {
@@ -154,16 +166,21 @@ export function CreateSiteWizard() {
       const created = (await createResponse.json()) as CreateResponse;
 
       if (!createResponse.ok || !created.site) {
-        throw new Error(
-          created.error ?? "Please fill in the required fields.",
-        );
+        setError({
+          code: errorCodeFrom(
+            created.code,
+            createResponse.status === 400 ? "invalid_request" : "create_failed",
+          ),
+          paths: created.errors?.map((issue) => issue.path),
+        });
+        setStatusKey(null);
+        setBusy("idle");
+        return;
       }
 
       const siteId = created.site.id;
       setBusy("generating");
-      setMessage(
-        "Writing your six pages with AI. This can take a few minutes; keep this tab open.",
-      );
+      setStatusKey("generating");
 
       const generateResponse = await fetch(`/api/sites/${siteId}/generate`, {
         method: "POST",
@@ -172,82 +189,80 @@ export function CreateSiteWizard() {
 
       if (!generateResponse.ok || !generated.ok) {
         setFailedSiteId(siteId);
-        setError(
-          generated.error ??
-            "AI generation failed. Your draft is saved and you can retry.",
-        );
+        setError({
+          code: errorCodeFrom(generated.code, "generation_failed"),
+        });
+        setStatusKey(null);
         setBusy("idle");
         return;
       }
 
       router.push(`/edit/${siteId}`);
-    } catch (caught) {
-      setError(
-        caught instanceof Error ? caught.message : "Something went wrong.",
-      );
+    } catch {
+      setError({ code: "default" });
+      setStatusKey(null);
       setBusy("idle");
     }
   }
 
   const reviewGroups = [
     {
-      title: "Basics",
+      title: t("review.basics"),
       step: 0,
       rows: [
-        ["Business name", form.businessName],
-        ["Industry", form.industry],
-        ["What it does", form.description],
+        ["businessName", form.businessName],
+        ["industry", form.industry],
+        ["description", form.description],
       ],
     },
     {
-      title: "Offer",
+      title: t("review.offer"),
       step: 1,
       rows: [
-        ["Services", form.services],
-        ["Audience", form.audience],
-        ["Tone", form.tone],
+        ["services", form.services],
+        ["audience", form.audience],
+        ["tone", form.tone],
       ],
     },
     {
-      title: "Details",
+      title: t("review.details"),
       step: 2,
       rows: [
-        ["Location", form.location],
-        ["Email", form.email],
-        ["Phone", form.phone],
-        ["Website", form.website],
-        ["Years in business", form.yearsInBusiness],
-        ["Projects completed", form.projectCount],
-        ["Awards", form.awards],
-        ["Notable clients", form.notableClients],
-        ["Anything else", form.extraDetails],
+        ["location", form.location],
+        ["email", form.email],
+        ["phone", form.phone],
+        ["website", form.website],
+        ["yearsInBusiness", form.yearsInBusiness],
+        ["projectCount", form.projectCount],
+        ["awards", form.awards],
+        ["notableClients", form.notableClients],
+        ["extraDetails", form.extraDetails],
       ],
     },
-  ];
+  ] as const;
 
   return (
     <div className="flex-1">
       <header className="px-5 pt-[18px] sm:px-8">
-        <div className="glass mx-auto flex h-[62px] w-full max-w-6xl items-center justify-between gap-4 rounded-full pr-2.5 pl-4 sm:pl-5">
+        <div className="glass mx-auto flex h-[62px] w-full max-w-6xl items-center justify-between gap-4 rounded-full pe-2.5 ps-4 sm:ps-5">
           <Logo href="/dashboard" />
           <Link
             href="/dashboard"
             className="flex items-center gap-1.5 rounded-full px-3 py-2 font-mono text-[8px] tracking-[0.08em] text-muted uppercase transition-colors hover:bg-ink/5 hover:text-ink"
           >
-            Back to dashboard
+            {t("header.backToDashboard")}
           </Link>
         </div>
       </header>
 
       <main className="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8 lg:py-14">
         <div className="max-w-2xl">
-          <p className="eyebrow text-soft">New website / 01—04</p>
+          <p className="eyebrow text-soft">{t("eyebrow")}</p>
           <h1 className="mt-5 font-display text-[clamp(38px,4.6vw,58px)] leading-[0.99] font-normal tracking-[-0.055em]">
-            Start with the brief.
+            {t("title")}
           </h1>
           <p className="mt-3 max-w-lg text-[13px] leading-[1.65] text-muted">
-            Four steps. Only the first three fields are required; everything
-            else sharpens the copy.
+            {t("intro")}
           </p>
         </div>
 
@@ -260,11 +275,14 @@ export function CreateSiteWizard() {
             <div className="mb-5 lg:hidden">
               <div className="flex items-center justify-between gap-3 text-xs">
                 <span className="font-medium text-ink">
-                  Step {step + 1} of {wizardSteps.length} ·{" "}
-                  {wizardSteps[step].title}
+                  {t("stepper.stepOf", {
+                    current: step + 1,
+                    total: wizardSteps.length,
+                  })}{" "}
+                  · {t(`steps.${stepKey}.title`)}
                 </span>
                 <span className="max-w-[50%] text-end text-[10px] leading-4 text-muted">
-                  {wizardSteps[step].description}
+                  {t(`steps.${stepKey}.description`)}
                 </span>
               </div>
               <div className="mt-2 h-1 overflow-hidden rounded-full bg-line">
@@ -282,13 +300,16 @@ export function CreateSiteWizard() {
               className="glass min-w-0 rounded-[30px] p-5 sm:p-8"
             >
               <p className="mono-label text-[8px] tracking-[0.14em] text-faint">
-                Step {step + 1} of {wizardSteps.length}
+                {t("stepper.stepOf", {
+                  current: step + 1,
+                  total: wizardSteps.length,
+                })}
               </p>
               <h2 className="mt-3 font-display text-[clamp(26px,3vw,34px)] leading-[1.05] font-normal tracking-[-0.05em]">
-                {stepHeadings[step].title}
+                {t(`stepIntro.${stepKey}.title`)}
               </h2>
               <p className="mt-2 max-w-xl text-[13px] leading-[1.65] text-muted">
-                {stepHeadings[step].description}
+                {t(`stepIntro.${stepKey}.description`)}
               </p>
 
               <div className="mt-8 space-y-6">
@@ -296,26 +317,26 @@ export function CreateSiteWizard() {
                   <>
                     <div className="grid gap-4 sm:grid-cols-2">
                       <Field
-                        label="Business name"
+                        label={t("fields.businessName")}
                         value={form.businessName}
                         onChange={(value) => update("businessName", value)}
-                        placeholder="Northline Studio"
+                        placeholder={t("placeholders.businessName")}
                         required
                       />
                       <Field
-                        label="Industry"
+                        label={t("fields.industry")}
                         value={form.industry}
                         onChange={(value) => update("industry", value)}
-                        placeholder="Architecture"
+                        placeholder={t("placeholders.industry")}
                         required
                       />
                     </div>
 
                     <TextAreaField
-                      label="What does the business do?"
+                      label={t("fields.description")}
                       value={form.description}
                       onChange={(value) => update("description", value)}
-                      placeholder="Describe the business, what it offers, and what makes it different."
+                      placeholder={t("placeholders.description")}
                       required
                       rows={5}
                     />
@@ -325,24 +346,24 @@ export function CreateSiteWizard() {
                 {step === 1 ? (
                   <>
                     <TextAreaField
-                      label="Services"
+                      label={t("fields.services")}
                       value={form.services}
                       onChange={(value) => update("services", value)}
-                      placeholder="One service per line. Leave blank to let the AI infer from the description."
+                      placeholder={t("placeholders.services")}
                       rows={5}
                     />
                     <div className="grid gap-4 sm:grid-cols-2">
                       <Field
-                        label="Audience"
+                        label={t("fields.audience")}
                         value={form.audience}
                         onChange={(value) => update("audience", value)}
-                        placeholder="Homeowners and developers"
+                        placeholder={t("placeholders.audience")}
                       />
                       <Field
-                        label="Tone"
+                        label={t("fields.tone")}
                         value={form.tone}
                         onChange={(value) => update("tone", value)}
-                        placeholder="Warm, confident, minimal"
+                        placeholder={t("placeholders.tone")}
                       />
                     </div>
                   </>
@@ -352,82 +373,82 @@ export function CreateSiteWizard() {
                   <>
                     <div>
                       <h3 className="text-[10px] font-semibold tracking-[0.14em] text-muted uppercase">
-                        Contact and location
+                        {t("sections.contactLocation")}
                       </h3>
                       <div className="mt-4 grid gap-4 sm:grid-cols-2">
                         <Field
-                          label="Location"
+                          label={t("fields.location")}
                           value={form.location}
                           onChange={(value) => update("location", value)}
-                          placeholder="Zurich, Switzerland"
+                          placeholder={t("placeholders.location")}
                         />
                         <Field
-                          label="Email"
+                          label={t("fields.email")}
                           type="email"
                           value={form.email}
                           onChange={(value) => update("email", value)}
-                          placeholder="hello@example.com"
+                          placeholder={t("placeholders.email")}
                         />
                         <Field
-                          label="Phone"
+                          label={t("fields.phone")}
                           value={form.phone}
                           onChange={(value) => update("phone", value)}
-                          placeholder="+41 44 123 4567"
+                          placeholder={t("placeholders.phone")}
                         />
                         <Field
-                          label="Website"
+                          label={t("fields.website")}
                           value={form.website}
                           onChange={(value) => update("website", value)}
-                          placeholder="example.com"
+                          placeholder={t("placeholders.website")}
                         />
                       </div>
                     </div>
 
                     <div>
                       <h3 className="text-[10px] font-semibold tracking-[0.14em] text-muted uppercase">
-                        Track record
+                        {t("sections.trackRecord")}
                       </h3>
                       <div className="mt-4 grid gap-4 sm:grid-cols-2">
                         <Field
-                          label="Years in business"
+                          label={t("fields.yearsInBusiness")}
                           value={form.yearsInBusiness}
                           onChange={(value) =>
                             update("yearsInBusiness", value)
                           }
-                          placeholder="12"
+                          placeholder={t("placeholders.yearsInBusiness")}
                         />
                         <Field
-                          label="Projects completed"
+                          label={t("fields.projectCount")}
                           value={form.projectCount}
                           onChange={(value) => update("projectCount", value)}
-                          placeholder="140"
+                          placeholder={t("placeholders.projectCount")}
                         />
                       </div>
                       <div className="mt-4 space-y-4">
                         <TextAreaField
-                          label="Awards and recognition"
+                          label={t("fields.awards")}
                           value={form.awards}
                           onChange={(value) => update("awards", value)}
-                          placeholder="One per line, for example: 2023 - Swiss Architecture Prize"
+                          placeholder={t("placeholders.awards")}
                           rows={2}
                         />
                         <TextAreaField
-                          label="Notable clients"
+                          label={t("fields.notableClients")}
                           value={form.notableClients}
                           onChange={(value) =>
                             update("notableClients", value)
                           }
-                          placeholder="One per line. Only add names you have permission to publish."
+                          placeholder={t("placeholders.notableClients")}
                           rows={2}
                         />
                       </div>
                     </div>
 
                     <TextAreaField
-                      label="Anything else"
+                      label={t("fields.extraDetails")}
                       value={form.extraDetails}
                       onChange={(value) => update("extraDetails", value)}
-                      placeholder="Founding story, philosophy, notable projects, or other facts to use."
+                      placeholder={t("placeholders.extraDetails")}
                     />
                   </>
                 ) : null}
@@ -448,18 +469,18 @@ export function CreateSiteWizard() {
                             onClick={() => goToStep(group.step)}
                             className="font-mono text-[8px] tracking-[0.08em] text-muted uppercase underline decoration-line underline-offset-4 transition-colors hover:text-ink"
                           >
-                            Edit
+                            {t("review.edit")}
                           </button>
                         </div>
 
                         <dl className="mt-2 divide-y divide-line">
-                          {group.rows.map(([label, value]) => (
+                          {group.rows.map(([key, value]) => (
                             <div
-                              key={label}
+                              key={key}
                               className="grid gap-1 py-3 sm:grid-cols-[10rem_1fr] sm:gap-4"
                             >
                               <dt className="font-mono text-[8px] font-medium tracking-[0.08em] text-muted uppercase">
-                                {label}
+                                {t(`fields.${key}`)}
                               </dt>
                               <dd
                                 className={`text-[13px] leading-6 ${
@@ -468,7 +489,7 @@ export function CreateSiteWizard() {
                                     : "text-muted/70"
                                 }`}
                               >
-                                {value.trim() ? value : "Not provided"}
+                                {value.trim() ? value : t("review.notProvided")}
                               </dd>
                             </div>
                           ))}
@@ -477,9 +498,7 @@ export function CreateSiteWizard() {
                     ))}
 
                     <p className="rounded-2xl border border-ink/10 bg-white/45 px-4 py-3 text-xs leading-5 text-soft">
-                      AI writes six pages from this brief: home, studio,
-                      services, work, profile, and contact. You can edit
-                      everything afterwards.
+                      {t("review.note")}
                     </p>
                   </div>
                 ) : null}
@@ -491,28 +510,38 @@ export function CreateSiteWizard() {
                 role="alert"
                 className="mt-4 rounded-2xl border border-danger/20 bg-danger-soft px-4 py-3 text-xs leading-5 text-danger"
               >
-                {error}
+                <p>
+                  {error.code === "missingFields"
+                    ? t("errors.missingFields", {
+                        fields: (error.fields ?? []).join(", "),
+                      })
+                    : t(`errors.${error.code}`)}
+                </p>
+                {error.paths && error.paths.length > 0 ? (
+                  <ul className="mt-2 list-disc space-y-1 ps-4 font-mono text-[10px]">
+                    {error.paths.map((path) => (
+                      <li key={path}>{path}</li>
+                    ))}
+                  </ul>
+                ) : null}
                 {failedSiteId ? (
-                  <>
-                    {" "}
-                    <Link
-                      href={`/edit/${failedSiteId}`}
-                      className="font-semibold underline"
-                    >
-                      Open the editor
-                    </Link>
-                  </>
+                  <Link
+                    href={`/edit/${failedSiteId}`}
+                    className="mt-1 inline-block font-semibold underline"
+                  >
+                    {t("buttons.openEditor")}
+                  </Link>
                 ) : null}
               </div>
             ) : null}
 
-            {busy !== "idle" ? (
+            {statusKey ? (
               <p
                 role="status"
                 aria-live="polite"
                 className="mt-4 rounded-2xl border border-ink/10 bg-white/55 px-4 py-3 text-xs leading-5 text-soft"
               >
-                {message}
+                {t(`status.${statusKey}`)}
               </p>
             ) : null}
 
@@ -523,12 +552,15 @@ export function CreateSiteWizard() {
                 disabled={step === 0 || busy !== "idle"}
                 className={buttonClass("ghost", "md")}
               >
-                Back
+                {t("buttons.back")}
               </button>
 
               <div className="flex items-center gap-4">
                 <span className="hidden text-xs text-muted sm:inline">
-                  Step {step + 1} of {wizardSteps.length}
+                  {t("stepper.stepOf", {
+                    current: step + 1,
+                    total: wizardSteps.length,
+                  })}
                 </span>
 
                 {isLastStep ? (
@@ -538,10 +570,10 @@ export function CreateSiteWizard() {
                     className={buttonClass("primary", "md", "min-w-40")}
                   >
                     {busy === "creating"
-                      ? "Creating..."
+                      ? t("buttons.creating")
                       : busy === "generating"
-                        ? "Writing pages..."
-                        : "Create website"}
+                        ? t("buttons.writingPages")
+                        : t("buttons.createWebsite")}
                   </button>
                 ) : (
                   <button
@@ -550,7 +582,7 @@ export function CreateSiteWizard() {
                     disabled={busy !== "idle"}
                     className={buttonClass("primary", "md")}
                   >
-                    Continue
+                    {t("buttons.continue")}
                   </button>
                 )}
               </div>

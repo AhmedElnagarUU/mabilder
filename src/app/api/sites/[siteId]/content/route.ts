@@ -12,11 +12,17 @@ export async function PUT(
     const result = await saveContent(siteId, await request.json());
 
     if (!result) {
-      return Response.json({ error: "Site not found." }, { status: 404 });
+      return Response.json(
+        { error: "Site not found.", code: "site_not_found" },
+        { status: 404 },
+      );
     }
 
     if (!result.ok) {
-      return Response.json({ errors: result.errors }, { status: 400 });
+      return Response.json(
+        { error: "Invalid request.", code: "invalid_request", errors: result.errors },
+        { status: 400 },
+      );
     }
 
     return Response.json({ ok: true, site: result.site });
@@ -29,7 +35,7 @@ export async function PUT(
 
     console.error(error);
     return Response.json(
-      { error: "Failed to save and regenerate the site." },
+      { error: "Failed to save and regenerate the site.", code: "save_failed" },
       { status: 500 },
     );
   }

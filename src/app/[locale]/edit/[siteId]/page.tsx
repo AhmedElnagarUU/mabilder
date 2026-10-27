@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { setRequestLocale } from "next-intl/server";
 import { ContentEditor } from "@/features/static-site-generator/components/content-editor";
 
 export const metadata: Metadata = {
@@ -8,10 +9,9 @@ export const metadata: Metadata = {
 
 export default async function EditSitePage({
   params,
-}: {
-  params: Promise<{ siteId: string }>;
-}) {
-  const { siteId } = await params;
+}: PageProps<"/[locale]/edit/[siteId]">) {
+  const { locale, siteId } = await params;
+  setRequestLocale(locale);
 
   return <ContentEditor siteId={siteId} />;
 }

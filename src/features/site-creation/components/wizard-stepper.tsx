@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Icon } from "@/shared/ui/icon";
 import { wizardSteps } from "../wizard-steps";
 
@@ -10,8 +11,10 @@ export function WizardStepper({
   current: number;
   onSelect: (index: number) => void;
 }) {
+  const t = useTranslations("siteCreation");
+
   return (
-    <nav aria-label="Website brief steps">
+    <nav aria-label={t("stepper.aria")}>
       <ol>
         {wizardSteps.map((step, index) => {
           const done = index < current;
@@ -52,10 +55,10 @@ export function WizardStepper({
                       active || done ? "text-ink" : "text-muted"
                     }`}
                   >
-                    {step.title}
+                    {t(`steps.${step.key}.title`)}
                   </span>
                   <span className="mono-label mt-1 block text-[6.5px] leading-4 tracking-[0.04em] text-faint">
-                    {step.description}
+                    {t(`steps.${step.key}.description`)}
                   </span>
                 </span>
               </button>

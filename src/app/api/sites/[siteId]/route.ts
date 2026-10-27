@@ -12,7 +12,10 @@ export async function GET(
     const site = await getSite(siteId);
 
     if (!site) {
-      return Response.json({ error: "Site not found." }, { status: 404 });
+      return Response.json(
+        { error: "Site not found.", code: "site_not_found" },
+        { status: 404 },
+      );
     }
 
     return Response.json({ site });
@@ -25,7 +28,7 @@ export async function GET(
 
     console.error(error);
     return Response.json(
-      { error: "Failed to load the site." },
+      { error: "Failed to load the site.", code: "load_failed" },
       { status: 500 },
     );
   }
@@ -40,7 +43,10 @@ export async function DELETE(
     const removed = await deleteSite(siteId);
 
     if (!removed) {
-      return Response.json({ error: "Site not found." }, { status: 404 });
+      return Response.json(
+        { error: "Site not found.", code: "site_not_found" },
+        { status: 404 },
+      );
     }
 
     return Response.json({ ok: true });
@@ -53,7 +59,7 @@ export async function DELETE(
 
     console.error(error);
     return Response.json(
-      { error: "Failed to delete the site." },
+      { error: "Failed to delete the site.", code: "delete_failed" },
       { status: 500 },
     );
   }

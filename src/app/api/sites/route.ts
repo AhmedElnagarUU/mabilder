@@ -15,7 +15,7 @@ export async function GET() {
 
     console.error(error);
     return Response.json(
-      { error: "Failed to load the sites." },
+      { error: "Failed to load the sites.", code: "load_failed" },
       { status: 500 },
     );
   }
@@ -26,7 +26,10 @@ export async function POST(request: Request) {
     const result = await createSite(await request.json());
 
     if (!result.ok) {
-      return Response.json({ errors: result.errors }, { status: 400 });
+      return Response.json(
+        { error: "Invalid request.", code: "invalid_request", errors: result.errors },
+        { status: 400 },
+      );
     }
 
     return Response.json({ site: result.site }, { status: 201 });
@@ -39,7 +42,7 @@ export async function POST(request: Request) {
 
     console.error(error);
     return Response.json(
-      { error: "Failed to create the site." },
+      { error: "Failed to create the site.", code: "create_failed" },
       { status: 500 },
     );
   }

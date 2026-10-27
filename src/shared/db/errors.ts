@@ -23,6 +23,7 @@ export function databaseErrorResponse(error: unknown): Response | null {
     {
       error:
         "The database is unreachable right now. Please try again in a moment.",
+      code: "database_unavailable",
     },
     { status: 503 },
   );

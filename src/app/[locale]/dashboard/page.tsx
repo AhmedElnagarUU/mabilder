@@ -1,16 +1,25 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { DashboardShell } from "@/features/site-creation/components/dashboard-shell";
 import { DeleteSiteButton } from "@/features/site-creation/components/delete-site-button";
 import { listSites } from "@/features/site-creation/service";
 import type { SiteSummary } from "@/features/site-creation/types";
+import { LocaleSwitcher } from "@/shared/i18n/locale-switcher";
+import { Link } from "@/shared/i18n/navigation";
 import { buttonClass } from "@/shared/ui/button";
 import { Icon } from "@/shared/ui/icon";
 
-export const metadata: Metadata = {
-  title: "Dashboard",
-  description: "Create and manage the websites in your studio.",
-};
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]/dashboard">): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "dashboard.meta" });
+
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
 
 export const dynamic = "force-dynamic";
 
@@ -26,13 +35,6 @@ const statusDots: Record<SiteSummary["status"], string> = {
   generating: "bg-warn",
   ready: "bg-ink",
   error: "bg-danger",
-};
-
-const statusLabels: Record<SiteSummary["status"], string> = {
-  draft: "Draft",
-  generating: "Generating",
-  ready: "Ready",
-  error: "Needs attention",
 };
 
 const covers = [
@@ -58,8 +60,8 @@ const covers = [
   },
 ];
 
-function formatDate(value: string): string {
-  return new Date(value).toLocaleDateString("en-US", {
+function formatDate(locale: string, value: string): string {
+  return new Date(value).toLocaleDateString(locale, {
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -70,7 +72,13 @@ function initialOf(name: string): string {
   return (name.trim()[0] ?? "W").toUpperCase();
 }
 
-function StatusChip({ status }: { status: SiteSummary["status"] }) {
+function StatusChip({
+  status,
+  label,
+}: {
+  status: SiteSummary["status"];
+  label: string;
+}) {
   return (
     <span
       className={`inline-flex shrink-0 items-center gap-1.5 rounded border px-2 py-1 font-mono text-[7px] tracking-[0.08em] uppercase ${statusStyles[status]}`}
@@ -80,7 +88,7 @@ function StatusChip({ status }: { status: SiteSummary["status"] }) {
           status === "generating" ? "animate-pulse" : ""
         }`}
       />
-      {statusLabels[status]}
+      {label}
     </span>
   );
 }
@@ -111,7 +119,7 @@ function Kpi({
       {dark ? (
         <span
           aria-hidden
-          className="absolute -top-10 -right-8 h-[120px] w-[120px] rounded-full bg-[radial-gradient(closest-side,rgba(255,255,255,0.13),transparent)]"
+          className="absolute -top-10 -end-8 h-[120px] w-[120px] rounded-full bg-[radial-gradient(closest-side,rgba(255,255,255,0.13),transparent)]"
         />
       ) : null}
 
@@ -155,7 +163,15 @@ function Kpi({
   );
 }
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  params,
+}: PageProps<"/[locale]/dashboard">) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
+  const t = await getTranslations("dashboard");
+  const common = await getTranslations("common");
+
   let sites: SiteSummary[] = [];
   let loadFailed = false;
 
@@ -177,21 +193,24 @@ export default async function DashboardPage() {
       <main>
         <div className="flex items-center gap-4 py-2 pb-6">
           <p className="mono-label flex items-center gap-2 text-[8px] tracking-[0.08em] text-faint">
-            <b className="font-medium text-soft">Website Studio</b>
-            <Icon name="chevron" className="h-2 w-2 -rotate-90" />
-            Overview
+            <b className="font-medium text-soft">{common("appName")}</b>
+            <Icon name="chevron" className="h-2 w-2 -rotate-90 rtl:rotate-90" />
+            {t("breadcrumb")}
           </p>
           <div className="ms-auto flex items-center gap-2">
             <span className="hidden h-9 items-center gap-1.5 rounded-full border border-line bg-white/55 px-3 font-mono text-[8px] tracking-[0.06em] text-soft shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:flex">
               <i className="h-[4px] w-[4px] rounded-full bg-ink" />
-              {sites.length} {sites.length === 1 ? "site" : "sites"}
+              {t("siteCount", { count: sites.length })}
             </span>
+            <LocaleSwitcher
+              className={buttonClass("secondary", "sm", "hidden px-3.5 sm:inline-flex")}
+            />
             <Link
               href="/dashboard/new"
               className={buttonClass("primary", "sm", "gap-1.5 px-4")}
             >
               <Icon name="plus" className="h-3.5 w-3.5" />
-              New website
+              {t("newWebsite")}
             </Link>
           </div>
         </div>
@@ -199,54 +218,60 @@ export default async function DashboardPage() {
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="font-display text-[clamp(32px,3.5vw,46px)] leading-none font-normal tracking-[-0.055em]">
-              Your websites<span className="text-accent">.</span>
+              {t("title")}
+              <span className="text-accent">.</span>
             </h1>
             <p className="mt-2.5 text-[11.5px] text-muted">
-              Open a site to refine its copy and images, or start a new brief
-              from scratch.
+              {t("subtitle")}
             </p>
           </div>
           <p className="mono-label hidden text-[7.5px] tracking-[0.1em] text-faint lg:block">
-            Six pages per brief / one calm editor
+            {t("note")}
           </p>
         </div>
 
         {loadFailed ? (
           <p className="rounded-[18px] border border-danger/20 bg-danger-soft px-4 py-3 text-xs text-danger">
-            Could not load saved websites. Check the database connection and
-            reload the page.
+            {t("errors.load_failed")}
           </p>
         ) : null}
 
         {!loadFailed ? (
-          <section aria-label="Key metrics" className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <section
+            aria-label={t("aria.metrics")}
+            className="grid grid-cols-2 gap-3 lg:grid-cols-4"
+          >
             <Kpi
-              label="Total websites"
+              label={t("kpis.total.label")}
               value={sites.length}
-              detail="Across the studio"
-              note="All time"
+              detail={t("kpis.total.detail")}
+              note={t("kpis.total.note")}
               icon="grid"
               dark
             />
             <Kpi
-              label="Ready"
+              label={t("kpis.ready.label")}
               value={readyCount}
-              detail="Preview available"
-              note="Live static"
+              detail={t("kpis.ready.detail")}
+              note={t("kpis.ready.note")}
               icon="check"
             />
             <Kpi
-              label="In progress"
+              label={t("kpis.inProgress.label")}
               value={inProgressCount}
-              detail="Draft or generating"
-              note="Working"
+              detail={t("kpis.inProgress.detail")}
+              note={t("kpis.inProgress.note")}
               icon="clock"
             />
             <Kpi
-              label="Needs attention"
+              label={t("kpis.attention.label")}
               value={attentionCount}
-              detail="Failed generation"
-              note={attentionCount > 0 ? "Review" : "All clear"}
+              detail={t("kpis.attention.detail")}
+              note={
+                attentionCount > 0
+                  ? t("kpis.attention.note")
+                  : t("kpis.attention.allClear")
+              }
               icon="shield"
             />
           </section>
@@ -258,43 +283,41 @@ export default async function DashboardPage() {
               <Icon name="pages" className="h-5 w-5" />
             </div>
             <p className="mono-label mt-5 text-[8px] tracking-[0.12em] text-faint">
-              The studio is quiet
+              {t("empty.kicker")}
             </p>
             <h2 className="mt-3 font-display text-[clamp(28px,3vw,38px)] leading-none font-normal tracking-[-0.05em]">
-              No websites yet.
+              {t("empty.title")}
             </h2>
             <p className="mx-auto mt-3 max-w-md text-xs leading-[1.65] text-muted">
-              Start with a short brief. The first draft of all six pages will be
-              ready in a few minutes.
+              {t("empty.body")}
             </p>
             <Link
               href="/dashboard/new"
               className={buttonClass("primary", "md", "mt-7 gap-2")}
             >
-              Create your first website
-              <Icon name="arrow" className="h-3.5 w-3.5" />
+              {t("empty.cta")}
+              <Icon name="arrow" className="h-3.5 w-3.5 rtl:rotate-180" />
             </Link>
           </section>
         ) : null}
 
         {sites.length > 0 ? (
-          <section aria-label="Your websites" className="mt-8">
+          <section aria-label={t("aria.websites")} className="mt-8">
             <div className="mb-3.5 flex items-end justify-between gap-4">
               <div>
                 <h2 className="font-display text-base font-medium tracking-[-0.035em]">
-                  Recent websites
+                  {t("recent.title")}
                 </h2>
                 <p className="mono-label mt-1 text-[7px] tracking-[0.05em] text-faint">
-                  {sites.length} {sites.length === 1 ? "site" : "sites"} in the
-                  studio
+                  {t("recent.count", { count: sites.length })}
                 </p>
               </div>
               <Link
                 href="/dashboard/new"
                 className="flex items-center gap-1 font-mono text-[7px] tracking-[0.08em] text-faint uppercase transition-colors hover:text-ink"
               >
-                Start another
-                <Icon name="arrow" className="h-2.5 w-2.5" />
+                {t("recent.startAnother")}
+                <Icon name="arrow" className="h-2.5 w-2.5 rtl:rotate-180" />
               </Link>
             </div>
 
@@ -309,7 +332,7 @@ export default async function DashboardPage() {
                   >
                     <Link
                       href={`/edit/${site.id}`}
-                      aria-label={`Edit ${site.businessName}`}
+                      aria-label={t("card.editAria", { name: site.businessName })}
                       className="block overflow-hidden border-b border-white/50"
                     >
                       <div
@@ -327,33 +350,30 @@ export default async function DashboardPage() {
 
                         <span
                           aria-hidden
-                          className="absolute -top-16 -right-10 h-48 w-48 rounded-full border border-black/8"
+                          className="absolute -top-16 -end-10 h-48 w-48 rounded-full border border-black/8"
                         />
                         <span
                           aria-hidden
-                          className="absolute -top-8 -right-2 h-32 w-32 rounded-full border border-black/8"
+                          className="absolute -top-8 -end-2 h-32 w-32 rounded-full border border-black/8"
                         />
 
                         <span
-                          className="absolute bottom-3 left-5 font-display text-[76px] leading-none font-normal tracking-[-0.08em] sm:text-[84px]"
+                          className="absolute bottom-3 start-5 font-display text-[76px] leading-none font-normal tracking-[-0.08em] sm:text-[84px]"
                           style={{ color: cover.ink }}
                         >
                           {initialOf(site.businessName)}
                         </span>
 
                         <span
-                          className="mono-label absolute top-12 left-5 text-[7px] tracking-[0.12em]"
+                          className="mono-label absolute top-12 start-5 text-[7px] tracking-[0.12em]"
                           style={{ color: cover.ink, opacity: 0.55 }}
                         >
                           {String(index + 1).padStart(2, "0")} /{" "}
                           {site.industry}
                         </span>
 
-                        <span
-                          className="absolute right-5 bottom-5 font-mono text-[7px] tracking-[0.1em] uppercase"
-                          style={{ color: cover.ink, opacity: 0.45 }}
-                        >
-                          Six pages
+                        <span className="absolute end-5 bottom-5 font-mono text-[7px] tracking-[0.1em] uppercase" style={{ color: cover.ink, opacity: 0.45 }}>
+                          {t("card.sixPages")}
                         </span>
                       </div>
                     </Link>
@@ -365,10 +385,15 @@ export default async function DashboardPage() {
                             {site.businessName}
                           </h3>
                           <p className="mono-label mt-1 text-[6.5px] tracking-[0.05em] text-faint">
-                            Updated {formatDate(site.updatedAt)}
+                            {t("card.updated", {
+                              date: formatDate(locale, site.updatedAt),
+                            })}
                           </p>
                         </div>
-                        <StatusChip status={site.status} />
+                        <StatusChip
+                          status={site.status}
+                          label={t(`status.${site.status}`)}
+                        />
                       </div>
 
                       <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-line pt-3.5">
@@ -376,7 +401,7 @@ export default async function DashboardPage() {
                           href={`/edit/${site.id}`}
                           className={buttonClass("primary", "sm", "px-3.5")}
                         >
-                          Edit
+                          {t("card.edit")}
                         </Link>
                         <a
                           href={`/preview/${site.id}/index.html`}
@@ -384,7 +409,7 @@ export default async function DashboardPage() {
                           rel="noopener noreferrer"
                           className={buttonClass("secondary", "sm", "px-3.5 gap-1.5")}
                         >
-                          Preview
+                          {t("card.preview")}
                           <Icon name="external" className="h-3 w-3" />
                         </a>
                         <span className="ms-auto">
