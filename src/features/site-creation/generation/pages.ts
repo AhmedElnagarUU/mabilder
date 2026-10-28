@@ -1,5 +1,5 @@
 import { HumanMessage, SystemMessage } from "@langchain/core/messages";
-import type { ChatGoogleGenerativeAI } from "@langchain/google-genai";
+import type { ChatOpenAI } from "@langchain/openai";
 import { z } from "zod";
 import {
   buildPagePrompt,
@@ -26,7 +26,7 @@ function findMissing(entries: PageEntries, paths: string[]): string[] {
 }
 
 export async function generatePageEntries(
-  model: ChatGoogleGenerativeAI,
+  model: ChatOpenAI,
   input: PagePromptInput,
 ): Promise<Map<string, string>> {
   const structured = model.withStructuredOutput(pageEntriesSchema, {

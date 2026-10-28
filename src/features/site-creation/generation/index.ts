@@ -1,4 +1,4 @@
-import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
+import { ChatOpenAI } from "@langchain/openai";
 import type { SiteContent } from "../../static-site-generator/content/types";
 import { finalizeContent } from "../base-content";
 import type { BusinessBrief } from "../types";
@@ -24,16 +24,18 @@ const pageLabels: Record<PageKey, string> = {
   contact: "Contact",
 };
 
-function createGenerationModel(): ChatGoogleGenerativeAI {
-  const apiKey = process.env.GEMINI_KEY;
+// OpenRouter speaks the OpenAI API, so ChatOpenAI only needs its base URL.
+function createGenerationModel(): ChatOpenAI {
+  const apiKey = process.env.OPENROUTER_API_KEY;
 
   if (!apiKey) {
-    throw new Error("GEMINI_KEY is not set.");
+    throw new Error("OPENROUTER_API_KEY is not set.");
   }
 
-  return new ChatGoogleGenerativeAI({
+  return new ChatOpenAI({
     apiKey,
-    model: process.env.GEMINI_MODEL ?? "gemini-3.8-flash",
+    model: process.env.OPENROUTER_MODEL ?? "xingchen-agi/xing4.0-29b-a4b:free",
+    configuration: { baseURL: "https://openrouter.ai/api/v1" },
     temperature: 0.7,
     maxRetries: 0,
   });

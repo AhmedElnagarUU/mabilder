@@ -1,5 +1,5 @@
 import { HumanMessage, SystemMessage } from "@langchain/core/messages";
-import type { ChatGoogleGenerativeAI } from "@langchain/google-genai";
+import type { ChatOpenAI } from "@langchain/openai";
 import { z } from "zod";
 import { splitList } from "../text";
 import type { BusinessBrief } from "../types";
@@ -31,7 +31,7 @@ export function fallbackProfile(brief: BusinessBrief): BusinessProfile {
 }
 
 export async function normalizeBusinessProfile(
-  model: ChatGoogleGenerativeAI,
+  model: ChatOpenAI,
   brief: BusinessBrief,
 ): Promise<BusinessProfile> {
   try {
