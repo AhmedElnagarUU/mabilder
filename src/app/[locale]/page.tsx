@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import {
-  LandingCta,
-  LandingFooter,
-  LandingPrinciple,
-} from "@/features/landing/components/landing-cta";
-import { LandingFeatures } from "@/features/landing/components/landing-features";
+import { LandingAbout } from "@/features/landing/components/landing-about";
+import { LandingCapabilities } from "@/features/landing/components/landing-capabilities";
+import { LandingCta } from "@/features/landing/components/landing-cta";
+import { LandingFooter } from "@/features/landing/components/landing-footer";
 import { LandingHeader } from "@/features/landing/components/landing-header";
 import { LandingHero } from "@/features/landing/components/landing-hero";
-import { LandingSteps } from "@/features/landing/components/landing-steps";
+import { LandingHow } from "@/features/landing/components/landing-how";
+import { LandingIndustries } from "@/features/landing/components/landing-industries";
+import { LandingOrbit } from "@/features/landing/components/landing-orbit";
+import { LandingPrinciple } from "@/features/landing/components/landing-principle";
+import { LandingStats } from "@/features/landing/components/landing-stats";
 
 export async function generateMetadata({
   params,
@@ -31,8 +33,12 @@ export default async function LandingPage({ params }: PageProps<"/[locale]">) {
       <LandingHeader />
       <main>
         <LandingHero />
-        <LandingSteps />
-        <LandingFeatures />
+        <LandingIndustries />
+        <LandingOrbit />
+        <LandingAbout />
+        <LandingHow />
+        <LandingCapabilities />
+        <LandingStats />
         <LandingPrinciple />
         <LandingCta />
       </main>

@@ -1,21 +1,20 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { IBM_Plex_Sans_Arabic, Inter, Sora } from "next/font/google";
+import { Geist, Geist_Mono, IBM_Plex_Sans_Arabic } from "next/font/google";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import "../globals.css";
 import { getDirection } from "@/shared/i18n/direction";
 import { routing } from "@/shared/i18n/routing";
 
-const inter = Inter({
-  variable: "--font-inter",
+const geist = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
-const sora = Sora({
-  variable: "--font-sora",
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
 });
 
 const arabic = IBM_Plex_Sans_Arabic({
@@ -61,7 +60,7 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       dir={getDirection(locale)}
-      className={`${inter.variable} ${sora.variable} ${arabic.variable} h-full antialiased`}
+      className={`${geist.variable} ${geistMono.variable} ${arabic.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col text-ink">
         <NextIntlClientProvider>{children}</NextIntlClientProvider>

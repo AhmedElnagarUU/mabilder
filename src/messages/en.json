@@ -12,216 +12,226 @@
   },
   "landing": {
     "meta": {
-      "title": "Website Studio — from a short brief to a finished website",
-      "description": "Describe a business, let AI write six pages, then edit every word and image in a live visual editor."
+      "title": "Website Studio — Websites for firms that build",
+      "description": "Website Studio builds complete websites for architecture, interior design and construction firms — written by AI from your real projects, in English, Arabic, or both."
     },
     "nav": {
-      "main": "Main",
+      "main": "Main navigation",
+      "home": "Home",
       "howItWorks": "How it works",
       "capabilities": "Capabilities",
-      "principle": "The principle",
-      "openDashboard": "Open dashboard"
+      "languages": "Languages",
+      "principle": "Principle",
+      "startTrial": "Start free trial",
+      "openMenu": "Open menu",
+      "closeMenu": "Close menu"
     },
     "hero": {
-      "eyebrow": "AI website studio",
-      "eyebrowAccent": "/ one short brief",
-      "titleLine1": "A finished website",
-      "titleLine2": "from a short brief.",
-      "body": "Website Studio is the AI studio for small businesses that need a considered web presence. Answer four steps and get six pages — then <em>shape them in one calm editor.</em>",
-      "primaryCta": "Open dashboard",
-      "secondaryCta": "See how it works",
-      "meta": "Four steps · Six pages · No code",
-      "preview": {
-        "aiDraft": "AI draft",
-        "sixPagesWritten": "Six pages written",
-        "liveEditor": "Live editor",
-        "clickAnyWord": "Click any word",
-        "url": "studio / northline-studio",
-        "preview": "PREVIEW",
-        "ready": "READY",
-        "version": "2.0",
-        "siteStatus": "Site status",
-        "readyToEdit": "Ready to edit",
-        "sampleSite": "Northline Studio",
-        "sampleTagline": "A calm architectural practice in Zurich.",
-        "sixPages": "Six pages",
-        "kpis": {
-          "pages": "Pages",
-          "wordsDrafted": "Words drafted",
-          "imagesPlaced": "Images placed"
+      "badgeTitle": "AI website builder",
+      "badgeMeta": "· architecture · interiors · construction",
+      "titleLine1": "Your projects deserve",
+      "titleLine2": "a website that shows them",
+      "primaryCta": "Start free trial",
+      "note": "15-day free trial · No card needed · English & Arabic",
+      "sheet": {
+        "url": "atelier-nour / index",
+        "langEn": "EN",
+        "langAr": "ع",
+        "brand": "Atelier Nour",
+        "nav": {
+          "projects": "Projects",
+          "services": "Services",
+          "about": "About",
+          "contact": "Contact"
         },
-        "tableTitle": "The site, page by page",
-        "tableNote": "DRAFTED / READY",
-        "tags": {
-          "ready": "Ready"
-        },
-        "rows": {
-          "home": {
-            "name": "Home",
-            "detail": "Hero, services, selected work"
-          },
-          "studio": {
-            "name": "Studio",
-            "detail": "Story, approach, team"
-          },
-          "services": {
-            "name": "Services",
-            "detail": "Four offerings, process"
-          },
-          "contact": {
-            "name": "Contact",
-            "detail": "Form, email, location"
-          }
-        }
+        "kicker": "Interior design · Riyadh",
+        "headlineLine1": "Calm interiors for",
+        "headlineLine2": "homes built to last.",
+        "projectOneName": "Al Malqa Villa",
+        "projectOneMeta": "Residential · 2025",
+        "projectTwoName": "Hittin Offices",
+        "projectTwoMeta": "Workplace · 2024",
+        "projectThreeName": "Diriyah Café",
+        "projectThreeMeta": "Hospitality · 2024"
       }
     },
-    "pages": {
-      "home": "Home",
-      "studio": "Studio",
-      "services": "Services",
-      "work": "Work",
-      "profile": "Profile",
-      "contact": "Contact"
+    "industries": {
+      "aria": "Made for",
+      "label": "Made for firms in",
+      "architecture": "Architecture",
+      "interior": "Interior design",
+      "decoration": "Decoration",
+      "engineering": "Engineering",
+      "construction": "Construction",
+      "contracting": "Contracting"
     },
-    "trio": {
-      "website": {
-        "title": "A complete website",
-        "body": "Six pages written from one brief, in a single consistent voice."
-      },
-      "editor": {
-        "title": "A real visual editor",
-        "body": "Edit the generated page itself — type, images, links and lists."
-      },
-      "static": {
-        "title": "Static by default",
-        "body": "Fast HTML output with no runtime to maintain and no page builder."
-      }
+    "orbit": {
+      "aria": "What Website Studio is",
+      "copy": "One short brief becomes a complete website — written by AI, built around your real projects, in English, Arabic, or both.",
+      "aiWritten": "AI-written",
+      "factsOnly": "Your facts only",
+      "languages": "English · عربي"
     },
-    "steps": {
-      "eyebrow": "02 — How it works",
-      "titleLine1": "Four steps.",
-      "titleLine2": "One finished site.",
-      "body": "There is no page builder to learn. The brief is the starting point, the AI draft is the first version, and the editor is where it becomes the business's own.",
-      "meta": {
-        "briefLabel": "The brief",
-        "briefValue": "Four short steps",
-        "draftLabel": "The draft",
-        "draftValue": "Six pages, one voice",
-        "editorLabel": "The editor",
-        "editorValue": "Click, type, save",
-        "outputLabel": "The output",
-        "outputValue": "Static, fast HTML"
-      },
-      "items": {
+    "about": {
+      "titleLine1": "Built for firms",
+      "titleLine2": "that build things —",
+      "titleLine3": "architecture, interiors",
+      "titleAccent": "and construction.",
+      "body": "Tell us about your business and add what you already have: projects, services, years of experience. Website Studio writes the words, picks the sections that fit, and leaves out anything you didn't give it. No empty pages. No invented numbers.",
+      "link": "See how it works"
+    },
+    "how": {
+      "num": "01",
+      "label": "How it works",
+      "aside": "Four steps",
+      "titleLine1": "From a short brief",
+      "titleAccent": "to a finished website.",
+      "intro": "No page builder to learn. You answer a few questions, AI does the first draft, and you shape the rest.",
+      "steps": {
         "brief": {
-          "title": "Write the brief",
-          "body": "Name the business, describe what it does, and add the services worth showing. Only the first three answers are required.",
-          "note": "About two minutes"
+          "num": "01",
+          "title": "Tell us about your firm",
+          "body": "Name, industry and what you do. About two minutes.",
+          "note": "The brief"
         },
-        "pages": {
-          "title": "AI drafts six pages",
-          "body": "Home, studio, services, work, profile and contact — written from the facts you supplied. No invented awards, clients or history.",
-          "note": "One pass"
+        "facts": {
+          "num": "02",
+          "title": "Add your projects and facts",
+          "body": "Projects, services, clients, awards — whatever you have. Nothing is required beyond the basics.",
+          "note": "Your facts"
         },
-        "shape": {
-          "title": "Shape it visually",
-          "body": "Click any headline, paragraph, image or link in the live preview. The page you edit is the page the website serves.",
-          "note": "Live editor"
+        "build": {
+          "num": "03",
+          "title": "AI builds the website",
+          "body": "It writes the copy, chooses the sections your content supports, and adds photos where you have none.",
+          "note": "The draft"
         },
         "share": {
-          "title": "Share the result",
-          "body": "Save once and the static site is rebuilt. Every site gets its own preview link, ready to send to the business.",
-          "note": "Ready to share"
+          "num": "04",
+          "title": "Arrange and share",
+          "body": "Reorder or hide sections, edit any word or image, then share your preview link.",
+          "note": "Your website"
         }
-      },
-      "quote": {
-        "line1": "A website shouldn't feel like a form you filled in.",
-        "line2": "It should feel like the business itself.",
-        "body": "One profile feeds every page, so the site reads like one brand from home to contact."
-      },
-      "startBrief": "Start a brief",
-      "startBriefAria": "Start a website brief"
-    },
-    "features": {
-      "eyebrow": "03 — Capabilities",
-      "titleLine1": "Everything it takes.",
-      "titleLine2": "Nothing it doesn't.",
-      "intro": "A complete website studio, reduced to the few things that matter: the brief, the draft, and the editor. The rest stays out of your way.",
-      "write": {
-        "eyebrow": "01 / Write",
-        "titleLine1": "It writes like a",
-        "titleLine2": "careful copywriter.",
-        "body": "Brief it once. The draft follows the business, its audience and its tone — then needs a light touch, not a rewrite.",
-        "mockNote": "DRAFT 01 / IN THE BUSINESS'S VOICE",
-        "mockTitle": "Spaces made for long, quiet afternoons.",
-        "mockBody": "Northline Studio designs calm residential architecture for people who would rather live slowly."
-      },
-      "ground": {
-        "eyebrow": "02 / Ground",
-        "titleLine1": "Only what",
-        "titleLine2": "you told it.",
-        "body": "Blank fields stay blank. Every award, client and claim on the website comes from the brief.",
-        "steps": {
-          "facts": {
-            "label": "The facts you supply",
-            "note": "BRIEF"
-          },
-          "draft": {
-            "label": "A six-page draft",
-            "note": "AI"
-          },
-          "review": {
-            "label": "Your review",
-            "note": "EDITOR"
-          },
-          "output": {
-            "label": "A static site",
-            "note": "OUTPUT"
-          }
-        }
-      },
-      "complete": {
-        "eyebrow": "03 / Complete",
-        "value": "6",
-        "unit": "pages",
-        "note": "Home through contact / every site",
-        "body": "The same business profile feeds every page, so nothing reads like an afterthought."
-      },
-      "shape": {
-        "eyebrow": "04 / Shape",
-        "titleLine1": "The preview",
-        "titleLine2": "is the page.",
-        "body": "Open any page, switch between edit and preview, and check the result exactly as a visitor would see it."
       }
     },
+    "capabilities": {
+      "num": "02",
+      "label": "Capabilities",
+      "aside": "Made for your industry",
+      "titleLine1": "Everything a firm needs.",
+      "titleAccent": "Nothing it doesn't.",
+      "intro": "One calm tool for the words, the projects, the languages and the layout — so the website reads like your firm, not like a template.",
+      "writing": {
+        "tag": "AI writing",
+        "index": "01 / 05",
+        "title": "It writes like your firm — and never invents a fact.",
+        "body": "AI writes every heading and paragraph from your brief. Numbers, clients, awards and names only appear if you gave them.",
+        "briefLabel": "From your brief",
+        "chipOne": "Interior design",
+        "chipTwo": "Riyadh",
+        "chipThree": "12 years",
+        "chipFour": "64 projects",
+        "pageLabel": "On your website",
+        "pageTitle": "Calm interiors for homes built to last.",
+        "pageBody": "For twelve years, Atelier Nour has designed homes and workplaces across Riyadh…",
+        "statValue": "64",
+        "statLabel": "projects delivered",
+        "insightStrong": "Only your facts",
+        "insightText": "— empty fields stay empty. The AI writes descriptions, not claims."
+      },
+      "projects": {
+        "tag": "Projects first",
+        "index": "02 / 05",
+        "title": "Your work leads every page.",
+        "body": "Add projects with photos and they become the heart of the site. No photos yet? We place fitting ones until you upload yours.",
+        "projectName": "Al Malqa Villa",
+        "projectMeta": "Residential · Riyadh · 2025",
+        "featured": "Featured",
+        "pageLabel": "Projects page",
+        "pageNote": "Shown when you add projects"
+      },
+      "languages": {
+        "tag": "Languages",
+        "index": "03 / 05",
+        "title": "English, Arabic, or both.",
+        "tagEn": "EN",
+        "tagAr": "ع",
+        "home": "Home",
+        "ltr": "Left to right",
+        "homeAr": "الرئيسية",
+        "rtl": "Right to left",
+        "switch": "⇄",
+        "switchTitle": "Language link",
+        "switchNote": "Same page, other language",
+        "everyPage": "every page",
+        "indexFile": "index.html",
+        "arabicFile": "ar/index.html",
+        "foot": "One layout · two languages",
+        "ready": "RTL ready"
+      },
+      "sections": {
+        "tag": "Sections",
+        "index": "04 / 05",
+        "title": "Arrange it your way.",
+        "introduction": "Introduction",
+        "projects": "Projects",
+        "team": "Team — hidden by you",
+        "contact": "Contact",
+        "controls": "Move up · Move down · Hide · Restore"
+      },
+      "neverEmpty": {
+        "tag": "Never empty",
+        "index": "05 / 05",
+        "title": "No empty sections. Ever.",
+        "value": "9",
+        "unit": "sections shown",
+        "withContent": "With your content",
+        "withContentValue": "9",
+        "skipped": "Skipped — no data",
+        "skippedValue": "3",
+        "invented": "Invented",
+        "inventedValue": "0"
+      }
+    },
+    "stats": {
+      "aria": "Website Studio in numbers",
+      "trial": "15 days",
+      "trialLabel": "Free trial, no card",
+      "languages": "2",
+      "languagesLabel": "Languages · English & Arabic",
+      "sections": "18",
+      "sectionsLabel": "Ready-made sections",
+      "invented": "0",
+      "inventedLabel": "Invented facts"
+    },
     "principle": {
-      "eyebrow": "04 — The principle",
-      "tagline": "Built for small teams",
-      "note": "Six pages · One voice",
-      "quote": "“The business already knows what it is. <em>The website should catch up.</em>”",
-      "meta": "Website Studio / design principle",
-      "noTemplates": "No templates to choose"
+      "mark": "The principle",
+      "quote": "“Your firm already has the story. <em>The website should tell it in your words, around your projects.</em>”",
+      "label": "Design principle",
+      "avatar": "WS"
     },
     "cta": {
-      "eyebrow": "05 — Start here",
-      "titleLine1": "Your next site starts",
-      "titleLine2": "with a short brief.",
-      "body": "Open the dashboard, answer four steps, and let the first draft do the heavy lifting.",
-      "button": "Open dashboard",
-      "note": "No code. No page builder. Everything editable.",
-      "metaFourSteps": "Four steps",
-      "metaSixPages": "Six pages",
-      "metaLiveEditor": "Live editor",
-      "tagline": "AI website studio / six pages per brief",
-      "copyright": "© 2026 Website Studio"
+      "label": "Start today",
+      "aside": "15-day free trial",
+      "titleLine1": "Show your projects",
+      "titleAccent": "the way they deserve.",
+      "body": "Answer a short brief, add your projects, and get a complete website in English, Arabic, or both.",
+      "button": "Start free trial",
+      "secondary": "See how it works",
+      "note": "No card needed · One website per business · Cancel anytime"
     },
     "footer": {
-      "brandLine": "Website Studio / AI website studio",
-      "navAria": "Footer",
+      "tagline": "The website builder for architecture, interior design and construction firms.",
+      "product": "Product",
+      "account": "Account",
       "howItWorks": "How it works",
       "capabilities": "Capabilities",
+      "languages": "Languages",
+      "principle": "Principle",
       "dashboard": "Dashboard",
-      "status": "Studio ready"
+      "startTrial": "Start free trial",
+      "copyright": "© 2026 Website Studio",
+      "legalAria": "Language"
     }
   },
   "dashboard": {

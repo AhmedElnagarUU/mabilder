@@ -3,10 +3,10 @@ import type { ReactNode } from "react";
 type BadgeTone = "neutral" | "warn" | "success" | "danger";
 
 const toneClasses: Record<BadgeTone, string> = {
-  neutral: "bg-panel text-muted",
-  warn: "bg-warn-soft text-warn",
-  success: "bg-ok-soft text-ok",
-  danger: "bg-danger-soft text-danger",
+  neutral: "border border-line bg-white/[0.04] text-muted",
+  warn: "border border-warn/25 bg-warn-soft text-warn",
+  success: "border border-ok/25 bg-ok-soft text-ok",
+  danger: "border border-danger/25 bg-danger-soft text-danger",
 };
 
 export function Badge({

@@ -1,5 +1,5 @@
 export const inputClass =
-  "w-full rounded-xl border border-line bg-white/80 px-3.5 py-2.5 text-sm text-ink shadow-[inset_0_1px_0_#ffffff] outline-none transition placeholder:text-faint focus:border-accent/45 focus:bg-white focus:ring-2 focus:ring-accent/15";
+  "w-full rounded-xl border border-line bg-white/[0.025] px-3.5 py-2.5 text-sm text-ink outline-none transition placeholder:text-faint focus:border-accent/45 focus:bg-white/[0.04] focus:ring-2 focus:ring-accent/15";
 
 export const labelClass =
   "mb-1.5 block font-mono text-[8px] font-medium tracking-[0.1em] text-muted uppercase";

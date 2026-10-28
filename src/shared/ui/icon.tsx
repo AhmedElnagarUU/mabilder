@@ -18,7 +18,19 @@ export type IconName =
   | "image"
   | "grid"
   | "external"
-  | "trash";
+  | "trash"
+  | "menu"
+  | "globe"
+  | "eye"
+  | "eye-off"
+  | "layers"
+  | "chart"
+  | "compass"
+  | "sofa"
+  | "brush"
+  | "beam"
+  | "hardhat"
+  | "crane";
 
 const paths: Record<IconName, ReactNode> = {
   spark: (
@@ -101,6 +113,66 @@ const paths: Record<IconName, ReactNode> = {
     <>
       <path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14" />
       <path d="M10 11v5M14 11v5" />
+    </>
+  ),
+  menu: <path d="M4 7h16M4 12h16M4 17h16" />,
+  globe: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18Z" />
+    </>
+  ),
+  eye: (
+    <>
+      <path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6Z" />
+      <circle cx="12" cy="12" r="2.5" />
+    </>
+  ),
+  "eye-off": (
+    <path d="M3 3l18 18M10.6 6.1A10 10 0 0 1 12 6c6.4 0 10 6 10 6a17 17 0 0 1-3.2 3.9M6.6 6.6A17 17 0 0 0 2 12s3.6 6 10 6a9.7 9.7 0 0 0 5.4-1.6" />
+  ),
+  layers: (
+    <>
+      <path d="m12 3 9 5-9 5-9-5 9-5Z" />
+      <path d="m3 13 9 5 9-5" />
+    </>
+  ),
+  chart: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 3v9l6.4 6.4" />
+    </>
+  ),
+  compass: (
+    <>
+      <circle cx="12" cy="5" r="2" />
+      <path d="m11 7-6 14M13 7l6 14M7.5 15h9" />
+    </>
+  ),
+  sofa: (
+    <>
+      <path d="M5 11V8a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v3" />
+      <path d="M3 13a2 2 0 0 1 4 0v2h10v-2a2 2 0 0 1 4 0v5H3v-5ZM6 18v2M18 18v2" />
+    </>
+  ),
+  brush: (
+    <>
+      <path d="M14 4h6v6l-9 9-6-6 9-9Z" />
+      <path d="m5 13-2 6 6-2" />
+    </>
+  ),
+  beam: <path d="M3 6h18M3 18h18M7 6l10 12M17 6 7 18" />,
+  hardhat: (
+    <>
+      <path d="M4 17a8 8 0 0 1 16 0" />
+      <path d="M2 17h20v3H2zM10 9V5h4v4" />
+    </>
+  ),
+  crane: (
+    <>
+      <path d="M6 21V3l14 4H6M6 7l-3 2M17 7v6" />
+      <rect x="15" y="13" width="4" height="3" />
+      <path d="M3 21h8" />
     </>
   ),
 };

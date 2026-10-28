@@ -9,7 +9,7 @@ export function Card({
 }) {
   return (
     <div
-      className={`rounded-card border border-line bg-surface shadow-soft ${className}`}
+      className={`rounded-card border border-line bg-[linear-gradient(158deg,rgba(255,255,255,0.046),rgba(255,255,255,0.012)_52%,rgba(255,255,255,0.02))] shadow-soft ${className}`}
     >
       {children}
     </div>

@@ -1,51 +1,48 @@
 import { getTranslations } from "next-intl/server";
 import { LocaleSwitcher } from "@/shared/i18n/locale-switcher";
 import { Link } from "@/shared/i18n/navigation";
-import { buttonClass } from "@/shared/ui/button";
+import { Icon } from "@/shared/ui/icon";
 import { Logo } from "@/shared/ui/logo";
+import { LandingMobileMenu } from "./landing-mobile-menu";
+import { landingNavLinks } from "./landing-nav-links";
 
 export async function LandingHeader() {
   const t = await getTranslations("landing.nav");
 
   return (
-    <header className="fixed inset-x-0 top-[18px] z-50">
+    <header className="absolute inset-x-0 top-0 z-40">
       <nav
         aria-label={t("main")}
-        className="mx-auto flex h-[62px] w-[min(1180px,calc(100%-40px))] items-center gap-8 rounded-full border border-white/85 bg-white/65 pe-2.5 ps-5 shadow-[0_16px_40px_-26px_rgba(2,48,51,0.35),inset_0_1px_0_rgba(255,255,255,0.95)] backdrop-blur-[22px] backdrop-saturate-110"
+        className="relative mx-auto flex h-[70px] w-[min(1400px,calc(100%-32px))] items-center justify-between gap-5 lg:grid lg:h-[82px] lg:w-[min(1400px,calc(100%-84px))] lg:grid-cols-[1fr_auto_1fr] lg:gap-6"
       >
         <Logo />
 
-        <div className="ms-1 hidden items-center gap-7 md:flex">
-          <a
-            href="#how-it-works"
-            className="text-[13.5px] text-soft transition-colors hover:text-ink"
-          >
-            {t("howItWorks")}
-          </a>
-          <a
-            href="#capabilities"
-            className="text-[13.5px] text-soft transition-colors hover:text-ink"
-          >
-            {t("capabilities")}
-          </a>
-          <a
-            href="#principle"
-            className="text-[13.5px] text-soft transition-colors hover:text-ink"
-          >
-            {t("principle")}
-          </a>
+        <div className="hidden items-center gap-0.5 rounded-full border border-white/[0.075] bg-[rgba(16,16,19,0.55)] p-[5px] shadow-[0_10px_40px_rgba(0,0,0,0.35)] backdrop-blur-[22px] backdrop-saturate-120 lg:flex">
+          {landingNavLinks.map((link) => (
+            <a
+              key={link.key}
+              href={link.href}
+              className={
+                link.key === "home"
+                  ? "inline-flex h-[34px] items-center rounded-full bg-[#f0f0ec] px-4 text-[11.5px] font-medium text-[#09090b]"
+                  : "inline-flex h-[34px] items-center rounded-full px-4 text-[11.5px] text-[#a2a2a9] transition-colors hover:text-[#efefec]"
+              }
+            >
+              {t(link.key)}
+            </a>
+          ))}
         </div>
 
-        <div className="ms-auto flex items-center gap-2">
-          <LocaleSwitcher
-            className={buttonClass("secondary", "sm", "px-3.5")}
-          />
+        <div className="flex items-center justify-end gap-3.5">
+          <LocaleSwitcher className="hidden h-[34px] items-center rounded-full border border-white/10 px-3.5 text-[11.5px] text-[#b9b9c0] transition-colors hover:border-white/20 hover:text-white sm:inline-flex" />
           <Link
             href="/dashboard"
-            className={buttonClass("primary", "sm", "px-4")}
+            className="hidden h-[38px] items-center gap-1.5 rounded-full border border-white/[0.13] bg-white/[0.04] px-[17px] text-[11.5px] text-[#e8e8e5] transition-colors hover:border-white/[0.22] hover:bg-white/[0.09] sm:inline-flex"
           >
-            {t("openDashboard")}
+            {t("startTrial")}
+            <Icon name="arrow-up" className="h-3 w-3 rtl:rotate-180" />
           </Link>
+          <LandingMobileMenu />
         </div>
       </nav>
     </header>
