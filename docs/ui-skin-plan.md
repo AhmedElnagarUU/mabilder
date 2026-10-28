@@ -99,9 +99,62 @@ focus ring, mono uppercase labels. Behavior, fields and API calls stay exactly a
 Out of scope (rebuilt in M7). After the token change it must stay readable. Fix only contrast
 problems the new tokens cause.
 
+## Round 2: review findings and new design (after UI1)
+
+### Contrast bug (whole app)
+The theme turned `ink` into near-white. Old code that meant "dark button" (`bg-ink … text-white`,
+`bg-white … text-white`) is now white on white:
+- wizard "Next"
+- the sidebar "Start a site"
+- the editor's active page tab, "Open live site", and save
+
+**Rule:** buttons always use `buttonClass(variant)`. Never hand-mix `bg-ink`/`bg-white` with
+`text-white`. A light surface always gets dark text (`text-[#08080a]`).
+
+### Editor chrome (the editor is otherwise out of scope until M7)
+- The header and page tabs become dark glass: `bg-canvas/80 backdrop-blur border-b border-line`.
+  The active tab is a light pill with dark text. All buttons go through `buttonClass`.
+- The generation error banner shows a short friendly message ("AI is busy right now. Your draft is
+  saved, try again in a minute.") with the raw provider error hidden behind a "Details" toggle.
+
+### Landing hero: "exploded website" (replaces the site-sheet card)
+- Three glass layers stacked in 3D, one website taken apart into its sections:
+  1. header + a large photo + a 2-line headline
+  2. a projects grid with 3 photos
+  3. a contact row + an "EN · ع" language chip
+- Layers are rounded 18px, with a teal edge glow and a dark glass fill, tilted with the same
+  perspective (about `rotateX(55deg) rotateZ(-30deg)`), and spaced about 70px apart vertically.
+- Each layer floats with the same keyframes but a different delay (0s / 1.2s / 2.4s).
+- Outside the 3D scene, three small labels sit at the side, each linked to its layer by a thin teal
+  line: "Written by AI", "From your projects", "English · العربية". The labels are in messages and
+  mirror in RTL.
+- Under 720px: only layers 1–2, no labels.
+- Photos are local files in `public/landing/` (Unsplash license), loaded with `next/image`. Decorative
+  images get `alt=""`.
+
+### Landing: other changes
+- **New "work like this" gallery** after the industries strip: an endless, slow horizontal row of
+  8 photo cards from `public/landing/` (rounded 20px, about 340×240).
+  - Each card shows a caption with a generic category only, e.g. "Residential · Villa" or
+    "Interior · Living room". No client names.
+  - It pauses on hover, and is a static, scrollable row under `motion-reduce`.
+- **Spacing:** remove the big empty gaps after the hero and after the orbit. No section gap is larger
+  than about 160px on desktop.
+- **Typos:** fix the missing space in "interiors and" in the about heading.
+- **"Projects first" card:** use a real photo instead of the gradient.
+
+### Photo assignments (`public/landing/<id>.jpg`)
+| Use | File |
+|---|---|
+| Hero layer 1 | `1600585154340-be6161a56a0c` (villa at dusk) |
+| Hero layer 2 grid | `1600607687939-ce8a6c25118c`, `1512917774080-9991f1c4c750`, `1487958449943-2429e8be8625` |
+| Projects-first card | `1600210492486-724fe5c67fb0` |
+| Gallery (all 10, any order) | every file in `public/landing/` |
+
 ## Milestones
 
 | # | Task | Acceptance |
 |---|---|---|
 | UI1 | Theme tokens + fonts in `globals.css`/layout, shared UI restyle, full landing page | Landing matches the reference look in `/en` and `/ar` (RTL), mobile works, no hardcoded strings, gates pass |
-| UI2 | Dashboard + wizard in the new shell | Dashboard shows only real site data in both languages; wizard works as before; gates pass |
+| UI2 | Dashboard + wizard in the new shell, contrast-bug sweep, editor chrome | Dashboard shows only real site data in both languages; no white-on-white anywhere; editor header readable; wizard works as before; gates pass |
+| UI3 | Landing round 2: exploded-website hero, photo gallery, spacing, real photos | Matches "Round 2" above in `/en` and `/ar` at desktop and mobile; gates pass |
