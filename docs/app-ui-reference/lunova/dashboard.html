@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Lunova dashboard — every financial motion in one calm place.">
+  <title>Lunova — Overview</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dash">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="markGrad" x1="4" y1="2" x2="28" y2="30" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#c5fbee"/>
+        <stop offset=".42" stop-color="#5eead4"/>
+        <stop offset="1" stop-color="#0b7f76"/>
+      </linearGradient>
+    </defs>
+    <symbol id="i-mark" viewBox="0 0 32 32">
+      <path fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" d="M7.1 10.1 16 2.4l8.9 7.7-4.4 4.7-4.5-4.1-4.5 4.1-4.4-4.7Z"/>
+      <path fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" d="M24.9 21.9 16 29.6l-8.9-7.7 4.4-4.7 4.5 4.1 4.5-4.1 4.4 4.7Z"/>
+    </symbol>
+    <symbol id="i-mark-teal" viewBox="0 0 32 32">
+      <path fill="url(#markGrad)" stroke="url(#markGrad)" stroke-width="1.6" stroke-linejoin="round" d="M7.1 10.1 16 2.4l8.9 7.7-4.4 4.7-4.5-4.1-4.5 4.1-4.4-4.7Z"/>
+      <path fill="url(#markGrad)" stroke="url(#markGrad)" stroke-width="1.6" stroke-linejoin="round" d="M24.9 21.9 16 29.6l-8.9-7.7 4.4-4.7 4.5 4.1 4.5-4.1 4.4 4.7Z"/>
+    </symbol>
+    <symbol id="i-arrow-ne" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10Z"/><path d="M9 21V12h6v9"/></symbol>
+    <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M20 7H5a2 2 0 0 1 0-4h13v4"/><path d="M3 5v14a2 2 0 0 0 2 2h15V7H5"/><path d="M16 13h.01"/></symbol>
+    <symbol id="i-card" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19M6 15h4"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4 20-7Z"/><path d="M22 2 11 13"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 5-6"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 2c.45 5.4 3.15 8.1 8.55 8.55C15.15 11 12.45 13.7 12 19.1 11.55 13.7 8.85 11 3.45 10.55 8.85 10.1 11.55 7.4 12 2Z"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1v.1h-4v-.1a1.7 1.7 0 0 0-.4-1 1.7 1.7 0 0 0-1-.6 1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 3.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1-.4h-.1v-4h.1a1.7 1.7 0 0 0 1-.4 1.7 1.7 0 0 0 .6-1 1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 3.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1v-.1h4v.1a1.7 1.7 0 0 0 .4 1 1.7 1.7 0 0 0 1 .6 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 20.4 9c.17.37.55.63 1 .7h.1v4h-.1a1.7 1.7 0 0 0-1 .4 1.7 1.7 0 0 0-.6 1Z"/></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.1 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 11 2 2 4-4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15.3-6.4L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.3 6.4L3 16M3 21v-5h5"/></symbol>
+    <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6Z"/><circle cx="12" cy="12" r="2.5"/></symbol>
+  </svg>
+
+  <div class="dash-app">
+    <aside class="side">
+      <a class="side-brand" href="landing.html" aria-label="Lunova home">
+        <span class="brand-mark"><svg viewBox="0 0 32 32"><use href="#i-mark"></use></svg></span>
+        <span>Lunova</span>
+      </a>
+
+      <button class="workspace" type="button">
+        <span class="ws-logo">N</span>
+        <div><small>Workspace</small><b>Northwind Studio <svg class="icon"><use href="#i-chevron"></use></svg></b></div>
+      </button>
+
+      <nav class="side-nav" aria-label="Main">
+        <span class="side-label">Overview</span>
+        <a class="side-link active" href="#"><svg class="icon"><use href="#i-home"></use></svg><span>Overview</span></a>
+        <a class="side-link" href="#"><svg class="icon"><use href="#i-wallet"></use></svg><span>Accounts</span></a>
+        <a class="side-link" href="#"><svg class="icon"><use href="#i-card"></use></svg><span>Cards</span></a>
+        <a class="side-link" href="#"><svg class="icon"><use href="#i-send"></use></svg><span>Payments</span><span class="count">4</span></a>
+        <a class="side-link" href="#"><svg class="icon"><use href="#i-chart"></use></svg><span>Analytics</span></a>
+        <a class="side-link ai" href="#"><svg class="icon"><use href="#i-spark"></use></svg><span>Lunova AI</span><span class="spark">NEW</span></a>
+        <span class="side-label" style="margin-top:20px">Workspace</span>
+        <a class="side-link" href="#"><svg class="icon"><use href="#i-users"></use></svg><span>Team</span></a>
+        <a class="side-link" href="#"><svg class="icon"><use href="#i-grid"></use></svg><span>Integrations</span></a>
+        <a class="side-link" href="#"><svg class="icon"><use href="#i-settings"></use></svg><span>Settings</span></a>
+      </nav>
+
+      <div class="side-card">
+        <div class="sc-top"><svg class="icon"><use href="#i-spark"></use></svg> Lunova AI</div>
+        <p>You're on track to save $42k this quarter.</p>
+        <a href="#">See the breakdown <svg class="icon"><use href="#i-arrow-ne"></use></svg></a>
+      </div>
+
+      <div class="side-user">
+        <span class="avatar">AO</span>
+        <div><b>Amara Okafor</b><small>CFO · Admin</small></div>
+        <svg class="icon"><use href="#i-chevron"></use></svg>
+      </div>
+    </aside>
+
+    <main class="dash-main">
+      <header class="dash-top">
+        <div class="crumb">Workspace <svg class="icon"><use href="#i-chevron"></use></svg> <b>Overview</b></div>
+        <div class="dash-top-right">
+          <div class="dash-search"><svg class="icon"><use href="#i-search"></use></svg><span>Search transactions, people...</span><kbd>⌘K</kbd></div>
+          <button class="ghost-icon" aria-label="Refresh"><svg class="icon"><use href="#i-refresh"></use></svg></button>
+          <button class="ghost-icon" aria-label="Notifications"><svg class="icon"><use href="#i-bell"></use></svg><i class="alert-dot"></i></button>
+          <span class="dash-avatar">AO</span>
+        </div>
+      </header>
+
+      <div class="dash-welcome">
+        <div>
+          <h1>Good morning, <span>Amara.</span></h1>
+          <p>Here's the shape of your money today — calm, clear and moving in the right direction.</p>
+        </div>
+        <div class="dash-actions">
+          <a class="btn btn-ghost" href="#"><svg class="icon"><use href="#i-clock"></use></svg> Last 30 days</a>
+          <a class="btn btn-light" href="#"><svg class="icon"><use href="#i-plus"></use></svg> New payment</a>
+        </div>
+      </div>
+
+      <section class="kpis" aria-label="Key metrics">
+        <article class="kpi primary">
+          <div class="kpi-top"><span>Total balance</span><svg class="icon"><use href="#i-wallet"></use></svg></div>
+          <div class="kpi-value">$2,847,290<small>.50</small></div>
+          <div class="kpi-foot"><span>Across 6 accounts</span><b>↗ 2.4%</b></div>
+          <svg class="kpi-spark" viewBox="0 0 59 22" fill="none"><path d="M1 19 8 16 15 17 22 12 29 14 36 9 43 11 50 5 58 2" stroke="#5eead4" stroke-width="1.1"/><circle cx="58" cy="2" r="2" fill="#5eead4"/></svg>
+        </article>
+        <article class="kpi">
+          <div class="kpi-top"><span>Money in</span><svg class="icon"><use href="#i-download"></use></svg></div>
+          <div class="kpi-value">$482,900<small>.00</small></div>
+          <div class="kpi-foot"><span>vs. $428,120 last month</span><b>↗ 12.8%</b></div>
+          <svg class="kpi-spark" viewBox="0 0 59 22" fill="none"><path d="M1 18 8 18 15 14 22 15 29 10 36 12 43 7 50 8 58 3" stroke="#5eead4" stroke-width="1.1" opacity=".7"/></svg>
+        </article>
+        <article class="kpi">
+          <div class="kpi-top"><span>Money out</span><svg class="icon"><use href="#i-send"></use></svg></div>
+          <div class="kpi-value">$196,340<small>.20</small></div>
+          <div class="kpi-foot"><span>872 outgoing payments</span><b class="down">↘ 4.1%</b></div>
+          <svg class="kpi-spark" viewBox="0 0 59 22" fill="none"><path d="M1 5 8 8 15 7 22 11 29 9 36 13 43 12 50 16 58 18" stroke="#b9b9c0" stroke-width="1.1" opacity=".4"/></svg>
+        </article>
+        <article class="kpi">
+          <div class="kpi-top"><span>AI savings</span><svg class="icon"><use href="#i-spark"></use></svg></div>
+          <div class="kpi-value">$42,180<small>.00</small></div>
+          <div class="kpi-foot"><span>This quarter</span><b>↗ 18.6%</b></div>
+          <svg class="kpi-spark" viewBox="0 0 59 22" fill="none"><path d="M1 20 8 18 15 19 22 13 29 15 36 10 43 12 50 6 58 4" stroke="#5eead4" stroke-width="1.1" opacity=".8"/></svg>
+        </article>
+      </section>
+
+      <section class="dash-grid">
+        <article class="panel col-8">
+          <div class="panel-head">
+            <div><h3>Cash flow</h3><p>All accounts · USD · Updated just now</p></div>
+            <div class="panel-tabs"><span>7D</span><span class="active">30D</span><span>90D</span><span>1Y</span></div>
+          </div>
+          <div class="cash-total"><b>$2,847,290</b><span>↗ $128,420 this month</span></div>
+          <div class="cash-chart">
+            <svg viewBox="0 0 760 190" preserveAspectRatio="none" aria-label="Cash flow chart">
+              <defs>
+                <linearGradient id="cashFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#5eead4" stop-opacity=".2"/>
+                  <stop offset="1" stop-color="#5eead4" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <g stroke="rgba(255,255,255,.05)" stroke-width="1">
+                <line x1="0" y1="28" x2="760" y2="28"/>
+                <line x1="0" y1="73" x2="760" y2="73"/>
+                <line x1="0" y1="118" x2="760" y2="118"/>
+                <line x1="0" y1="163" x2="760" y2="163"/>
+              </g>
+              <path d="M0 150 C34 146 55 153 86 139 S136 117 164 123 S219 130 246 112 S293 98 323 108 S370 117 396 94 S445 102 472 84 S518 92 545 66 S592 74 618 52 S664 59 692 40 S730 44 760 24 L760 188 L0 188Z" fill="url(#cashFill)"/>
+              <path d="M0 150 C34 146 55 153 86 139 S136 117 164 123 S219 130 246 112 S293 98 323 108 S370 117 396 94 S445 102 472 84 S518 92 545 66 S592 74 618 52 S664 59 692 40 S730 44 760 24" fill="none" stroke="#5eead4" stroke-width="1.6"/>
+              <path d="M0 161 C37 158 58 164 90 157 S143 143 173 148 S227 152 255 138 S303 132 331 139 S376 143 403 124 S450 131 478 113 S521 120 548 101 S595 108 621 91 S665 97 693 79 S733 86 760 65" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="1" stroke-dasharray="3 4"/>
+              <circle cx="760" cy="24" r="3.2" fill="#5eead4"/>
+              <circle cx="760" cy="24" r="8" fill="#5eead4" opacity=".13"/>
+            </svg>
+            <div class="cash-hover"></div>
+            <div class="cash-tooltip">Aug 18, 2026<b>$2,847,290</b></div>
+          </div>
+          <div class="cash-axis"><span>Aug 01</span><span>Aug 05</span><span>Aug 10</span><span>Aug 15</span><span>Aug 20</span><span>Aug 25</span><span>Aug 30</span></div>
+          <div style="display:flex;justify-content:flex-end;margin-top:6px"><div class="legend"><span><i></i>Operating</span><span><i></i>Reserve</span></div></div>
+        </article>
+
+        <article class="panel col-4 cards-panel">
+          <div class="panel-head">
+            <div><h3>Your cards</h3><p>2 active · $58,000 monthly limit</p></div>
+            <button class="ghost-icon" style="width:26px;height:26px;border-radius:7px" aria-label="Add card"><svg class="icon" style="width:12px;height:12px"><use href="#i-plus"></use></svg></button>
+          </div>
+          <div class="account-card">
+            <div class="ac-brand"><span class="brand-mark"><svg viewBox="0 0 32 32"><use href="#i-mark"></use></svg></span> Lunova</div>
+            <span class="ac-chip"></span>
+            <div class="ac-logo"><svg viewBox="0 0 32 32"><use href="#i-mark-teal"></use></svg></div>
+            <span class="ac-num">•••• 4829</span>
+            <span class="card-visa">VISA</span>
+          </div>
+          <div class="card-meta"><span>Lunova Business · Virtual</span><b>•••• 4829</b></div>
+          <div class="card-actions"><button>Freeze card</button><button class="primary">Manage card</button></div>
+        </article>
+
+        <article class="panel col-8 tx-panel">
+          <div class="panel-head">
+            <div><h3>Recent activity</h3><p>Every payment, in one quiet stream</p></div>
+            <a class="panel-link" href="#">View all <svg class="icon"><use href="#i-arrow"></use></svg></a>
+          </div>
+          <table class="tx-table">
+            <thead><tr><th>Merchant</th><th>Category</th><th>Date</th><th>Amount</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              <tr>
+                <td><span class="tx-name"><span class="tx-ico">F</span><span><b>Figma</b><small>Annual team plan</small></span></span></td>
+                <td>Software</td><td>Today, 09:42</td><td class="money">−$1,280.00</td><td><span class="tx-status"><i></i>Completed</span></td><td><svg class="icon" style="width:11px;height:11px;color:#5f5f67"><use href="#i-more"></use></svg></td>
+              </tr>
+              <tr>
+                <td><span class="tx-name"><span class="tx-ico">S</span><span><b>Stripe payout</b><small>Northwind Studio</small></span></span></td>
+                <td>Income</td><td>Today, 08:10</td><td class="money in">+$24,860.00</td><td><span class="tx-status"><i></i>Settled</span></td><td><svg class="icon" style="width:11px;height:11px;color:#5f5f67"><use href="#i-more"></use></svg></td>
+              </tr>
+              <tr>
+                <td><span class="tx-name"><span class="tx-ico">H</span><span><b>The Hoxton</b><small>Team offsite · 2 nights</small></span></span></td>
+                <td>Travel</td><td>Yesterday</td><td class="money">−$684.20</td><td><span class="tx-status"><i></i>Completed</span></td><td><svg class="icon" style="width:11px;height:11px;color:#5f5f67"><use href="#i-more"></use></svg></td>
+              </tr>
+              <tr>
+                <td><span class="tx-name"><span class="tx-ico">N</span><span><b>Notion</b><small>Workspace · monthly</small></span></span></td>
+                <td>Software</td><td>Yesterday</td><td class="money">−$192.00</td><td><span class="tx-status pending"><i></i>Pending</span></td><td><svg class="icon" style="width:11px;height:11px;color:#5f5f67"><use href="#i-more"></use></svg></td>
+              </tr>
+            </tbody>
+          </table>
+        </article>
+
+        <article class="panel col-4 ai-panel">
+          <div class="panel-head">
+            <div class="ai-title"><svg class="icon"><use href="#i-spark"></use></svg><h3>Lunova AI</h3></div>
+            <span class="ai-pill">LIVE</span>
+          </div>
+          <p class="ai-quote">Your burn is trending <strong>8% below plan</strong>. I can move <strong>$42,000</strong> into your 4.2% reserve and extend runway by <strong>19 days</strong>.</p>
+          <div class="ai-list">
+            <div class="ai-item"><svg class="icon"><use href="#i-check"></use></svg><span><b>Invoice #2481</b> is 6 days late — a gentle nudge has been drafted.</span></div>
+            <div class="ai-item"><svg class="icon"><use href="#i-eye"></use></svg><span>3 subscriptions renewed at higher rates. <b>Review the delta.</b></span></div>
+          </div>
+          <div class="ai-note"><svg class="icon"><use href="#i-shield"></use></svg>Confidence 96% · Your data stays yours</div>
+          <div class="ai-actions"><button class="apply">Apply suggestion</button><button class="later">Not now</button></div>
+        </article>
+      </section>
+
+      <div class="dash-footer"><span>Last synced just now · Lunova 2.4.0</span><span class="status"><i style="width:4px;height:4px;border-radius:50%;background:#77c7b7"></i> All systems operational</span></div>
+    </main>
+  </div>
+</body>
+</html>
