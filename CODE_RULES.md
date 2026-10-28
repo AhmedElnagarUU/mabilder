@@ -11,6 +11,9 @@ unless your task explicitly says so:
 
 - S3 uploads
 
+Features v2 (uploads, projects, new editor, SEO, AI credits, tracking, tutorials) are planned in
+`docs/features-v2-plan.md`. Where it disagrees with older plans, it wins.
+
 Auth (better-auth) and Polar billing are planned in `docs/auth-billing-plan.md` (milestones A1, B1).
 Until A1 lands, site APIs have no session check. Do not add one in unrelated tasks.
 
@@ -78,7 +81,7 @@ You must NOT add any npm package that is not on the approved list below. If you 
 | `@aws-sdk/s3-request-presigner` | Presigned upload URLs |
 | `@polar-sh/sdk` | Polar payment provider integration |
 | `lucide-react` | Icons |
-| `@langchain/core`, `@langchain/google-genai` | AI calls (`site-creation/generation`) |
+| `@langchain/core`, `@langchain/google-genai`, `@langchain/openai` | AI calls (`site-creation/generation`; OpenRouter through `@langchain/openai`) |
 
 External HTTP APIs (e.g. Pexels) are called with the built-in `fetch`. Never add an SDK package for them.
 

@@ -17,9 +17,11 @@ Read `AGENTS.md`, `CODE_RULES.md`, then the docs your task touches:
 
 ## Next, in order
 
-1. **A1**: better-auth, one site per account (`docs/auth-billing-plan.md`)
-2. **M2**: Agenvo theme + renderer + `check-theme` (`docs/block-system-plan.md`)
-3. **M3** composition → **M4** switch pipeline → **M5** AI copy → **M6** Pexels → **M7** editor → **M8** wizard fields
+Full order in `docs/features-v2-plan.md`:
+
+1. **A1** + D1: better-auth, one site per account, dashboard shows the user's name
+2. **M2 → M6** block pipeline (`docs/block-system-plan.md`); M8 wizard fields after
+3. **U1** S3 uploads → **P1** projects → **E1** new editor (replaces M7) → **S1** SEO → **C1** AI credits → **T1** tracking → **G1** tutorials
 4. **B1**: Polar trial + subscription, any time after A1
 
 ## Current state of the app
