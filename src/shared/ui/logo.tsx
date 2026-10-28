@@ -7,16 +7,13 @@ export function Logo({
   href = "/",
   showName = true,
 }: {
-  href?: string;
+  href?: string | null;
   showName?: boolean;
 }) {
   const t = useTranslations("common");
 
-  return (
-    <Link
-      href={href}
-      className="inline-flex items-center gap-2.5 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-4 focus-visible:ring-offset-canvas"
-    >
+  const content = (
+    <>
       <span className="flex h-[23px] w-[23px] shrink-0 items-center justify-center">
         <svg viewBox="0 0 32 32" className="h-[23px] w-[23px]" aria-hidden>
           <defs>
@@ -49,6 +46,20 @@ export function Logo({
           {t("appName")}
         </span>
       ) : null}
+    </>
+  );
+
+  // Pass href={null} when the logo sits inside another link.
+  if (href === null) {
+    return <span className="inline-flex items-center gap-2.5">{content}</span>;
+  }
+
+  return (
+    <Link
+      href={href}
+      className="inline-flex items-center gap-2.5 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-4 focus-visible:ring-offset-canvas"
+    >
+      {content}
     </Link>
   );
 }

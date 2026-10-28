@@ -60,6 +60,7 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       dir={getDirection(locale)}
+      data-scroll-behavior="smooth"
       className={`${geist.variable} ${geistMono.variable} ${arabic.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col text-ink">

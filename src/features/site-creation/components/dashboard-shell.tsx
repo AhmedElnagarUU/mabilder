@@ -75,7 +75,7 @@ export async function DashboardShell({
       <div className="relative z-10 mx-auto flex min-h-screen">
         <aside className="sticky top-0 hidden h-screen w-[68px] shrink-0 flex-col border-e border-line-soft bg-[linear-gradient(180deg,rgba(11,11,13,0.85),rgba(6,6,7,0.92))] px-2.5 py-5 backdrop-blur-2xl md:flex min-[980px]:w-[224px] min-[980px]:px-[17px]">
           <Link href="/dashboard" className="grid place-items-center rounded-lg px-1 min-[980px]:flex min-[980px]:items-center min-[980px]:gap-2.5 min-[980px]:px-2 min-[980px]:justify-start">
-            <Logo showName={false} href="/dashboard" />
+            <Logo showName={false} href={null} />
             <span className="hidden font-display text-[15px] font-medium tracking-[-0.03em] text-ink min-[980px]:inline">
               {common("appName")}
             </span>
