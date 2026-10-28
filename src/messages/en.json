@@ -237,58 +237,85 @@
   "dashboard": {
     "meta": {
       "title": "Dashboard",
-      "description": "Create and manage the websites in your studio."
+      "description": "Your website, at a calm glance."
     },
     "breadcrumb": "Overview",
-    "siteCount": "{count, plural, =0 {No sites} one {# site} other {# sites}}",
-    "newWebsite": "New website",
-    "title": "Your websites",
-    "subtitle": "Open a site to refine its copy and images, or start a new brief from scratch.",
-    "note": "Six pages per brief / one calm editor",
+    "sidebar": {
+      "business": "Business",
+      "navLabel": "Navigation",
+      "aria": "Main navigation",
+      "overview": "Overview",
+      "editWebsite": "Edit website",
+      "previewSite": "Preview site"
+    },
+    "welcome": {
+      "title": "Welcome back, {name}.",
+      "plain": "Welcome back.",
+      "subtitle": "Here is your website at a glance."
+    },
+    "action": {
+      "edit": "Edit website",
+      "preview": "Preview site"
+    },
     "kpis": {
-      "total": {
-        "label": "Total websites",
-        "detail": "Across the studio",
-        "note": "All time"
+      "status": {
+        "label": "Website status",
+        "detail": "Current state of your site"
       },
-      "ready": {
-        "label": "Ready",
-        "detail": "Preview available",
-        "note": "Live static"
+      "industry": {
+        "label": "Industry",
+        "detail": "What the firm does"
       },
-      "inProgress": {
-        "label": "In progress",
-        "detail": "Draft or generating",
-        "note": "Working"
+      "updated": {
+        "label": "Last updated",
+        "detail": "Most recent save"
       },
-      "attention": {
-        "label": "Needs attention",
-        "detail": "Failed generation",
-        "note": "Review",
-        "allClear": "All clear"
+      "address": {
+        "label": "Preview address",
+        "detail": "Share this link"
       }
     },
-    "empty": {
-      "kicker": "The studio is quiet",
-      "title": "No websites yet.",
-      "body": "Start with a short brief. The first draft of all six pages will be ready in a few minutes.",
-      "cta": "Create your first website"
+    "panel": {
+      "subtitle": "Generated from your brief"
     },
-    "recent": {
-      "title": "Recent websites",
-      "count": "{count, plural, =0 {No sites in the studio} one {# site in the studio} other {# sites in the studio}}",
-      "startAnother": "Start another"
+    "rows": {
+      "business": "Business",
+      "industry": "Industry",
+      "status": "Status",
+      "updated": "Last updated"
+    },
+    "nextStep": {
+      "title": "Next step",
+      "working": "Your website is still being written. The editor opens as soon as the draft is ready.",
+      "ready": "The draft is ready. Open the editor to refine it, then share the preview link.",
+      "error": "The last generation failed. Open the editor and try again.",
+      "workingItems": [
+        "Keep this tab open while AI writes",
+        "The editor unlocks as soon as the draft is ready",
+        "Come back and check in a few minutes"
+      ],
+      "readyItems": [
+        "Review every section in the editor",
+        "Update photos and contact details",
+        "Copy the preview link and share it"
+      ],
+      "errorItems": [
+        "Open the editor and press AI rewrite",
+        "Nothing was lost — your draft is saved",
+        "Try again in a minute if it persists"
+      ]
+    },
+    "empty": {
+      "title": "No website yet.",
+      "body": "Answer a short brief and AI writes a complete website draft for your firm in minutes.",
+      "cta": "Create your website"
+    },
+    "more": {
+      "title": "Other websites"
     },
     "aria": {
-      "metrics": "Key metrics",
-      "websites": "Your websites"
-    },
-    "card": {
-      "editAria": "Edit {name}",
-      "sixPages": "Six pages",
-      "updated": "Updated {date}",
-      "edit": "Edit",
-      "preview": "Preview"
+      "metrics": "Key indicators",
+      "websites": "Your website"
     },
     "status": {
       "draft": "Draft",
@@ -312,9 +339,6 @@
     "meta": {
       "title": "New website",
       "description": "Build a brief in four steps and let AI write the first draft."
-    },
-    "header": {
-      "backToDashboard": "Back to dashboard"
     },
     "eyebrow": "New website / 01—04",
     "title": "Start with the brief.",
@@ -356,7 +380,7 @@
       },
       "review": {
         "title": "Review the brief",
-        "description": "One last look before AI writes all six pages."
+        "description": "One last look before AI writes the first draft."
       }
     },
     "sections": {
@@ -403,7 +427,7 @@
       "details": "Details",
       "edit": "Edit",
       "notProvided": "Not provided",
-      "note": "AI writes six pages from this brief: home, studio, services, work, profile, and contact. You can edit everything afterwards."
+      "note": "AI writes the first draft of the whole website from this brief. You can edit every word afterwards."
     },
     "buttons": {
       "back": "Back",
@@ -415,7 +439,7 @@
     },
     "status": {
       "saving": "Saving your business details...",
-      "generating": "Writing your six pages with AI. This can take a few minutes; keep this tab open."
+      "generating": "AI is writing your website. This can take a few minutes; keep this tab open."
     },
     "errors": {
       "missingFields": "Please add: {fields}.",
@@ -428,24 +452,6 @@
       "save_failed": "Could not save your changes. Please try again.",
       "generation_failed": "AI generation failed. Your draft is saved and you can retry.",
       "default": "Something went wrong. Please try again."
-    },
-    "shell": {
-      "badge": "Six-page studio",
-      "badgeTag": "STUDIO",
-      "yourStudio": "Your studio",
-      "studioAria": "Studio",
-      "overview": "Overview",
-      "newWebsite": "New website",
-      "publicSite": "Public site",
-      "publicSiteAria": "Public site",
-      "landingPage": "Landing page",
-      "howItWorks": "How it works",
-      "promoKicker": "Quietly powerful",
-      "promoTitle1": "Your next site",
-      "promoTitle2": "is one brief away.",
-      "promoBody": "Four steps. Six pages. One calm editor.",
-      "startSite": "Start a site",
-      "personalWorkspace": "Personal workspace"
     },
     "delete": {
       "aria": "Delete website",

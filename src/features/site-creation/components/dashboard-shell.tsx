@@ -3,165 +3,193 @@ import { getTranslations } from "next-intl/server";
 import { LocaleSwitcher } from "@/shared/i18n/locale-switcher";
 import { Link } from "@/shared/i18n/navigation";
 import { buttonClass } from "@/shared/ui/button";
-import { Icon } from "@/shared/ui/icon";
+import { Icon, type IconName } from "@/shared/ui/icon";
 import { Logo } from "@/shared/ui/logo";
+import type { SiteSummary } from "../types";
+
+function initialOf(name: string): string {
+  return (name.trim()[0] ?? "W").toUpperCase();
+}
 
 function SidebarLink({
   href,
   label,
   icon,
-  active,
+  active = false,
+  external = false,
 }: {
   href: string;
   label: string;
-  icon: "grid" | "plus" | "home" | "spark";
+  icon: IconName;
   active?: boolean;
+  external?: boolean;
 }) {
+  const className = `flex h-[38px] w-[42px] items-center justify-center rounded-[9px] border text-soft transition-colors min-[980px]:w-full min-[980px]:justify-start min-[980px]:gap-2.5 min-[980px]:px-3 ${
+    active
+      ? "border-white/[0.07] bg-white/[0.065] text-ink shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
+      : "border-transparent hover:bg-white/[0.033] hover:text-ink"
+  }`;
+
+  const iconElement = (
+    <Icon name={icon} className="h-[15px] w-[15px] shrink-0 opacity-70" />
+  );
+
+  if (external) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
+        {iconElement}
+        <span className="hidden truncate text-xs min-[980px]:inline">
+          {label}
+        </span>
+      </a>
+    );
+  }
+
   return (
-    <Link
-      href={href}
-      className={`flex h-[38px] items-center gap-2.5 rounded-[10px] px-2.5 text-xs transition-colors ${
-        active
-          ? "bg-accent text-white shadow-[0_8px_18px_-10px_rgba(6,91,92,0.55)]"
-          : "text-soft hover:bg-accent/10 hover:text-ink"
-      }`}
-    >
-      <Icon name={icon} className="h-[15px] w-[15px] opacity-70" />
-      {label}
+    <Link href={href} className={className}>
+      {iconElement}
+      <span className="hidden truncate text-xs min-[980px]:inline">{label}</span>
     </Link>
   );
 }
 
-export async function DashboardShell({ children }: { children: ReactNode }) {
-  const t = await getTranslations("siteCreation");
+export async function DashboardShell({
+  site,
+  crumbLabel,
+  children,
+}: {
+  site?: Pick<SiteSummary, "id" | "businessName" | "industry"> | null;
+  crumbLabel: string;
+  children: ReactNode;
+}) {
+  const t = await getTranslations("dashboard");
   const common = await getTranslations("common");
 
   return (
-    <div className="relative min-h-screen p-3.5">
+    <div className="relative min-h-screen">
       <div
         aria-hidden
         className="studio-grid pointer-events-none fixed inset-0 z-0"
       />
 
-      <div className="relative z-10 flex gap-3.5">
-        <aside className="glass sticky top-3.5 hidden h-[calc(100vh-28px)] w-[244px] shrink-0 flex-col rounded-[26px] px-3.5 pt-5 pb-3.5 lg:flex">
-          <div className="px-2">
-            <Logo />
-          </div>
-
-          <div className="mt-5 mb-[22px] flex items-center gap-2.5 rounded-[13px] border border-line bg-white/55 px-2.5 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]">
-            <span className="grid h-7 w-7 place-items-center rounded-lg bg-[linear-gradient(145deg,#0b8b86,#065b5c)] font-mono text-[9px] text-white">
-              W
+      <div className="relative z-10 mx-auto flex min-h-screen">
+        <aside className="sticky top-0 hidden h-screen w-[68px] shrink-0 flex-col border-e border-line-soft bg-[linear-gradient(180deg,rgba(11,11,13,0.85),rgba(6,6,7,0.92))] px-2.5 py-5 backdrop-blur-2xl md:flex min-[980px]:w-[224px] min-[980px]:px-[17px]">
+          <Link href="/dashboard" className="grid place-items-center rounded-lg px-1 min-[980px]:flex min-[980px]:items-center min-[980px]:gap-2.5 min-[980px]:px-2 min-[980px]:justify-start">
+            <Logo showName={false} href="/dashboard" />
+            <span className="hidden font-display text-[15px] font-medium tracking-[-0.03em] text-ink min-[980px]:inline">
+              {common("appName")}
             </span>
-            <div className="min-w-0 flex-1">
-              <b className="block text-[11px] font-medium tracking-[-0.01em]">
-                {common("appName")}
-              </b>
-              <small className="mono-label block text-[6.5px] tracking-[0.06em] text-faint">
-                {t("shell.badge")}
-              </small>
-            </div>
-            <span className="rounded border border-line px-1 py-0.5 font-mono text-[6px] tracking-[0.08em] text-faint">
-              {t("shell.badgeTag")}
-            </span>
-          </div>
+          </Link>
 
-          <p className="mono-label px-2 text-[7px] tracking-[0.14em] text-faint">
-            {t("shell.yourStudio")}
+          {site ? (
+            <Link
+              href={`/edit`}
+              className="mt-6 flex items-center gap-2.5 justify-center rounded-[11px] border border-line-soft bg-white/[0.022] p-2 min-[980px]:justify-start min-[980px]:p-2.5"
+            >
+              <span className="grid h-7 w-7 shrink-0 place-items-center rounded-[8px] border border-white/10 bg-[linear-gradient(145deg,#28312f,#121817)] font-mono text-[10px] text-[#c8ded8]">
+                {initialOf(site.businessName)}
+              </span>
+              <span className="hidden min-w-0 min-[980px]:block">
+                <small className="mono-label block text-[6.5px] tracking-[0.13em] text-dim">
+                  {t("sidebar.business")}
+                </small>
+                <b className="mt-0.5 flex items-center gap-1 truncate text-[9.5px] font-medium text-[#d6d6d4]">
+                  <span className="truncate">{site.businessName}</span>
+                </b>
+                <small className="block truncate text-[7.5px] text-faint">
+                  {site.industry}
+                </small>
+              </span>
+            </Link>
+          ) : null}
+
+          <p className="mono-label mt-6 hidden px-2 text-[7px] tracking-[0.14em] text-faint min-[980px]:block">
+            {t("sidebar.navLabel")}
           </p>
           <nav
-            aria-label={t("shell.studioAria")}
-            className="mt-2 flex flex-col gap-0.5"
+            aria-label={t("sidebar.aria")}
+            className="mt-2 flex min-[980px]:flex-col flex-col gap-0.5 min-[980px]:items-stretch items-center"
           >
             <SidebarLink
               href="/dashboard"
-              label={t("shell.overview")}
-              icon="grid"
+              label={t("sidebar.overview")}
+              icon="home"
               active
             />
-            <SidebarLink
-              href="/dashboard/new"
-              label={t("shell.newWebsite")}
-              icon="plus"
-            />
+            {site ? (
+              <>
+                <SidebarLink
+                  href={`/edit/${site.id}`}
+                  label={t("sidebar.editWebsite")}
+                  icon="pen"
+                />
+                <SidebarLink
+                  href={`/preview/${site.id}/index.html`}
+                  label={t("sidebar.previewSite")}
+                  icon="monitor"
+                  external
+                />
+              </>
+            ) : null}
           </nav>
 
-          <p className="mono-label mt-4 px-2 text-[7px] tracking-[0.14em] text-faint">
-            {t("shell.publicSite")}
-          </p>
-          <nav
-            aria-label={t("shell.publicSiteAria")}
-            className="mt-2 flex flex-col gap-0.5"
-          >
-            <SidebarLink
-              href="/"
-              label={t("shell.landingPage")}
-              icon="home"
-            />
-            <SidebarLink
-              href="/#how-it-works"
-              label={t("shell.howItWorks")}
-              icon="spark"
-            />
-          </nav>
-
-          <div className="mt-auto">
-            <div className="relative mb-3 overflow-hidden rounded-[15px] bg-[linear-gradient(160deg,#0a5b5c,#032b2e)] p-4 text-white shadow-[0_18px_34px_-22px_rgba(2,38,41,0.6)]">
-              <span
-                aria-hidden
-                className="absolute -top-11 -end-10 h-[110px] w-[110px] rounded-full bg-[radial-gradient(closest-side,rgba(255,255,255,0.2),transparent)]"
-              />
-              <p className="mono-label relative text-[7px] tracking-[0.14em] text-white/40">
-                {t("shell.promoKicker")}
-              </p>
-              <h2 className="relative mt-2.5 font-display text-[17px] leading-[1.12] font-normal tracking-[-0.04em]">
-                {t("shell.promoTitle1")}
-                <br />
-                {t("shell.promoTitle2")}
-              </h2>
-              <p className="relative mt-1.5 text-[9px] leading-[1.5] text-white/45">
-                {t("shell.promoBody")}
-              </p>
-              <Link
-                href="/dashboard/new"
-                className="relative mt-3.5 flex h-8 items-center justify-between rounded-full bg-white px-3 text-[9.5px] font-medium text-ink"
-              >
-                {t("shell.startSite")}
-                <Icon name="arrow" className="h-3 w-3 rtl:rotate-180" />
-              </Link>
-            </div>
-
-            <div className="flex items-center gap-2.5 border-t border-line px-2 pt-3">
-              <span className="grid h-[30px] w-[30px] place-items-center rounded-full border border-accent/15 bg-[#d3eeea] font-mono text-[8px] text-soft">
-                W
-              </span>
-              <div className="min-w-0 flex-1">
-                <b className="block text-[10.5px] font-medium">
-                  {common("appName")}
-                </b>
-                <small className="block text-[8px] text-faint">
-                  {t("shell.personalWorkspace")}
-                </small>
-              </div>
-            </div>
-          </div>
+          <div className="mt-auto" />
         </aside>
 
-        <div className="min-w-0 flex-1 px-1 pb-8 lg:px-0">
-          <div className="glass mb-4 flex h-14 items-center justify-between gap-3 rounded-full pe-1.5 ps-4 lg:hidden">
-            <Logo />
-            <div className="flex items-center gap-1.5">
-              <LocaleSwitcher
-                className={buttonClass("secondary", "sm", "px-3")}
-              />
-              <Link
-                href="/dashboard/new"
-                className={buttonClass("primary", "sm", "px-3.5")}
+        <div className="min-w-0 flex-1 px-3.5 pb-8 sm:px-6 lg:px-8">
+          <header className="flex h-14 items-center justify-between gap-4 border-b border-line-soft">
+            <div className="flex items-center gap-3">
+              <span className="md:hidden">
+                <Logo showName={false} href="/dashboard" />
+              </span>
+              <p className="hidden items-center gap-2 text-[9.5px] text-faint sm:flex">
+                <b className="font-medium text-soft">{common("appName")}</b>
+                <Icon name="chevron" className="h-2.5 w-2.5 -rotate-90 rtl:rotate-90" />
+                <span className="text-ink">{crumbLabel}</span>
+              </p>
+              <nav
+                aria-label={t("sidebar.aria")}
+                className="flex items-center gap-1.5 md:hidden"
               >
-                {t("shell.newWebsite")}
-              </Link>
+                <Link
+                  href="/dashboard"
+                  aria-label={t("sidebar.overview")}
+                  title={t("sidebar.overview")}
+                  className="grid h-9 w-9 place-items-center rounded-full border border-line bg-white/[0.045] text-soft"
+                >
+                  <Icon name="home" className="h-4 w-4" />
+                </Link>
+                {site ? (
+                  <>
+                    <Link
+                      href={`/edit/${site.id}`}
+                      aria-label={t("sidebar.editWebsite")}
+                      title={t("sidebar.editWebsite")}
+                      className="grid h-9 w-9 place-items-center rounded-full border border-line bg-white/[0.045] text-soft"
+                    >
+                      <Icon name="pen" className="h-4 w-4" />
+                    </Link>
+                    <a
+                      href={`/preview/${site.id}/index.html`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={t("sidebar.previewSite")}
+                      title={t("sidebar.previewSite")}
+                      className="grid h-9 w-9 place-items-center rounded-full border border-line bg-white/[0.045] text-soft"
+                    >
+                      <Icon name="monitor" className="h-4 w-4" />
+                    </a>
+                  </>
+                ) : null}
+              </nav>
             </div>
-          </div>
+            <div className="flex items-center gap-2">
+              <LocaleSwitcher
+                className={buttonClass("secondary", "sm", "px-3.5")}
+              />
+            </div>
+          </header>
+
           {children}
         </div>
       </div>

@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/shared/i18n/navigation";
 import { buttonClass } from "@/shared/ui/button";
 import { Field, TextAreaField } from "@/shared/ui/field";
-import { Logo } from "@/shared/ui/logo";
 import { wizardSteps } from "../wizard-steps";
 import { WizardStepper } from "./wizard-stepper";
 
@@ -243,19 +242,7 @@ export function CreateSiteWizard() {
 
   return (
     <div className="flex-1">
-      <header className="px-5 pt-[18px] sm:px-8">
-        <div className="glass mx-auto flex h-[62px] w-full max-w-6xl items-center justify-between gap-4 rounded-full pe-2.5 ps-4 sm:ps-5">
-          <Logo href="/dashboard" />
-          <Link
-            href="/dashboard"
-            className="flex items-center gap-1.5 rounded-full px-3 py-2 font-mono text-[8px] tracking-[0.08em] text-muted uppercase transition-colors hover:bg-ink/5 hover:text-ink"
-          >
-            {t("header.backToDashboard")}
-          </Link>
-        </div>
-      </header>
-
-      <main className="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8 lg:py-14">
+      <main className="mx-auto w-full max-w-6xl px-1 py-8 sm:px-2 lg:py-12">
         <div className="max-w-2xl">
           <p className="eyebrow text-soft">{t("eyebrow")}</p>
           <h1 className="mt-5 font-display text-[clamp(38px,4.6vw,58px)] leading-[0.99] font-normal tracking-[-0.055em]">
@@ -458,7 +445,7 @@ export function CreateSiteWizard() {
                     {reviewGroups.map((group) => (
                       <section
                         key={group.title}
-                        className="rounded-2xl border border-ink/8 bg-white/50 p-4 sm:p-5"
+                        className="rounded-2xl border border-line bg-white/[0.03] p-4 sm:p-5"
                       >
                         <div className="flex items-center justify-between gap-3">
                           <h3 className="text-sm font-medium text-ink">
@@ -473,8 +460,8 @@ export function CreateSiteWizard() {
                           </button>
                         </div>
 
-                        <dl className="mt-2 divide-y divide-line">
-                          {group.rows.map(([key, value]) => (
+                    <dl className="mt-2 divide-y divide-line">
+                      {group.rows.map(([key, value]) => (
                             <div
                               key={key}
                               className="grid gap-1 py-3 sm:grid-cols-[10rem_1fr] sm:gap-4"
@@ -497,7 +484,7 @@ export function CreateSiteWizard() {
                       </section>
                     ))}
 
-                    <p className="rounded-2xl border border-ink/10 bg-white/45 px-4 py-3 text-xs leading-5 text-soft">
+                    <p className="rounded-2xl border border-line bg-white/[0.03] px-4 py-3 text-xs leading-5 text-muted">
                       {t("review.note")}
                     </p>
                   </div>
@@ -539,7 +526,7 @@ export function CreateSiteWizard() {
               <p
                 role="status"
                 aria-live="polite"
-                className="mt-4 rounded-2xl border border-ink/10 bg-white/55 px-4 py-3 text-xs leading-5 text-soft"
+                className="mt-4 rounded-2xl border border-line bg-white/[0.03] px-4 py-3 text-xs leading-5 text-muted"
               >
                 {t(`status.${statusKey}`)}
               </p>

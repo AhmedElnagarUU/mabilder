@@ -74,6 +74,7 @@
   }
 }
 
+@layer base {
 :root {
   color-scheme: dark;
 }
@@ -155,6 +156,9 @@ button {
   color: inherit;
 }
 
+}
+
+@layer components {
 .glass {
   background: rgba(255, 255, 255, 0.035);
   border: 1px solid rgba(255, 255, 255, 0.09);
@@ -254,6 +258,7 @@ button {
       transparent 62%
     ),
     linear-gradient(180deg, #0b0b0e, #060607);
+}
 }
 
 @media (prefers-reduced-motion: reduce) {

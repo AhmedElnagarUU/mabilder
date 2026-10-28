@@ -59,10 +59,10 @@ export function DeleteSiteButton({ siteId }: { siteId: string }) {
         onClick={() => setConfirming(true)}
         aria-label={t("aria")}
         title={t("aria")}
-        className="inline-flex h-9 items-center gap-1.5 rounded-full px-2.5 text-[11px] text-muted transition-colors hover:bg-danger-soft hover:text-danger focus-visible:ring-2 focus-visible:ring-danger/20 focus-visible:outline-none"
+        className={buttonClass("danger", "sm", "h-9 px-3 text-[11px]")}
       >
         <Icon name="trash" className="h-3.5 w-3.5" />
-        <span className="hidden sm:inline">{t("label")}</span>
+        {t("label")}
       </button>
     );
   }
@@ -76,7 +76,7 @@ export function DeleteSiteButton({ siteId }: { siteId: string }) {
         type="button"
         onClick={() => void handleDelete()}
         disabled={busy}
-        className={buttonClass("danger", "sm", "h-8 px-3 text-[11px]")}
+        className={buttonClass("danger", "sm", "h-9 px-3 text-[11px]")}
       >
         {busy ? t("deleting") : t("confirm")}
       </button>
@@ -84,7 +84,7 @@ export function DeleteSiteButton({ siteId }: { siteId: string }) {
         type="button"
         onClick={() => setConfirming(false)}
         disabled={busy}
-        className={buttonClass("ghost", "sm", "h-8 px-3 text-[11px]")}
+        className={buttonClass("ghost", "sm", "h-9 px-3 text-[11px]")}
       >
         {t("cancel")}
       </button>

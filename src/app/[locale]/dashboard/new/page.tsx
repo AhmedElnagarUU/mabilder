@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { DashboardShell } from "@/features/site-creation/components/dashboard-shell";
 import { CreateSiteWizard } from "@/features/site-creation/components/create-site-wizard";
 
 export async function generateMetadata({
@@ -20,5 +21,11 @@ export default async function NewSitePage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  return <CreateSiteWizard />;
+  const t = await getTranslations("siteCreation.meta");
+
+  return (
+    <DashboardShell site={null} crumbLabel={t("title")}>
+      <CreateSiteWizard />
+    </DashboardShell>
+  );
 }

@@ -401,7 +401,7 @@ function SettingsDrawer({
 
   return (
     <div
-      className="fixed inset-0 z-40 flex justify-end bg-ink/30 backdrop-blur-sm"
+      className="fixed inset-0 z-40 flex justify-end bg-canvas/70 backdrop-blur-sm"
       role="presentation"
       onMouseDown={onClose}
     >
@@ -1056,11 +1056,11 @@ export function ContentEditor({ siteId }: { siteId: string }) {
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-canvas text-ink">
-      <header className="flex flex-wrap items-center justify-between gap-3 border-b border-white/70 bg-white/60 px-4 py-3 backdrop-blur-[22px] sm:px-6">
+      <header className="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-canvas/80 px-4 py-3 backdrop-blur-[22px] sm:px-6">
         <div className="flex items-center gap-3">
           <Link
             href="/dashboard"
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-sm font-medium text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)]"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-sm font-medium text-[#04211f] shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]"
             title="All websites"
           >
             {(siteName.trim()[0] ?? "W").toUpperCase()}
@@ -1154,7 +1154,7 @@ export function ContentEditor({ siteId }: { siteId: string }) {
         </div>
       </header>
 
-      <div className="flex items-center gap-1.5 overflow-x-auto border-b border-line bg-white/30 px-3 py-2.5 backdrop-blur sm:px-5">
+      <div className="flex items-center gap-1.5 overflow-x-auto border-b border-line bg-canvas/80 px-3 py-2.5 backdrop-blur sm:px-5">
         <span className="mono-label me-2 hidden shrink-0 text-[7px] tracking-[0.14em] text-faint sm:inline">
           Pages
         </span>
@@ -1171,7 +1171,7 @@ export function ContentEditor({ siteId }: { siteId: string }) {
             }
             className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-semibold whitespace-nowrap transition-colors ${
               activePage === page.key
-                ? "bg-ink text-white shadow-soft"
+                ? "bg-[#e9e9e5] text-[#08080a] shadow-soft"
                 : "text-muted hover:bg-surface hover:text-ink"
             } disabled:cursor-not-allowed disabled:opacity-40`}
           >
@@ -1187,8 +1187,17 @@ export function ContentEditor({ siteId }: { siteId: string }) {
 
       {generationError ? (
         <div className="border-b border-warn/20 bg-warn-soft px-4 py-3 text-xs text-warn sm:px-6">
-          <p className="font-semibold">AI generation</p>
-          <p className="mt-0.5">{generationError}</p>
+          <p>
+            AI is busy right now. Your draft is saved — try again in a minute.
+          </p>
+          <details className="mt-1">
+            <summary className="cursor-pointer select-none font-medium text-warn/80 hover:text-warn">
+              Details
+            </summary>
+            <p className="mt-1 break-words font-mono text-[10px] text-warn/70">
+              {generationError}
+            </p>
+          </details>
         </div>
       ) : null}
 
@@ -1204,7 +1213,7 @@ export function ContentEditor({ siteId }: { siteId: string }) {
           />
         </div>
 
-        <div className="pointer-events-none absolute end-6 bottom-6 z-20 rounded-full bg-ink/85 px-3.5 py-1.5 text-[11px] font-medium text-white shadow-soft backdrop-blur">
+        <div className="pointer-events-none absolute end-6 bottom-6 z-20 rounded-full border border-line bg-panel/85 px-3.5 py-1.5 text-[11px] font-medium text-ink shadow-soft backdrop-blur">
           {mode === "preview"
             ? "Preview mode - links are active"
             : dirty

@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { DashboardShell } from "@/features/site-creation/components/dashboard-shell";
 import { DeleteSiteButton } from "@/features/site-creation/components/delete-site-button";
 import { listSites } from "@/features/site-creation/service";
 import type { SiteSummary } from "@/features/site-creation/types";
-import { LocaleSwitcher } from "@/shared/i18n/locale-switcher";
 import { Link } from "@/shared/i18n/navigation";
 import { buttonClass } from "@/shared/ui/button";
-import { Icon } from "@/shared/ui/icon";
+import { Icon, type IconName } from "@/shared/ui/icon";
 
 export async function generateMetadata({
   params,
@@ -23,42 +23,19 @@ export async function generateMetadata({
 
 export const dynamic = "force-dynamic";
 
-const statusStyles: Record<SiteSummary["status"], string> = {
+const statusChipStyles: Record<SiteSummary["status"], string> = {
   draft: "border-line text-muted",
   generating: "border-warn/25 text-warn",
-  ready: "border-ink/25 text-ink",
-  error: "border-danger/20 text-danger",
+  ready: "border-ok/30 text-ok",
+  error: "border-danger/25 text-danger",
 };
 
-const statusDots: Record<SiteSummary["status"], string> = {
+const statusDotStyles: Record<SiteSummary["status"], string> = {
   draft: "bg-faint",
   generating: "bg-warn",
-  ready: "bg-ink",
+  ready: "bg-ok",
   error: "bg-danger",
 };
-
-const covers = [
-  {
-    background:
-      "linear-gradient(150deg, #f6fcfb 0%, #dcf6f3 58%, #b4ece6 100%)",
-    ink: "#073437",
-  },
-  {
-    background:
-      "linear-gradient(150deg, #0a5b5c 0%, #044144 55%, #032b2e 100%)",
-    ink: "#f2fdfb",
-  },
-  {
-    background:
-      "linear-gradient(150deg, #eefaf8 0%, #d3eeea 55%, #aedcd7 100%)",
-    ink: "#164a4c",
-  },
-  {
-    background:
-      "linear-gradient(150deg, #e0f4f1 0%, #c6e6e2 55%, #9fcdc8 100%)",
-    ink: "#0b3f42",
-  },
-];
 
 function formatDate(locale: string, value: string): string {
   return new Date(value).toLocaleDateString(locale, {
@@ -67,6 +44,13 @@ function formatDate(locale: string, value: string): string {
     year: "numeric",
   });
 }
+
+const statusIcons: Record<SiteSummary["status"], IconName> = {
+  draft: "clock",
+  generating: "clock",
+  ready: "check",
+  error: "alert",
+};
 
 function initialOf(name: string): string {
   return (name.trim()[0] ?? "W").toUpperCase();
@@ -81,10 +65,10 @@ function StatusChip({
 }) {
   return (
     <span
-      className={`inline-flex shrink-0 items-center gap-1.5 rounded border px-2 py-1 font-mono text-[7px] tracking-[0.08em] uppercase ${statusStyles[status]}`}
+      className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[8px] tracking-[0.08em] uppercase ${statusChipStyles[status]}`}
     >
       <i
-        className={`h-[4px] w-[4px] rounded-full ${statusDots[status]} ${
+        className={`h-[4px] w-[4px] rounded-full ${statusDotStyles[status]} ${
           status === "generating" ? "animate-pulse" : ""
         }`}
       />
@@ -97,69 +81,71 @@ function Kpi({
   label,
   value,
   detail,
-  note,
-  dark = false,
+  accent = false,
   icon,
 }: {
   label: string;
-  value: number;
+  value: ReactNode;
   detail: string;
-  note: string;
-  dark?: boolean;
-  icon: "grid" | "check" | "clock" | "shield";
+  accent?: boolean;
+  icon: IconName;
 }) {
   return (
     <article
-      className={`relative flex min-h-[126px] flex-col overflow-hidden rounded-[18px] p-[17px_18px] ${
-        dark
-          ? "border border-white/12 bg-[linear-gradient(160deg,#0a5b5c,#032b2e)] text-white shadow-[0_24px_60px_-30px_rgba(2,38,41,0.42)]"
-          : "glass"
+      className={`min-w-0 overflow-hidden rounded-panel border p-4 ${
+        accent
+          ? "border-accent/15 bg-[linear-gradient(155deg,rgba(94,234,212,0.09),rgba(255,255,255,0.015)_55%)]"
+          : "border-line-soft bg-[linear-gradient(160deg,rgba(255,255,255,0.04),rgba(255,255,255,0.012))]"
       }`}
     >
-      {dark ? (
-        <span
-          aria-hidden
-          className="absolute -top-10 -end-8 h-[120px] w-[120px] rounded-full bg-[radial-gradient(closest-side,rgba(255,255,255,0.13),transparent)]"
-        />
-      ) : null}
-
-      <div className="flex items-center justify-between">
-        <span
-          className={`mono-label text-[7.5px] tracking-[0.12em] ${
-            dark ? "text-white/40" : "text-faint"
-          }`}
-        >
+      <div className="flex items-center justify-between gap-2.5">
+        <span className="mono-label text-[7.5px] tracking-[0.12em] text-dim">
           {label}
         </span>
         <Icon
           name={icon}
-          className={`h-[13px] w-[13px] ${dark ? "text-white/40" : "text-faint"}`}
+          className={`h-[13px] w-[13px] ${accent ? "text-[#8ed5c9]" : "text-dim"}`}
         />
       </div>
-
-      <b
-        className={`mt-auto font-display text-[clamp(26px,2.5vw,34px)] leading-none font-normal tracking-[-0.055em] ${
-          dark ? "text-white" : "text-ink"
-        }`}
-      >
+      <div className="mt-3 truncate font-display text-[22px] leading-none font-normal tracking-[-0.04em] text-[#f0f0ed]">
         {value}
-      </b>
-
-      <div
-        className={`mt-2.5 flex items-center justify-between font-mono text-[7px] tracking-[0.03em] ${
-          dark ? "text-white/40" : "text-faint"
-        }`}
-      >
-        <span>{detail}</span>
-        <em
-          className={`font-normal not-italic ${
-            dark ? "text-white/80" : "text-soft"
-          }`}
-        >
-          {note}
-        </em>
       </div>
+      <p className="mt-2.5 truncate text-[7.5px] text-faint">{detail}</p>
     </article>
+  );
+}
+
+function MiniSiteSheet({ site }: { site: SiteSummary }) {
+  return (
+    <div className="overflow-hidden rounded-xl border border-line-soft bg-[linear-gradient(150deg,rgba(94,234,212,0.07),rgba(255,255,255,0.02)_70%)]">
+      <div className="flex h-7 items-center gap-1.5 border-b border-line-soft px-3.5">
+        <i className="h-[5px] w-[5px] rounded-full bg-white/20" />
+        <i className="h-[5px] w-[5px] rounded-full bg-white/20" />
+        <i className="h-[5px] w-[5px] rounded-full bg-white/20" />
+        <span className="ms-auto font-mono text-[7px] tracking-[0.06em] text-faint">
+          <bdi dir="ltr">/{site.slug}</bdi>
+        </span>
+      </div>
+      <div className="relative overflow-hidden px-5 py-8">
+        <span
+          aria-hidden
+          className="absolute -top-14 -end-9 h-40 w-40 rounded-full border border-white/[0.06]"
+        />
+        <span
+          aria-hidden
+          className="absolute -top-10 end-6 h-28 w-28 rounded-full border border-white/[0.05]"
+        />
+        <p className="mono-label text-[7px] tracking-[0.12em] text-faint">
+          {site.industry}
+        </p>
+        <span
+          aria-hidden
+          className="mt-1 block font-display text-[64px] leading-none font-normal tracking-[-0.07em] text-[#c9dad6]"
+        >
+          {initialOf(site.businessName)}
+        </span>
+      </div>
+    </div>
   );
 }
 
@@ -170,7 +156,6 @@ export default async function DashboardPage({
   setRequestLocale(locale);
 
   const t = await getTranslations("dashboard");
-  const common = await getTranslations("common");
 
   let sites: SiteSummary[] = [];
   let loadFailed = false;
@@ -182,110 +167,61 @@ export default async function DashboardPage({
     loadFailed = true;
   }
 
-  const readyCount = sites.filter((site) => site.status === "ready").length;
-  const attentionCount = sites.filter((site) => site.status === "error").length;
-  const inProgressCount = sites.filter(
-    (site) => site.status === "draft" || site.status === "generating",
-  ).length;
+  const site = sites[0] ?? null;
+  const otherSites = sites.slice(1);
+
+  if (loadFailed) {
+    return (
+      <DashboardShell site={null} crumbLabel={t("breadcrumb")}>
+        <main className="pt-10">
+          <div className="rounded-panel border border-danger/20 bg-danger-soft px-4 py-3 text-xs text-danger">
+            {t("errors.load_failed")}
+          </div>
+        </main>
+      </DashboardShell>
+    );
+  }
+
+  const previewHref = `/preview/${site.id}/index.html`;
+  const editHref = `/edit/${site.id}`;
 
   return (
-    <DashboardShell>
+    <DashboardShell site={site} crumbLabel={t("breadcrumb")}>
       <main>
-        <div className="flex items-center gap-4 py-2 pb-6">
-          <p className="mono-label flex items-center gap-2 text-[8px] tracking-[0.08em] text-faint">
-            <b className="font-medium text-soft">{common("appName")}</b>
-            <Icon name="chevron" className="h-2 w-2 -rotate-90 rtl:rotate-90" />
-            {t("breadcrumb")}
-          </p>
-          <div className="ms-auto flex items-center gap-2">
-            <span className="hidden h-9 items-center gap-1.5 rounded-full border border-line bg-white/55 px-3 font-mono text-[8px] tracking-[0.06em] text-soft shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:flex">
-              <i className="h-[4px] w-[4px] rounded-full bg-ink" />
-              {t("siteCount", { count: sites.length })}
-            </span>
-            <LocaleSwitcher
-              className={buttonClass("secondary", "sm", "hidden px-3.5 sm:inline-flex")}
-            />
-            <Link
-              href="/dashboard/new"
-              className={buttonClass("primary", "sm", "gap-1.5 px-4")}
-            >
-              <Icon name="plus" className="h-3.5 w-3.5" />
-              {t("newWebsite")}
-            </Link>
-          </div>
-        </div>
-
-        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="flex flex-col gap-4 pt-7 pb-6 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
           <div>
-            <h1 className="font-display text-[clamp(32px,3.5vw,46px)] leading-none font-normal tracking-[-0.055em]">
-              {t("title")}
-              <span className="text-accent">.</span>
+            <h1 className="font-display text-[clamp(24px,2.4vw,29px)] leading-[1.05] font-light tracking-[-0.045em] text-[#f1f1ee]">
+              {site ? t("welcome.title", { name: site.businessName }) : t("welcome.plain")}
             </h1>
-            <p className="mt-2.5 text-[11.5px] text-muted">
-              {t("subtitle")}
+            <p className="mt-2 text-[9.5px] text-dim">
+              {site ? t("welcome.subtitle") : t("empty.body")}
             </p>
           </div>
-          <p className="mono-label hidden text-[7.5px] tracking-[0.1em] text-faint lg:block">
-            {t("note")}
-          </p>
+          {site ? (
+            <div className="flex shrink-0 items-center gap-2">
+              <a
+                href={previewHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={buttonClass("secondary", "sm", "gap-1.5")}
+              >
+                <Icon name="external" className="h-3.5 w-3.5" />
+                {t("action.preview")}
+              </a>
+              <Link href={editHref} className={buttonClass("primary", "sm")}>
+                <Icon name="pen" className="h-3.5 w-3.5" />
+                {t("action.edit")}
+              </Link>
+            </div>
+          ) : null}
         </div>
 
-        {loadFailed ? (
-          <p className="rounded-[18px] border border-danger/20 bg-danger-soft px-4 py-3 text-xs text-danger">
-            {t("errors.load_failed")}
-          </p>
-        ) : null}
-
-        {!loadFailed ? (
-          <section
-            aria-label={t("aria.metrics")}
-            className="grid grid-cols-2 gap-3 lg:grid-cols-4"
-          >
-            <Kpi
-              label={t("kpis.total.label")}
-              value={sites.length}
-              detail={t("kpis.total.detail")}
-              note={t("kpis.total.note")}
-              icon="grid"
-              dark
-            />
-            <Kpi
-              label={t("kpis.ready.label")}
-              value={readyCount}
-              detail={t("kpis.ready.detail")}
-              note={t("kpis.ready.note")}
-              icon="check"
-            />
-            <Kpi
-              label={t("kpis.inProgress.label")}
-              value={inProgressCount}
-              detail={t("kpis.inProgress.detail")}
-              note={t("kpis.inProgress.note")}
-              icon="clock"
-            />
-            <Kpi
-              label={t("kpis.attention.label")}
-              value={attentionCount}
-              detail={t("kpis.attention.detail")}
-              note={
-                attentionCount > 0
-                  ? t("kpis.attention.note")
-                  : t("kpis.attention.allClear")
-              }
-              icon="shield"
-            />
-          </section>
-        ) : null}
-
-        {!loadFailed && sites.length === 0 ? (
-          <section className="glass mt-4 rounded-[26px] px-6 py-20 text-center">
-            <div className="mx-auto grid h-11 w-11 place-items-center rounded-full bg-accent text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.22)]">
+        {!site ? (
+          <section className="mt-4 rounded-panel border border-line-soft bg-[linear-gradient(160deg,rgba(255,255,255,0.036),rgba(255,255,255,0.01))] px-6 py-16 text-center">
+            <div className="mx-auto grid h-11 w-11 place-items-center rounded-full border border-accent/20 bg-accent/10 text-accent">
               <Icon name="pages" className="h-5 w-5" />
             </div>
-            <p className="mono-label mt-5 text-[8px] tracking-[0.12em] text-faint">
-              {t("empty.kicker")}
-            </p>
-            <h2 className="mt-3 font-display text-[clamp(28px,3vw,38px)] leading-none font-normal tracking-[-0.05em]">
+            <h2 className="mt-5 font-display text-[clamp(24px,2.6vw,32px)] leading-none font-light tracking-[-0.04em]">
               {t("empty.title")}
             </h2>
             <p className="mx-auto mt-3 max-w-md text-xs leading-[1.65] text-muted">
@@ -299,128 +235,222 @@ export default async function DashboardPage({
               <Icon name="arrow" className="h-3.5 w-3.5 rtl:rotate-180" />
             </Link>
           </section>
-        ) : null}
+        ) : (
+          <>
+            <section aria-label={t("aria.metrics")} className="grid grid-cols-1 min-[480px]:grid-cols-2 gap-2.5 lg:grid-cols-4">
+              <Kpi
+                label={t("kpis.status.label")}
+                value={t(`status.${site.status}`)}
+                detail={t("kpis.status.detail")}
+                accent
+                icon={statusIcons[site.status]}
+              />
+              <Kpi
+                label={t("kpis.industry.label")}
+                value={site.industry}
+                detail={t("kpis.industry.detail")}
+                icon="compass"
+              />
+              <Kpi
+                label={t("kpis.updated.label")}
+                value={formatDate(locale, site.updatedAt)}
+                detail={t("kpis.updated.detail")}
+                icon="clock"
+              />
+              <Kpi
+                label={t("kpis.address.label")}
+                value={
+                  <bdi dir="ltr">/{site.slug}</bdi>
+                }
+                detail={t("kpis.address.detail")}
+                icon="globe"
+              />
+            </section>
 
-        {sites.length > 0 ? (
-          <section aria-label={t("aria.websites")} className="mt-8">
-            <div className="mb-3.5 flex items-end justify-between gap-4">
-              <div>
-                <h2 className="font-display text-base font-medium tracking-[-0.035em]">
-                  {t("recent.title")}
-                </h2>
-                <p className="mono-label mt-1 text-[7px] tracking-[0.05em] text-faint">
-                  {t("recent.count", { count: sites.length })}
-                </p>
-              </div>
-              <Link
-                href="/dashboard/new"
-                className="flex items-center gap-1 font-mono text-[7px] tracking-[0.08em] text-faint uppercase transition-colors hover:text-ink"
-              >
-                {t("recent.startAnother")}
-                <Icon name="arrow" className="h-2.5 w-2.5 rtl:rotate-180" />
-              </Link>
-            </div>
+            <section
+              aria-label={t("aria.websites")}
+              className="mt-4 grid grid-cols-1 gap-3 lg:grid-cols-12"
+            >
+              <article className="rounded-panel border border-line-soft bg-[linear-gradient(160deg,rgba(255,255,255,0.036),rgba(255,255,255,0.01))] p-[18px] min-w-0 lg:col-span-8">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    <h3 className="text-[15px] font-medium tracking-[-0.02em] text-[#dededb]">
+                      {site.businessName}
+                    </h3>
+                    <p className="mt-1 text-[8px] text-dim">
+                      {t("panel.subtitle")}
+                    </p>
+                  </div>
+                  <StatusChip status={site.status} label={t(`status.${site.status}`)} />
+                </div>
 
-            <div className="grid gap-3.5 md:grid-cols-2">
-              {sites.map((site, index) => {
-                const cover = covers[index % covers.length];
+                <div className="mt-4">
+                  <MiniSiteSheet site={site} />
+                </div>
 
-                return (
-                  <article
-                    key={site.id}
-                    className="glass group overflow-hidden rounded-[22px] transition-transform duration-300 hover:-translate-y-0.5"
-                  >
-                    <Link
-                      href={`/edit/${site.id}`}
-                      aria-label={t("card.editAria", { name: site.businessName })}
-                      className="block overflow-hidden border-b border-white/50"
+                <dl className="mt-4 divide-y divide-white/[0.04]">
+                  {[
+                    {
+                      label: t("rows.business"),
+                      value: site.businessName,
+                    },
+                    {
+                      label: t("rows.industry"),
+                      value: site.industry,
+                    },
+                    {
+                      label: t("rows.status"),
+                      value: t(`status.${site.status}`),
+                    },
+                    {
+                      label: t("rows.updated"),
+                      value: formatDate(locale, site.updatedAt),
+                    },
+                  ].map((row) => (
+                    <div
+                      key={row.label}
+                      className="flex items-baseline justify-between gap-4 py-2.5"
                     >
-                      <div
-                        className="relative h-[150px] sm:h-[164px]"
-                        style={{ backgroundImage: cover.background }}
-                      >
-                        <div className="flex h-8 items-center gap-1.5 border-b border-black/5 bg-white/25 px-3.5">
-                          <i className="h-[5px] w-[5px] rounded-full bg-black/20" />
-                          <i className="h-[5px] w-[5px] rounded-full bg-black/20" />
-                          <i className="h-[5px] w-[5px] rounded-full bg-black/20" />
-                          <span className="ms-auto font-mono text-[6.5px] tracking-[0.06em] text-black/35">
-                            /{site.slug}
-                          </span>
-                        </div>
-
-                        <span
-                          aria-hidden
-                          className="absolute -top-16 -end-10 h-48 w-48 rounded-full border border-black/8"
-                        />
-                        <span
-                          aria-hidden
-                          className="absolute -top-8 -end-2 h-32 w-32 rounded-full border border-black/8"
-                        />
-
-                        <span
-                          className="absolute bottom-3 start-5 font-display text-[76px] leading-none font-normal tracking-[-0.08em] sm:text-[84px]"
-                          style={{ color: cover.ink }}
-                        >
-                          {initialOf(site.businessName)}
-                        </span>
-
-                        <span
-                          className="mono-label absolute top-12 start-5 text-[7px] tracking-[0.12em]"
-                          style={{ color: cover.ink, opacity: 0.55 }}
-                        >
-                          {String(index + 1).padStart(2, "0")} /{" "}
-                          {site.industry}
-                        </span>
-
-                        <span className="absolute end-5 bottom-5 font-mono text-[7px] tracking-[0.1em] uppercase" style={{ color: cover.ink, opacity: 0.45 }}>
-                          {t("card.sixPages")}
-                        </span>
-                      </div>
-                    </Link>
-
-                    <div className="p-[18px]">
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="min-w-0">
-                          <h3 className="truncate font-display text-[17px] font-medium tracking-[-0.035em]">
-                            {site.businessName}
-                          </h3>
-                          <p className="mono-label mt-1 text-[6.5px] tracking-[0.05em] text-faint">
-                            {t("card.updated", {
-                              date: formatDate(locale, site.updatedAt),
-                            })}
-                          </p>
-                        </div>
-                        <StatusChip
-                          status={site.status}
-                          label={t(`status.${site.status}`)}
-                        />
-                      </div>
-
-                      <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-line pt-3.5">
-                        <Link
-                          href={`/edit/${site.id}`}
-                          className={buttonClass("primary", "sm", "px-3.5")}
-                        >
-                          {t("card.edit")}
-                        </Link>
-                        <a
-                          href={`/preview/${site.id}/index.html`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={buttonClass("secondary", "sm", "px-3.5 gap-1.5")}
-                        >
-                          {t("card.preview")}
-                          <Icon name="external" className="h-3 w-3" />
-                        </a>
-                        <span className="ms-auto">
-                          <DeleteSiteButton siteId={site.id} />
-                        </span>
-                      </div>
+                      <dt className="mono-label text-[7px] tracking-[0.11em] text-faint">
+                        {row.label}
+                      </dt>
+                      <dd className="min-w-0 truncate text-end text-[8.5px] text-[#b4b4b9]">
+                        {row.value}
+                      </dd>
                     </div>
-                  </article>
-                );
-              })}
-            </div>
+                  ))}
+                </dl>
+
+                <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-line-soft pt-3.5">
+                  <Link href={editHref} className={buttonClass("primary", "sm", "px-4")}>
+                    {t("action.edit")}
+                  </Link>
+                  <a
+                    href={previewHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={buttonClass("secondary", "sm", "gap-1.5 px-4")}
+                  >
+                    {t("action.preview")}
+                    <Icon name="external" className="h-3 w-3" />
+                  </a>
+                  <span className="ms-auto">
+                    <DeleteSiteButton siteId={site.id} />
+                  </span>
+                </div>
+              </article>
+
+              <article className="relative flex flex-col self-start overflow-hidden rounded-panel border border-accent/10 bg-[linear-gradient(155deg,rgba(94,234,212,0.075),rgba(255,255,255,0.012)_54%)] p-[18px] min-w-0 lg:col-span-4">
+                <span
+                  aria-hidden
+                  className="absolute -top-[120px] -end-[100px] h-[230px] w-[230px] rounded-full bg-[radial-gradient(circle,rgba(94,234,212,0.16),transparent_64%)]"
+                />
+                <div className="relative flex items-start justify-between gap-3">
+                  <div className="flex items-center gap-2 text-[#d8e7e3]">
+                    <Icon name="spark" className="h-[13px] w-[13px] text-accent" />
+                    <h3 className="text-[10.5px] font-medium tracking-[-0.01em]">
+                      {t("nextStep.title")}
+                    </h3>
+                  </div>
+                </div>
+                <p className="relative mt-3 text-[10.5px] leading-[1.7] text-muted">
+                  {site.status === "ready" ? t("nextStep.ready") : null}
+                  {site.status === "draft" || site.status === "generating"
+                    ? t("nextStep.working")
+                    : null}
+                  {site.status === "error" ? t("nextStep.error") : null}
+                </p>
+                <ul className="relative mt-3 space-y-1.5">
+                  {(
+                    (site.status === "ready"
+                      ? t.raw("nextStep.readyItems")
+                      : site.status === "error"
+                        ? t.raw("nextStep.errorItems")
+                        : t.raw("nextStep.workingItems")) as string[]
+                  ).map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-start gap-2 text-[9.5px] leading-[1.6] text-muted"
+                    >
+                      <Icon
+                        name="check"
+                        className="mt-0.5 h-3 w-3 shrink-0 text-accent"
+                      />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <div className="relative mt-4">
+                  <Link
+                    href={editHref}
+                    className={buttonClass("secondary", "sm", "w-full")}
+                  >
+                    {t("action.edit")}
+                    <Icon name="arrow" className="h-3 w-3 rtl:rotate-180" />
+                  </Link>
+                </div>
+              </article>
+            </section>
+          </>
+        )}
+
+        {otherSites.length > 0 ? (
+          <section
+            aria-label={t("more.title")}
+            className="mt-3 overflow-x-auto rounded-panel border border-line-soft bg-[linear-gradient(160deg,rgba(255,255,255,0.036),rgba(255,255,255,0.01))] px-[18px] py-4"
+          >
+            <h3 className="mono-label text-[7px] tracking-[0.12em] text-dim">
+              {t("more.title")}
+            </h3>
+            <table className="mt-3 w-full min-w-[520px] border-collapse">
+              <thead>
+                <tr>
+                  {[
+                    t("rows.business"),
+                    t("rows.industry"),
+                    t("rows.updated"),
+                    t("rows.status"),
+                  ].map((heading) => (
+                    <th
+                      key={heading}
+                      className="border-b border-line-soft px-2 py-2 text-start font-mono text-[6.5px] font-normal tracking-[0.11em] text-faint uppercase"
+                    >
+                      {heading}
+                    </th>
+                  ))}
+                  <th className="border-b border-line-soft px-2 py-2" />
+                </tr>
+              </thead>
+              <tbody>
+                {otherSites.map((other) => (
+                  <tr key={other.id} className="transition-colors hover:bg-white/[0.015]">
+                    <td className="px-2 py-2.5 text-[8.5px] text-[#b4b4b9]">
+                      {other.businessName}
+                    </td>
+                    <td className="px-2 py-2.5 text-[8.5px] text-[#b4b4b9]">
+                      {other.industry}
+                    </td>
+                    <td className="px-2 py-2.5 font-mono text-[8px] text-[#d6d6d3]">
+                      {formatDate(locale, other.updatedAt)}
+                    </td>
+                    <td className="px-2 py-2.5">
+                      <StatusChip
+                        status={other.status}
+                        label={t(`status.${other.status}`)}
+                      />
+                    </td>
+                    <td className="px-2 py-2.5 text-end">
+                      <Link
+                        href={`/edit/${other.id}`}
+                        className="font-mono text-[7px] tracking-[0.07em] text-muted uppercase transition-colors hover:text-ink"
+                      >
+                        {t("action.edit")}
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </section>
         ) : null}
       </main>
