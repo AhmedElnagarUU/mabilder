@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { requirePageUser } from "@/features/auth/session";
 import { DashboardShell } from "@/features/site-creation/components/dashboard-shell";
 import { CreateSiteWizard } from "@/features/site-creation/components/create-site-wizard";
+import { listSites } from "@/features/site-creation/service";
+import { redirect } from "@/shared/i18n/navigation";
 
 export async function generateMetadata({
   params,
@@ -21,10 +24,16 @@ export default async function NewSitePage({
   const { locale } = await params;
   setRequestLocale(locale);
 
+  const user = await requirePageUser(locale, "/dashboard/new");
+
+  if ((await listSites(user.id)).length > 0) {
+    redirect({ href: "/dashboard", locale });
+  }
+
   const t = await getTranslations("siteCreation.meta");
 
   return (
-    <DashboardShell site={null} crumbLabel={t("title")}>
+    <DashboardShell user={user} site={null} crumbLabel={t("title")}>
       <CreateSiteWizard />
     </DashboardShell>
   );

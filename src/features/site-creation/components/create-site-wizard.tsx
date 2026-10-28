@@ -78,6 +78,8 @@ const errorCodes = new Set([
   "delete_failed",
   "save_failed",
   "generation_failed",
+  "site_exists",
+  "unauthorized",
 ]);
 
 function errorCodeFrom(code: string | undefined, fallback: string): string {

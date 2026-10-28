@@ -234,6 +234,51 @@
       "legalAria": "Language"
     }
   },
+  "auth": {
+    "fields": {
+      "name": "Your name",
+      "email": "Email",
+      "password": "Password"
+    },
+    "placeholders": {
+      "name": "Sara Ahmed",
+      "email": "you@company.com",
+      "newPassword": "At least 8 characters"
+    },
+    "signIn": {
+      "metaTitle": "Sign in",
+      "eyebrow": "Welcome back",
+      "title": "Sign in to your studio.",
+      "intro": "Pick up where you left off with your website.",
+      "submit": "Sign in",
+      "busy": "Signing in...",
+      "switchPrompt": "New here?",
+      "switchLink": "Create an account"
+    },
+    "signUp": {
+      "metaTitle": "Create an account",
+      "eyebrow": "Get started",
+      "title": "Create your account.",
+      "intro": "One account, one website for your business.",
+      "submit": "Create account",
+      "busy": "Creating account...",
+      "switchPrompt": "Already have an account?",
+      "switchLink": "Sign in"
+    },
+    "signOut": {
+      "label": "Sign out",
+      "busy": "Signing out..."
+    },
+    "errors": {
+      "invalid_credentials": "The email or password is incorrect.",
+      "email_taken": "An account with this email already exists. Sign in instead.",
+      "invalid_email": "Please enter a valid email address.",
+      "password_too_short": "The password must be at least 8 characters.",
+      "password_too_long": "The password is too long.",
+      "too_many_requests": "Too many attempts. Please wait a moment and try again.",
+      "default": "Something went wrong. Please try again."
+    }
+  },
   "dashboard": {
     "meta": {
       "title": "Dashboard",
@@ -241,7 +286,7 @@
     },
     "breadcrumb": "Overview",
     "sidebar": {
-      "business": "Business",
+      "account": "Account",
       "navLabel": "Navigation",
       "aria": "Main navigation",
       "overview": "Overview",
@@ -250,7 +295,6 @@
     },
     "welcome": {
       "title": "Welcome back, {name}.",
-      "plain": "Welcome back.",
       "subtitle": "Here is your website at a glance."
     },
     "action": {
@@ -310,9 +354,6 @@
       "body": "Answer a short brief and AI writes a complete website draft for your firm in minutes.",
       "cta": "Create your website"
     },
-    "more": {
-      "title": "Other websites"
-    },
     "aria": {
       "metrics": "Key indicators",
       "websites": "Your website"
@@ -332,6 +373,7 @@
       "delete_failed": "Could not delete the website. Please try again.",
       "save_failed": "Could not save your changes. Please try again.",
       "generation_failed": "AI generation failed. Your draft is saved and you can retry.",
+      "unauthorized": "Your session has ended. Please sign in again.",
       "default": "Something went wrong. Please try again."
     }
   },
@@ -451,6 +493,8 @@
       "delete_failed": "Could not delete the website. Please try again.",
       "save_failed": "Could not save your changes. Please try again.",
       "generation_failed": "AI generation failed. Your draft is saved and you can retry.",
+      "site_exists": "Your account already has a website. Open it from the dashboard.",
+      "unauthorized": "Your session has ended. Please sign in again.",
       "default": "Something went wrong. Please try again."
     },
     "delete": {

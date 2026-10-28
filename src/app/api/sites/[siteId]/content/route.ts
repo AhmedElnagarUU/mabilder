@@ -1,3 +1,4 @@
+import { requireSession, unauthorizedResponse } from "@/features/auth/session";
 import { saveContent } from "@/features/site-creation/service";
 import { databaseErrorResponse } from "@/shared/db/errors";
 
@@ -8,8 +9,14 @@ export async function PUT(
   context: RouteContext<"/api/sites/[siteId]/content">,
 ) {
   try {
+    const user = await requireSession(request.headers);
+
+    if (!user) {
+      return unauthorizedResponse();
+    }
+
     const { siteId } = await context.params;
-    const result = await saveContent(siteId, await request.json());
+    const result = await saveContent(user.id, siteId, await request.json());
 
     if (!result) {
       return Response.json(

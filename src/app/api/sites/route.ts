@@ -1,11 +1,18 @@
+import { requireSession, unauthorizedResponse } from "@/features/auth/session";
 import { createSite, listSites } from "@/features/site-creation/service";
 import { databaseErrorResponse } from "@/shared/db/errors";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    return Response.json({ sites: await listSites() });
+    const user = await requireSession(request.headers);
+
+    if (!user) {
+      return unauthorizedResponse();
+    }
+
+    return Response.json({ sites: await listSites(user.id) });
   } catch (error) {
     const unavailable = databaseErrorResponse(error);
 
@@ -23,7 +30,20 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const result = await createSite(await request.json());
+    const user = await requireSession(request.headers);
+
+    if (!user) {
+      return unauthorizedResponse();
+    }
+
+    const result = await createSite(user.id, await request.json());
+
+    if (!result.ok && result.code === "site_exists") {
+      return Response.json(
+        { error: "This account already has a website.", code: "site_exists" },
+        { status: 409 },
+      );
+    }
 
     if (!result.ok) {
       return Response.json(

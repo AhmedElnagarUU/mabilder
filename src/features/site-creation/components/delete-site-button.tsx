@@ -15,6 +15,7 @@ const errorCodes = new Set([
   "delete_failed",
   "save_failed",
   "generation_failed",
+  "unauthorized",
 ]);
 
 function errorCodeFrom(code: string | undefined): string {

@@ -22,7 +22,8 @@ import {
 
 export type CreateSiteResult =
   | { ok: true; site: SiteRecord }
-  | { ok: false; errors: ContentIssue[] };
+  | { ok: false; code: "invalid_request"; errors: ContentIssue[] }
+  | { ok: false; code: "site_exists" };
 
 export type SaveContentResult =
   | { ok: true; site: SiteRecord }
@@ -41,31 +42,46 @@ function errorMessage(error: unknown): string {
 }
 
 export async function createSite(
+  ownerId: string,
   briefInput: unknown,
 ): Promise<CreateSiteResult> {
   const parsed = businessBriefSchema.safeParse(briefInput);
 
   if (!parsed.success) {
-    return { ok: false, errors: toIssues(parsed.error) };
+    return {
+      ok: false,
+      code: "invalid_request",
+      errors: toIssues(parsed.error),
+    };
   }
 
   const content = buildBaseContent(parsed.data);
-  const site = await createSiteRecord(parsed.data, content);
+  const site = await createSiteRecord(ownerId, parsed.data, content);
+
+  if (!site) {
+    return { ok: false, code: "site_exists" };
+  }
 
   await generateSite(site.id, content);
   return { ok: true, site };
 }
 
-export async function listSites(): Promise<SiteSummary[]> {
-  return listSiteRecords();
+export async function listSites(ownerId: string): Promise<SiteSummary[]> {
+  return listSiteRecords(ownerId);
 }
 
-export async function getSite(siteId: string): Promise<SiteRecord | null> {
-  return getSiteRecord(siteId);
+export async function getSite(
+  ownerId: string,
+  siteId: string,
+): Promise<SiteRecord | null> {
+  return getSiteRecord(ownerId, siteId);
 }
 
-export async function deleteSite(siteId: string): Promise<boolean> {
-  const removed = await deleteSiteRecord(siteId);
+export async function deleteSite(
+  ownerId: string,
+  siteId: string,
+): Promise<boolean> {
+  const removed = await deleteSiteRecord(ownerId, siteId);
 
   if (!removed) {
     return false;
@@ -76,13 +92,14 @@ export async function deleteSite(siteId: string): Promise<boolean> {
 }
 
 export async function saveContent(
+  ownerId: string,
   siteId: string,
   contentInput: unknown,
 ): Promise<SaveContentResult> {
   let site: SiteRecord | null;
 
   try {
-    site = await saveSiteContentRecord(siteId, contentInput);
+    site = await saveSiteContentRecord(ownerId, siteId, contentInput);
   } catch (error) {
     if (error instanceof z.ZodError) {
       return { ok: false, errors: toIssues(error) };
@@ -102,7 +119,7 @@ export async function saveContent(
   try {
     await generateSite(site.id, site.content);
   } catch (error) {
-    await setSiteStatus(site.id, "error", errorMessage(error));
+    await setSiteStatus(ownerId, site.id, "error", errorMessage(error));
     throw error;
   }
 
@@ -110,9 +127,10 @@ export async function saveContent(
 }
 
 export async function generateContent(
+  ownerId: string,
   siteId: string,
 ): Promise<SiteRecord | null> {
-  const site = await getSiteRecord(siteId);
+  const site = await getSiteRecord(ownerId, siteId);
 
   if (!site) {
     return null;
@@ -122,7 +140,7 @@ export async function generateContent(
     throw new Error("The site has no base content.");
   }
 
-  await setSiteStatus(siteId, "generating");
+  await setSiteStatus(ownerId, siteId, "generating");
 
   try {
     console.log(`[generation] content start ${siteId}`);
@@ -132,7 +150,7 @@ export async function generateContent(
     await generateSite(siteId, content);
 
     console.log(`[generation] files written ${siteId}`);
-    const saved = await saveSiteContentRecord(siteId, content);
+    const saved = await saveSiteContentRecord(ownerId, siteId, content);
 
     if (!saved) {
       await deleteGeneratedSite(siteId);
@@ -142,7 +160,7 @@ export async function generateContent(
     console.log(`[generation] saved ${siteId} ${saved.status}`);
     return saved;
   } catch (error) {
-    await setSiteStatus(siteId, "error", errorMessage(error));
+    await setSiteStatus(ownerId, siteId, "error", errorMessage(error));
     throw error;
   }
 }

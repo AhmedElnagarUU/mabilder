@@ -1,3 +1,4 @@
+import { requireSession, unauthorizedResponse } from "@/features/auth/session";
 import { generateContent } from "@/features/site-creation/service";
 import { databaseErrorResponse } from "@/shared/db/errors";
 
@@ -5,12 +6,18 @@ export const dynamic = "force-dynamic";
 export const maxDuration = 300;
 
 export async function POST(
-  _request: Request,
+  request: Request,
   context: RouteContext<"/api/sites/[siteId]/generate">,
 ) {
   try {
+    const user = await requireSession(request.headers);
+
+    if (!user) {
+      return unauthorizedResponse();
+    }
+
     const { siteId } = await context.params;
-    const site = await generateContent(siteId);
+    const site = await generateContent(user.id, siteId);
 
     if (!site) {
       return Response.json(

@@ -28,10 +28,16 @@ const brief = {
 };
 
 async function main(): Promise<void> {
+  const ownerId = process.argv[2];
+
+  if (!ownerId) {
+    throw new Error("Usage: npm run seed:site -- <userId>");
+  }
+
   const content: unknown = JSON.parse(
     await readFile(getContentFilePath(), "utf8"),
   );
-  const site = await upsertSeedSite("agenvo", brief, content);
+  const site = await upsertSeedSite(ownerId, "agenvo", brief, content);
 
   if (!site.content) {
     throw new Error("The seeded site has no content.");

@@ -13,16 +13,16 @@ Read `AGENTS.md`, `CODE_RULES.md`, then the docs your task touches:
 |---|---|---|
 | Cleanup | Stale docs and build output removed, Agenvo source moved to `theme-sources/agenvo/`, old DB sites deleted | `6252c42` |
 | M1 | Block catalog (18 blocks, fixtures, `needs` rules) + two-language `SiteContent` schema, `npm run check:blocks` | `7a133d1` |
+| A1 + D1 | better-auth email/password, one site per account (`ownerId` unique, 409), owner checks on site APIs + preview, dashboard shows user name | (this commit) |
 | I1 | App UI in English and Arabic (next-intl, `/en` + `/ar`, RTL, switcher, API error codes), `npm run check:messages` | `cd8392e` |
 
 ## Next, in order
 
 Full order in `docs/features-v2-plan.md`:
 
-1. **A1** + D1: better-auth, one site per account, dashboard shows the user's name
-2. **M2 → M6** block pipeline (`docs/block-system-plan.md`); M8 wizard fields after
-3. **U1** S3 uploads → **P1** projects → **E1** new editor (replaces M7) → **S1** SEO → **C1** AI credits → **T1** tracking → **G1** tutorials
-4. **B1**: Polar trial + subscription, any time after A1
+1. **M2 → M6** block pipeline (`docs/block-system-plan.md`); M8 wizard fields after
+2. **U1** S3 uploads → **P1** projects → **E1** new editor (replaces M7) → **S1** SEO → **C1** AI credits → **T1** tracking → **G1** tutorials
+3. **B1**: Polar trial + subscription, any time after A1
 
 ## Current state of the app
 
@@ -35,7 +35,8 @@ Full order in `docs/features-v2-plan.md`:
 
 - After the trial ends without payment: should **preview** stay available, or be locked too?
   (The current plan keeps preview and locks editing + AI.)
-- Review the Arabic in `src/messages/ar.json`. It was written by an AI agent.
+- Review the Arabic in `src/messages/ar.json`. It was written by an AI agent (incl. new `auth.*` keys).
+- Seed now needs a user id: `npm run seed:site -- <userId>`. One old site without `ownerId` remains in the DB (unreachable; safe to delete).
 
 ## Working notes
 

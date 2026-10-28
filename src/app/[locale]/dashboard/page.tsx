@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { requirePageUser } from "@/features/auth/session";
 import { DashboardShell } from "@/features/site-creation/components/dashboard-shell";
 import { DeleteSiteButton } from "@/features/site-creation/components/delete-site-button";
 import { listSites } from "@/features/site-creation/service";
@@ -155,24 +156,22 @@ export default async function DashboardPage({
   const { locale } = await params;
   setRequestLocale(locale);
 
+  const user = await requirePageUser(locale, "/dashboard");
   const t = await getTranslations("dashboard");
 
-  let sites: SiteSummary[] = [];
+  let site: SiteSummary | null = null;
   let loadFailed = false;
 
   try {
-    sites = await listSites();
+    site = (await listSites(user.id))[0] ?? null;
   } catch (error) {
     console.error(error);
     loadFailed = true;
   }
 
-  const site = sites[0] ?? null;
-  const otherSites = sites.slice(1);
-
   if (loadFailed) {
     return (
-      <DashboardShell site={null} crumbLabel={t("breadcrumb")}>
+      <DashboardShell user={user} site={null} crumbLabel={t("breadcrumb")}>
         <main className="pt-10">
           <div className="rounded-panel border border-danger/20 bg-danger-soft px-4 py-3 text-xs text-danger">
             {t("errors.load_failed")}
@@ -182,16 +181,16 @@ export default async function DashboardPage({
     );
   }
 
-  const previewHref = `/preview/${site.id}/index.html`;
-  const editHref = `/edit/${site.id}`;
+  const previewHref = site ? `/preview/${site.id}/index.html` : "";
+  const editHref = site ? `/edit/${site.id}` : "";
 
   return (
-    <DashboardShell site={site} crumbLabel={t("breadcrumb")}>
+    <DashboardShell user={user} site={site} crumbLabel={t("breadcrumb")}>
       <main>
         <div className="flex flex-col gap-4 pt-7 pb-6 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
           <div>
             <h1 className="font-display text-[clamp(24px,2.4vw,29px)] leading-[1.05] font-light tracking-[-0.045em] text-[#f1f1ee]">
-              {site ? t("welcome.title", { name: site.businessName }) : t("welcome.plain")}
+              {t("welcome.title", { name: user.name })}
             </h1>
             <p className="mt-2 text-[9.5px] text-dim">
               {site ? t("welcome.subtitle") : t("empty.body")}
@@ -394,65 +393,6 @@ export default async function DashboardPage({
           </>
         )}
 
-        {otherSites.length > 0 ? (
-          <section
-            aria-label={t("more.title")}
-            className="mt-3 overflow-x-auto rounded-panel border border-line-soft bg-[linear-gradient(160deg,rgba(255,255,255,0.036),rgba(255,255,255,0.01))] px-[18px] py-4"
-          >
-            <h3 className="mono-label text-[7px] tracking-[0.12em] text-dim">
-              {t("more.title")}
-            </h3>
-            <table className="mt-3 w-full min-w-[520px] border-collapse">
-              <thead>
-                <tr>
-                  {[
-                    t("rows.business"),
-                    t("rows.industry"),
-                    t("rows.updated"),
-                    t("rows.status"),
-                  ].map((heading) => (
-                    <th
-                      key={heading}
-                      className="border-b border-line-soft px-2 py-2 text-start font-mono text-[6.5px] font-normal tracking-[0.11em] text-faint uppercase"
-                    >
-                      {heading}
-                    </th>
-                  ))}
-                  <th className="border-b border-line-soft px-2 py-2" />
-                </tr>
-              </thead>
-              <tbody>
-                {otherSites.map((other) => (
-                  <tr key={other.id} className="transition-colors hover:bg-white/[0.015]">
-                    <td className="px-2 py-2.5 text-[8.5px] text-[#b4b4b9]">
-                      {other.businessName}
-                    </td>
-                    <td className="px-2 py-2.5 text-[8.5px] text-[#b4b4b9]">
-                      {other.industry}
-                    </td>
-                    <td className="px-2 py-2.5 font-mono text-[8px] text-[#d6d6d3]">
-                      {formatDate(locale, other.updatedAt)}
-                    </td>
-                    <td className="px-2 py-2.5">
-                      <StatusChip
-                        status={other.status}
-                        label={t(`status.${other.status}`)}
-                      />
-                    </td>
-                    <td className="px-2 py-2.5 text-end">
-                      <Link
-                        href={`/edit/${other.id}`}
-                        className="font-mono text-[7px] tracking-[0.07em] text-muted uppercase transition-colors hover:text-ink"
-                      >
-                        {t("action.edit")}
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </section>
-        ) : null}
       </main>
     </DashboardShell>
   );

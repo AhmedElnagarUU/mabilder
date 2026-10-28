@@ -1,15 +1,22 @@
+import { requireSession, unauthorizedResponse } from "@/features/auth/session";
 import { deleteSite, getSite } from "@/features/site-creation/service";
 import { databaseErrorResponse } from "@/shared/db/errors";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(
-  _request: Request,
+  request: Request,
   context: RouteContext<"/api/sites/[siteId]">,
 ) {
   try {
+    const user = await requireSession(request.headers);
+
+    if (!user) {
+      return unauthorizedResponse();
+    }
+
     const { siteId } = await context.params;
-    const site = await getSite(siteId);
+    const site = await getSite(user.id, siteId);
 
     if (!site) {
       return Response.json(
@@ -35,12 +42,18 @@ export async function GET(
 }
 
 export async function DELETE(
-  _request: Request,
+  request: Request,
   context: RouteContext<"/api/sites/[siteId]">,
 ) {
   try {
+    const user = await requireSession(request.headers);
+
+    if (!user) {
+      return unauthorizedResponse();
+    }
+
     const { siteId } = await context.params;
-    const removed = await deleteSite(siteId);
+    const removed = await deleteSite(user.id, siteId);
 
     if (!removed) {
       return Response.json(

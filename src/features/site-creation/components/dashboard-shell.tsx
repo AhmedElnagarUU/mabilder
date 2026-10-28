@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
+import { SignOutButton } from "@/features/auth/components/sign-out-button";
 import { LocaleSwitcher } from "@/shared/i18n/locale-switcher";
 import { Link } from "@/shared/i18n/navigation";
 import { buttonClass } from "@/shared/ui/button";
@@ -54,11 +55,13 @@ function SidebarLink({
 }
 
 export async function DashboardShell({
+  user,
   site,
   crumbLabel,
   children,
 }: {
-  site?: Pick<SiteSummary, "id" | "businessName" | "industry"> | null;
+  user: { name: string; email: string };
+  site?: Pick<SiteSummary, "id"> | null;
   crumbLabel: string;
   children: ReactNode;
 }) {
@@ -81,27 +84,22 @@ export async function DashboardShell({
             </span>
           </Link>
 
-          {site ? (
-            <Link
-              href={`/edit`}
-              className="mt-6 flex items-center gap-2.5 justify-center rounded-[11px] border border-line-soft bg-white/[0.022] p-2 min-[980px]:justify-start min-[980px]:p-2.5"
-            >
-              <span className="grid h-7 w-7 shrink-0 place-items-center rounded-[8px] border border-white/10 bg-[linear-gradient(145deg,#28312f,#121817)] font-mono text-[10px] text-[#c8ded8]">
-                {initialOf(site.businessName)}
-              </span>
-              <span className="hidden min-w-0 min-[980px]:block">
-                <small className="mono-label block text-[6.5px] tracking-[0.13em] text-dim">
-                  {t("sidebar.business")}
-                </small>
-                <b className="mt-0.5 flex items-center gap-1 truncate text-[9.5px] font-medium text-[#d6d6d4]">
-                  <span className="truncate">{site.businessName}</span>
-                </b>
-                <small className="block truncate text-[7.5px] text-faint">
-                  {site.industry}
-                </small>
-              </span>
-            </Link>
-          ) : null}
+          <div className="mt-6 flex items-center gap-2.5 justify-center rounded-[11px] border border-line-soft bg-white/[0.022] p-2 min-[980px]:justify-start min-[980px]:p-2.5">
+            <span className="grid h-7 w-7 shrink-0 place-items-center rounded-[8px] border border-white/10 bg-[linear-gradient(145deg,#28312f,#121817)] font-mono text-[10px] text-[#c8ded8]">
+              {initialOf(user.name)}
+            </span>
+            <span className="hidden min-w-0 min-[980px]:block">
+              <small className="mono-label block text-[6.5px] tracking-[0.13em] text-dim">
+                {t("sidebar.account")}
+              </small>
+              <b className="mt-0.5 flex items-center gap-1 truncate text-[9.5px] font-medium text-[#d6d6d4]">
+                <span className="truncate">{user.name}</span>
+              </b>
+              <small className="block truncate text-[7.5px] text-faint">
+                <bdi dir="ltr">{user.email}</bdi>
+              </small>
+            </span>
+          </div>
 
           <p className="mono-label mt-6 hidden px-2 text-[7px] tracking-[0.14em] text-faint min-[980px]:block">
             {t("sidebar.navLabel")}
@@ -133,7 +131,9 @@ export async function DashboardShell({
             ) : null}
           </nav>
 
-          <div className="mt-auto" />
+          <div className="mt-auto hidden min-[980px]:block">
+            <SignOutButton className={buttonClass("ghost", "sm", "w-full justify-start px-3")} />
+          </div>
         </aside>
 
         <div className="min-w-0 flex-1 px-3.5 pb-8 sm:px-6 lg:px-8">
@@ -184,6 +184,7 @@ export async function DashboardShell({
               </nav>
             </div>
             <div className="flex items-center gap-2">
+              <SignOutButton className={buttonClass("ghost", "sm", "px-3.5 min-[980px]:hidden")} />
               <LocaleSwitcher
                 className={buttonClass("secondary", "sm", "px-3.5")}
               />
