@@ -68,6 +68,7 @@ export async function DashboardShell({
 }) {
   const t = await getTranslations("dashboard");
   const common = await getTranslations("common");
+  const seo = await getTranslations("seo");
 
   return (
     <div className="relative min-h-screen">
@@ -114,6 +115,11 @@ export async function DashboardShell({
               label={t("sidebar.overview")}
               icon="home"
               active
+            />
+            <SidebarLink
+              href="/dashboard/seo"
+              label={seo("navLabel")}
+              icon="globe"
             />
             {site ? (
               <>
