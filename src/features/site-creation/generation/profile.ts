@@ -1,10 +1,11 @@
 import { HumanMessage, SystemMessage } from "@langchain/core/messages";
-import type { ChatOpenAI } from "@langchain/openai";
 import { z } from "zod";
 import { splitList } from "../text";
 import type { BusinessBrief } from "../types";
+import type { GenerationModel } from "./index";
 import { buildProfilePrompt, profileSystemPrompt } from "./prompts";
 import { isRetryable, requestOptions, runRateLimited } from "./rate-limit";
+import type { SpendGuard } from "./spend-guard";
 
 export const businessProfileSchema = z.object({
   positioning: z.string(),
@@ -31,26 +32,28 @@ export function fallbackProfile(brief: BusinessBrief): BusinessProfile {
 }
 
 export async function normalizeBusinessProfile(
-  model: ChatOpenAI,
+  model: GenerationModel,
   brief: BusinessBrief,
+  guard: SpendGuard,
 ): Promise<BusinessProfile> {
   try {
     const structured = model.withStructuredOutput(businessProfileSchema, {
       name: "business_profile",
     });
-    const result = await runRateLimited(() =>
-      structured.invoke(
+    const result = await runRateLimited(() => {
+      guard.startCall();
+      return structured.invoke(
         [
           new SystemMessage(profileSystemPrompt),
           new HumanMessage(buildProfilePrompt(brief)),
         ],
-        requestOptions(),
-      ),
-    );
+        requestOptions(guard.signal),
+      );
+    });
 
     return businessProfileSchema.parse(result);
   } catch (error) {
-    if (isRetryable(error)) {
+    if (isRetryable(error) || guard.signal.aborted) {
       throw error;
     }
 

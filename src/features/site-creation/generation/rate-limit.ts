@@ -1,8 +1,13 @@
-const minIntervalMs = 1_000;
 const maxAttempts = 2;
 const timeoutMs = 90_000;
 
+let minIntervalMs = 1_000;
 let nextStartAt = 0;
+
+// Gap between AI request starts. Tests set it to 0; they never call a real provider.
+export function setMinIntervalMs(ms: number): void {
+  minIntervalMs = ms;
+}
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -59,8 +64,8 @@ function retryDelayMs(error: unknown): number {
   return isRateLimit(error) ? 60_000 : 10_000;
 }
 
-export function requestOptions(): { signal: AbortSignal } {
-  return { signal: AbortSignal.timeout(timeoutMs) };
+export function requestOptions(signal: AbortSignal): { signal: AbortSignal } {
+  return { signal: AbortSignal.any([signal, AbortSignal.timeout(timeoutMs)]) };
 }
 
 function withTimeout<T>(task: () => Promise<T>): Promise<T> {
@@ -72,7 +77,8 @@ function withTimeout<T>(task: () => Promise<T>): Promise<T> {
     }, timeoutMs);
   });
 
-  return Promise.race([task(), timeout]).finally(() => {
+  // Promise.resolve().then: a task that throws synchronously still clears the timer.
+  return Promise.race([Promise.resolve().then(task), timeout]).finally(() => {
     if (timer !== undefined) {
       clearTimeout(timer);
     }

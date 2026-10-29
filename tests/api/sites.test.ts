@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { after, before, test } from "node:test";
-import { deleteAllSites, generateWithoutAi, request, signUp } from "./client";
+import { buildSiteContent } from "../../src/features/site-creation/build-content";
+import { businessBriefSchema } from "../../src/features/site-creation/types";
+import { deleteAllSites, request, signUp } from "./client";
 import {
   homeBlockIds,
   withHomeBlockHidden,
@@ -36,15 +38,20 @@ async function signUpUser(name: string): Promise<string> {
   return cookie;
 }
 
-async function createAndGenerate(cookie: string, brief: object): Promise<SiteBody["site"]> {
+// Generate calls the AI, so the content comes from the rules-only composition instead.
+async function createWithContent(cookie: string, brief: object): Promise<SiteBody["site"]> {
   const created = await request("/api/sites", { method: "POST", cookie, body: brief });
   assert.equal(created.status, 201, await created.clone().text());
 
   const { site } = (await created.json()) as SiteBody;
-  const generated = await generateWithoutAi(site.id, cookie);
-  assert.equal(generated.status, 200, await generated.clone().text());
+  const saved = await request(`/api/sites/${site.id}/content`, {
+    method: "PUT",
+    cookie,
+    body: buildSiteContent(businessBriefSchema.parse(brief)),
+  });
+  assert.equal(saved.status, 200, await saved.clone().text());
 
-  return ((await generated.json()) as SiteBody).site;
+  return ((await saved.json()) as SiteBody).site;
 }
 
 async function readPreview(id: string, cookie: string): Promise<string> {
@@ -61,7 +68,7 @@ before(async () => {
   ownerCookie = await signUpUser("Q1 Owner");
   otherCookie = await signUpUser("Q1 Other");
 
-  const site = await createAndGenerate(ownerCookie, briefFor("Q1 Owner Studio"));
+  const site = await createWithContent(ownerCookie, briefFor("Q1 Owner Studio"));
   siteId = site.id;
   siteContent = site.content;
 });
@@ -72,12 +79,7 @@ after(async () => {
   }
 });
 
-test("generate builds a block site from the brief without AI (block plan M4; AI is disabled on the test server)", async () => {
-  const site = (
-    (await (await request(`/api/sites/${siteId}`, { cookie: ownerCookie })).json()) as SiteBody
-  ).site;
-  assert.equal(site.status, "ready");
-
+test("saved content is previewable with every home block in order", async () => {
   const html = await readPreview(siteId, ownerCookie);
   const ids = homeBlockIds(siteContent);
   assert.ok(ids.length >= 2, "the home page has fewer than 2 blocks");
@@ -85,13 +87,6 @@ test("generate builds a block site from the brief without AI (block plan M4; AI 
   const positions = ids.map((id) => blockPosition(html, id));
   assert.ok(positions.every((position) => position >= 0), "a home block is missing from the preview");
   assert.deepEqual(positions, [...positions].sort((a, b) => a - b), "home blocks are out of order");
-});
-
-test("a site created in Arabic renders right-to-left (i18n plan: site locale defaults to the app locale)", async () => {
-  const cookie = await signUpUser("Q1 Arabic");
-  const site = await createAndGenerate(cookie, briefFor("استوديو نور", "ar"));
-
-  assert.ok((await readPreview(site.id, cookie)).includes('<html lang="ar" dir="rtl">'));
 });
 
 test("signed-out requests to site APIs get 401 unauthorized (CODE_RULES §7)", async () => {

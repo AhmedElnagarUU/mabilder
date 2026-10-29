@@ -3,7 +3,8 @@ import {
   deleteGeneratedSite,
   generateSite,
 } from "../static-site-generator/generate-site";
-import { buildSiteContent } from "./build-content";
+import { generateSiteContent } from "./build-content";
+import { createGenerationModel, type GenerationModel } from "./generation/index";
 import {
   createSite as createSiteRecord,
   deleteSite as deleteSiteRecord,
@@ -130,6 +131,7 @@ export async function saveContent(
 export async function generateContent(
   ownerId: string,
   siteId: string,
+  createModel: () => GenerationModel = createGenerationModel,
 ): Promise<SiteRecord | null> {
   const site = await getSiteRecord(ownerId, siteId);
 
@@ -140,7 +142,11 @@ export async function generateContent(
   await setSiteStatus(ownerId, siteId, "generating");
 
   try {
-    const content = buildSiteContent(site.brief);
+    const content = await generateSiteContent(
+      createModel(),
+      site.brief,
+      site.content,
+    );
     await generateSite(siteId, content);
 
     const saved = await saveSiteContentRecord(ownerId, siteId, content);

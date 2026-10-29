@@ -31,6 +31,34 @@ function toStorableContent(contentInput: unknown): SiteContent {
   return JSON.parse(JSON.stringify(siteContentSchema.parse(contentInput))) as SiteContent;
 }
 
+const sitesWithInvalidContent = new Set<string>();
+
+// Content saved in an old or invalid shape is treated as missing: the site needs generating.
+function readContent(site: LeanSite): SiteContent | null {
+  if (site.content === null || site.content === undefined) {
+    return null;
+  }
+
+  const parsed = siteContentSchema.safeParse(site.content);
+
+  if (parsed.success) {
+    return parsed.data;
+  }
+
+  const siteId = site._id.toString();
+
+  if (!sitesWithInvalidContent.has(siteId)) {
+    sitesWithInvalidContent.add(siteId);
+    console.warn(`Site ${siteId} has stored content in an old or invalid shape; it needs generating.`);
+  }
+
+  return null;
+}
+
+function readStatus(site: LeanSite, content: SiteContent | null): SiteStatus {
+  return site.status === "ready" && content === null ? "draft" : site.status;
+}
+
 function toSummary(site: LeanSite): SiteSummary {
   const brief = businessBriefSchema.parse(site.brief);
 
@@ -39,17 +67,14 @@ function toSummary(site: LeanSite): SiteSummary {
     slug: site.slug,
     businessName: brief.businessName,
     industry: brief.industry,
-    status: site.status,
+    status: readStatus(site, readContent(site)),
     updatedAt: site.updatedAt.toISOString(),
   };
 }
 
 function toRecord(site: LeanSite): SiteRecord {
   const brief = businessBriefSchema.parse(site.brief);
-  const content =
-    site.content === null || site.content === undefined
-      ? null
-      : siteContentSchema.parse(site.content);
+  const content = readContent(site);
 
   return {
     ...toSummary(site),
