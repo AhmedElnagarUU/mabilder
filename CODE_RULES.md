@@ -151,4 +151,6 @@ Full design: `docs/block-system-plan.md`.
   - `npx tsc -p tsconfig.generator.json --noEmit` (generator code)
   - `npm run check:messages` (once it exists)
   - `npm run build`
+  - `npm test` and `npm run test:api` (once they exist, see `docs/features-v2-plan.md` Q1)
+- New behaviour comes with tests for its acceptance criteria (Q1 rules: test real behaviour, no fake tests).
 - Manually verify the acceptance criteria in your task file (curl for APIs, browser for UI).

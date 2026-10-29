@@ -26,7 +26,7 @@ Product context: `docs/PRD.md`. Rules: `CODE_RULES.md`. Builds on `docs/block-sy
 Foundation first. The new editor needs sections (blocks) in the real pipeline.
 
 1. **A1** auth + one site per account + dashboard user name (`docs/auth-billing-plan.md`, plus D1 below)
-2. **M2 → M3 → M4 → M5 → M6** block pipeline (`docs/block-system-plan.md`). M5 must expose a
+2. **M2 → M3 → Q1 → M4 → M5 → M6** block pipeline, with Q1 (tests) before the big M4 switch (`docs/block-system-plan.md`). M5 must expose a
    per-block rewrite function (used by C1).
 3. **U1** S3 uploads
 4. **P1** projects manager
@@ -36,6 +36,33 @@ Foundation first. The new editor needs sections (blocks) in the real pipeline.
 8. **T1** tracking
 9. **G1** tutorials
 10. **B1** Polar, any time after A1
+
+## Q1 System tests
+
+Goal: many agents change this code, so every change must prove the real system still works.
+Tests check **behaviour a customer or a rule depends on**, never implementation details.
+
+- Runner: Node's built-in `node:test` + `node:assert/strict`. No new package.
+- `tests/pipeline/*.test.ts` (compiled with `tsconfig.generator.json`, no DB, no AI, no network):
+  - thin brief → Home + Services + Contact; rich brief → all 5 pages; same input → same block ids
+  - every composed site passes `siteContentSchema`; render writes every page with no error
+  - every visible block is one `<section data-block="{id}">`; hidden blocks are not in the HTML
+  - a fact block without its facts never renders; AI copy can never overwrite a fact
+  - `<script>` / quotes in a business name or text are escaped in the output
+  - `ar` pages have `dir="rtl"`; a two-language site writes `en/`, `ar/` and the root redirect
+- `tests/api/*.test.ts` (HTTP against `next start` on port 3100 with `MONGODB_DB_NAME=<name>_test`; no AI):
+  - signed-out → 401 on site APIs; user B → 404 on user A's site, content and preview
+  - second site → 409 `site_exists`; invalid content body → 400; valid content save → preview shows it
+  - test users and sites are deleted at the end
+- `npm test` runs pipeline tests; `npm run test:api` runs API tests (needs `npm run build` first).
+- **Rules for writing tests:** each test names the acceptance criterion or CODE_RULES rule it protects.
+  No tests of constants, copy text or CSS classes. Never mock the code under test. Never call the real AI
+  or S3 in tests. A test that would pass with the feature deleted is wrong.
+- **Every later milestone adds tests for its own acceptance rows** (U1, P1, E1, S1, C1, T1). Its
+  brief lists them.
+
+Acceptance: `npm test` and `npm run test:api` pass on a clean DB; deliberately breaking escaping, the owner
+check or composition makes a test fail (verify once, then revert).
 
 ## D1 Dashboard user name (part of A1)
 
