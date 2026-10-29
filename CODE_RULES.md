@@ -95,7 +95,7 @@ No numeric limit is enforced. The test: if a file stops being easy to scan top-t
 
 Full design: `docs/i18n-plan.md`.
 
-- **Exception (owner decision 2026-10-29):** the owner-only admin area (`src/features/admin/`, `src/app/[locale]/admin/`) is **English only** and does not use translations. Customer-facing text (including notifications and emails) still follows the rule below.
+- **Exception (owner decision 2026-10-29):** the owner-only admin area (§9) is **English only** and does not use translations. Customer-facing text (including notifications and emails) still follows the rule below.
 - **No hardcoded user-facing strings. Ever.** All text renders through the translation layer (`next-intl`). Add every key to BOTH `src/messages/en.json` and `src/messages/ar.json`. They must always have the same keys (`npm run check:messages`).
 - Keys are namespaced by feature (`common`, `landing`, `dashboard`, `siteCreation`, `editor`).
 - Arabic translations: if the task provides them, use them verbatim. Otherwise write natural Modern Standard Arabic and list every new key in your report so a human can review it.
@@ -142,7 +142,27 @@ Full design: `docs/block-system-plan.md`.
 - **No hardcoded template copy** in theme render files. All visible text comes from props.
 - Composition (which blocks and pages) is **pure rules**: no AI, no IO, deterministic for the same input.
 
-## 9. Git & verification
+## 9. Admin area: isolated, owner permission required
+
+The owner-only admin area is a separate system inside the app (owner decision 2026-10-29).
+
+- **Do not touch it.** No agent may create, change or delete anything in the admin area unless the owner
+  explicitly names the admin task in the request and gives permission. If a task seems to need an admin
+  change, stop and ask the owner.
+- **Where it lives (all of it, and nothing else):** `src/features/admin/` (logic, admin auth, UI components),
+  `src/app/[locale]/admin/` (pages), `src/app/api/admin/` (route handlers). No admin code anywhere else.
+- **Own login, not better-auth.** Credentials come only from env (`ADMIN_EMAIL`, `ADMIN_PASSWORD`,
+  `ADMIN_SESSION_SECRET`). Signing in creates an admin session (signed, HTTP-only cookie) that **expires
+  after 5 hours**. The admin is not a user in the database and has no customer account.
+- **Dependency direction:** admin code may import and call the other features' services (sites, activity,
+  billing, notifications…). **Other features never import from admin.**
+- **The one allowed hook outside admin:** the customer auth/session code (`src/features/auth/`) reads an
+  account-status flag on the user (`inactive`) and blocks that account: sign-in is refused and site APIs
+  return 403 `account_inactive`. Only the admin writes that flag.
+- English only (§6 exception). Customer-facing text caused by admin actions (notifications, emails) stays
+  en + ar.
+
+## 10. Git & verification
 
 - Create a focused Git commit for completed work; do not include unrelated changes.
 - When an epic is complete, confirm all its milestones and acceptance criteria are done, update its `STATUS.md`, and create a commit for the completed epic.

@@ -19,6 +19,8 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 5. **Follow existing patterns first.** Look at one similar existing file before creating a new one.
 6. **Rule conflicts:** if `CODE_RULES.md`, the PRD, or the Next.js docs disagree, stop and ask. Don't guess.
 7. **Keep it simple.** No new dependencies, abstractions, or features beyond the task.
+8. **Never touch the admin area** (`src/features/admin/`, `src/app/[locale]/admin/`, `src/app/api/admin/`)
+   unless the owner explicitly asks for that admin change. See `CODE_RULES.md` §9.
 
 ### Context discipline
 - Read only the files your task needs. Don't scan the whole repo.

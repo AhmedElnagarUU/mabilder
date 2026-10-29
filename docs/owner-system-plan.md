@@ -17,10 +17,10 @@ where this file disagrees with it, **this file wins**.
 
 | Topic | Decision |
 |---|---|
-| Admin role | better-auth **admin plugin** (already in `better-auth`, no new package): `role` (`user` / `admin`), `banned`, `banReason`. |
-| First admin | `npm run admin:grant -- <email>` sets `role: "admin"`. No admin sign-up page. |
-| Inactive account | "Deactivate" = better-auth **ban** (sign-in blocked, sessions revoked). "Activate" = unban. Data is kept. |
-| Admin area | `/[locale]/admin/*`, server-checked `role === "admin"`, non-admins get **404** (the area is not advertised). Admin APIs under `/api/admin/*`, same check, 404 otherwise. |
+| Admin isolation | The admin area is a **separate system** (owner decision 2026-10-29, binding rule in `CODE_RULES.md` §9): all admin code lives only in `src/features/admin/`, `src/app/[locale]/admin/`, `src/app/api/admin/`. Agents never touch it without the owner's explicit permission. Admin may call other features; other features never import admin. |
+| Admin login | Own login, **not better-auth**: `ADMIN_EMAIL` + `ADMIN_PASSWORD` from env, session = signed HTTP-only cookie (`ADMIN_SESSION_SECRET`) that **expires after 5 hours**. The admin is not a database user. Page `/[locale]/admin/login`. |
+| Inactive account | "Deactivate" sets `user.inactive = true` and revokes the user's sessions; "Activate" clears it. Data is kept. The only code outside admin: `src/features/auth/` reads `inactive`, refuses sign-in and returns 403 `account_inactive` on site APIs. |
+| Admin area | `/[locale]/admin/*` (English only). Without a valid admin session, pages redirect to the admin login and admin APIs return 401. |
 | Plans | Unchanged from B1: 15-day trial, one paid plan **Pro** (monthly). Access = `trial` / `active` / `expired`. |
 | Subscription source | One `subscriptions` record per user with a **`provider`**: `polar`, `manual`. Access is computed from it the same way for every provider. |
 | Egyptian wallets | **Manual payments** first: the customer sends money to the owner's wallet / InstaPay address shown on the billing page, then submits the transfer reference. The admin approves → Pro is active until `paidUntil` (+1 month per approved payment). A gateway (e.g. Paymob, which supports Egyptian wallets) can be added later as a new `provider` without changing access rules. |
@@ -36,7 +36,7 @@ where this file disagrees with it, **this file wins**.
 
 | Collection | Fields | Indexes |
 |---|---|---|
-| `user` (better-auth) | + `role`, `banned`, `banReason`, `banExpires` (admin plugin), + `lastActiveAt`, `locale` | `role`, `lastActiveAt` |
+| `user` (better-auth) | + `inactive` (written only by admin), + `lastActiveAt`, `locale` | `lastActiveAt` |
 | `subscriptions` | `userId`, `provider` (`polar`/`manual`), `status`, `currentPeriodEnd`, `trialEndsAt?`, `externalId?` (Polar subscription id), `updatedAt` | unique `userId`; `externalId` |
 | `payments` | `userId`, `method` (`vodafone_cash`, `instapay`, `other_wallet`), `amount`, `currency` (`EGP`), `reference`, `senderPhone?`, `status` (`pending`/`approved`/`rejected`), `reviewedBy?`, `reviewedAt?`, `note?`, `createdAt` | `status+createdAt`, `userId+createdAt` |
 | `activity_events` | `userId`, `actorId` (user or admin), `type`, `siteId?`, `meta` (small, no secrets), `createdAt` | `userId+createdAt`; TTL 365 days |
@@ -50,8 +50,8 @@ Activity types (first set): `signed_up`, `signed_in`, `site_created`, `site_gene
 `account_deactivated`, `account_activated`, `feedback_sent`, `feedback_replied`.
 
 Notification types (first set): `welcome`, `site_ready`, `site_failed`, `trial_ending` (3 days left),
-`trial_ended`, `payment_received` (to admins), `payment_approved`, `payment_rejected`, `plan_changed`,
-`feedback_received` (to admins), `feedback_replied`.
+`trial_ended`, `payment_received` (to the admin), `payment_approved`, `payment_rejected`, `plan_changed`,
+`feedback_received` (to the admin), `feedback_replied`. "To the admin" = email to `ADMIN_EMAIL` (no in-app item; the admin sees counts in the admin dashboard).
 
 ## Features and files
 
@@ -72,7 +72,7 @@ src/app/api/admin/...         route handlers only (no logic)
 src/app/api/notifications/... list, mark read
 src/app/api/feedback/route.ts POST
 src/app/api/internal/notifications/dispatch/route.ts  POST, protected by CRON_SECRET header (for a cron job)
-scripts/grant-admin.ts        npm run admin:grant -- <email>
+src/features/admin/auth/       env credentials check, signed 5-hour session cookie, guards (pages + APIs)
 ```
 
 ## Screens
@@ -99,7 +99,7 @@ scripts/grant-admin.ts        npm run admin:grant -- <email>
 
 - Admin checks happen **on the server** in every admin page and API (never only in the proxy). Admin actions are
   written to `activity_events` with `actorId` = admin.
-- A banned user's site APIs return 403 `account_inactive`; preview of their site stays for the admin only.
+- An inactive user's site APIs return 403 `account_inactive` and sign-in is refused; the admin can still open their site preview from the admin area.
 - Payment approval is the only way a manual payment activates Pro; the client is never trusted. Approving the same
   payment twice changes nothing (idempotent by payment id + status).
 - Email sending never blocks a request: `notify()` writes the outbox; dispatch runs after the response and from the
@@ -114,7 +114,7 @@ scripts/grant-admin.ts        npm run admin:grant -- <email>
 | F1 | Bigger fonts in dashboard + editor (text only, boxes unchanged) | simple model | All text one step bigger, no layout change; gates pass |
 | X1 | Activity: model, `record`, `lastActiveAt`, events from auth + site-creation, customer "Recent activity" card | Sonnet | Sign-up, create, generate, save appear in the card in en/ar; `lastActiveAt` updates at most every 5 min; API test |
 | X2 | Notifications: in-app + email outbox, provider interface (`console`, `none`), templates en/ar, dispatch + cron route, bell UI | Sonnet | `notify` stores + queues; console provider logs one email; failed provider retries with backoff then `failed`; bell shows unread; cron route rejects a wrong secret |
-| X3 | Admin foundation: admin plugin, `admin:grant`, guards, overview, users list, user detail, deactivate / activate | Sonnet | Non-admin gets 404 on `/admin` and `/api/admin/*`; deactivated user can't sign in and gets 403 on site APIs; activate restores; counts are correct on a seeded `_test` DB |
+| X3 | Admin foundation: env login + 5-hour session, guards, overview, users list, user detail, deactivate / activate | Sonnet | No admin session → admin pages redirect to admin login, admin APIs 401; wrong password refused; session expires after 5 h; deactivated user can't sign in and gets 403 on site APIs; activate restores; counts correct on a seeded `_test` DB |
 | B1 | Polar (from `auth-billing-plan.md`) on the provider-based `subscriptions` model | Sonnet | As in B1, plus access computed the same for `polar` and `manual` |
 | B2 | Manual wallet payments + admin payments queue + manual plan change + payment settings | Sonnet | Submit → pending; approve → Pro until +1 month, user notified, activity logged; reject → notified; double approve is a no-op; admin plan change works and is logged |
 | X4 | Feedback: customer dialog, admin inbox, reply → notification | simple model | Feedback appears in admin inbox; reply notifies the user; non-admin can't read others' feedback |
