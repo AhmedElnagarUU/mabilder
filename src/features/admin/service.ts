@@ -1,4 +1,12 @@
 import { listRecentActivity, recordActivity } from "../activity/service";
+import {
+  countFeedbackWithStatus,
+  listFeedback,
+  listFeedbackForUser,
+  replyToFeedback,
+  setFeedbackStatus,
+} from "../feedback/service";
+import type { FeedbackListQuery, FeedbackStatus } from "../feedback/types";
 import { listSites } from "../site-creation/service";
 import {
   countMatchingUsers,
@@ -37,6 +45,7 @@ export async function getOverview(now: Date = new Date()): Promise<OverviewStats
     inactiveUsers,
     sitesReady,
     sitesError,
+    newFeedback,
   ] = await Promise.all([
     countUsers({}),
     countUsers(activeSince(now, 1)),
@@ -46,6 +55,7 @@ export async function getOverview(now: Date = new Date()): Promise<OverviewStats
     countUsers({ inactive: true }),
     countSitesWithStatus("ready"),
     countSitesWithStatus("error"),
+    countFeedbackWithStatus("new"),
   ]);
 
   return {
@@ -57,6 +67,7 @@ export async function getOverview(now: Date = new Date()): Promise<OverviewStats
     inactiveUsers,
     sitesReady,
     sitesError,
+    newFeedback,
   };
 }
 
@@ -92,12 +103,25 @@ export async function getUserDetail(userId: string): Promise<UserDetail | null> 
     return null;
   }
 
-  const [sites, activity] = await Promise.all([
+  const [sites, activity, feedback] = await Promise.all([
     listSites(user.id),
     listRecentActivity(user.id, ACTIVITY_LIMIT),
+    listFeedbackForUser(user.id),
   ]);
 
-  return { user, site: sites[0] ?? null, activity };
+  return { user, site: sites[0] ?? null, activity, feedback };
+}
+
+export function listFeedbackInbox(query: FeedbackListQuery) {
+  return listFeedback(query);
+}
+
+export function changeFeedbackStatus(id: string, status: FeedbackStatus) {
+  return setFeedbackStatus(id, status);
+}
+
+export function replyFeedback(id: string, reply: string) {
+  return replyToFeedback(ADMIN_ACTOR_ID, id, reply);
 }
 
 export async function deactivateUser(userId: string): Promise<AccountChangeResult> {

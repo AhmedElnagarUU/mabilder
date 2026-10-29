@@ -158,14 +158,14 @@ const templates: Templates = {
     }),
   },
   feedback_replied: {
-    en: () => ({
+    en: ({ reply }) => ({
       subject: "We replied to your feedback",
-      body: "You have a reply to your feedback. Open your dashboard to read it.",
+      body: reply,
       path: dashboardPath,
     }),
-    ar: () => ({
+    ar: ({ reply }) => ({
       subject: "ردّنا على ملاحظاتك",
-      body: "وصلك ردّ على ملاحظاتك. افتح لوحة التحكم لقراءته.",
+      body: reply,
       path: dashboardPath,
     }),
   },

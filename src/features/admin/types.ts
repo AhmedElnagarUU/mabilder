@@ -1,5 +1,6 @@
 import { z } from "zod";
 import type { ActivityItem } from "../activity/types";
+import type { FeedbackEntry } from "../feedback/types";
 import type { SiteStatus, SiteSummary } from "../site-creation/types";
 
 export const USERS_PAGE_SIZE = 25;
@@ -23,6 +24,7 @@ export type OverviewStats = {
   inactiveUsers: number;
   sitesReady: number;
   sitesError: number;
+  newFeedback: number;
 };
 
 export type UserListItem = {
@@ -57,6 +59,7 @@ export type UserDetail = {
   user: UserProfile;
   site: SiteSummary | null;
   activity: ActivityItem[];
+  feedback: FeedbackEntry[];
 };
 
 export type AccountChangeResult = "ok" | "not_found";

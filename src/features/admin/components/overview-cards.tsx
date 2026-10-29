@@ -10,6 +10,7 @@ const cards: { label: string; value: (stats: OverviewStats) => number }[] = [
   { label: "Deactivated users", value: (stats) => stats.inactiveUsers },
   { label: "Websites ready", value: (stats) => stats.sitesReady },
   { label: "Websites with errors", value: (stats) => stats.sitesError },
+  { label: "New feedback", value: (stats) => stats.newFeedback },
 ];
 
 export function OverviewCards({ stats }: { stats: OverviewStats }) {
