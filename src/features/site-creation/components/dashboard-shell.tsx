@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
 import { SignOutButton } from "@/features/auth/components/sign-out-button";
+import { PlanBadge } from "@/features/billing/components/plan-badge";
 import { NotificationBell } from "@/features/notifications/components/notification-bell";
 import { LocaleSwitcher } from "@/shared/i18n/locale-switcher";
 import { Link } from "@/shared/i18n/navigation";
@@ -61,13 +62,14 @@ export async function DashboardShell({
   crumbLabel,
   children,
 }: {
-  user: { name: string; email: string };
+  user: { id: string; name: string; email: string };
   site?: Pick<SiteSummary, "id"> | null;
   crumbLabel: string;
   children: ReactNode;
 }) {
   const t = await getTranslations("dashboard");
   const common = await getTranslations("common");
+  const seo = await getTranslations("seo");
 
   return (
     <div className="relative min-h-screen">
@@ -115,6 +117,11 @@ export async function DashboardShell({
               icon="home"
               active
             />
+            <SidebarLink
+              href="/dashboard/seo"
+              label={seo("navLabel")}
+              icon="globe"
+            />
             {site ? (
               <>
                 <SidebarLink
@@ -123,10 +130,20 @@ export async function DashboardShell({
                   icon="pen"
                 />
                 <SidebarLink
+                  href="/dashboard/projects"
+                  label={t("sidebar.projects")}
+                  icon="layers"
+                />
+                <SidebarLink
                   href={`/preview/${site.id}/index.html`}
                   label={t("sidebar.previewSite")}
                   icon="monitor"
                   external
+                />
+                <SidebarLink
+                  href="/dashboard/tracking"
+                  label={t("sidebar.tracking")}
+                  icon="chart"
                 />
               </>
             ) : null}
@@ -182,6 +199,7 @@ export async function DashboardShell({
               </nav>
             </div>
             <div className="flex items-center gap-2">
+              <PlanBadge userId={user.id} />
               <NotificationBell />
               <LocaleSwitcher
                 className={buttonClass("secondary", "sm", "px-3.5")}

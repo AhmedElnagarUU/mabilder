@@ -294,7 +294,9 @@
       "aria": "Main navigation",
       "overview": "Overview",
       "editWebsite": "Edit website",
-      "previewSite": "Preview site"
+      "previewSite": "Preview site",
+      "projects": "Projects",
+      "tracking": "Tracking"
     },
     "welcome": {
       "title": "Welcome back, {name}.",
@@ -341,6 +343,9 @@
         "site_generated": "Your website draft was written",
         "site_generation_failed": "Writing your website draft failed",
         "content_saved": "You saved changes to your website",
+        "project_added": "You added a project",
+        "project_updated": "You changed a project",
+        "project_deleted": "You deleted a project",
         "payment_submitted": "You sent a payment for review",
         "payment_approved": "Your payment was approved",
         "payment_rejected": "Your payment was rejected",
@@ -377,6 +382,66 @@
       "generation_failed": "AI generation failed. Your draft is saved and you can retry.",
       "unauthorized": "Your session has ended. Please sign in again.",
       "account_inactive": "This account is deactivated. Contact support if you think this is a mistake.",
+      "default": "Something went wrong. Please try again."
+    }
+  },
+  "projects": {
+    "meta": {
+      "title": "Projects",
+      "description": "Add and arrange the projects shown on your website."
+    },
+    "breadcrumb": "Projects",
+    "title": "Your projects",
+    "subtitle": "Add your best work. Your website updates as soon as you save.",
+    "empty": "No projects yet. Add your first project to show it on your website.",
+    "noSite": "Create your website first, then add your projects here.",
+    "noSiteCta": "Create your website",
+    "add": "Add a project",
+    "list": {
+      "aria": "Your projects",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "edit": "Edit",
+      "delete": "Delete",
+      "deleteQuestion": "Delete this project?",
+      "deleteConfirm": "Yes, delete",
+      "deleting": "Deleting…",
+      "cancel": "Cancel",
+      "showOnHome": "Show on home page",
+      "photos": "{count, plural, one {# photo} other {# photos}}",
+      "noPhotos": "Add a photo so this project can appear on your website."
+    },
+    "form": {
+      "titleNew": "New project",
+      "titleEdit": "Edit project",
+      "languages": {
+        "en": "English",
+        "ar": "Arabic"
+      },
+      "secondLanguageHint": "Optional. If you leave it empty, the first language is shown.",
+      "title": "Project name",
+      "category": "Type of project",
+      "location": "Location",
+      "year": "Year",
+      "description": "Short description",
+      "photos": "Photos",
+      "photosHint": "Paste the link of an image (https). Up to {max} photos. The first photo is shown on your website.",
+      "photoUrl": "Image link",
+      "photoAlt": "Photo description",
+      "addPhoto": "Add a photo",
+      "removePhoto": "Remove photo",
+      "showOnHome": "Show on home page",
+      "save": "Save project",
+      "saving": "Saving…",
+      "cancel": "Cancel"
+    },
+    "errors": {
+      "invalid_request": "Some details need a look. Check the project name and the image links.",
+      "site_not_found": "This website no longer exists.",
+      "project_not_found": "This project no longer exists.",
+      "database_unavailable": "The database is unavailable right now. Please try again shortly.",
+      "save_failed": "We could not save your changes. Please try again.",
+      "unauthorized": "Your session has expired. Please sign in again.",
       "default": "Something went wrong. Please try again."
     }
   },
@@ -533,7 +598,8 @@
       "createWebsite": "Create website",
       "creating": "Creating...",
       "writingPages": "Writing pages...",
-      "openEditor": "Open the editor"
+      "openEditor": "Open the editor",
+      "subscribe": "Subscribe"
     },
     "status": {
       "saving": "Saving your business details...",
@@ -550,6 +616,7 @@
       "save_failed": "Could not save your changes. Please try again.",
       "generation_failed": "AI generation failed. Your draft is saved and you can retry.",
       "site_exists": "Your account already has a website. Open it from the dashboard.",
+      "subscription_required": "Your free trial has ended. Subscribe to keep creating and editing your website.",
       "unauthorized": "Your session has ended. Please sign in again.",
       "account_inactive": "This account is deactivated. Contact support if you think this is a mistake.",
       "default": "Something went wrong. Please try again."
@@ -561,6 +628,42 @@
       "deleting": "Deleting...",
       "confirm": "Confirm",
       "cancel": "Cancel"
+    }
+  },
+  "seo": {
+    "meta": {
+      "title": "SEO",
+      "description": "Page titles and descriptions that search engines show for your website."
+    },
+    "navLabel": "SEO",
+    "heading": "SEO",
+    "subtitle": "The title and description search engines show for each page.",
+    "notReady": {
+      "title": "Your website isn't ready yet",
+      "body": "SEO settings open here as soon as the draft is ready.",
+      "back": "Back to dashboard"
+    },
+    "languages": {
+      "en": "English",
+      "ar": "Arabic"
+    },
+    "field": {
+      "title": "Page title",
+      "description": "Description"
+    },
+    "counter": "{count} / {aim}",
+    "preview": {
+      "label": "Search result preview",
+      "untitled": "Untitled page"
+    },
+    "save": {
+      "button": "Save",
+      "saving": "Saving…",
+      "saved": "Saved"
+    },
+    "errors": {
+      "invalid": "Some details need attention. Check the title and description lengths.",
+      "failed": "Could not save your changes. Please try again."
     }
   },
   "editor": {
@@ -625,7 +728,9 @@
     },
     "errors": {
       "invalid": "Some details need attention. Please review your changes.",
-      "saveFailed": "Could not save your changes. Please try again."
+      "saveFailed": "Could not save your changes. Please try again.",
+      "subscriptionRequired": "Your free trial has ended. Subscribe to keep editing.",
+      "subscribe": "Subscribe"
     },
     "languages": {
       "en": "English",
@@ -701,6 +806,87 @@
       "credit": "Photo credit",
       "url": "Credit link",
       "href": "Link address"
+    }
+  },
+  "tracking": {
+    "meta": {
+      "title": "Tracking",
+      "description": "Connect your advertising and analytics accounts to your website."
+    },
+    "title": "Tracking",
+    "subtitle": "Paste the ID from each service you use. Leave a field empty to turn it off. Your website is updated when you save.",
+    "help": "Where do I find this?",
+    "save": "Save",
+    "saving": "Saving…",
+    "saved": "Saved. Your website has been updated.",
+    "noSite": "Create your website first, then come back to connect tracking.",
+    "errors": {
+      "invalid": "This ID does not look right. Check it and try again.",
+      "save_failed": "We could not save your changes. Please try again.",
+      "default": "Something went wrong. Please try again."
+    },
+    "fields": {
+      "metaPixelId": {
+        "label": "Meta Pixel (Facebook and Instagram)",
+        "placeholder": "123456789012345",
+        "help": "In Meta Events Manager, open your data source (Pixel) and copy the Pixel ID. It is 15 or 16 digits."
+      },
+      "ga4Id": {
+        "label": "Google Analytics 4",
+        "placeholder": "G-XXXXXXXXXX",
+        "help": "In Google Analytics, go to Admin, then Data streams, open your website stream and copy the Measurement ID. It starts with G-."
+      },
+      "tiktokPixelId": {
+        "label": "TikTok Pixel",
+        "placeholder": "ABCDEFGHIJ0123456789",
+        "help": "In TikTok Ads Manager, go to Assets, then Events, open your Web Events data source and copy the Pixel ID. It is 20 letters and numbers."
+      },
+      "snapPixelId": {
+        "label": "Snapchat Pixel",
+        "placeholder": "12345678-1234-1234-1234-123456789abc",
+        "help": "In Snapchat Events Manager, open your Pixel and copy the Pixel ID. It looks like 12345678-1234-1234-1234-123456789abc."
+      },
+      "clarityId": {
+        "label": "Microsoft Clarity",
+        "placeholder": "abcd1234ef",
+        "help": "In Microsoft Clarity, open your project, go to Settings, then Overview, and copy the Project ID. It is 8 to 12 lowercase letters and numbers."
+      }
+    }
+  },
+  "billing": {
+    "meta": {
+      "title": "Billing",
+      "description": "Your plan, free trial and subscription."
+    },
+    "breadcrumb": "Billing",
+    "title": "Billing",
+    "subtitle": "Your plan and subscription.",
+    "currentPlan": "Current plan",
+    "state": {
+      "trial": "Free trial",
+      "active": "Pro",
+      "expired": "Trial ended"
+    },
+    "badge": {
+      "trial": "{count, plural, one {# day left} other {# days left}}",
+      "active": "Pro",
+      "expired": "Trial ended"
+    },
+    "trialDaysLeft": "{count, plural, one {# day left in your free trial} other {# days left in your free trial}}",
+    "trialEnds": "Your free trial ends on {date}.",
+    "renews": "Your subscription renews on {date}.",
+    "canceled": "Your subscription is canceled and stays active until {date}.",
+    "expiredBody": "Your free trial has ended. Subscribe to keep creating and editing your website. Your website is kept and its preview stays available.",
+    "subscribe": "Subscribe to Pro",
+    "manage": "Manage subscription",
+    "opening": "Opening...",
+    "errors": {
+      "unauthorized": "Your session has ended. Please sign in again.",
+      "billing_unavailable": "Billing is not available right now. Please try again later.",
+      "no_subscription": "There is no subscription to manage yet.",
+      "checkout_failed": "Could not start the checkout. Please try again.",
+      "portal_failed": "Could not open the billing portal. Please try again.",
+      "default": "Something went wrong. Please try again."
     }
   }
 }

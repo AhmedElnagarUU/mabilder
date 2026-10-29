@@ -79,6 +79,7 @@ const errorCodes = new Set([
   "save_failed",
   "generation_failed",
   "site_exists",
+  "subscription_required",
   "unauthorized",
   "account_inactive",
 ]);
@@ -514,6 +515,11 @@ export function CreateSiteWizard() {
                       <li key={path}>{path}</li>
                     ))}
                   </ul>
+                ) : null}
+                {error.code === "subscription_required" ? (
+                  <Link href="/billing" className="mt-1 inline-block font-semibold underline">
+                    {t("buttons.subscribe")}
+                  </Link>
                 ) : null}
                 {failedSiteId ? (
                   <Link

@@ -30,10 +30,11 @@ async function writeRenderedFile(
 export async function generateSite(
   siteId: string,
   content: SiteContent,
+  headExtra = "",
 ): Promise<void> {
   const outputDirectory = getSiteDirectory(siteId);
   const theme = getTheme(content.theme);
-  const files = renderSite(content);
+  const files = renderSite(content, headExtra);
 
   await rm(outputDirectory, { recursive: true, force: true });
   await mkdir(outputDirectory, { recursive: true });

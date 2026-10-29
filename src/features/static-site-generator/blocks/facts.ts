@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { localeSchema } from "../locale";
 import { imageSchema, nonEmptyText } from "./common";
 
 export const factsSchema = z.object({
@@ -26,6 +27,18 @@ export const factsSchema = z.object({
       year: nonEmptyText.optional(),
       description: nonEmptyText.optional(),
       images: z.array(imageSchema),
+      showOnHome: z.boolean().optional(),
+      translations: z
+        .partialRecord(
+          localeSchema,
+          z.object({
+            title: nonEmptyText.optional(),
+            category: nonEmptyText.optional(),
+            location: nonEmptyText.optional(),
+            description: nonEmptyText.optional(),
+          }),
+        )
+        .optional(),
     }),
   ),
   team: z.array(

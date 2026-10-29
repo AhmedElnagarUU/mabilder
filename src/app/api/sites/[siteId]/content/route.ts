@@ -1,4 +1,5 @@
 import { requireSession, unauthorizedResponse } from "@/features/auth/session";
+import { subscriptionRequiredResponse } from "@/features/billing/require-access";
 import { saveContent } from "@/features/site-creation/service";
 import { databaseErrorResponse } from "@/shared/db/errors";
 
@@ -34,6 +35,12 @@ export async function PUT(
 
     return Response.json({ ok: true, site: result.site });
   } catch (error) {
+    const expired = subscriptionRequiredResponse(error);
+
+    if (expired) {
+      return expired;
+    }
+
     const unavailable = databaseErrorResponse(error);
 
     if (unavailable) {

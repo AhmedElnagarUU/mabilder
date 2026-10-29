@@ -1,10 +1,12 @@
 import { z } from "zod";
+import { requireAccess } from "../billing/require-access";
 import { notify } from "../notifications/service";
 import { recordActivity, recordContentSaved } from "../activity/service";
 import {
   deleteGeneratedSite,
   generateSite,
 } from "../static-site-generator/generate-site";
+import { renderTags } from "../tracking/render-tags";
 import { generateSiteContent } from "./build-content";
 import { createGenerationModel, type GenerationModel } from "./generation/index";
 import type { FetchFunction } from "./images/pexels";
@@ -14,6 +16,7 @@ import {
   getSite as getSiteRecord,
   listSites as listSiteRecords,
   saveSiteContent as saveSiteContentRecord,
+  saveSiteTracking as saveSiteTrackingRecord,
   setSiteStatus,
 } from "./repository";
 import {
@@ -52,6 +55,8 @@ export async function createSite(
   ownerId: string,
   briefInput: unknown,
 ): Promise<CreateSiteResult> {
+  await requireAccess(ownerId);
+
   const parsed = businessBriefSchema.safeParse(briefInput);
 
   if (!parsed.success) {
@@ -108,6 +113,8 @@ export async function saveContent(
   siteId: string,
   contentInput: unknown,
 ): Promise<SaveContentResult> {
+  await requireAccess(ownerId);
+
   let site: SiteRecord | null;
 
   try {
@@ -129,7 +136,7 @@ export async function saveContent(
   }
 
   try {
-    await generateSite(site.id, site.content);
+    await generateSite(site.id, site.content, renderTags(site.tracking));
   } catch (error) {
     await setSiteStatus(ownerId, site.id, "error", errorMessage(error));
     throw error;
@@ -140,12 +147,42 @@ export async function saveContent(
   return { ok: true, site };
 }
 
+export async function saveTracking(
+  ownerId: string,
+  siteId: string,
+  trackingInput: unknown,
+): Promise<SaveContentResult> {
+  let site: SiteRecord | null;
+
+  try {
+    site = await saveSiteTrackingRecord(ownerId, siteId, trackingInput);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return { ok: false, errors: toIssues(error) };
+    }
+
+    throw error;
+  }
+
+  if (!site) {
+    return null;
+  }
+
+  if (site.content) {
+    await generateSite(site.id, site.content, renderTags(site.tracking));
+  }
+
+  return { ok: true, site };
+}
+
 export async function generateContent(
   ownerId: string,
   siteId: string,
   createModel: () => GenerationModel = createGenerationModel,
   fetchFunction: FetchFunction = fetch,
 ): Promise<SiteRecord | null> {
+  await requireAccess(ownerId);
+
   const site = await getSiteRecord(ownerId, siteId);
 
   if (!site) {
@@ -161,7 +198,7 @@ export async function generateContent(
       site.content,
       fetchFunction,
     );
-    await generateSite(siteId, content);
+    await generateSite(siteId, content, renderTags(site.tracking));
 
     const saved = await saveSiteContentRecord(ownerId, siteId, content);
 
