@@ -94,6 +94,7 @@ function buildProps(
   const props = localize(input.locales, (locale) =>
     buildFactProps(slot.type, {
       facts: input.facts,
+      locale,
       labels: siteLabels[locale],
       currentYear: input.currentYear,
       pageSlug,

@@ -123,6 +123,11 @@ export async function DashboardShell({
                   icon="pen"
                 />
                 <SidebarLink
+                  href="/dashboard/projects"
+                  label={t("sidebar.projects")}
+                  icon="layers"
+                />
+                <SidebarLink
                   href={`/preview/${site.id}/index.html`}
                   label={t("sidebar.previewSite")}
                   icon="monitor"

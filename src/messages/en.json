@@ -293,7 +293,8 @@
       "aria": "Main navigation",
       "overview": "Overview",
       "editWebsite": "Edit website",
-      "previewSite": "Preview site"
+      "previewSite": "Preview site",
+      "projects": "Projects"
     },
     "welcome": {
       "title": "Welcome back, {name}.",
@@ -340,6 +341,9 @@
         "site_generated": "Your website draft was written",
         "site_generation_failed": "Writing your website draft failed",
         "content_saved": "You saved changes to your website",
+        "project_added": "You added a project",
+        "project_updated": "You changed a project",
+        "project_deleted": "You deleted a project",
         "payment_submitted": "You sent a payment for review",
         "payment_approved": "Your payment was approved",
         "payment_rejected": "Your payment was rejected",
@@ -375,6 +379,66 @@
       "save_failed": "Could not save your changes. Please try again.",
       "generation_failed": "AI generation failed. Your draft is saved and you can retry.",
       "unauthorized": "Your session has ended. Please sign in again.",
+      "default": "Something went wrong. Please try again."
+    }
+  },
+  "projects": {
+    "meta": {
+      "title": "Projects",
+      "description": "Add and arrange the projects shown on your website."
+    },
+    "breadcrumb": "Projects",
+    "title": "Your projects",
+    "subtitle": "Add your best work. Your website updates as soon as you save.",
+    "empty": "No projects yet. Add your first project to show it on your website.",
+    "noSite": "Create your website first, then add your projects here.",
+    "noSiteCta": "Create your website",
+    "add": "Add a project",
+    "list": {
+      "aria": "Your projects",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "edit": "Edit",
+      "delete": "Delete",
+      "deleteQuestion": "Delete this project?",
+      "deleteConfirm": "Yes, delete",
+      "deleting": "Deleting…",
+      "cancel": "Cancel",
+      "showOnHome": "Show on home page",
+      "photos": "{count, plural, one {# photo} other {# photos}}",
+      "noPhotos": "Add a photo so this project can appear on your website."
+    },
+    "form": {
+      "titleNew": "New project",
+      "titleEdit": "Edit project",
+      "languages": {
+        "en": "English",
+        "ar": "Arabic"
+      },
+      "secondLanguageHint": "Optional. If you leave it empty, the first language is shown.",
+      "title": "Project name",
+      "category": "Type of project",
+      "location": "Location",
+      "year": "Year",
+      "description": "Short description",
+      "photos": "Photos",
+      "photosHint": "Paste the link of an image (https). Up to {max} photos. The first photo is shown on your website.",
+      "photoUrl": "Image link",
+      "photoAlt": "Photo description",
+      "addPhoto": "Add a photo",
+      "removePhoto": "Remove photo",
+      "showOnHome": "Show on home page",
+      "save": "Save project",
+      "saving": "Saving…",
+      "cancel": "Cancel"
+    },
+    "errors": {
+      "invalid_request": "Some details need a look. Check the project name and the image links.",
+      "site_not_found": "This website no longer exists.",
+      "project_not_found": "This project no longer exists.",
+      "database_unavailable": "The database is unavailable right now. Please try again shortly.",
+      "save_failed": "We could not save your changes. Please try again.",
+      "unauthorized": "Your session has expired. Please sign in again.",
       "default": "Something went wrong. Please try again."
     }
   },

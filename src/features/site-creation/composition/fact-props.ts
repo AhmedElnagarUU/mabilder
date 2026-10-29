@@ -12,6 +12,7 @@ import {
   type TestimonialsProps,
 } from "../../static-site-generator/blocks/testimonials";
 import { timelineBlock, type TimelineProps } from "../../static-site-generator/blocks/timeline";
+import type { Locale } from "../../static-site-generator/locale";
 import type { PageSlug } from "../../static-site-generator/site-content";
 import { toMapsHref } from "../text";
 import type { SiteLabels } from "./labels";
@@ -19,6 +20,7 @@ import { maxHomeProjects } from "./recipes";
 
 export type FactContext = {
   facts: Facts;
+  locale: Locale;
   labels: SiteLabels;
   currentYear: number;
   pageSlug: PageSlug;
@@ -75,27 +77,47 @@ function buildTimelineProps({ facts, labels, currentYear }: FactContext): Timeli
   };
 }
 
-function buildProjectMeta(project: Facts["projects"][number], facts: Facts): string {
+type FactProject = Facts["projects"][number];
+
+// The second language is optional: every missing field falls back to the first language.
+function inLocale(project: FactProject, locale: Locale): FactProject {
+  const translation = Object.fromEntries(
+    Object.entries(project.translations?.[locale] ?? {}).filter(([, value]) => value !== undefined),
+  );
+  return { ...project, ...translation };
+}
+
+function buildProjectMeta(project: FactProject, facts: Facts): string {
   const parts = [project.location, project.year].filter(Boolean);
   return parts.length > 0 ? parts.join(" — ") : (project.category ?? facts.industry);
 }
 
-function buildProjectItems({ facts, pageSlug }: FactContext): ProjectsProps["items"] {
-  const items = facts.projects.flatMap((project) =>
-    project.images.length === 0
+function listProjectsForPage({ facts, pageSlug }: FactContext): FactProject[] {
+  if (pageSlug !== "index") {
+    return facts.projects;
+  }
+
+  return facts.projects.filter((project) => project.showOnHome !== false);
+}
+
+function buildProjectItems(context: FactContext): ProjectsProps["items"] {
+  const items = listProjectsForPage(context).flatMap((original) => {
+    const project = inLocale(original, context.locale);
+
+    return project.images.length === 0
       ? []
       : [
           {
             title: project.title,
-            meta: buildProjectMeta(project, facts),
+            meta: buildProjectMeta(project, context.facts),
             category: project.category,
             body: project.description,
             image: project.images[0],
           },
-        ],
-  );
+        ];
+  });
 
-  return pageSlug === "index" ? items.slice(0, maxHomeProjects) : items;
+  return context.pageSlug === "index" ? items.slice(0, maxHomeProjects) : items;
 }
 
 function buildProjectsProps(context: FactContext): ProjectsProps | undefined {
