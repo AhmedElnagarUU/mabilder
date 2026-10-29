@@ -12,6 +12,18 @@ export function getAgenvoAssetsDirectory(): string {
   );
 }
 
+export function getThemeAssetsDirectory(themeId: string): string {
+  return path.join(
+    process.cwd(),
+    "src",
+    "features",
+    "static-site-generator",
+    "themes",
+    themeId,
+    "assets",
+  );
+}
+
 export function getSiteDirectory(siteId: string): string {
   if (!siteIdPattern.test(siteId)) {
     throw new Error("Invalid site id.");
