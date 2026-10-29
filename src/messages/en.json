@@ -499,8 +499,26 @@
       },
       "feedback_replied": {
         "title": "We replied to your feedback",
-        "body": "Open your dashboard to read the reply."
+        "body": "{reply}"
       }
+    }
+  },
+  "feedback": {
+    "open": "Send feedback",
+    "title": "Send feedback",
+    "intro": "Tell us what works and what does not. Our team reads every message.",
+    "messageLabel": "Your feedback",
+    "messagePlaceholder": "What would make your experience better?",
+    "ratingLabel": "How would you rate your experience? (optional)",
+    "ratingOption": "Rate {count} out of 5",
+    "send": "Send feedback",
+    "sending": "Sending...",
+    "cancel": "Cancel",
+    "close": "Close",
+    "sent": "Thank you. We received your feedback.",
+    "errors": {
+      "empty": "Please write your feedback before sending.",
+      "default": "We could not send your feedback. Please try again."
     }
   },
   "siteCreation": {

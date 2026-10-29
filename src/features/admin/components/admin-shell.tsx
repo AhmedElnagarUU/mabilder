@@ -5,7 +5,7 @@ import { AdminSignOutButton } from "./sign-out-button";
 const linkClass =
   "block rounded-xl px-3 py-2 text-sm text-soft transition hover:bg-white/[0.06] hover:text-ink";
 
-const comingSoon = ["Payments", "Feedback", "Settings"];
+const comingSoon = ["Payments", "Settings"];
 
 export function AdminShell({
   title,
@@ -25,6 +25,9 @@ export function AdminShell({
         </Link>
         <Link href="/admin/users" className={linkClass}>
           Users
+        </Link>
+        <Link href="/admin/feedback" className={linkClass}>
+          Feedback
         </Link>
         {comingSoon.map((label) => (
           <span

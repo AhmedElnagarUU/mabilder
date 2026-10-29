@@ -240,7 +240,8 @@ test("the admin routes answer 404 for unknown users and a missing preview", asyn
   assert.equal((await request(`/api/admin/users/${customer.id}/preview/index.html`)).status, 401);
 });
 
-type OverviewDelta = Awaited<ReturnType<typeof getOverview>>;
+// newFeedback is left out: feedback.test.ts writes feedback in parallel, so it is checked there.
+type OverviewDelta = Omit<Awaited<ReturnType<typeof getOverview>>, "newFeedback">;
 
 // Real users are created "now"; moving the clock 400 days ahead keeps them out of every time window.
 async function seedAndMeasure(): Promise<OverviewDelta> {

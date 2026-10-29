@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
 import { SignOutButton } from "@/features/auth/components/sign-out-button";
 import { PlanBadge } from "@/features/billing/components/plan-badge";
+import { SendFeedbackButton } from "@/features/feedback/components/send-feedback-button";
 import { NotificationBell } from "@/features/notifications/components/notification-bell";
 import { LocaleSwitcher } from "@/shared/i18n/locale-switcher";
 import { Link } from "@/shared/i18n/navigation";
@@ -207,6 +208,7 @@ export async function DashboardShell({
             </div>
             <div className="flex items-center gap-2">
               <PlanBadge userId={user.id} />
+              <SendFeedbackButton />
               <NotificationBell />
               <LocaleSwitcher
                 className={buttonClass("secondary", "sm", "px-3.5")}

@@ -15,7 +15,7 @@ function Row({ label, value }: { label: string; value: string }) {
 }
 
 export function UserDetailView({ detail }: { detail: UserDetail }) {
-  const { user, site, activity } = detail;
+  const { user, site, activity, feedback } = detail;
 
   return (
     <div className="grid gap-6 xl:grid-cols-2">
@@ -74,6 +74,31 @@ export function UserDetailView({ detail }: { detail: UserDetail }) {
               <li key={item.id} className="flex justify-between gap-4 py-2 text-sm">
                 <span>{activityLabels[item.type]}</span>
                 <span className="text-muted">{formatDateTime(item.createdAt)}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </Card>
+
+      <Card className="p-6 xl:col-span-2">
+        <h2 className="mb-4 text-lg font-semibold">Feedback</h2>
+        {feedback.length === 0 ? (
+          <p className="text-sm text-muted">No feedback yet.</p>
+        ) : (
+          <ul className="divide-y divide-line-soft">
+            {feedback.map((item) => (
+              <li key={item.id} className="grid gap-1 py-3 text-sm">
+                <div className="flex justify-between gap-4">
+                  <span className="text-muted">
+                    {item.rating ? `${item.rating}/5 · ` : ""}
+                    {item.status}
+                  </span>
+                  <span className="text-muted">{formatDateTime(item.createdAt)}</span>
+                </div>
+                <p className="whitespace-pre-wrap">{item.message}</p>
+                {item.reply ? (
+                  <p className="whitespace-pre-wrap text-muted">Reply: {item.reply}</p>
+                ) : null}
               </li>
             ))}
           </ul>

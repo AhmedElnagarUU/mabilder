@@ -42,7 +42,7 @@ export const notificationParamSchemas = {
   payment_rejected: z.object({ note: z.string().max(500).optional() }),
   plan_changed: z.object({ plan: z.enum(["trial", "pro", "expired"]) }),
   feedback_received: z.object({ userName: shortText }),
-  feedback_replied: z.object({}),
+  feedback_replied: z.object({ reply: z.string().min(1).max(2000) }),
 } satisfies Record<NotificationType, z.ZodType>;
 
 export type NotificationParams = {
