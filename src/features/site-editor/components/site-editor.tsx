@@ -59,8 +59,8 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
   }, [content]);
 
   const showToast = useCallback(
-    (kind: SaveToastMessage["kind"], message: string): void => {
-      setToast({ id: Date.now(), kind, message });
+    (kind: SaveToastMessage["kind"], message: string, link?: SaveToastMessage["link"]): void => {
+      setToast({ id: Date.now(), kind, message, link });
     },
     [],
   );
@@ -86,6 +86,14 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
 
       if (response.status === 400) {
         showToast("error", t("errors.invalid"));
+        return false;
+      }
+
+      if (response.status === 402) {
+        showToast("error", t("errors.subscriptionRequired"), {
+          href: "/billing",
+          label: t("errors.subscribe"),
+        });
         return false;
       }
 

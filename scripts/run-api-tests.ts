@@ -6,6 +6,7 @@ const port = 3100;
 const baseUrl = `http://localhost:${port}`;
 const startTimeoutMs = 60_000;
 const testCronSecret = "test-cron-secret";
+const testWebhookSecret = `whsec_${Buffer.from("test-polar-webhook-secret").toString("base64")}`;
 const testFiles =".generator-build/tests/api/*.test.js";
 
 function getTestDatabaseName(): string {
@@ -54,6 +55,7 @@ function startServer(databaseName: string): ChildProcess {
         OPENROUTER_API_KEY: "",
         EMAIL_PROVIDER: "none",
         CRON_SECRET: testCronSecret,
+        POLAR_WEBHOOK_SECRET: testWebhookSecret,
       },
       stdio: ["ignore", "inherit", "inherit"],
     },
@@ -85,6 +87,7 @@ function runTests(): Promise<number> {
       API_BASE_URL: baseUrl,
       EMAIL_PROVIDER: "none",
       CRON_SECRET: testCronSecret,
+      POLAR_WEBHOOK_SECRET: testWebhookSecret,
     },
     stdio: "inherit",
   });

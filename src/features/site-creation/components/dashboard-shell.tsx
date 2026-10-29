@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
 import { SignOutButton } from "@/features/auth/components/sign-out-button";
+import { PlanBadge } from "@/features/billing/components/plan-badge";
 import { NotificationBell } from "@/features/notifications/components/notification-bell";
 import { LocaleSwitcher } from "@/shared/i18n/locale-switcher";
 import { Link } from "@/shared/i18n/navigation";
@@ -61,7 +62,7 @@ export async function DashboardShell({
   crumbLabel,
   children,
 }: {
-  user: { name: string; email: string };
+  user: { id: string; name: string; email: string };
   site?: Pick<SiteSummary, "id"> | null;
   crumbLabel: string;
   children: ReactNode;
@@ -198,6 +199,7 @@ export async function DashboardShell({
               </nav>
             </div>
             <div className="flex items-center gap-2">
+              <PlanBadge userId={user.id} />
               <NotificationBell />
               <LocaleSwitcher
                 className={buttonClass("secondary", "sm", "px-3.5")}
