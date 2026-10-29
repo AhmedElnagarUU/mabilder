@@ -95,6 +95,7 @@ No numeric limit is enforced. The test: if a file stops being easy to scan top-t
 
 Full design: `docs/i18n-plan.md`.
 
+- **Exception (owner decision 2026-10-29):** the owner-only admin area (`src/features/admin/`, `src/app/[locale]/admin/`) is **English only** and does not use translations. Customer-facing text (including notifications and emails) still follows the rule below.
 - **No hardcoded user-facing strings. Ever.** All text renders through the translation layer (`next-intl`). Add every key to BOTH `src/messages/en.json` and `src/messages/ar.json`. They must always have the same keys (`npm run check:messages`).
 - Keys are namespaced by feature (`common`, `landing`, `dashboard`, `siteCreation`, `editor`).
 - Arabic translations: if the task provides them, use them verbatim. Otherwise write natural Modern Standard Arabic and list every new key in your report so a human can review it.

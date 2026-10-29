@@ -30,7 +30,7 @@ where this file disagrees with it, **this file wins**.
 | Activity | Append-only `activity_events` + `user.lastActiveAt` (updated at most once per 5 min per user). Used by the customer "Recent activity" card and the admin user detail. |
 | Feedback | Customers send feedback from the dashboard; admin reads, marks resolved and can reply (the reply is a notification). |
 | Notifications | Feature `src/features/notifications/`. `notify(userId, type, params)` stores an in-app notification and queues an email in an outbox. Email providers: `console` (logs, default in dev) and `none`; a real provider is added later behind the same interface. |
-| Languages | All admin and customer strings in `en` + `ar`. Emails use the user's locale. |
+| Languages | The **admin area is English only** (owner decision 2026-10-29): plain strings, no `next-intl` keys. All customer strings (dashboard, billing, feedback, notifications, emails) stay `en` + `ar`. |
 
 ## Data model (MongoDB, mongoose)
 
