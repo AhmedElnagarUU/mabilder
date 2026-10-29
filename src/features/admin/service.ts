@@ -7,6 +7,10 @@ import {
   setFeedbackStatus,
 } from "../feedback/service";
 import type { FeedbackListQuery, FeedbackStatus } from "../feedback/types";
+import { changeUserPlan, type PlanChangeResult } from "../billing/manual-plan";
+import { getPendingPaymentCount } from "../billing/payments/service";
+import { countPlans } from "../billing/plan-counts";
+import { getUserAccess } from "../billing/user-access";
 import { listSites } from "../site-creation/service";
 import {
   countMatchingUsers,
@@ -19,6 +23,7 @@ import {
   setInactiveFlag,
 } from "./repository";
 import {
+  ADMIN_ACTOR_ID,
   USERS_PAGE_SIZE,
   userListQuerySchema,
   type AccountChangeResult,
@@ -29,7 +34,6 @@ import {
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const ACTIVITY_LIMIT = 50;
-const ADMIN_ACTOR_ID = "admin";
 
 function activeSince(now: Date, days: number): Record<string, unknown> {
   return { lastActiveAt: { $gte: new Date(now.getTime() - days * DAY_MS) } };
@@ -46,6 +50,8 @@ export async function getOverview(now: Date = new Date()): Promise<OverviewStats
     sitesReady,
     sitesError,
     newFeedback,
+    pendingPayments,
+    plans,
   ] = await Promise.all([
     countUsers({}),
     countUsers(activeSince(now, 1)),
@@ -56,6 +62,8 @@ export async function getOverview(now: Date = new Date()): Promise<OverviewStats
     countSitesWithStatus("ready"),
     countSitesWithStatus("error"),
     countFeedbackWithStatus("new"),
+    getPendingPaymentCount(),
+    countPlans(now),
   ]);
 
   return {
@@ -68,6 +76,10 @@ export async function getOverview(now: Date = new Date()): Promise<OverviewStats
     sitesReady,
     sitesError,
     newFeedback,
+    pendingPayments,
+    trialUsers: plans.trial,
+    proUsers: plans.active,
+    expiredUsers: plans.expired,
   };
 }
 
@@ -103,13 +115,21 @@ export async function getUserDetail(userId: string): Promise<UserDetail | null> 
     return null;
   }
 
-  const [sites, activity, feedback] = await Promise.all([
+  const [sites, activity, feedback, access] = await Promise.all([
     listSites(user.id),
     listRecentActivity(user.id, ACTIVITY_LIMIT),
     listFeedbackForUser(user.id),
+    getUserAccess(user.id),
   ]);
+  const until = access.trialEndsAt ?? access.renewsAt;
 
-  return { user, site: sites[0] ?? null, activity, feedback };
+  return {
+    user,
+    plan: { state: access.state, until: until?.toISOString() ?? null },
+    site: sites[0] ?? null,
+    activity,
+    feedback,
+  };
 }
 
 export function listFeedbackInbox(query: FeedbackListQuery) {
@@ -151,6 +171,10 @@ export async function activateUser(userId: string): Promise<AccountChangeResult>
   }
 
   return "ok";
+}
+
+export function changePlan(userId: string, input: unknown): Promise<PlanChangeResult> {
+  return changeUserPlan(userId, ADMIN_ACTOR_ID, input);
 }
 
 // One website per account; the admin preview serves that site's files.

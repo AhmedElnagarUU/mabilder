@@ -910,6 +910,41 @@
       "checkout_failed": "Could not start the checkout. Please try again.",
       "portal_failed": "Could not open the billing portal. Please try again.",
       "default": "Something went wrong. Please try again."
+    },
+    "wallet": {
+      "title": "Pay with a wallet",
+      "intro": "Send {price} EGP to one of the accounts below, then enter the transfer details so we can confirm it. Your Pro plan starts once we approve the payment.",
+      "price": "Pro price: {price} EGP per month",
+      "accountsTitle": "Send the money to",
+      "vodafone_cash": "Vodafone Cash",
+      "other_wallet": "Other wallet",
+      "instapay": "InstaPay",
+      "instapayAddress": "InstaPay address",
+      "noAccounts": "Payment accounts will appear here soon.",
+      "instructionsTitle": "Instructions",
+      "formTitle": "I sent the money",
+      "method": "Payment method",
+      "amount": "Amount sent (EGP)",
+      "reference": "Transfer reference",
+      "referencePlaceholder": "Transaction number or reference",
+      "senderPhone": "Phone number you sent from (optional)",
+      "submit": "Send for review",
+      "sending": "Sending...",
+      "pendingNotice": "Your payment is waiting for review. You will be notified once it is confirmed.",
+      "historyTitle": "Your payments",
+      "historyEmpty": "You have not sent any payments yet.",
+      "status": {
+        "pending": "Waiting for review",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "errors": {
+        "invalid_request": "Check the amount and the transfer reference, then try again.",
+        "payment_pending": "You already have a payment waiting for review.",
+        "payments_unavailable": "Wallet payments are not available right now.",
+        "unauthorized": "Your session has ended. Please sign in again.",
+        "default": "Something went wrong. Please try again."
+      }
     }
   }
 }

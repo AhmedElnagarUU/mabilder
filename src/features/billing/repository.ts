@@ -9,6 +9,7 @@ type LeanSubscription = {
   status: string;
   currentPeriodEnd: Date;
   externalId?: string;
+  trialEndsAt?: Date;
 };
 
 function toRecord(doc: LeanSubscription | null): SubscriptionRecord | null {
@@ -22,6 +23,7 @@ function toRecord(doc: LeanSubscription | null): SubscriptionRecord | null {
     status: doc.status,
     currentPeriodEnd: doc.currentPeriodEnd,
     externalId: doc.externalId,
+    trialEndsAt: doc.trialEndsAt,
   };
 }
 
@@ -47,6 +49,28 @@ export async function findUserCreatedAt(userId: string): Promise<Date | null> {
     .findOne({ _id: new mongoose.Types.ObjectId(userId) }, { projection: { createdAt: 1 } });
 
   return user?.createdAt instanceof Date ? user.createdAt : null;
+}
+
+export async function findAllSubscriptions(): Promise<Map<string, SubscriptionRecord>> {
+  await connectToDatabase();
+
+  const docs = (await SubscriptionModel.find().lean()) as LeanSubscription[];
+
+  return new Map(docs.map((doc) => [doc.userId, toRecord(doc) as SubscriptionRecord]));
+}
+
+export async function findAllUserCreatedAt(): Promise<Map<string, Date>> {
+  const mongo = await connectToDatabase();
+  const users = await mongo.connection
+    .collection("user")
+    .find({}, { projection: { createdAt: 1 } })
+    .toArray();
+
+  return new Map(
+    users.flatMap((user) =>
+      user.createdAt instanceof Date ? [[user._id.toString(), user.createdAt] as const] : [],
+    ),
+  );
 }
 
 async function upsertOnce(record: SubscriptionRecord): Promise<SubscriptionRecord | null> {

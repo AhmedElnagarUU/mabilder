@@ -103,6 +103,15 @@ export async function findUser(userId: string): Promise<UserProfile | null> {
   return user ? toProfile(user) : null;
 }
 
+export async function findUsersByIds(userIds: string[]): Promise<Map<string, UserProfile>> {
+  const ids = userIds.flatMap((userId) => toObjectId(userId) ?? []);
+  const users = (await (await userCollection())
+    .find({ _id: { $in: ids } })
+    .toArray()) as unknown as LeanUser[];
+
+  return new Map(users.map((user) => [user._id.toString(), toProfile(user)]));
+}
+
 export async function findSiteStatuses(
   userIds: string[],
 ): Promise<Map<string, SiteStatus>> {

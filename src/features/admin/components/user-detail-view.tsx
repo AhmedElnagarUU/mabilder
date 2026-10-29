@@ -3,7 +3,10 @@ import { buttonClass } from "@/shared/ui/button";
 import { Card } from "@/shared/ui/card";
 import type { UserDetail } from "../types";
 import { activityLabels, formatDate, formatDateTime } from "./format";
+import { PlanChangeForm } from "./plan-change-form";
 import { UserActions } from "./user-actions";
+
+const planLabels = { trial: "Free trial", active: "Pro", expired: "Expired" };
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
@@ -15,7 +18,7 @@ function Row({ label, value }: { label: string; value: string }) {
 }
 
 export function UserDetailView({ detail }: { detail: UserDetail }) {
-  const { user, site, activity, feedback } = detail;
+  const { user, plan, site, activity, feedback } = detail;
 
   return (
     <div className="grid gap-6 xl:grid-cols-2">
@@ -35,6 +38,17 @@ export function UserDetailView({ detail }: { detail: UserDetail }) {
         </dl>
         <div className="mt-6">
           <UserActions userId={user.id} inactive={user.inactive} />
+        </div>
+      </Card>
+
+      <Card className="p-6">
+        <h2 className="mb-4 text-lg font-semibold">Plan</h2>
+        <dl className="divide-y divide-line-soft">
+          <Row label="Current plan" value={planLabels[plan.state]} />
+          <Row label={plan.state === "trial" ? "Trial ends" : "Paid until"} value={plan.state === "expired" ? "-" : formatDate(plan.until)} />
+        </dl>
+        <div className="mt-6">
+          <PlanChangeForm userId={user.id} />
         </div>
       </Card>
 
