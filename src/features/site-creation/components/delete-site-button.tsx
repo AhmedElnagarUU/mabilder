@@ -16,6 +16,7 @@ const errorCodes = new Set([
   "save_failed",
   "generation_failed",
   "unauthorized",
+  "account_inactive",
 ]);
 
 function errorCodeFrom(code: string | undefined): string {

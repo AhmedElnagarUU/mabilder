@@ -1,9 +1,9 @@
 import { dispatchQueuedEmails } from "./dispatch";
 import {
   countUnread,
-  findAdminRecipients,
   findNotifications,
   findRecipient,
+  insertAdminEmail,
   insertNotificationWithEmail,
   markRead,
 } from "./repository";
@@ -56,16 +56,15 @@ export async function notifyAdmins<T extends NotificationType>(
   type: T,
   params: NotificationParams[T],
 ): Promise<void> {
+  const adminEmail = process.env.ADMIN_EMAIL?.trim();
+
+  if (!adminEmail) {
+    return;
+  }
+
   try {
-    const admins = await findAdminRecipients();
-
-    for (const admin of admins) {
-      await store(admin, type, params);
-    }
-
-    if (admins.length > 0) {
-      dispatchInBackground();
-    }
+    await insertAdminEmail(adminEmail, type, parseParams(type, params), new Date());
+    dispatchInBackground();
   } catch (error) {
     console.error("Failed to notify the admins.", error);
   }

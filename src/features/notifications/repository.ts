@@ -75,14 +75,23 @@ export async function findRecipient(userId: string): Promise<NotificationRecipie
   return user ? toRecipient(user) : null;
 }
 
-export async function findAdminRecipients(): Promise<NotificationRecipient[]> {
-  const mongo = await connectToDatabase();
-  const admins = (await mongo.connection
-    .collection("user")
-    .find({ role: "admin" })
-    .toArray()) as unknown as UserContact[];
+// The admin is not a database user, so the email is queued without an in-app notification.
+export async function insertAdminEmail(
+  email: string,
+  type: NotificationType,
+  params: object,
+  now: Date,
+): Promise<void> {
+  await connectToDatabase();
 
-  return admins.flatMap((admin) => toRecipient(admin) ?? []);
+  await EmailOutboxModel.create({
+    to: email,
+    locale: "en",
+    type,
+    params,
+    nextAttemptAt: now,
+    createdAt: now,
+  });
 }
 
 export async function insertNotificationWithEmail(

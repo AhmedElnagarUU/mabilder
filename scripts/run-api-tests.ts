@@ -7,6 +7,11 @@ const baseUrl = `http://localhost:${port}`;
 const startTimeoutMs = 60_000;
 const testCronSecret = "test-cron-secret";
 const testFiles =".generator-build/tests/api/*.test.js";
+const testAdminEnv = {
+  ADMIN_EMAIL: "admin@test.local",
+  ADMIN_PASSWORD: "test-admin-password",
+  ADMIN_SESSION_SECRET: "test-admin-session-secret-0123456789",
+};
 
 function getTestDatabaseName(): string {
   const name = process.env.MONGODB_DB_NAME;
@@ -54,6 +59,7 @@ function startServer(databaseName: string): ChildProcess {
         OPENROUTER_API_KEY: "",
         EMAIL_PROVIDER: "none",
         CRON_SECRET: testCronSecret,
+        ...testAdminEnv,
       },
       stdio: ["ignore", "inherit", "inherit"],
     },
@@ -85,6 +91,7 @@ function runTests(): Promise<number> {
       API_BASE_URL: baseUrl,
       EMAIL_PROVIDER: "none",
       CRON_SECRET: testCronSecret,
+      ...testAdminEnv,
     },
     stdio: "inherit",
   });

@@ -1,10 +1,11 @@
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
-import { createAuthMiddleware } from "better-auth/api";
+import { APIError, createAuthMiddleware } from "better-auth/api";
 import { recordActivity } from "@/features/activity/service";
 import type { ActivityType } from "@/features/activity/types";
 import { notify } from "@/features/notifications/service";
 import { connectToDatabase } from "@/shared/db/mongoose";
+import { ACCOUNT_INACTIVE_CODE, isEmailInactive } from "./inactive";
 
 const authActivityTypes: Record<string, ActivityType> = {
   "/sign-up/email": "signed_up",
@@ -30,6 +31,24 @@ async function recordAuthActivity(ctx: {
   }
 }
 
+async function refuseInactiveSignIn(ctx: {
+  path: string;
+  body?: { email?: unknown };
+}): Promise<void> {
+  const email = ctx.body?.email;
+
+  if (ctx.path !== "/sign-in/email" || typeof email !== "string") {
+    return;
+  }
+
+  if (await isEmailInactive(email)) {
+    throw new APIError("FORBIDDEN", {
+      message: "This account is deactivated.",
+      code: ACCOUNT_INACTIVE_CODE,
+    });
+  }
+}
+
 async function createAuth() {
   const mongoose = await connectToDatabase();
   const db = mongoose.connection.db;
@@ -43,7 +62,15 @@ async function createAuth() {
     baseURL: process.env.BETTER_AUTH_URL,
     database: mongodbAdapter(db),
     emailAndPassword: { enabled: true },
-    hooks: { after: createAuthMiddleware(recordAuthActivity) },
+    user: {
+      additionalFields: {
+        inactive: { type: "boolean", required: false, defaultValue: false, input: false },
+      },
+    },
+    hooks: {
+      before: createAuthMiddleware(refuseInactiveSignIn),
+      after: createAuthMiddleware(recordAuthActivity),
+    },
   });
 }
 

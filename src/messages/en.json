@@ -278,6 +278,7 @@
       "password_too_short": "The password must be at least 8 characters.",
       "password_too_long": "The password is too long.",
       "too_many_requests": "Too many attempts. Please wait a moment and try again.",
+      "account_inactive": "This account is deactivated. Contact support if you think this is a mistake.",
       "default": "Something went wrong. Please try again."
     }
   },
@@ -375,6 +376,7 @@
       "save_failed": "Could not save your changes. Please try again.",
       "generation_failed": "AI generation failed. Your draft is saved and you can retry.",
       "unauthorized": "Your session has ended. Please sign in again.",
+      "account_inactive": "This account is deactivated. Contact support if you think this is a mistake.",
       "default": "Something went wrong. Please try again."
     }
   },
@@ -549,6 +551,7 @@
       "generation_failed": "AI generation failed. Your draft is saved and you can retry.",
       "site_exists": "Your account already has a website. Open it from the dashboard.",
       "unauthorized": "Your session has ended. Please sign in again.",
+      "account_inactive": "This account is deactivated. Contact support if you think this is a mistake.",
       "default": "Something went wrong. Please try again."
     },
     "delete": {

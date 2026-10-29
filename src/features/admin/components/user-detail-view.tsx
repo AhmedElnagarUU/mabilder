@@ -1,0 +1,84 @@
+import { Badge } from "@/shared/ui/badge";
+import { buttonClass } from "@/shared/ui/button";
+import { Card } from "@/shared/ui/card";
+import type { UserDetail } from "../types";
+import { activityLabels, formatDate, formatDateTime } from "./format";
+import { UserActions } from "./user-actions";
+
+function Row({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex justify-between gap-4 py-2 text-sm">
+      <dt className="text-muted">{label}</dt>
+      <dd className="text-end text-ink">{value}</dd>
+    </div>
+  );
+}
+
+export function UserDetailView({ detail }: { detail: UserDetail }) {
+  const { user, site, activity } = detail;
+
+  return (
+    <div className="grid gap-6 xl:grid-cols-2">
+      <Card className="p-6">
+        <div className="mb-4 flex items-center justify-between gap-3">
+          <h2 className="text-lg font-semibold">Profile</h2>
+          <Badge tone={user.inactive ? "danger" : "success"}>
+            {user.inactive ? "Deactivated" : "Active"}
+          </Badge>
+        </div>
+        <dl className="divide-y divide-line-soft">
+          <Row label="Name" value={user.name || "(no name)"} />
+          <Row label="Email" value={user.email} />
+          <Row label="Language" value={user.locale ?? "Unknown"} />
+          <Row label="Joined" value={formatDate(user.createdAt)} />
+          <Row label="Last active" value={formatDateTime(user.lastActiveAt)} />
+        </dl>
+        <div className="mt-6">
+          <UserActions userId={user.id} inactive={user.inactive} />
+        </div>
+      </Card>
+
+      <Card className="p-6">
+        <h2 className="mb-4 text-lg font-semibold">Website</h2>
+        {site ? (
+          <>
+            <dl className="divide-y divide-line-soft">
+              <Row label="Business" value={site.businessName} />
+              <Row label="Industry" value={site.industry} />
+              <Row label="Status" value={site.status} />
+              <Row label="Updated" value={formatDateTime(site.updatedAt)} />
+            </dl>
+            {site.status === "ready" ? (
+              <a
+                href={`/api/admin/users/${user.id}/preview/index.html`}
+                target="_blank"
+                rel="noreferrer"
+                className={`${buttonClass("secondary", "md")} mt-6`}
+              >
+                Open preview
+              </a>
+            ) : null}
+          </>
+        ) : (
+          <p className="text-sm text-muted">This user has no website yet.</p>
+        )}
+      </Card>
+
+      <Card className="p-6 xl:col-span-2">
+        <h2 className="mb-4 text-lg font-semibold">Activity</h2>
+        {activity.length === 0 ? (
+          <p className="text-sm text-muted">No activity yet.</p>
+        ) : (
+          <ul className="divide-y divide-line-soft">
+            {activity.map((item) => (
+              <li key={item.id} className="flex justify-between gap-4 py-2 text-sm">
+                <span>{activityLabels[item.type]}</span>
+                <span className="text-muted">{formatDateTime(item.createdAt)}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </Card>
+    </div>
+  );
+}

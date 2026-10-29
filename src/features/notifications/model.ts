@@ -16,7 +16,7 @@ notificationSchema.index({ userId: 1, createdAt: -1 });
 
 const emailOutboxSchema = new Schema(
   {
-    notificationId: { type: String, required: true },
+    notificationId: { type: String },
     to: { type: String, required: true },
     locale: { type: String, enum: NOTIFICATION_LOCALES, required: true },
     type: { type: String, enum: NOTIFICATION_TYPES, required: true },

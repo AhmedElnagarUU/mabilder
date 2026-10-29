@@ -5,6 +5,7 @@ export type AuthErrorKey =
   | "password_too_short"
   | "password_too_long"
   | "too_many_requests"
+  | "account_inactive"
   | "default";
 
 const errorKeysByCode: Record<string, AuthErrorKey> = {
@@ -14,6 +15,7 @@ const errorKeysByCode: Record<string, AuthErrorKey> = {
   INVALID_EMAIL: "invalid_email",
   PASSWORD_TOO_SHORT: "password_too_short",
   PASSWORD_TOO_LONG: "password_too_long",
+  account_inactive: "account_inactive",
 };
 
 const TOO_MANY_REQUESTS = 429;

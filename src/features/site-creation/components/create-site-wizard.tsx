@@ -80,6 +80,7 @@ const errorCodes = new Set([
   "generation_failed",
   "site_exists",
   "unauthorized",
+  "account_inactive",
 ]);
 
 function errorCodeFrom(code: string | undefined, fallback: string): string {
