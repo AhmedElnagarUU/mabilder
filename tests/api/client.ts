@@ -46,11 +46,24 @@ export function request(path: string, options: RequestOptions = {}): Promise<Res
   return send(path, options);
 }
 
+const RATE_LIMIT_RETRY_MS = 3_000;
+const RATE_LIMIT_ATTEMPTS = 6;
+
+// better-auth rate-limits sign-ups per IP and test files run in parallel, so wait and retry on 429.
+async function sendSignUp(name: string): Promise<Response> {
+  const body = { name, email: `q1-${randomUUID()}@test.local`, password: "q1-test-password" };
+  let response = await request("/api/auth/sign-up/email", { method: "POST", body });
+
+  for (let attempt = 1; attempt < RATE_LIMIT_ATTEMPTS && response.status === 429; attempt += 1) {
+    await new Promise((resolve) => setTimeout(resolve, RATE_LIMIT_RETRY_MS));
+    response = await request("/api/auth/sign-up/email", { method: "POST", body });
+  }
+
+  return response;
+}
+
 export async function signUp(name: string): Promise<string> {
-  const response = await request("/api/auth/sign-up/email", {
-    method: "POST",
-    body: { name, email: `q1-${randomUUID()}@test.local`, password: "q1-test-password" },
-  });
+  const response = await sendSignUp(name);
 
   assert.equal(response.status, 200, await response.text());
 

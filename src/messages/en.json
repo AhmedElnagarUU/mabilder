@@ -328,26 +328,25 @@
       "status": "Status",
       "updated": "Last updated"
     },
-    "nextStep": {
-      "title": "Next step",
-      "working": "Your website is still being written. The editor opens as soon as the draft is ready.",
-      "ready": "The draft is ready. Open the editor to refine it, then share the preview link.",
-      "error": "The last generation failed. Open the editor and try again.",
-      "workingItems": [
-        "Keep this tab open while AI writes",
-        "The editor unlocks as soon as the draft is ready",
-        "Come back and check in a few minutes"
-      ],
-      "readyItems": [
-        "Review every section in the editor",
-        "Update photos and contact details",
-        "Copy the preview link and share it"
-      ],
-      "errorItems": [
-        "Open the editor and press AI rewrite",
-        "Nothing was lost — your draft is saved",
-        "Try again in a minute if it persists"
-      ]
+    "activity": {
+      "title": "Recent activity",
+      "empty": "Nothing yet. What you do in your account will show up here.",
+      "types": {
+        "signed_up": "You created your account",
+        "signed_in": "You signed in",
+        "site_created": "You started a new website",
+        "site_generated": "Your website draft was written",
+        "site_generation_failed": "Writing your website draft failed",
+        "content_saved": "You saved changes to your website",
+        "payment_submitted": "You sent a payment for review",
+        "payment_approved": "Your payment was approved",
+        "payment_rejected": "Your payment was rejected",
+        "plan_changed": "Your plan was changed",
+        "account_deactivated": "Your account was deactivated",
+        "account_activated": "Your account was activated",
+        "feedback_sent": "You sent feedback",
+        "feedback_replied": "You received a reply to your feedback"
+      }
     },
     "empty": {
       "title": "No website yet.",

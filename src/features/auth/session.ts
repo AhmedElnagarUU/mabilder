@@ -1,4 +1,5 @@
 import { headers } from "next/headers";
+import { touchLastActive } from "@/features/activity/service";
 import { redirect } from "@/shared/i18n/navigation";
 import { getAuth, type Auth } from "./auth";
 
@@ -16,7 +17,13 @@ export async function requireSession(
   requestHeaders: Headers,
 ): Promise<SessionUser | null> {
   const session = await getSession(requestHeaders);
-  return session?.user ?? null;
+
+  if (!session) {
+    return null;
+  }
+
+  void touchLastActive(session.user.id);
+  return session.user;
 }
 
 export function unauthorizedResponse(): Response {

@@ -1,6 +1,27 @@
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
+import { createAuthMiddleware } from "better-auth/api";
+import { recordActivity } from "@/features/activity/service";
+import type { ActivityType } from "@/features/activity/types";
 import { connectToDatabase } from "@/shared/db/mongoose";
+
+const authActivityTypes: Record<string, ActivityType> = {
+  "/sign-up/email": "signed_up",
+  "/sign-in/email": "signed_in",
+};
+
+// newSession exists only when the request created a session, so failed sign-ins are not recorded.
+async function recordAuthActivity(ctx: {
+  path: string;
+  context: { newSession?: { user: { id: string } } | null };
+}): Promise<void> {
+  const type = authActivityTypes[ctx.path];
+  const userId = ctx.context.newSession?.user.id;
+
+  if (type && userId) {
+    await recordActivity({ userId, actorId: userId, type });
+  }
+}
 
 async function createAuth() {
   const mongoose = await connectToDatabase();
@@ -15,6 +36,7 @@ async function createAuth() {
     baseURL: process.env.BETTER_AUTH_URL,
     database: mongodbAdapter(db),
     emailAndPassword: { enabled: true },
+    hooks: { after: createAuthMiddleware(recordAuthActivity) },
   });
 }
 

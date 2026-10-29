@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { recordActivity, recordContentSaved } from "../activity/service";
 import {
   deleteGeneratedSite,
   generateSite,
@@ -66,6 +67,13 @@ export async function createSite(
     return { ok: false, code: "site_exists" };
   }
 
+  await recordActivity({
+    userId: ownerId,
+    actorId: ownerId,
+    type: "site_created",
+    siteId: site.id,
+  });
+
   return { ok: true, site };
 }
 
@@ -126,6 +134,8 @@ export async function saveContent(
     throw error;
   }
 
+  await recordContentSaved(ownerId, site.id);
+
   return { ok: true, site };
 }
 
@@ -159,9 +169,22 @@ export async function generateContent(
       return null;
     }
 
+    await recordActivity({
+      userId: ownerId,
+      actorId: ownerId,
+      type: "site_generated",
+      siteId,
+    });
+
     return saved;
   } catch (error) {
     await setSiteStatus(ownerId, siteId, "error", errorMessage(error));
+    await recordActivity({
+      userId: ownerId,
+      actorId: ownerId,
+      type: "site_generation_failed",
+      siteId,
+    });
     throw error;
   }
 }

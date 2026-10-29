@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { RecentActivity } from "@/features/activity/components/recent-activity";
+import { listRecentActivity } from "@/features/activity/service";
+import type { ActivityItem } from "@/features/activity/types";
 import { requirePageUser } from "@/features/auth/session";
 import { DashboardShell } from "@/features/site-creation/components/dashboard-shell";
 import { DeleteSiteButton } from "@/features/site-creation/components/delete-site-button";
@@ -23,6 +26,8 @@ export async function generateMetadata({
 }
 
 export const dynamic = "force-dynamic";
+
+const ACTIVITY_LIMIT = 8;
 
 const statusChipStyles: Record<SiteSummary["status"], string> = {
   draft: "border-line text-muted",
@@ -150,6 +155,15 @@ function MiniSiteSheet({ site }: { site: SiteSummary }) {
   );
 }
 
+async function loadActivity(userId: string): Promise<ActivityItem[]> {
+  try {
+    return await listRecentActivity(userId, ACTIVITY_LIMIT);
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
 export default async function DashboardPage({
   params,
 }: PageProps<"/[locale]/dashboard">) {
@@ -168,6 +182,9 @@ export default async function DashboardPage({
     console.error(error);
     loadFailed = true;
   }
+
+  const activity = await loadActivity(user.id);
+  const now = new Date();
 
   if (loadFailed) {
     return (
@@ -339,56 +356,7 @@ export default async function DashboardPage({
                 </div>
               </article>
 
-              <article className="relative flex flex-col self-start overflow-hidden rounded-panel border border-accent/10 bg-[linear-gradient(155deg,rgba(94,234,212,0.075),rgba(255,255,255,0.012)_54%)] p-[18px] min-w-0 lg:col-span-4">
-                <span
-                  aria-hidden
-                  className="absolute -top-[120px] -end-[100px] h-[230px] w-[230px] rounded-full bg-[radial-gradient(circle,rgba(94,234,212,0.16),transparent_64%)]"
-                />
-                <div className="relative flex items-start justify-between gap-3">
-                  <div className="flex items-center gap-2 text-[#d8e7e3]">
-                    <Icon name="spark" className="h-[13px] w-[13px] text-accent" />
-                    <h3 className="text-[13px] font-medium tracking-[-0.01em]">
-                      {t("nextStep.title")}
-                    </h3>
-                  </div>
-                </div>
-                <p className="relative mt-3 text-[13px] leading-[1.7] text-muted">
-                  {site.status === "ready" ? t("nextStep.ready") : null}
-                  {site.status === "draft" || site.status === "generating"
-                    ? t("nextStep.working")
-                    : null}
-                  {site.status === "error" ? t("nextStep.error") : null}
-                </p>
-                <ul className="relative mt-3 space-y-1.5">
-                  {(
-                    (site.status === "ready"
-                      ? t.raw("nextStep.readyItems")
-                      : site.status === "error"
-                        ? t.raw("nextStep.errorItems")
-                        : t.raw("nextStep.workingItems")) as string[]
-                  ).map((item) => (
-                    <li
-                      key={item}
-                      className="flex items-start gap-2 text-[13px] leading-[1.6] text-muted"
-                    >
-                      <Icon
-                        name="check"
-                        className="mt-0.5 h-3 w-3 shrink-0 text-accent"
-                      />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <div className="relative mt-4">
-                  <Link
-                    href={editHref}
-                    className={buttonClass("secondary", "sm", "w-full")}
-                  >
-                    {t("action.edit")}
-                    <Icon name="arrow" className="h-3 w-3 rtl:rotate-180" />
-                  </Link>
-                </div>
-              </article>
+              <RecentActivity items={activity} now={now} />
             </section>
           </>
         )}
