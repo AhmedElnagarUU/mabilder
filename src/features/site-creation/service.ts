@@ -5,6 +5,7 @@ import {
 } from "../static-site-generator/generate-site";
 import { generateSiteContent } from "./build-content";
 import { createGenerationModel, type GenerationModel } from "./generation/index";
+import type { FetchFunction } from "./images/pexels";
 import {
   createSite as createSiteRecord,
   deleteSite as deleteSiteRecord,
@@ -132,6 +133,7 @@ export async function generateContent(
   ownerId: string,
   siteId: string,
   createModel: () => GenerationModel = createGenerationModel,
+  fetchFunction: FetchFunction = fetch,
 ): Promise<SiteRecord | null> {
   const site = await getSiteRecord(ownerId, siteId);
 
@@ -146,6 +148,7 @@ export async function generateContent(
       createModel(),
       site.brief,
       site.content,
+      fetchFunction,
     );
     await generateSite(siteId, content);
 

@@ -9,6 +9,8 @@ import {
 } from "./generation/page-copy";
 import { normalizeBusinessProfile } from "./generation/profile";
 import { createSpendGuard } from "./generation/spend-guard";
+import { fillImages } from "./images/fill-images";
+import type { FetchFunction } from "./images/pexels";
 import type { BusinessBrief } from "./types";
 
 const defaultTheme = "agenvo";
@@ -35,11 +37,13 @@ export async function generateSiteContent(
   model: GenerationModel,
   brief: BusinessBrief,
   current: SiteContent | null,
+  fetchFunction: FetchFunction = fetch,
 ): Promise<SiteContent> {
   const content = current ?? buildSiteContent(brief);
   checkBeforeGeneration(content);
 
   const guard = createSpendGuard(generationBudget(content));
   const profile = await normalizeBusinessProfile(model, brief, guard);
-  return writeSiteCopy(model, content, { brief, profile }, guard);
+  const written = await writeSiteCopy(model, content, { brief, profile }, guard);
+  return fillImages(written, { brief, profile }, fetchFunction);
 }

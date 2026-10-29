@@ -5,6 +5,9 @@ import type { SiteContent } from "../../src/features/static-site-generator/site-
 
 // The AI is a dependency of the code under test, so tests pass this stub instead of a real model.
 
+// Tests never reach Pexels: without a key the image step is skipped (stock-images tests set their own).
+delete process.env.PEXELS_API_KEY;
+
 export type StubCall = {
   name: string;
   prompt: string;
