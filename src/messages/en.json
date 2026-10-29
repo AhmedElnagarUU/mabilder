@@ -560,6 +560,42 @@
       "cancel": "Cancel"
     }
   },
+  "seo": {
+    "meta": {
+      "title": "SEO",
+      "description": "Page titles and descriptions that search engines show for your website."
+    },
+    "navLabel": "SEO",
+    "heading": "SEO",
+    "subtitle": "The title and description search engines show for each page.",
+    "notReady": {
+      "title": "Your website isn't ready yet",
+      "body": "SEO settings open here as soon as the draft is ready.",
+      "back": "Back to dashboard"
+    },
+    "languages": {
+      "en": "English",
+      "ar": "Arabic"
+    },
+    "field": {
+      "title": "Page title",
+      "description": "Description"
+    },
+    "counter": "{count} / {aim}",
+    "preview": {
+      "label": "Search result preview",
+      "untitled": "Untitled page"
+    },
+    "save": {
+      "button": "Save",
+      "saving": "Saving…",
+      "saved": "Saved"
+    },
+    "errors": {
+      "invalid": "Some details need attention. Check the title and description lengths.",
+      "failed": "Could not save your changes. Please try again."
+    }
+  },
   "editor": {
     "meta": {
       "title": "Website editor",
