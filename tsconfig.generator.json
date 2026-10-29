@@ -16,6 +16,7 @@
     "scripts/**/*.ts",
     "src/features/static-site-generator/**/*.ts",
     "src/features/site-creation/**/*.ts",
-    "src/shared/**/*.ts"
+    "src/shared/**/*.ts",
+    "tests/**/*.ts"
   ]
 }

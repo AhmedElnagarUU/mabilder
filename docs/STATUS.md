@@ -16,13 +16,14 @@ Read `AGENTS.md`, `CODE_RULES.md`, then the docs your task touches:
 | A1 + D1 | better-auth email/password, one site per account (`ownerId` unique, 409), owner checks on site APIs + preview, dashboard shows user name | (this commit) |
 | M2 | Agenvo theme (18 blocks, `data-block` roots, RTL, `headExtra` hook) + `render-site.ts` + `npm run check:theme` | (this commit) |
 | M3 | `buildFacts(brief, projects)` + rules-only composition (About/Projects need a fact block), `npm run check:composition` | (this commit) |
+| Q1 | System tests: `npm test` (pipeline, 13) + `npm run test:api` (HTTP on :3100, `_test` DB, AI disabled, 6) | (this commit) |
 | I1 | App UI in English and Arabic (next-intl, `/en` + `/ar`, RTL, switcher, API error codes), `npm run check:messages` | `cd8392e` |
 
 ## Next, in order
 
 Full order in `docs/features-v2-plan.md`:
 
-1. **Q1** system tests → **M4 → M6** block pipeline (`docs/block-system-plan.md`); M8 wizard fields after
+1. **M4 → M6** block pipeline (`docs/block-system-plan.md`); M8 wizard fields after
 2. **U1** S3 uploads → **P1** projects → **E1** new editor (replaces M7) → **S1** SEO → **C1** AI credits → **T1** tracking → **G1** tutorials
 3. **B1**: Polar trial + subscription, any time after A1
 
@@ -44,6 +45,6 @@ Full order in `docs/features-v2-plan.md`:
 ## Working notes
 
 - Checks: `npm run lint`, `npx tsc --noEmit`, `npx tsc -p tsconfig.generator.json --noEmit`,
-  `npm run check:blocks`, `npm run check:messages`, `npm run check:theme`, `npm run check:composition`, `npm run build`.
+  `npm run check:blocks`, `npm run check:messages`, `npm run check:theme`, `npm run check:composition`, `npm run build`, `npm test`, `npm run test:api` (after build; uses port 3100 and a `_test` DB; never calls AI).
 - Delegation used the OpenCode lane `saas` (local machine only; config in `~/.config/delegate-skills/`).
 - `.env` is not in git. Copy `.env.example` and fill in the values on a new machine.

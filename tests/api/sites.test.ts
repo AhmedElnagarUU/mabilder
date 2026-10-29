@@ -1,0 +1,145 @@
+import assert from "node:assert/strict";
+import { randomUUID } from "node:crypto";
+import { after, before, test } from "node:test";
+import { deleteAllSites, request, signUp } from "./client";
+import { withHomeTitle } from "./content-shape";
+
+type SiteBody = { site: { id: string; content: unknown } };
+
+function briefFor(businessName: string) {
+  return {
+    businessName,
+    industry: "Interior design",
+    description: "A small interior design studio.",
+  };
+}
+
+let ownerCookie = "";
+let otherCookie = "";
+let siteId = "";
+let siteContent: unknown;
+
+async function readCode(response: Response): Promise<string> {
+  return ((await response.json()) as { code: string }).code;
+}
+
+before(async () => {
+  ownerCookie = await signUp("Q1 Owner");
+  otherCookie = await signUp("Q1 Other");
+
+  const response = await request("/api/sites", {
+    method: "POST",
+    cookie: ownerCookie,
+    body: briefFor("Q1 Owner Studio"),
+  });
+  assert.equal(response.status, 201, await response.clone().text());
+
+  const { site } = (await response.json()) as SiteBody;
+  siteId = site.id;
+  siteContent = site.content;
+});
+
+after(async () => {
+  for (const cookie of [ownerCookie, otherCookie].filter(Boolean)) {
+    await deleteAllSites(cookie);
+  }
+});
+
+test("signed-out requests to site APIs get 401 unauthorized (CODE_RULES §7)", async () => {
+  const calls = [
+    { method: "GET", path: "/api/sites" },
+    { method: "POST", path: "/api/sites", body: briefFor("Q1 Anonymous") },
+    { method: "GET", path: `/api/sites/${siteId}` },
+    { method: "PUT", path: `/api/sites/${siteId}/content`, body: siteContent },
+    { method: "DELETE", path: `/api/sites/${siteId}` },
+  ];
+
+  for (const call of calls) {
+    const response = await request(call.path, { method: call.method, body: call.body });
+    assert.equal(response.status, 401, `${call.method} ${call.path}`);
+    assert.equal(await readCode(response), "unauthorized");
+  }
+
+  assert.equal((await request(`/api/sites/${siteId}`, { cookie: ownerCookie })).status, 200);
+});
+
+test("signed-out preview gets 404 (auth plan §1: preview is owner-only)", async () => {
+  assert.equal((await request(`/preview/${siteId}/index.html`)).status, 404);
+  assert.equal(
+    (await request(`/preview/${siteId}/index.html`, { cookie: ownerCookie })).status,
+    200,
+  );
+});
+
+test("user B gets 404 on user A's site, content and preview (CODE_RULES §7 owner check)", async () => {
+  const intruderTitle = `Changed by user B ${randomUUID()}`;
+
+  const read = await request(`/api/sites/${siteId}`, { cookie: otherCookie });
+  assert.equal(read.status, 404);
+  assert.equal(await readCode(read), "site_not_found");
+
+  const save = await request(`/api/sites/${siteId}/content`, {
+    method: "PUT",
+    cookie: otherCookie,
+    body: withHomeTitle(siteContent, intruderTitle),
+  });
+  assert.equal(save.status, 404);
+  assert.equal(await readCode(save), "site_not_found");
+
+  const remove = await request(`/api/sites/${siteId}`, { method: "DELETE", cookie: otherCookie });
+  assert.equal(remove.status, 404);
+
+  assert.equal((await request(`/preview/${siteId}/index.html`, { cookie: otherCookie })).status, 404);
+
+  const list = (await (await request("/api/sites", { cookie: otherCookie })).json()) as {
+    sites: { id: string }[];
+  };
+  assert.ok(!list.sites.some((site) => site.id === siteId), "user B lists user A's site");
+
+  const ownerPreview = await request(`/preview/${siteId}/index.html`, { cookie: ownerCookie });
+  assert.equal(ownerPreview.status, 200);
+  assert.ok(!(await ownerPreview.text()).includes(intruderTitle), "user B changed user A's site");
+});
+
+test("a second site for the same account gets 409 site_exists (one website per account)", async () => {
+  const second = await request("/api/sites", {
+    method: "POST",
+    cookie: ownerCookie,
+    body: briefFor("Q1 Owner Second Studio"),
+  });
+  assert.equal(second.status, 409);
+  assert.equal(await readCode(second), "site_exists");
+
+  const otherFirst = await request("/api/sites", {
+    method: "POST",
+    cookie: otherCookie,
+    body: briefFor("Q1 Other Studio"),
+  });
+  assert.equal(otherFirst.status, 201, "another account can still create its own site");
+});
+
+test("an invalid content body gets 400 invalid_request", async () => {
+  const response = await request(`/api/sites/${siteId}/content`, {
+    method: "PUT",
+    cookie: ownerCookie,
+    body: { pages: "not pages" },
+  });
+
+  assert.equal(response.status, 400);
+  assert.equal(await readCode(response), "invalid_request");
+});
+
+test("a valid content save shows in the preview", async () => {
+  const title = `Saved title ${randomUUID()}`;
+
+  const save = await request(`/api/sites/${siteId}/content`, {
+    method: "PUT",
+    cookie: ownerCookie,
+    body: withHomeTitle(siteContent, title),
+  });
+  assert.equal(save.status, 200, await save.clone().text());
+
+  const preview = await request(`/preview/${siteId}/index.html`, { cookie: ownerCookie });
+  assert.equal(preview.status, 200);
+  assert.ok((await preview.text()).includes(title), "preview does not show the saved title");
+});

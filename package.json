@@ -11,7 +11,9 @@
     "check:blocks": "tsc -p tsconfig.generator.json && node .generator-build/scripts/check-blocks.js",
     "check:messages": "tsc -p tsconfig.generator.json && node .generator-build/scripts/check-messages.js",
     "check:theme": "tsc -p tsconfig.generator.json && node .generator-build/scripts/check-theme.js",
-    "check:composition": "tsc -p tsconfig.generator.json && node .generator-build/scripts/check-composition.js"
+    "check:composition": "tsc -p tsconfig.generator.json && node .generator-build/scripts/check-composition.js",
+    "test": "tsc -p tsconfig.generator.json && node --test \".generator-build/tests/pipeline/*.test.js\"",
+    "test:api": "tsc -p tsconfig.generator.json && node --env-file=.env .generator-build/scripts/run-api-tests.js"
   },
   "dependencies": {
     "@langchain/core": "^1.3.0",
