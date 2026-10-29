@@ -2,16 +2,6 @@ import path from "node:path";
 
 const siteIdPattern = /^[a-zA-Z0-9_-]+$/;
 
-export function getAgenvoAssetsDirectory(): string {
-  return path.join(
-    process.cwd(),
-    "src",
-    "features",
-    "static-site-generator",
-    "assets",
-  );
-}
-
 export function getThemeAssetsDirectory(themeId: string): string {
   return path.join(
     process.cwd(),
@@ -37,8 +27,4 @@ export function getPreviewPath(
   file = "index.html",
 ): string {
   return `/preview/${siteId}/${file}`;
-}
-
-export function getContentFilePath(): string {
-  return path.join(process.cwd(), "content", "agenvo.json");
 }

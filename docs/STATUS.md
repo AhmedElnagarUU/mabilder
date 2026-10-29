@@ -17,13 +17,14 @@ Read `AGENTS.md`, `CODE_RULES.md`, then the docs your task touches:
 | M2 | Agenvo theme (18 blocks, `data-block` roots, RTL, `headExtra` hook) + `render-site.ts` + `npm run check:theme` | (this commit) |
 | M3 | `buildFacts(brief, projects)` + rules-only composition (About/Projects need a fact block), `npm run check:composition` | (this commit) |
 | Q1 | System tests: `npm test` (pipeline, 13) + `npm run test:api` (HTTP on :3100, `_test` DB, AI disabled, 6) | (this commit) |
+| M4 | Live pipeline on blocks (compose → save → renderSite), old templates/editor deleted, edit page shows upgrade notice, +4 API tests | (this commit) |
 | I1 | App UI in English and Arabic (next-intl, `/en` + `/ar`, RTL, switcher, API error codes), `npm run check:messages` | `cd8392e` |
 
 ## Next, in order
 
 Full order in `docs/features-v2-plan.md`:
 
-1. **M4 → M6** block pipeline (`docs/block-system-plan.md`); M8 wizard fields after
+1. **M5 → M6** block pipeline (`docs/block-system-plan.md`); M8 wizard fields after
 2. **U1** S3 uploads → **P1** projects → **E1** new editor (replaces M7) → **S1** SEO → **C1** AI credits → **T1** tracking → **G1** tutorials
 3. **B1**: Polar trial + subscription, any time after A1
 

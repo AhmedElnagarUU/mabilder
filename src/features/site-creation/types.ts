@@ -1,5 +1,6 @@
 import { z } from "zod";
-import type { SiteContent } from "../static-site-generator/content/types";
+import { localeSchema } from "../static-site-generator/locale";
+import type { SiteContent } from "../static-site-generator/site-content";
 
 const requiredText = z.string().trim().min(1).max(3000);
 
@@ -30,6 +31,7 @@ export const businessBriefSchema = z.object({
   notableClients: optionalText,
   projectCount: optionalText,
   extraDetails: optionalText,
+  locale: localeSchema.nullish().transform((value) => value ?? undefined),
 });
 
 export type BusinessBrief = z.infer<typeof businessBriefSchema>;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link, useRouter } from "@/shared/i18n/navigation";
 import { buttonClass } from "@/shared/ui/button";
 import { Field, TextAreaField } from "@/shared/ui/field";
@@ -92,6 +92,7 @@ function isBlank(value: string): boolean {
 
 export function CreateSiteWizard() {
   const t = useTranslations("siteCreation");
+  const locale = useLocale();
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<FormState>(emptyForm);
@@ -162,7 +163,7 @@ export function CreateSiteWizard() {
       const createResponse = await fetch("/api/sites", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, locale }),
       });
       const created = (await createResponse.json()) as CreateResponse;
 

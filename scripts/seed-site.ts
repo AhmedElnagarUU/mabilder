@@ -1,13 +1,11 @@
-import { readFile } from "node:fs/promises";
 import { generateSite } from "../src/features/static-site-generator/generate-site";
-import {
-  getContentFilePath,
-  getPreviewPath,
-} from "../src/features/static-site-generator/site-paths";
+import { getPreviewPath } from "../src/features/static-site-generator/site-paths";
+import { buildSiteContent } from "../src/features/site-creation/build-content";
 import { upsertSeedSite } from "../src/features/site-creation/repository";
+import { businessBriefSchema } from "../src/features/site-creation/types";
 import { disconnectFromDatabase } from "../src/shared/db/mongoose";
 
-const brief = {
+const brief = businessBriefSchema.parse({
   businessName: "Agenvo",
   industry: "Architecture, engineering and interiors",
   description:
@@ -21,11 +19,11 @@ const brief = {
   phone: "+41 44 123 4567",
   website: "https://agenvo.com",
   yearsInBusiness: "20",
-  awards: "",
-  notableClients: "",
-  projectCount: "",
-  extraDetails: "",
-};
+  awards: "2025 - RIBA International Prize\n2023 - Swiss Architecture Award",
+  notableClients: "Meridian Holdings, Kant Immobilien, Fondazione Lago",
+  projectCount: "180",
+  locale: "en",
+});
 
 async function main(): Promise<void> {
   const ownerId = process.argv[2];
@@ -34,10 +32,7 @@ async function main(): Promise<void> {
     throw new Error("Usage: npm run seed:site -- <userId>");
   }
 
-  const content: unknown = JSON.parse(
-    await readFile(getContentFilePath(), "utf8"),
-  );
-  const site = await upsertSeedSite(ownerId, "agenvo", brief, content);
+  const site = await upsertSeedSite(ownerId, "agenvo", brief, buildSiteContent(brief));
 
   if (!site.content) {
     throw new Error("The seeded site has no content.");
@@ -46,7 +41,6 @@ async function main(): Promise<void> {
   await generateSite(site.id, site.content);
 
   console.log(`Seeded ${site.businessName}.`);
-  console.log(`Editor: /edit/${site.id}`);
   console.log(`Preview: ${getPreviewPath(site.id)}`);
 }
 

@@ -1,19 +1,26 @@
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { after, before, test } from "node:test";
-import { deleteAllSites, request, signUp } from "./client";
-import { withHomeTitle } from "./content-shape";
+import { deleteAllSites, generateWithoutAi, request, signUp } from "./client";
+import {
+  homeBlockIds,
+  withHomeBlockHidden,
+  withHomeBlocksSwapped,
+  withHomeTitle,
+} from "./content-shape";
 
-type SiteBody = { site: { id: string; content: unknown } };
+type SiteBody = { site: { id: string; status: string; content: unknown } };
 
-function briefFor(businessName: string) {
+function briefFor(businessName: string, locale = "en") {
   return {
     businessName,
     industry: "Interior design",
     description: "A small interior design studio.",
+    locale,
   };
 }
 
+const cookies: string[] = [];
 let ownerCookie = "";
 let otherCookie = "";
 let siteId = "";
@@ -23,26 +30,68 @@ async function readCode(response: Response): Promise<string> {
   return ((await response.json()) as { code: string }).code;
 }
 
+async function signUpUser(name: string): Promise<string> {
+  const cookie = await signUp(name);
+  cookies.push(cookie);
+  return cookie;
+}
+
+async function createAndGenerate(cookie: string, brief: object): Promise<SiteBody["site"]> {
+  const created = await request("/api/sites", { method: "POST", cookie, body: brief });
+  assert.equal(created.status, 201, await created.clone().text());
+
+  const { site } = (await created.json()) as SiteBody;
+  const generated = await generateWithoutAi(site.id, cookie);
+  assert.equal(generated.status, 200, await generated.clone().text());
+
+  return ((await generated.json()) as SiteBody).site;
+}
+
+async function readPreview(id: string, cookie: string): Promise<string> {
+  const preview = await request(`/preview/${id}/index.html`, { cookie });
+  assert.equal(preview.status, 200);
+  return preview.text();
+}
+
+function blockPosition(html: string, blockId: string): number {
+  return html.indexOf(`<section data-block="${blockId}"`);
+}
+
 before(async () => {
-  ownerCookie = await signUp("Q1 Owner");
-  otherCookie = await signUp("Q1 Other");
+  ownerCookie = await signUpUser("Q1 Owner");
+  otherCookie = await signUpUser("Q1 Other");
 
-  const response = await request("/api/sites", {
-    method: "POST",
-    cookie: ownerCookie,
-    body: briefFor("Q1 Owner Studio"),
-  });
-  assert.equal(response.status, 201, await response.clone().text());
-
-  const { site } = (await response.json()) as SiteBody;
+  const site = await createAndGenerate(ownerCookie, briefFor("Q1 Owner Studio"));
   siteId = site.id;
   siteContent = site.content;
 });
 
 after(async () => {
-  for (const cookie of [ownerCookie, otherCookie].filter(Boolean)) {
+  for (const cookie of cookies) {
     await deleteAllSites(cookie);
   }
+});
+
+test("generate builds a block site from the brief without AI (block plan M4; AI is disabled on the test server)", async () => {
+  const site = (
+    (await (await request(`/api/sites/${siteId}`, { cookie: ownerCookie })).json()) as SiteBody
+  ).site;
+  assert.equal(site.status, "ready");
+
+  const html = await readPreview(siteId, ownerCookie);
+  const ids = homeBlockIds(siteContent);
+  assert.ok(ids.length >= 2, "the home page has fewer than 2 blocks");
+
+  const positions = ids.map((id) => blockPosition(html, id));
+  assert.ok(positions.every((position) => position >= 0), "a home block is missing from the preview");
+  assert.deepEqual(positions, [...positions].sort((a, b) => a - b), "home blocks are out of order");
+});
+
+test("a site created in Arabic renders right-to-left (i18n plan: site locale defaults to the app locale)", async () => {
+  const cookie = await signUpUser("Q1 Arabic");
+  const site = await createAndGenerate(cookie, briefFor("استوديو نور", "ar"));
+
+  assert.ok((await readPreview(site.id, cookie)).includes('<html lang="ar" dir="rtl">'));
 });
 
 test("signed-out requests to site APIs get 401 unauthorized (CODE_RULES §7)", async () => {
@@ -122,7 +171,7 @@ test("an invalid content body gets 400 invalid_request", async () => {
   const response = await request(`/api/sites/${siteId}/content`, {
     method: "PUT",
     cookie: ownerCookie,
-    body: { pages: "not pages" },
+    body: { ...(siteContent as object), locales: ["en", "ar"] },
   });
 
   assert.equal(response.status, 400);
@@ -142,4 +191,34 @@ test("a valid content save shows in the preview", async () => {
   const preview = await request(`/preview/${siteId}/index.html`, { cookie: ownerCookie });
   assert.equal(preview.status, 200);
   assert.ok((await preview.text()).includes(title), "preview does not show the saved title");
+});
+
+test("saving a reordered home page changes the block order in the preview (block plan: reorder)", async () => {
+  const [, first, second] = homeBlockIds(siteContent);
+
+  const save = await request(`/api/sites/${siteId}/content`, {
+    method: "PUT",
+    cookie: ownerCookie,
+    body: withHomeBlocksSwapped(siteContent, 1, 2),
+  });
+  assert.equal(save.status, 200, await save.clone().text());
+
+  const html = await readPreview(siteId, ownerCookie);
+  assert.ok(blockPosition(html, first) >= 0 && blockPosition(html, second) >= 0);
+  assert.ok(blockPosition(html, second) < blockPosition(html, first), "blocks were not reordered");
+});
+
+test("saving a hidden block removes it from the preview (CODE_RULES §8: hidden blocks are not rendered)", async () => {
+  const hiddenId = homeBlockIds(siteContent)[1];
+
+  const save = await request(`/api/sites/${siteId}/content`, {
+    method: "PUT",
+    cookie: ownerCookie,
+    body: withHomeBlockHidden(siteContent, hiddenId),
+  });
+  assert.equal(save.status, 200, await save.clone().text());
+
+  const html = await readPreview(siteId, ownerCookie);
+  assert.equal(blockPosition(html, hiddenId), -1, "the hidden block is still in the preview");
+  assert.ok(blockPosition(html, homeBlockIds(siteContent)[0]) >= 0, "visible blocks disappeared");
 });

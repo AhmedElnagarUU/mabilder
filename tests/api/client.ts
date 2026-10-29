@@ -17,11 +17,7 @@ function getBaseUrl(): string {
   return baseUrl;
 }
 
-export function request(path: string, options: RequestOptions = {}): Promise<Response> {
-  if (path.endsWith("/generate")) {
-    throw new Error("API tests must never call the AI generate route.");
-  }
-
+function send(path: string, options: RequestOptions): Promise<Response> {
   const baseUrl = getBaseUrl();
   const headers: Record<string, string> = { origin: baseUrl };
 
@@ -39,6 +35,20 @@ export function request(path: string, options: RequestOptions = {}): Promise<Res
     body: options.body === undefined ? undefined : JSON.stringify(options.body),
     redirect: "manual",
   });
+}
+
+export function request(path: string, options: RequestOptions = {}): Promise<Response> {
+  if (path.endsWith("/generate")) {
+    throw new Error("API tests must never call the generate route through request().");
+  }
+
+  return send(path, options);
+}
+
+// Generate is rules-only until M5 (no AI call). When generate calls the AI, delete this
+// helper and the tests that use it: tests never call the AI.
+export function generateWithoutAi(siteId: string, cookie: string): Promise<Response> {
+  return send(`/api/sites/${siteId}/generate`, { method: "POST", cookie });
 }
 
 export async function signUp(name: string): Promise<string> {

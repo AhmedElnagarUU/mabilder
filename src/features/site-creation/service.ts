@@ -3,9 +3,7 @@ import {
   deleteGeneratedSite,
   generateSite,
 } from "../static-site-generator/generate-site";
-import type { ContentIssue } from "../static-site-generator/content/validate-content";
-import { buildBaseContent } from "./base-content";
-import { generateSiteContent } from "./generation";
+import { buildSiteContent } from "./build-content";
 import {
   createSite as createSiteRecord,
   deleteSite as deleteSiteRecord,
@@ -19,6 +17,11 @@ import {
   type SiteRecord,
   type SiteSummary,
 } from "./types";
+
+export type ContentIssue = {
+  path: string;
+  message: string;
+};
 
 export type CreateSiteResult =
   | { ok: true; site: SiteRecord }
@@ -55,14 +58,12 @@ export async function createSite(
     };
   }
 
-  const content = buildBaseContent(parsed.data);
-  const site = await createSiteRecord(ownerId, parsed.data, content);
+  const site = await createSiteRecord(ownerId, parsed.data);
 
   if (!site) {
     return { ok: false, code: "site_exists" };
   }
 
-  await generateSite(site.id, content);
   return { ok: true, site };
 }
 
@@ -136,20 +137,12 @@ export async function generateContent(
     return null;
   }
 
-  if (!site.content) {
-    throw new Error("The site has no base content.");
-  }
-
   await setSiteStatus(ownerId, siteId, "generating");
 
   try {
-    console.log(`[generation] content start ${siteId}`);
-    const content = await generateSiteContent(site.brief, site.content);
-
-    console.log(`[generation] content ready ${siteId}`);
+    const content = buildSiteContent(site.brief);
     await generateSite(siteId, content);
 
-    console.log(`[generation] files written ${siteId}`);
     const saved = await saveSiteContentRecord(ownerId, siteId, content);
 
     if (!saved) {
@@ -157,7 +150,6 @@ export async function generateContent(
       return null;
     }
 
-    console.log(`[generation] saved ${siteId} ${saved.status}`);
     return saved;
   } catch (error) {
     await setSiteStatus(ownerId, siteId, "error", errorMessage(error));

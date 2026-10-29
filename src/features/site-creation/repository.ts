@@ -3,7 +3,7 @@ import { connectToDatabase } from "../../shared/db/mongoose";
 import {
   siteContentSchema,
   type SiteContent,
-} from "../static-site-generator/content/types";
+} from "../static-site-generator/site-content";
 import { SiteModel } from "./model";
 import { createSlug } from "./slug";
 import {
@@ -25,6 +25,11 @@ type LeanSite = {
 };
 
 const DUPLICATE_KEY_ERROR = 11000;
+
+// MongoDB updates store undefined optional fields as null, which the schema rejects.
+function toStorableContent(contentInput: unknown): SiteContent {
+  return JSON.parse(JSON.stringify(siteContentSchema.parse(contentInput))) as SiteContent;
+}
 
 function toSummary(site: LeanSite): SiteSummary {
   const brief = businessBriefSchema.parse(site.brief);
@@ -71,10 +76,8 @@ function isDuplicateOwnerError(error: unknown): boolean {
 export async function createSite(
   ownerId: string,
   briefInput: unknown,
-  contentInput: SiteContent,
 ): Promise<SiteRecord | null> {
   const brief = businessBriefSchema.parse(briefInput);
-  const content = siteContentSchema.parse(contentInput);
 
   await connectToDatabase();
 
@@ -83,7 +86,7 @@ export async function createSite(
       ownerId,
       slug: createSlug(brief.businessName),
       brief,
-      content,
+      content: null,
       status: "draft",
       error: null,
     });
@@ -134,7 +137,7 @@ export async function saveSiteContent(
     return null;
   }
 
-  const content = siteContentSchema.parse(contentInput);
+  const content = toStorableContent(contentInput);
   await connectToDatabase();
 
   const site = (await SiteModel.findOneAndUpdate(
@@ -181,7 +184,7 @@ export async function upsertSeedSite(
   contentInput: unknown,
 ): Promise<SiteRecord> {
   const brief = businessBriefSchema.parse(briefInput);
-  const content = siteContentSchema.parse(contentInput);
+  const content = toStorableContent(contentInput);
 
   await connectToDatabase();
 

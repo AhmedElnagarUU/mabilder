@@ -505,5 +505,17 @@
       "confirm": "Confirm",
       "cancel": "Cancel"
     }
+  },
+  "editor": {
+    "meta": {
+      "title": "Website editor",
+      "description": "Edit your website."
+    },
+    "upgrade": {
+      "title": "The editor is being upgraded",
+      "body": "We are rebuilding the editor so you can rearrange and edit each part of your website. Your website is saved and you can still preview it.",
+      "openPreview": "Open preview",
+      "backToDashboard": "Back to dashboard"
+    }
   }
 }

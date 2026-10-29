@@ -1,19 +1,30 @@
 import { copyFile, mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
-import type { SiteContent } from "./content/types";
-import { getAgenvoAssetsDirectory, getSiteDirectory } from "./site-paths";
-import { pageTemplates } from "./templates/registry";
+import { renderSite, type RenderedFile } from "./render-site";
+import type { SiteContent } from "./site-content";
+import { getSiteDirectory, getThemeAssetsDirectory } from "./site-paths";
+import { getTheme } from "./themes/registry";
+import type { Theme } from "./themes/types";
 
-async function copyAssets(outputDirectory: string): Promise<void> {
+async function copyAssets(theme: Theme, outputDirectory: string): Promise<void> {
   const outputAssetsDirectory = path.join(outputDirectory, "assets");
   await mkdir(outputAssetsDirectory, { recursive: true });
 
-  for (const assetName of ["site.css", "site.js"]) {
+  for (const assetName of theme.assets) {
     await copyFile(
-      path.join(getAgenvoAssetsDirectory(), assetName),
+      path.join(getThemeAssetsDirectory(theme.id), assetName),
       path.join(outputAssetsDirectory, assetName),
     );
   }
+}
+
+async function writeRenderedFile(
+  outputDirectory: string,
+  file: RenderedFile,
+): Promise<void> {
+  const filePath = path.join(outputDirectory, file.fileName);
+  await mkdir(path.dirname(filePath), { recursive: true });
+  await writeFile(filePath, file.html, "utf8");
 }
 
 export async function generateSite(
@@ -21,17 +32,15 @@ export async function generateSite(
   content: SiteContent,
 ): Promise<void> {
   const outputDirectory = getSiteDirectory(siteId);
+  const theme = getTheme(content.theme);
+  const files = renderSite(content);
 
   await rm(outputDirectory, { recursive: true, force: true });
   await mkdir(outputDirectory, { recursive: true });
-  await copyAssets(outputDirectory);
+  await copyAssets(theme, outputDirectory);
 
-  for (const template of pageTemplates) {
-    await writeFile(
-      path.join(outputDirectory, template.fileName),
-      template.render(content),
-      "utf8",
-    );
+  for (const file of files) {
+    await writeRenderedFile(outputDirectory, file);
   }
 }
 

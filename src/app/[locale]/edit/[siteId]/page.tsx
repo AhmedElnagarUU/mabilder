@@ -1,12 +1,24 @@
 import type { Metadata } from "next";
-import { setRequestLocale } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { requirePageUser } from "@/features/auth/session";
-import { ContentEditor } from "@/features/static-site-generator/components/content-editor";
+import { DashboardShell } from "@/features/site-creation/components/dashboard-shell";
+import { EditorUpgradeNotice } from "@/features/site-creation/components/editor-upgrade-notice";
+import { getSite } from "@/features/site-creation/service";
 
-export const metadata: Metadata = {
-  title: "Website editor",
-  description: "Edit the generated website visually.",
-};
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]/edit/[siteId]">): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "editor.meta" });
+
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
 
 export default async function EditSitePage({
   params,
@@ -14,7 +26,18 @@ export default async function EditSitePage({
   const { locale, siteId } = await params;
   setRequestLocale(locale);
 
-  await requirePageUser(locale, `/edit/${siteId}`);
+  const user = await requirePageUser(locale, `/edit/${siteId}`);
+  const site = await getSite(user.id, siteId);
 
-  return <ContentEditor siteId={siteId} />;
+  if (!site) {
+    notFound();
+  }
+
+  const t = await getTranslations("editor.meta");
+
+  return (
+    <DashboardShell user={user} site={site} crumbLabel={t("title")}>
+      <EditorUpgradeNotice siteId={site.id} />
+    </DashboardShell>
+  );
 }
