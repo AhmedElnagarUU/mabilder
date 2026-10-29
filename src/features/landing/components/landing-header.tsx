@@ -1,8 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { LocaleSwitcher } from "@/shared/i18n/locale-switcher";
-import { Link } from "@/shared/i18n/navigation";
-import { Icon } from "@/shared/ui/icon";
 import { Logo } from "@/shared/ui/logo";
+import { LandingAccountActions } from "./landing-account-actions";
 import { LandingMobileMenu } from "./landing-mobile-menu";
 import { landingNavLinks } from "./landing-nav-links";
 
@@ -35,13 +34,7 @@ export async function LandingHeader() {
 
         <div className="flex items-center justify-end gap-3.5">
           <LocaleSwitcher className="hidden h-[34px] items-center rounded-full border border-white/10 px-3.5 text-[11.5px] text-[#b9b9c0] transition-colors hover:border-white/20 hover:text-white sm:inline-flex" />
-          <Link
-            href="/dashboard"
-            className="hidden h-[38px] items-center gap-1.5 rounded-full border border-white/[0.13] bg-white/[0.04] px-[17px] text-[11.5px] text-[#e8e8e5] transition-colors hover:border-white/[0.22] hover:bg-white/[0.09] sm:inline-flex"
-          >
-            {t("startTrial")}
-            <Icon name="arrow-up" className="h-3 w-3 rtl:rotate-180" />
-          </Link>
+          <LandingAccountActions variant="header" />
           <LandingMobileMenu />
         </div>
       </nav>

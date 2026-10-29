@@ -5,7 +5,13 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "@/shared/i18n/navigation";
 import { authClient } from "../auth-client";
 
-export function SignOutButton({ className = "" }: { className?: string }) {
+export function SignOutButton({
+  className = "",
+  redirectTo = "/sign-in",
+}: {
+  className?: string;
+  redirectTo?: string;
+}) {
   const t = useTranslations("auth.signOut");
   const router = useRouter();
   const [busy, setBusy] = useState(false);
@@ -13,7 +19,7 @@ export function SignOutButton({ className = "" }: { className?: string }) {
   async function handleSignOut(): Promise<void> {
     setBusy(true);
     await authClient.signOut();
-    router.replace("/sign-in");
+    router.replace(redirectTo);
     router.refresh();
   }
 

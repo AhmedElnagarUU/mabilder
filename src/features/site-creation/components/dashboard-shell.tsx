@@ -132,9 +132,6 @@ export async function DashboardShell({
             ) : null}
           </nav>
 
-          <div className="mt-auto hidden min-[980px]:block">
-            <SignOutButton className={buttonClass("ghost", "sm", "w-full justify-start px-3")} />
-          </div>
         </aside>
 
         <div className="min-w-0 flex-1 px-3.5 pb-8 sm:px-6 lg:px-8">
@@ -186,10 +183,10 @@ export async function DashboardShell({
             </div>
             <div className="flex items-center gap-2">
               <NotificationBell />
-              <SignOutButton className={buttonClass("ghost", "sm", "px-3.5 min-[980px]:hidden")} />
               <LocaleSwitcher
                 className={buttonClass("secondary", "sm", "px-3.5")}
               />
+              <SignOutButton className={buttonClass("secondary", "sm", "px-3.5")} />
             </div>
           </header>
 

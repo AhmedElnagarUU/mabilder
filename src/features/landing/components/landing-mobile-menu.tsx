@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { LocaleSwitcher } from "@/shared/i18n/locale-switcher";
-import { Link } from "@/shared/i18n/navigation";
 import { Icon } from "@/shared/ui/icon";
+import { LandingAccountActions } from "./landing-account-actions";
 import { landingNavLinks } from "./landing-nav-links";
 
 export function LandingMobileMenu() {
@@ -41,17 +41,10 @@ export function LandingMobileMenu() {
               </a>
             ))}
             <LocaleSwitcher className="flex items-center justify-between rounded-[11px] px-3.5 py-3 text-start text-[13px] text-[#c9c9c6] transition-colors hover:bg-white/[0.055] hover:text-white" />
-            <Link
-              href="/dashboard"
-              onClick={() => setOpen(false)}
-              className="mt-1 flex h-11 items-center justify-between rounded-[11px] bg-[#efefeb] px-3.5 text-[13px] font-medium text-[#08080a]"
-            >
-              {t("startTrial")}
-              <Icon
-                name="arrow-up"
-                className="h-3.5 w-3.5 rtl:rotate-180"
-              />
-            </Link>
+            <LandingAccountActions
+              variant="menu"
+              onNavigate={() => setOpen(false)}
+            />
           </nav>
         </div>
       ) : null}
