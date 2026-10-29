@@ -306,22 +306,27 @@
       "edit": "Edit website",
       "preview": "Preview site"
     },
-    "kpis": {
-      "status": {
-        "label": "Website status",
-        "detail": "Current state of your site"
+    "health": {
+      "unavailable": "Finish your website first",
+      "pages": {
+        "label": "Pages",
+        "value": "{pages, plural, one {# page} other {# pages}} · {sections, plural, one {# section} other {# sections}}",
+        "detail": "Edit your website"
       },
-      "industry": {
-        "label": "Industry",
-        "detail": "What the firm does"
+      "projects": {
+        "label": "Projects",
+        "value": "{count, plural, =0 {Add your first project} one {# project} other {# projects}}",
+        "detail": "Show your best work"
       },
-      "updated": {
-        "label": "Last updated",
-        "detail": "Most recent save"
+      "google": {
+        "label": "Google",
+        "value": "{ready} of {total} pages ready",
+        "detail": "Descriptions of 50+ characters"
       },
-      "address": {
-        "label": "Preview address",
-        "detail": "Share this link"
+      "tracking": {
+        "label": "Tracking",
+        "value": "{connected, plural, =0 {Not connected} other {# of {total} connected}}",
+        "detail": "Measure your visitors and ads"
       }
     },
     "panel": {

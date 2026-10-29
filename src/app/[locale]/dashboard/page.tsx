@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { RecentActivity } from "@/features/activity/components/recent-activity";
 import { listRecentActivity } from "@/features/activity/service";
@@ -7,7 +6,9 @@ import type { ActivityItem } from "@/features/activity/types";
 import { requirePageUser } from "@/features/auth/session";
 import { DashboardShell } from "@/features/site-creation/components/dashboard-shell";
 import { DeleteSiteButton } from "@/features/site-creation/components/delete-site-button";
-import { listSites } from "@/features/site-creation/service";
+import { getProjectsOverview } from "@/features/projects/service";
+import { getSite, listSites } from "@/features/site-creation/service";
+import { computeSiteHealth, type SiteHealth } from "@/features/site-creation/site-health";
 import type { SiteSummary } from "@/features/site-creation/types";
 import { Link } from "@/shared/i18n/navigation";
 import { buttonClass } from "@/shared/ui/button";
@@ -51,13 +52,6 @@ function formatDate(locale: string, value: string): string {
   });
 }
 
-const statusIcons: Record<SiteSummary["status"], IconName> = {
-  draft: "clock",
-  generating: "clock",
-  ready: "check",
-  error: "alert",
-};
-
 function initialOf(name: string): string {
   return (name.trim()[0] ?? "W").toUpperCase();
 }
@@ -83,42 +77,49 @@ function StatusChip({
   );
 }
 
-function Kpi({
+function HealthCard({
+  href,
   label,
   value,
   detail,
-  accent = false,
   icon,
 }: {
+  href: string;
   label: string;
-  value: ReactNode;
+  value: string;
   detail: string;
-  accent?: boolean;
   icon: IconName;
 }) {
   return (
-    <article
-      className={`min-w-0 overflow-hidden rounded-panel border p-4 ${
-        accent
-          ? "border-accent/15 bg-[linear-gradient(155deg,rgba(94,234,212,0.09),rgba(255,255,255,0.015)_55%)]"
-          : "border-line-soft bg-[linear-gradient(160deg,rgba(255,255,255,0.04),rgba(255,255,255,0.012))]"
-      }`}
+    <Link
+      href={href}
+      className="block min-w-0 overflow-hidden rounded-panel border border-line-soft bg-[linear-gradient(160deg,rgba(255,255,255,0.04),rgba(255,255,255,0.012))] p-4 transition-colors hover:border-white/[0.16]"
     >
       <div className="flex items-center justify-between gap-2.5">
-        <span className="mono-label text-[11px] tracking-[0.12em] text-dim">
-          {label}
-        </span>
-        <Icon
-          name={icon}
-          className={`h-[13px] w-[13px] ${accent ? "text-[#8ed5c9]" : "text-dim"}`}
-        />
+        <span className="mono-label text-xs tracking-[0.12em] text-dim">{label}</span>
+        <Icon name={icon} className="h-[14px] w-[14px] text-dim" />
       </div>
-      <div className="mt-3 truncate font-display text-[22px] leading-none font-normal tracking-[-0.04em] text-[#f0f0ed]">
+      <div className="mt-3 font-display text-[19px] leading-snug font-normal tracking-[-0.03em] text-[#f0f0ed]">
         {value}
       </div>
-      <p className="mt-2.5 truncate text-[11px] text-faint">{detail}</p>
-    </article>
+      <p className="mt-2.5 text-xs text-faint">{detail}</p>
+    </Link>
   );
+}
+
+async function loadHealth(userId: string, siteId: string): Promise<SiteHealth | null> {
+  try {
+    const [site, overview] = await Promise.all([getSite(userId, siteId), getProjectsOverview(userId)]);
+
+    if (!site?.content) {
+      return null;
+    }
+
+    return computeSiteHealth(site.content, site.tracking, overview?.projects.length ?? 0);
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 
 function MiniSiteSheet({ site }: { site: SiteSummary }) {
@@ -184,11 +185,12 @@ export default async function DashboardPage({
   }
 
   const activity = await loadActivity(user.id);
+  const health = site ? await loadHealth(user.id, site.id) : null;
   const now = new Date();
 
   if (loadFailed) {
     return (
-      <DashboardShell user={user} site={null} crumbLabel={t("breadcrumb")}>
+      <DashboardShell user={user} site={null} crumbLabel={t("breadcrumb")} active="overview">
         <main className="pt-10">
           <div className="rounded-panel border border-danger/20 bg-danger-soft px-4 py-3 text-smtext-danger">
             {t("errors.load_failed")}
@@ -202,7 +204,7 @@ export default async function DashboardPage({
   const editHref = site ? `/edit/${site.id}` : "";
 
   return (
-    <DashboardShell user={user} site={site} crumbLabel={t("breadcrumb")}>
+    <DashboardShell user={user} site={site} crumbLabel={t("breadcrumb")} active="overview">
       <main>
         <div className="flex flex-col gap-4 pt-7 pb-6 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
           <div>
@@ -254,32 +256,51 @@ export default async function DashboardPage({
         ) : (
           <>
             <section aria-label={t("aria.metrics")} className="grid grid-cols-1 min-[480px]:grid-cols-2 gap-2.5 lg:grid-cols-4">
-              <Kpi
-                label={t("kpis.status.label")}
-                value={t(`status.${site.status}`)}
-                detail={t("kpis.status.detail")}
-                accent
-                icon={statusIcons[site.status]}
-              />
-              <Kpi
-                label={t("kpis.industry.label")}
-                value={site.industry}
-                detail={t("kpis.industry.detail")}
-                icon="compass"
-              />
-              <Kpi
-                label={t("kpis.updated.label")}
-                value={formatDate(locale, site.updatedAt)}
-                detail={t("kpis.updated.detail")}
-                icon="clock"
-              />
-              <Kpi
-                label={t("kpis.address.label")}
+              <HealthCard
+                href={editHref}
+                label={t("health.pages.label")}
                 value={
-                  <bdi dir="ltr">/{site.slug}</bdi>
+                  health
+                    ? t("health.pages.value", { pages: health.pages, sections: health.sections })
+                    : "—"
                 }
-                detail={t("kpis.address.detail")}
+                detail={health ? t("health.pages.detail") : t("health.unavailable")}
+                icon="pages"
+              />
+              <HealthCard
+                href="/dashboard/projects"
+                label={t("health.projects.label")}
+                value={health ? t("health.projects.value", { count: health.projects }) : "—"}
+                detail={health ? t("health.projects.detail") : t("health.unavailable")}
+                icon="layers"
+              />
+              <HealthCard
+                href="/dashboard/seo"
+                label={t("health.google.label")}
+                value={
+                  health
+                    ? t("health.google.value", {
+                        ready: health.pagesWithDescription,
+                        total: health.pages,
+                      })
+                    : "—"
+                }
+                detail={health ? t("health.google.detail") : t("health.unavailable")}
                 icon="globe"
+              />
+              <HealthCard
+                href="/dashboard/tracking"
+                label={t("health.tracking.label")}
+                value={
+                  health
+                    ? t("health.tracking.value", {
+                        connected: health.trackingConnected,
+                        total: health.trackingTotal,
+                      })
+                    : "—"
+                }
+                detail={health ? t("health.tracking.detail") : t("health.unavailable")}
+                icon="chart"
               />
             </section>
 

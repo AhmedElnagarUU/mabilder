@@ -306,22 +306,27 @@
       "edit": "تحرير الموقع",
       "preview": "معاينة الموقع"
     },
-    "kpis": {
-      "status": {
-        "label": "حالة الموقع",
-        "detail": "الحالة الحالية لموقعك"
+    "health": {
+      "unavailable": "أكمل موقعك أولاً",
+      "pages": {
+        "label": "الصفحات",
+        "value": "{pages, plural, =0 {لا صفحات} one {صفحة واحدة} two {صفحتان} few {# صفحات} many {# صفحة} other {# صفحة}} · {sections, plural, =0 {لا أقسام} one {قسم واحد} two {قسمان} few {# أقسام} many {# قسمًا} other {# قسم}}",
+        "detail": "عدّل موقعك"
       },
-      "industry": {
-        "label": "المجال",
-        "detail": "ما يفعله النشاط"
+      "projects": {
+        "label": "المشاريع",
+        "value": "{count, plural, =0 {أضف أول مشروع لك} one {مشروع واحد} two {مشروعان} few {# مشاريع} many {# مشروعًا} other {# مشروع}}",
+        "detail": "اعرض أفضل أعمالك"
       },
-      "updated": {
-        "label": "آخر تحديث",
-        "detail": "أحدث عملية حفظ"
+      "google": {
+        "label": "جوجل",
+        "value": "{ready} من {total} صفحات جاهزة",
+        "detail": "أوصاف لا تقل عن 50 حرفًا"
       },
-      "address": {
-        "label": "عنوان المعاينة",
-        "detail": "شارك هذا الرابط"
+      "tracking": {
+        "label": "التتبع",
+        "value": "{connected, plural, =0 {غير مرتبط} other {# من {total} مرتبطة}}",
+        "detail": "قِس زيارات موقعك وإعلاناتك"
       }
     },
     "panel": {

@@ -49,22 +49,26 @@ function SidebarLink({
   }
 
   return (
-    <Link href={href} className={className}>
+    <Link href={href} className={className} aria-current={active ? "page" : undefined}>
       {iconElement}
       <span className="hidden truncate text-sm min-[980px]:inline">{label}</span>
     </Link>
   );
 }
 
+export type DashboardNavId = "overview" | "seo" | "projects" | "tracking";
+
 export async function DashboardShell({
   user,
   site,
   crumbLabel,
+  active,
   children,
 }: {
   user: { id: string; name: string; email: string };
   site?: Pick<SiteSummary, "id"> | null;
   crumbLabel: string;
+  active?: DashboardNavId;
   children: ReactNode;
 }) {
   const t = await getTranslations("dashboard");
@@ -115,12 +119,13 @@ export async function DashboardShell({
               href="/dashboard"
               label={t("sidebar.overview")}
               icon="home"
-              active
+              active={active === "overview"}
             />
             <SidebarLink
               href="/dashboard/seo"
               label={seo("navLabel")}
               icon="globe"
+              active={active === "seo"}
             />
             {site ? (
               <>
@@ -133,6 +138,7 @@ export async function DashboardShell({
                   href="/dashboard/projects"
                   label={t("sidebar.projects")}
                   icon="layers"
+                  active={active === "projects"}
                 />
                 <SidebarLink
                   href={`/preview/${site.id}/index.html`}
@@ -144,6 +150,7 @@ export async function DashboardShell({
                   href="/dashboard/tracking"
                   label={t("sidebar.tracking")}
                   icon="chart"
+                  active={active === "tracking"}
                 />
               </>
             ) : null}
