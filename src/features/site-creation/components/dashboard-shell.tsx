@@ -133,6 +133,11 @@ export async function DashboardShell({
                   icon="monitor"
                   external
                 />
+                <SidebarLink
+                  href="/dashboard/tracking"
+                  label={t("sidebar.tracking")}
+                  icon="chart"
+                />
               </>
             ) : null}
           </nav>

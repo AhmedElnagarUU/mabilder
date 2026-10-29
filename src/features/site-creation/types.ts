@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { localeSchema } from "../static-site-generator/locale";
 import type { SiteContent } from "../static-site-generator/site-content";
+import type { TrackingSettings } from "../tracking/types";
 
 const requiredText = z.string().trim().min(1).max(3000);
 
@@ -57,6 +58,7 @@ export type SiteSummary = {
 export type SiteRecord = SiteSummary & {
   brief: BusinessBrief;
   content: SiteContent | null;
+  tracking: TrackingSettings;
   error: string | null;
   createdAt: string;
 };
