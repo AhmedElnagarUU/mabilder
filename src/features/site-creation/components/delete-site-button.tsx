@@ -60,7 +60,7 @@ export function DeleteSiteButton({ siteId }: { siteId: string }) {
         onClick={() => setConfirming(true)}
         aria-label={t("aria")}
         title={t("aria")}
-        className={buttonClass("danger", "sm", "h-9 px-3 text-[11px]")}
+        className={buttonClass("danger", "sm", "h-9 px-3 text-sm")}
       >
         <Icon name="trash" className="h-3.5 w-3.5" />
         {t("label")}
@@ -70,14 +70,14 @@ export function DeleteSiteButton({ siteId }: { siteId: string }) {
 
   return (
     <span className="flex flex-wrap items-center gap-2">
-      <span className="font-mono text-[7px] tracking-[0.06em] text-muted uppercase">
+      <span className="font-mono text-[11px] tracking-[0.06em] text-muted uppercase">
         {t("question")}
       </span>
       <button
         type="button"
         onClick={() => void handleDelete()}
         disabled={busy}
-        className={buttonClass("danger", "sm", "h-9 px-3 text-[11px]")}
+        className={buttonClass("danger", "sm", "h-9 px-3 text-sm")}
       >
         {busy ? t("deleting") : t("confirm")}
       </button>
@@ -85,12 +85,12 @@ export function DeleteSiteButton({ siteId }: { siteId: string }) {
         type="button"
         onClick={() => setConfirming(false)}
         disabled={busy}
-        className={buttonClass("ghost", "sm", "h-9 px-3 text-[11px]")}
+        className={buttonClass("ghost", "sm", "h-9 px-3 text-sm")}
       >
         {t("cancel")}
       </button>
       {error ? (
-        <span className="text-[10px] text-danger">{error}</span>
+        <span className="text-[13px] text-danger">{error}</span>
       ) : null}
     </span>
   );

@@ -37,7 +37,7 @@ export function SectionList({
     <aside className="w-[260px] shrink-0 space-y-5 overflow-y-auto border-e border-line bg-surface px-3 py-3">
       <section>
         <div className="mb-2 flex items-center justify-between gap-2">
-          <p className="mono-label truncate text-[10px] tracking-[0.12em] text-faint">
+          <p className="mono-label truncate text-[13px] tracking-[0.12em] text-faint">
             {t("panel.sections")}
           </p>
           <PanelToggle direction="start" onClick={onCollapse} />
@@ -60,7 +60,7 @@ export function SectionList({
                   type="button"
                   onClick={() => onSelect(block.id)}
                   aria-current={selected ? "true" : undefined}
-                  className={`min-w-0 flex-1 truncate py-2 text-start text-[13px] ${
+                  className={`min-w-0 flex-1 truncate py-2 text-start text-[15px] ${
                     selected ? "text-accent" : "text-muted group-hover:text-ink"
                   }`}
                 >
@@ -119,7 +119,7 @@ export function SectionList({
 
       {removed.length > 0 ? (
         <section>
-          <p className="mono-label mb-2 text-[10px] tracking-[0.12em] text-faint">
+          <p className="mono-label mb-2 text-[13px] tracking-[0.12em] text-faint">
             {t("section.removed")}
           </p>
           <ul className="space-y-1.5">
@@ -128,13 +128,13 @@ export function SectionList({
                 key={block.id}
                 className="flex items-center gap-2 rounded-lg border border-line-soft bg-white/[0.015] px-2 py-1.5"
               >
-                <span className="min-w-0 flex-1 truncate text-[13px] text-faint">
+                <span className="min-w-0 flex-1 truncate text-[15px] text-faint">
                   {t(`blocks.${block.type}`)}
                 </span>
                 <button
                   type="button"
                   onClick={() => onRestore(block.id)}
-                  className="h-7 shrink-0 rounded-md px-2 text-xs text-accent transition-colors hover:bg-accent/10"
+                  className="h-7 shrink-0 rounded-md px-2 text-sm text-accent transition-colors hover:bg-accent/10"
                 >
                   {t("section.restore")}
                 </button>

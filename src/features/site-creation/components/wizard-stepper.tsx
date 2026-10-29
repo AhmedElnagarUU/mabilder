@@ -45,7 +45,7 @@ export function WizardStepper({
                 >
                   {index + 1}
                 </span>
-                <span className="truncate text-[12.5px] font-medium">
+                <span className="truncate text-[15px] font-medium">
                   {t(`steps.${step.key}.title`)}
                 </span>
               </button>

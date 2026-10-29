@@ -564,7 +564,7 @@ export function EditorCanvas({
             }}
             className="glass-strong z-30 flex items-center gap-0.5 rounded-full px-1 py-1 text-ink shadow-soft"
           >
-            <span className="max-w-[160px] truncate px-2 text-xs text-muted">
+            <span className="max-w-[160px] truncate px-2 text-sm text-muted">
               {t(`blocks.${selectedBlock.type}`)}
             </span>
 

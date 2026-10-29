@@ -66,7 +66,7 @@ function StatusChip({
 }) {
   return (
     <span
-      className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[8px] tracking-[0.08em] uppercase ${statusChipStyles[status]}`}
+      className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[11px] tracking-[0.08em] uppercase ${statusChipStyles[status]}`}
     >
       <i
         className={`h-[4px] w-[4px] rounded-full ${statusDotStyles[status]} ${
@@ -100,7 +100,7 @@ function Kpi({
       }`}
     >
       <div className="flex items-center justify-between gap-2.5">
-        <span className="mono-label text-[7.5px] tracking-[0.12em] text-dim">
+        <span className="mono-label text-[11px] tracking-[0.12em] text-dim">
           {label}
         </span>
         <Icon
@@ -111,7 +111,7 @@ function Kpi({
       <div className="mt-3 truncate font-display text-[22px] leading-none font-normal tracking-[-0.04em] text-[#f0f0ed]">
         {value}
       </div>
-      <p className="mt-2.5 truncate text-[7.5px] text-faint">{detail}</p>
+      <p className="mt-2.5 truncate text-[11px] text-faint">{detail}</p>
     </article>
   );
 }
@@ -123,7 +123,7 @@ function MiniSiteSheet({ site }: { site: SiteSummary }) {
         <i className="h-[5px] w-[5px] rounded-full bg-white/20" />
         <i className="h-[5px] w-[5px] rounded-full bg-white/20" />
         <i className="h-[5px] w-[5px] rounded-full bg-white/20" />
-        <span className="ms-auto font-mono text-[7px] tracking-[0.06em] text-faint">
+        <span className="ms-auto font-mono text-[11px] tracking-[0.06em] text-faint">
           <bdi dir="ltr">/{site.slug}</bdi>
         </span>
       </div>
@@ -136,7 +136,7 @@ function MiniSiteSheet({ site }: { site: SiteSummary }) {
           aria-hidden
           className="absolute -top-10 end-6 h-28 w-28 rounded-full border border-white/[0.05]"
         />
-        <p className="mono-label text-[7px] tracking-[0.12em] text-faint">
+        <p className="mono-label text-[11px] tracking-[0.12em] text-faint">
           {site.industry}
         </p>
         <span
@@ -173,7 +173,7 @@ export default async function DashboardPage({
     return (
       <DashboardShell user={user} site={null} crumbLabel={t("breadcrumb")}>
         <main className="pt-10">
-          <div className="rounded-panel border border-danger/20 bg-danger-soft px-4 py-3 text-xs text-danger">
+          <div className="rounded-panel border border-danger/20 bg-danger-soft px-4 py-3 text-smtext-danger">
             {t("errors.load_failed")}
           </div>
         </main>
@@ -192,7 +192,7 @@ export default async function DashboardPage({
             <h1 className="font-display text-[clamp(24px,2.4vw,29px)] leading-[1.05] font-light tracking-[-0.045em] text-[#f1f1ee]">
               {t("welcome.title", { name: user.name })}
             </h1>
-            <p className="mt-2 text-[9.5px] text-dim">
+            <p className="mt-2 text-[13px] text-dim">
               {site ? t("welcome.subtitle") : t("empty.body")}
             </p>
           </div>
@@ -223,7 +223,7 @@ export default async function DashboardPage({
             <h2 className="mt-5 font-display text-[clamp(24px,2.6vw,32px)] leading-none font-light tracking-[-0.04em]">
               {t("empty.title")}
             </h2>
-            <p className="mx-auto mt-3 max-w-md text-xs leading-[1.65] text-muted">
+            <p className="mx-auto mt-3 max-w-md text-smleading-[1.65] text-muted">
               {t("empty.body")}
             </p>
             <Link
@@ -273,10 +273,10 @@ export default async function DashboardPage({
               <article className="rounded-panel border border-line-soft bg-[linear-gradient(160deg,rgba(255,255,255,0.036),rgba(255,255,255,0.01))] p-[18px] min-w-0 lg:col-span-8">
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0">
-                    <h3 className="text-[15px] font-medium tracking-[-0.02em] text-[#dededb]">
+                    <h3 className="text-[17px] font-medium tracking-[-0.02em] text-[#dededb]">
                       {site.businessName}
                     </h3>
-                    <p className="mt-1 text-[8px] text-dim">
+                    <p className="mt-1 text-[11px] text-dim">
                       {t("panel.subtitle")}
                     </p>
                   </div>
@@ -310,10 +310,10 @@ export default async function DashboardPage({
                       key={row.label}
                       className="flex items-baseline justify-between gap-4 py-2.5"
                     >
-                      <dt className="mono-label text-[7px] tracking-[0.11em] text-faint">
+                      <dt className="mono-label text-[11px] tracking-[0.11em] text-faint">
                         {row.label}
                       </dt>
-                      <dd className="min-w-0 truncate text-end text-[8.5px] text-[#b4b4b9]">
+                      <dd className="min-w-0 truncate text-end text-[11px] text-[#b4b4b9]">
                         {row.value}
                       </dd>
                     </div>
@@ -347,12 +347,12 @@ export default async function DashboardPage({
                 <div className="relative flex items-start justify-between gap-3">
                   <div className="flex items-center gap-2 text-[#d8e7e3]">
                     <Icon name="spark" className="h-[13px] w-[13px] text-accent" />
-                    <h3 className="text-[10.5px] font-medium tracking-[-0.01em]">
+                    <h3 className="text-[13px] font-medium tracking-[-0.01em]">
                       {t("nextStep.title")}
                     </h3>
                   </div>
                 </div>
-                <p className="relative mt-3 text-[10.5px] leading-[1.7] text-muted">
+                <p className="relative mt-3 text-[13px] leading-[1.7] text-muted">
                   {site.status === "ready" ? t("nextStep.ready") : null}
                   {site.status === "draft" || site.status === "generating"
                     ? t("nextStep.working")
@@ -369,7 +369,7 @@ export default async function DashboardPage({
                   ).map((item) => (
                     <li
                       key={item}
-                      className="flex items-start gap-2 text-[9.5px] leading-[1.6] text-muted"
+                      className="flex items-start gap-2 text-[13px] leading-[1.6] text-muted"
                     >
                       <Icon
                         name="check"

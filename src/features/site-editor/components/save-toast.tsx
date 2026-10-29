@@ -17,7 +17,7 @@ export function SaveToast({ toast }: { toast: SaveToastMessage | null }) {
     <div className="pointer-events-none fixed inset-x-0 top-4 z-[100] flex justify-center px-4">
       <div
         role="status"
-        className={`glass-strong flex items-center gap-2 rounded-full px-4 py-2 text-xs shadow-soft ${
+        className={`glass-strong flex items-center gap-2 rounded-full px-4 py-2 text-sm shadow-soft ${
           toast.kind === "success" ? "text-accent" : "text-danger"
         }`}
       >

@@ -69,7 +69,7 @@ function Segmented<Id extends string>({
           aria-pressed={id === value}
           aria-label={label(id)}
           title={label(id)}
-          className={`flex h-8 items-center gap-1.5 rounded-full px-2 text-xs transition-colors sm:px-2.5 ${
+          className={`flex h-8 items-center gap-1.5 rounded-full px-2 text-sm transition-colors sm:px-2.5 ${
             id === value ? "bg-white/[0.1] text-ink" : "text-muted hover:text-ink"
           }`}
         >
@@ -138,13 +138,13 @@ export function EditorTopbar({
           >
             <Icon name="arrow" className="h-4 w-4 rotate-180 rtl:rotate-0" />
           </Link>
-          <p className="hidden min-w-0 truncate text-sm font-medium text-ink sm:block">
+          <p className="hidden min-w-0 truncate text-base font-medium text-ink sm:block">
             {businessName}
           </p>
         </div>
 
         <div className="hidden min-w-0 items-center gap-3 md:flex">
-          <p className="truncate text-sm text-muted">{t(`pages.${pageSlug}`)}</p>
+          <p className="truncate text-base text-muted">{t(`pages.${pageSlug}`)}</p>
           {renderControls("hidden lg:inline")}
         </div>
 

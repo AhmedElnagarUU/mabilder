@@ -251,7 +251,7 @@ export function CreateSiteWizard() {
           <h1 className="mt-5 font-display text-[clamp(38px,4.6vw,58px)] leading-[0.99] font-normal tracking-[-0.055em]">
             {t("title")}
           </h1>
-          <p className="mt-3 max-w-lg text-[13px] leading-[1.65] text-muted">
+          <p className="mt-3 max-w-lg text-[15px] leading-[1.65] text-muted">
             {t("intro")}
           </p>
         </div>
@@ -263,7 +263,7 @@ export function CreateSiteWizard() {
 
           <form onSubmit={handleSubmit} className="min-w-0">
             <div className="mb-5 lg:hidden">
-              <div className="flex items-center justify-between gap-3 text-xs">
+              <div className="flex items-center justify-between gap-3 text-sm">
                 <span className="font-medium text-ink">
                   {t("stepper.stepOf", {
                     current: step + 1,
@@ -271,7 +271,7 @@ export function CreateSiteWizard() {
                   })}{" "}
                   · {t(`steps.${stepKey}.title`)}
                 </span>
-                <span className="max-w-[50%] text-end text-[10px] leading-4 text-muted">
+                <span className="max-w-[50%] text-end text-[13px] leading-4 text-muted">
                   {t(`steps.${stepKey}.description`)}
                 </span>
               </div>
@@ -289,7 +289,7 @@ export function CreateSiteWizard() {
               disabled={busy !== "idle"}
               className="glass min-w-0 rounded-[30px] p-5 sm:p-8"
             >
-              <p className="mono-label text-[8px] tracking-[0.14em] text-faint">
+              <p className="mono-label text-[11px] tracking-[0.14em] text-faint">
                 {t("stepper.stepOf", {
                   current: step + 1,
                   total: wizardSteps.length,
@@ -298,7 +298,7 @@ export function CreateSiteWizard() {
               <h2 className="mt-3 font-display text-[clamp(26px,3vw,34px)] leading-[1.05] font-normal tracking-[-0.05em]">
                 {t(`stepIntro.${stepKey}.title`)}
               </h2>
-              <p className="mt-2 max-w-xl text-[13px] leading-[1.65] text-muted">
+              <p className="mt-2 max-w-xl text-[15px] leading-[1.65] text-muted">
                 {t(`stepIntro.${stepKey}.description`)}
               </p>
 
@@ -362,7 +362,7 @@ export function CreateSiteWizard() {
                 {step === 2 ? (
                   <>
                     <div>
-                      <h3 className="text-[10px] font-semibold tracking-[0.14em] text-muted uppercase">
+                      <h3 className="text-[13px] font-semibold tracking-[0.14em] text-muted uppercase">
                         {t("sections.contactLocation")}
                       </h3>
                       <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -395,7 +395,7 @@ export function CreateSiteWizard() {
                     </div>
 
                     <div>
-                      <h3 className="text-[10px] font-semibold tracking-[0.14em] text-muted uppercase">
+                      <h3 className="text-[13px] font-semibold tracking-[0.14em] text-muted uppercase">
                         {t("sections.trackRecord")}
                       </h3>
                       <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -451,13 +451,13 @@ export function CreateSiteWizard() {
                         className="rounded-2xl border border-line bg-white/[0.03] p-4 sm:p-5"
                       >
                         <div className="flex items-center justify-between gap-3">
-                          <h3 className="text-sm font-medium text-ink">
+                          <h3 className="text-base font-medium text-ink">
                             {group.title}
                           </h3>
                           <button
                             type="button"
                             onClick={() => goToStep(group.step)}
-                            className="font-mono text-[8px] tracking-[0.08em] text-muted uppercase underline decoration-line underline-offset-4 transition-colors hover:text-ink"
+                            className="font-mono text-[11px] tracking-[0.08em] text-muted uppercase underline decoration-line underline-offset-4 transition-colors hover:text-ink"
                           >
                             {t("review.edit")}
                           </button>
@@ -469,11 +469,11 @@ export function CreateSiteWizard() {
                               key={key}
                               className="grid gap-1 py-3 sm:grid-cols-[10rem_1fr] sm:gap-4"
                             >
-                              <dt className="font-mono text-[8px] font-medium tracking-[0.08em] text-muted uppercase">
+                              <dt className="font-mono text-[11px] font-medium tracking-[0.08em] text-muted uppercase">
                                 {t(`fields.${key}`)}
                               </dt>
                               <dd
-                                className={`text-[13px] leading-6 ${
+                                className={`text-[15px] leading-6 ${
                                   value.trim()
                                     ? "whitespace-pre-line text-ink"
                                     : "text-muted/70"
@@ -487,7 +487,7 @@ export function CreateSiteWizard() {
                       </section>
                     ))}
 
-                    <p className="rounded-2xl border border-line bg-white/[0.03] px-4 py-3 text-xs leading-5 text-muted">
+                    <p className="rounded-2xl border border-line bg-white/[0.03] px-4 py-3 text-sm leading-5 text-muted">
                       {t("review.note")}
                     </p>
                   </div>
@@ -498,7 +498,7 @@ export function CreateSiteWizard() {
             {error ? (
               <div
                 role="alert"
-                className="mt-4 rounded-2xl border border-danger/20 bg-danger-soft px-4 py-3 text-xs leading-5 text-danger"
+                className="mt-4 rounded-2xl border border-danger/20 bg-danger-soft px-4 py-3 text-sm leading-5 text-danger"
               >
                 <p>
                   {error.code === "missingFields"
@@ -508,7 +508,7 @@ export function CreateSiteWizard() {
                     : t(`errors.${error.code}`)}
                 </p>
                 {error.paths && error.paths.length > 0 ? (
-                  <ul className="mt-2 list-disc space-y-1 ps-4 font-mono text-[10px]">
+                  <ul className="mt-2 list-disc space-y-1 ps-4 font-mono text-[13px]">
                     {error.paths.map((path) => (
                       <li key={path}>{path}</li>
                     ))}
@@ -529,7 +529,7 @@ export function CreateSiteWizard() {
               <p
                 role="status"
                 aria-live="polite"
-                className="mt-4 rounded-2xl border border-line bg-white/[0.03] px-4 py-3 text-xs leading-5 text-muted"
+                className="mt-4 rounded-2xl border border-line bg-white/[0.03] px-4 py-3 text-sm leading-5 text-muted"
               >
                 {t(`status.${statusKey}`)}
               </p>
@@ -546,7 +546,7 @@ export function CreateSiteWizard() {
               </button>
 
               <div className="flex items-center gap-4">
-                <span className="hidden text-xs text-muted sm:inline">
+                <span className="hidden text-sm text-muted sm:inline">
                   {t("stepper.stepOf", {
                     current: step + 1,
                     total: wizardSteps.length,

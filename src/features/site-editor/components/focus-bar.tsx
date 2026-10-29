@@ -20,7 +20,7 @@ type FocusBarProps = {
 const navButtonClass =
   "grid h-9 w-9 shrink-0 place-items-center rounded-full border border-line text-soft transition-colors hover:bg-white/[0.06] disabled:cursor-not-allowed disabled:opacity-30";
 const selectClass =
-  "h-9 min-w-0 max-w-[180px] rounded-xl border border-line bg-surface px-3 text-xs text-ink outline-none focus:border-accent/45";
+  "h-9 min-w-0 max-w-[180px] rounded-xl border border-line bg-surface px-3 text-smtext-ink outline-none focus:border-accent/45";
 
 export function FocusBar({
   content,
@@ -44,7 +44,7 @@ export function FocusBar({
           <button
             type="button"
             onClick={onBack}
-            className="flex h-9 shrink-0 items-center gap-1.5 rounded-full border border-line px-3 text-xs text-soft transition-colors hover:bg-white/[0.06]"
+            className="flex h-9 shrink-0 items-center gap-1.5 rounded-full border border-line px-3 text-smtext-soft transition-colors hover:bg-white/[0.06]"
           >
             <Icon name="arrow" className="h-4 w-4 rotate-180 rtl:rotate-0" />
             {t("focus.back")}
@@ -79,7 +79,7 @@ export function FocusBar({
 
         <div className="min-w-[180px] flex-1 text-center">
           {nav && focused ? (
-            <p className="truncate text-sm text-ink">
+            <p className="truncate text-base text-ink">
               {t("canvas.focusTitle", {
                 number: nav.number,
                 total: nav.total,
@@ -87,7 +87,7 @@ export function FocusBar({
               })}
             </p>
           ) : null}
-          <p className="truncate text-xs text-faint">{t("focus.hint")}</p>
+          <p className="truncate text-smtext-faint">{t("focus.hint")}</p>
         </div>
 
         <div className="flex min-w-0 items-center gap-2">

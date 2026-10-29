@@ -19,10 +19,10 @@ export function CanvasFrameHeader({
   return (
     <div className="flex h-9 items-center justify-between gap-2 border-b border-line bg-surface px-3">
       <div className="flex min-w-0 items-center gap-2 max-sm:hidden">
-        <span className="mono-label text-[10px] tracking-[0.12em] text-muted">
+        <span className="mono-label text-[13px] tracking-[0.12em] text-muted">
           {t(`devices.${device}`)}
         </span>
-        <span dir="ltr" className="font-mono text-xs text-faint">
+        <span dir="ltr" className="font-mono text-sm text-faint">
           {deviceWidth} × {Math.round(frameHeight)}
         </span>
       </div>

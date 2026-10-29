@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-10-27 · Branch: `block-system`
+Last updated: 2026-10-29 · Branch: `block-system`
 
 ## Start here (new session)
 
@@ -19,15 +19,14 @@ Read `AGENTS.md`, `CODE_RULES.md`, then the docs your task touches:
 | Q1 | System tests: `npm test` (pipeline, 13) + `npm run test:api` (HTTP on :3100, `_test` DB, AI disabled, 6) | (this commit) |
 | M4 | Live pipeline on blocks (compose → save → renderSite), old templates/editor deleted, edit page shows upgrade notice, +4 API tests | (this commit) |
 | M5 | AI copy per block: strict per-block output schema, contract tests (no AI), pre-flight, spend guard (abort + call budget), diagnostics, `rewriteBlocks` for C1; old content reads as draft | (this commit) |
+| E1 | Block editor: Structure mode (sections, devices, collapsible panels) + Content mode (one section, inline edit) | `0afd328` |
+| M6 | Pexels stock photos for empty image slots + credits | `e61bd33` |
 | I1 | App UI in English and Arabic (next-intl, `/en` + `/ar`, RTL, switcher, API error codes), `npm run check:messages` | `cd8392e` |
 
 ## Next, in order
 
-Full order in `docs/features-v2-plan.md`:
-
-1. **M6** Pexels images (`docs/block-system-plan.md`); M8 wizard fields after
-2. **U1** S3 uploads → **P1** projects → **E1** new editor (replaces M7) → **S1** SEO → **C1** AI credits → **T1** tracking → **G1** tutorials
-3. **B1**: Polar trial + subscription, any time after A1
+1. Owner system (`docs/owner-system-plan.md`): **F1** fonts → **X1** activity → **X2** notifications → **X3** admin → **B1** Polar → **B2** Egyptian wallet payments → **X4** feedback
+2. Then `docs/features-v2-plan.md`: **P1** projects → **U1** S3 uploads (needs S3 env) → **S1** SEO → **C1** AI credits → **T1** tracking → **G1** tutorials
 
 ## Current state of the app
 

@@ -37,6 +37,9 @@ Foundation first. The new editor needs sections (blocks) in the real pipeline.
 9. **G1** tutorials
 10. **B1** Polar, any time after A1
 
+**Update 2026-10-29:** E1 and M6 are done. Next comes the owner system in `docs/owner-system-plan.md`
+(F1 → X1 → X2 → X3 → B1 → B2 → X4), then P1, U1, S1, C1, T1, G1.
+
 ## Q1 System tests
 
 Goal: many agents change this code, so every change must prove the real system still works.

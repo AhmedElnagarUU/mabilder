@@ -30,7 +30,7 @@ export function PagePanel({
       <section>
         <div className="mb-2 flex items-center gap-2">
           <PanelToggle direction="end" onClick={onCollapse} />
-          <p className="mono-label truncate text-[10px] tracking-[0.12em] text-faint">
+          <p className="mono-label truncate text-[13px] tracking-[0.12em] text-faint">
             {t("panel.pagesTitle")}
           </p>
         </div>
@@ -44,7 +44,7 @@ export function PagePanel({
                 type="button"
                 onClick={() => onSelectPage(candidate.id)}
                 aria-current={active ? "page" : undefined}
-                className={`flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-start text-[13px] transition-colors ${
+                className={`flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-start text-[15px] transition-colors ${
                   active
                     ? "bg-accent/10 text-accent"
                     : "text-muted hover:bg-white/[0.04] hover:text-ink"
@@ -60,7 +60,7 @@ export function PagePanel({
 
       {content.locales.length === 2 ? (
         <section>
-          <p className="mono-label mb-2 text-[10px] tracking-[0.12em] text-faint">
+          <p className="mono-label mb-2 text-[13px] tracking-[0.12em] text-faint">
             {t("panel.languageLabel")}
           </p>
           <div className="flex rounded-full border border-line bg-white/[0.025] p-0.5">
@@ -70,7 +70,7 @@ export function PagePanel({
                 type="button"
                 onClick={() => onSelectLocale(candidate)}
                 aria-pressed={candidate === locale}
-                className={`flex-1 rounded-full px-2 py-1 text-xs transition-colors ${
+                className={`flex-1 rounded-full px-2 py-1 text-sm transition-colors ${
                   candidate === locale
                     ? "bg-white/[0.1] text-ink"
                     : "text-muted hover:text-soft"

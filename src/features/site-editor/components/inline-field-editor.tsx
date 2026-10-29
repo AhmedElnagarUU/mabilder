@@ -41,7 +41,7 @@ function TextHint({
         top,
         left: clamp(rect.left, 8, Math.max(8, bounds.width - 280)),
       }}
-      className="glass-strong pointer-events-none z-30 flex items-center gap-2 rounded-full px-3 py-1.5 text-xs text-ink shadow-soft"
+      className="glass-strong pointer-events-none z-30 flex items-center gap-2 rounded-full px-3 py-1.5 text-sm text-ink shadow-soft"
     >
       <span className="font-medium">{label}</span>
       <span className="text-faint">{hint}</span>
@@ -90,7 +90,7 @@ function ImageEditor({
       }}
       className="glass-strong z-40 w-80 rounded-panel p-3 text-ink shadow-soft"
     >
-      <p className="font-mono text-[10px] font-medium tracking-[0.1em] text-muted uppercase">
+      <p className="font-mono text-[13px] font-medium tracking-[0.1em] text-muted uppercase">
         {label}
       </p>
       <input
@@ -104,18 +104,18 @@ function ImageEditor({
         autoFocus
         className={`${inputClass} mt-1.5`}
       />
-      {error ? <p className="mt-1 text-xs text-danger">{error}</p> : null}
+      {error ? <p className="mt-1 text-sm text-danger">{error}</p> : null}
       <div className="mt-2 flex justify-end gap-1.5">
         <button
           type="button"
           onClick={onCancel}
-          className={buttonClass("ghost", "sm", "h-8 px-3 text-[13px]")}
+          className={buttonClass("ghost", "sm", "h-8 px-3 text-[15px]")}
         >
           {t("canvas.cancel")}
         </button>
         <button
           type="submit"
-          className={buttonClass("primary", "sm", "h-8 px-3 text-[13px]")}
+          className={buttonClass("primary", "sm", "h-8 px-3 text-[15px]")}
         >
           {t("canvas.apply")}
         </button>
