@@ -3,6 +3,9 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { requirePageUser } from "@/features/auth/session";
 import { trialDaysLeft } from "@/features/billing/access";
 import { BillingActions } from "@/features/billing/components/billing-actions";
+import { WalletPayments } from "@/features/billing/components/wallet-payments";
+import { listOwnPayments } from "@/features/billing/payments/service";
+import { getWalletInfo } from "@/features/billing/settings/service";
 import { getUserAccess } from "@/features/billing/user-access";
 import { DashboardShell } from "@/features/site-creation/components/dashboard-shell";
 import { listSites } from "@/features/site-creation/service";
@@ -41,7 +44,12 @@ export default async function BillingPage({ params }: PageProps<"/[locale]/billi
 
   const user = await requirePageUser(locale, "/billing");
   const t = await getTranslations("billing");
-  const [access, site] = await Promise.all([getUserAccess(user.id), loadSite(user.id)]);
+  const [access, site, wallet, payments] = await Promise.all([
+    getUserAccess(user.id),
+    loadSite(user.id),
+    getWalletInfo(locale === "ar" ? "ar" : "en"),
+    listOwnPayments(user.id),
+  ]);
 
   let detail = t("expiredBody");
 
@@ -78,6 +86,8 @@ export default async function BillingPage({ params }: PageProps<"/[locale]/billi
             <BillingActions canManage={access.state === "active"} />
           </div>
         </section>
+
+        {wallet ? <WalletPayments locale={locale} wallet={wallet} payments={payments} /> : null}
       </main>
     </DashboardShell>
   );

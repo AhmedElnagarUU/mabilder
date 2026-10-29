@@ -10,6 +10,7 @@ export type SubscriptionRecord = {
   status: string;
   currentPeriodEnd: Date;
   externalId?: string;
+  trialEndsAt?: Date;
 };
 
 export type AccessState = "trial" | "active" | "expired";

@@ -12,6 +12,7 @@ const testAdminEnv = {
   ADMIN_EMAIL: "admin@test.local",
   ADMIN_PASSWORD: "test-admin-password",
   ADMIN_SESSION_SECRET: "test-admin-session-secret-0123456789",
+  PRO_PRICE_EGP: "500",
 };
 
 function getTestDatabaseName(): string {

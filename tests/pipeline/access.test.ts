@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { getAccess, trialDaysLeft } from "../../src/features/billing/access";
-import { DAY_MS, TRIAL_DAYS } from "../../src/features/billing/plans";
+import { DAY_MS, TRIAL_DAYS, addOneMonth } from "../../src/features/billing/plans";
 
 const createdAt = new Date("2026-10-01T00:00:00Z");
 const trialEndsAt = new Date(createdAt.getTime() + TRIAL_DAYS * DAY_MS);
@@ -63,6 +63,47 @@ test("revoked and unpaid subscriptions give no paid access", () => {
   for (const status of ["revoked", "past_due", "unpaid", "incomplete"]) {
     assert.equal(getAccess(user, { status, currentPeriodEnd }, now).state, "expired", status);
   }
+});
+
+test("a manual subscription stops being active at its period end", () => {
+  const currentPeriodEnd = new Date("2026-12-20T00:00:00Z");
+  const subscription = { provider: "manual" as const, status: "active", currentPeriodEnd };
+
+  const before = getAccess(user, subscription, new Date("2026-12-19T23:59:59Z"));
+  assert.equal(before.state, "active");
+  assert.equal(before.renewsAt?.getTime(), currentPeriodEnd.getTime());
+
+  assert.equal(getAccess(user, subscription, currentPeriodEnd).state, "expired");
+  assert.equal(getAccess(user, subscription, new Date("2027-01-01T00:00:00Z")).state, "expired");
+});
+
+test("a polar subscription marked active stays active, the end date is Polar's renewal", () => {
+  const subscription = {
+    provider: "polar" as const,
+    status: "active",
+    currentPeriodEnd: new Date("2026-11-01T00:00:00Z"),
+  };
+
+  assert.equal(getAccess(user, subscription, new Date("2026-11-05T00:00:00Z")).state, "active");
+});
+
+test("an extended trial lasts until its date, an ended plan is expired even during the trial", () => {
+  const extendedTo = new Date("2026-11-30T00:00:00Z");
+  const extended = { status: "trial", currentPeriodEnd: extendedTo, trialEndsAt: extendedTo };
+
+  const during = getAccess(user, extended, new Date("2026-11-20T00:00:00Z"));
+  assert.equal(during.state, "trial");
+  assert.equal(during.trialEndsAt?.getTime(), extendedTo.getTime());
+  assert.equal(getAccess(user, extended, extendedTo).state, "expired");
+
+  const ended = { status: "ended", currentPeriodEnd: new Date("2026-10-05T00:00:00Z") };
+  assert.equal(getAccess(user, ended, new Date("2026-10-06T00:00:00Z")).state, "expired");
+});
+
+test("adding one month keeps the day or clamps to the month end", () => {
+  assert.equal(addOneMonth(new Date("2026-10-15T10:00:00Z")).toISOString(), "2026-11-15T10:00:00.000Z");
+  assert.equal(addOneMonth(new Date("2026-01-31T10:00:00Z")).toISOString(), "2026-02-28T10:00:00.000Z");
+  assert.equal(addOneMonth(new Date("2026-12-31T00:00:00Z")).toISOString(), "2027-01-31T00:00:00.000Z");
 });
 
 test("trial days left rounds up and never goes below zero", () => {

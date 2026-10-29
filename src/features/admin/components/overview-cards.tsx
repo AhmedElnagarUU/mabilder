@@ -10,6 +10,10 @@ const cards: { label: string; value: (stats: OverviewStats) => number }[] = [
   { label: "Deactivated users", value: (stats) => stats.inactiveUsers },
   { label: "Websites ready", value: (stats) => stats.sitesReady },
   { label: "Websites with errors", value: (stats) => stats.sitesError },
+  { label: "Pending payments", value: (stats) => stats.pendingPayments },
+  { label: "In free trial", value: (stats) => stats.trialUsers },
+  { label: "On Pro", value: (stats) => stats.proUsers },
+  { label: "Plan expired", value: (stats) => stats.expiredUsers },
 ];
 
 export function OverviewCards({ stats }: { stats: OverviewStats }) {

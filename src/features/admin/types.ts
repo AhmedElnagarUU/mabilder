@@ -1,5 +1,7 @@
 import { z } from "zod";
 import type { ActivityItem } from "../activity/types";
+import type { PaymentItem } from "../billing/payments/types";
+import type { AccessState } from "../billing/types";
 import type { SiteStatus, SiteSummary } from "../site-creation/types";
 
 export const USERS_PAGE_SIZE = 25;
@@ -14,6 +16,8 @@ export const userListQuerySchema = z.object({
 
 export type UserListQuery = z.output<typeof userListQuerySchema>;
 
+export const ADMIN_ACTOR_ID = "admin";
+
 export type OverviewStats = {
   totalUsers: number;
   activeToday: number;
@@ -23,6 +27,10 @@ export type OverviewStats = {
   inactiveUsers: number;
   sitesReady: number;
   sitesError: number;
+  pendingPayments: number;
+  trialUsers: number;
+  proUsers: number;
+  expiredUsers: number;
 };
 
 export type UserListItem = {
@@ -53,10 +61,26 @@ export type UserProfile = {
   createdAt: string | null;
 };
 
+export type UserPlan = {
+  state: AccessState;
+  until: string | null;
+};
+
 export type UserDetail = {
   user: UserProfile;
+  plan: UserPlan;
   site: SiteSummary | null;
   activity: ActivityItem[];
+};
+
+export type AdminPaymentRow = PaymentItem & {
+  userName: string;
+  userEmail: string;
+};
+
+export type AdminPaymentList = {
+  items: AdminPaymentRow[];
+  expectedPriceEgp: number | null;
 };
 
 export type AccountChangeResult = "ok" | "not_found";

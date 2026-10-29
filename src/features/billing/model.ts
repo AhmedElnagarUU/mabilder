@@ -8,6 +8,7 @@ const subscriptionSchema = new Schema(
     status: { type: String, required: true },
     currentPeriodEnd: { type: Date, required: true },
     externalId: { type: String },
+    trialEndsAt: { type: Date },
     updatedAt: { type: Date, default: Date.now, required: true },
   },
   { collection: "subscriptions", versionKey: false },
