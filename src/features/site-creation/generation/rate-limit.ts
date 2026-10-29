@@ -1,4 +1,4 @@
-const minIntervalMs = 13_000;
+const minIntervalMs = 1_000;
 const maxAttempts = 2;
 const timeoutMs = 90_000;
 
