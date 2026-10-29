@@ -5,7 +5,8 @@ import { connectToDatabase, disconnectFromDatabase } from "../src/shared/db/mong
 const port = 3100;
 const baseUrl = `http://localhost:${port}`;
 const startTimeoutMs = 60_000;
-const testFiles = ".generator-build/tests/api/*.test.js";
+const testCronSecret = "test-cron-secret";
+const testFiles =".generator-build/tests/api/*.test.js";
 
 function getTestDatabaseName(): string {
   const name = process.env.MONGODB_DB_NAME;
@@ -51,6 +52,8 @@ function startServer(databaseName: string): ChildProcess {
         MONGODB_DB_NAME: databaseName,
         BETTER_AUTH_URL: baseUrl,
         OPENROUTER_API_KEY: "",
+        EMAIL_PROVIDER: "none",
+        CRON_SECRET: testCronSecret,
       },
       stdio: ["ignore", "inherit", "inherit"],
     },
@@ -77,7 +80,12 @@ async function waitForServer(server: ChildProcess): Promise<void> {
 
 function runTests(): Promise<number> {
   const tests = spawn(process.execPath, ["--test", testFiles], {
-    env: { ...process.env, API_BASE_URL: baseUrl },
+    env: {
+      ...process.env,
+      API_BASE_URL: baseUrl,
+      EMAIL_PROVIDER: "none",
+      CRON_SECRET: testCronSecret,
+    },
     stdio: "inherit",
   });
 

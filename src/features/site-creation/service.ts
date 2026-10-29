@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { notify } from "../notifications/service";
 import { recordActivity, recordContentSaved } from "../activity/service";
 import {
   deleteGeneratedSite,
@@ -175,6 +176,7 @@ export async function generateContent(
       type: "site_generated",
       siteId,
     });
+    await notify(ownerId, "site_ready", { businessName: saved.brief.businessName });
 
     return saved;
   } catch (error) {
@@ -185,6 +187,7 @@ export async function generateContent(
       type: "site_generation_failed",
       siteId,
     });
+    await notify(ownerId, "site_failed", { businessName: site.brief.businessName });
     throw error;
   }
 }

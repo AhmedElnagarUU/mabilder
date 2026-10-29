@@ -3,6 +3,7 @@ import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { createAuthMiddleware } from "better-auth/api";
 import { recordActivity } from "@/features/activity/service";
 import type { ActivityType } from "@/features/activity/types";
+import { notify } from "@/features/notifications/service";
 import { connectToDatabase } from "@/shared/db/mongoose";
 
 const authActivityTypes: Record<string, ActivityType> = {
@@ -13,13 +14,19 @@ const authActivityTypes: Record<string, ActivityType> = {
 // newSession exists only when the request created a session, so failed sign-ins are not recorded.
 async function recordAuthActivity(ctx: {
   path: string;
-  context: { newSession?: { user: { id: string } } | null };
+  context: { newSession?: { user: { id: string; name: string } } | null };
 }): Promise<void> {
   const type = authActivityTypes[ctx.path];
-  const userId = ctx.context.newSession?.user.id;
+  const user = ctx.context.newSession?.user;
 
-  if (type && userId) {
-    await recordActivity({ userId, actorId: userId, type });
+  if (!type || !user) {
+    return;
+  }
+
+  await recordActivity({ userId: user.id, actorId: user.id, type });
+
+  if (type === "signed_up") {
+    await notify(user.id, "welcome", { name: user.name });
   }
 }
 

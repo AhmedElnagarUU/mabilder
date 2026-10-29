@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
 import { SignOutButton } from "@/features/auth/components/sign-out-button";
+import { NotificationBell } from "@/features/notifications/components/notification-bell";
 import { LocaleSwitcher } from "@/shared/i18n/locale-switcher";
 import { Link } from "@/shared/i18n/navigation";
 import { buttonClass } from "@/shared/ui/button";
@@ -184,6 +185,7 @@ export async function DashboardShell({
               </nav>
             </div>
             <div className="flex items-center gap-2">
+              <NotificationBell />
               <SignOutButton className={buttonClass("ghost", "sm", "px-3.5 min-[980px]:hidden")} />
               <LocaleSwitcher
                 className={buttonClass("secondary", "sm", "px-3.5")}

@@ -376,6 +376,59 @@
       "default": "Something went wrong. Please try again."
     }
   },
+  "notifications": {
+    "title": "Notifications",
+    "open": "Notifications",
+    "openUnread": "Notifications, {count} unread",
+    "empty": "You have no notifications yet.",
+    "markAllRead": "Mark all as read",
+    "types": {
+      "welcome": {
+        "title": "Welcome aboard",
+        "body": "Hi {name}, your account is ready."
+      },
+      "site_ready": {
+        "title": "Your website draft is ready",
+        "body": "The draft for {businessName} is ready to review."
+      },
+      "site_failed": {
+        "title": "Writing your draft failed",
+        "body": "The draft for {businessName} could not be written. Please try again."
+      },
+      "trial_ending": {
+        "title": "Your free trial is ending soon",
+        "body": "{daysLeft, plural, one {# day} other {# days}} left in your free trial."
+      },
+      "trial_ended": {
+        "title": "Your free trial has ended",
+        "body": "Subscribe to keep editing and publishing your website."
+      },
+      "payment_received": {
+        "title": "New payment to review",
+        "body": "{userName} sent a payment of {amount} {currency}."
+      },
+      "payment_approved": {
+        "title": "Your payment was approved",
+        "body": "Thank you. Your Pro plan is active."
+      },
+      "payment_rejected": {
+        "title": "Your payment was rejected",
+        "body": "We could not confirm your payment. Please check the details and send it again."
+      },
+      "plan_changed": {
+        "title": "Your plan was changed",
+        "body": "{plan, select, trial {Your plan is now the free trial.} pro {Your plan is now Pro.} other {Your plan has ended.}}"
+      },
+      "feedback_received": {
+        "title": "New feedback received",
+        "body": "{userName} sent feedback."
+      },
+      "feedback_replied": {
+        "title": "We replied to your feedback",
+        "body": "Open your dashboard to read the reply."
+      }
+    }
+  },
   "siteCreation": {
     "meta": {
       "title": "New website",
