@@ -511,11 +511,139 @@
       "title": "Website editor",
       "description": "Edit your website."
     },
-    "upgrade": {
-      "title": "The editor is being upgraded",
-      "body": "We are rebuilding the editor so you can rearrange and edit each part of your website. Your website is saved and you can still preview it.",
-      "openPreview": "Open preview",
-      "backToDashboard": "Back to dashboard"
+    "notReady": {
+      "title": "Your website isn't ready yet",
+      "body": "It will open here as soon as the draft is ready.",
+      "back": "Back to dashboard"
+    },
+    "preview": {
+      "title": "Website preview"
+    },
+    "canvas": {
+      "editHint": "Enter to save · Esc to cancel",
+      "apply": "Apply",
+      "cancel": "Cancel",
+      "invalidImage": "Enter a full image address starting with https://",
+      "focusTitle": "Section {number} of {total} · {name}",
+      "previous": "Previous section",
+      "next": "Next section"
+    },
+    "focus": {
+      "back": "Back to structure",
+      "hint": "Click any text in the section to change it."
+    },
+    "modes": {
+      "label": "Editing mode",
+      "structure": "Structure",
+      "content": "Content"
+    },
+    "devices": {
+      "label": "Screen size",
+      "desktop": "Desktop",
+      "tablet": "Tablet",
+      "mobile": "Mobile"
+    },
+    "panel": {
+      "back": "Back to dashboard",
+      "pagesTitle": "Pages",
+      "hidePanel": "Hide panel",
+      "showPanel": "Show panel",
+      "languageLabel": "Language",
+      "save": "Save",
+      "saving": "Saving…",
+      "saved": "Saved",
+      "unsaved": "Unsaved changes",
+      "collapse": "Collapse panel",
+      "sections": "Sections"
+    },
+    "section": {
+      "remove": "Remove",
+      "restore": "Restore",
+      "removed": "Removed sections",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "item": "Item {number}",
+      "factNote": "This section uses your business details.",
+      "editText": "Edit text"
+    },
+    "errors": {
+      "invalid": "Some details need attention. Please review your changes.",
+      "saveFailed": "Could not save your changes. Please try again."
+    },
+    "languages": {
+      "en": "English",
+      "ar": "Arabic"
+    },
+    "pages": {
+      "index": "Home",
+      "about": "About",
+      "services": "Services",
+      "projects": "Projects",
+      "contact": "Contact"
+    },
+    "blocks": {
+      "hero": "Main banner",
+      "marquee": "Moving headline",
+      "intro": "Introduction",
+      "projects": "Our projects",
+      "services": "Services",
+      "process": "How we work",
+      "testimonials": "Client reviews",
+      "clients": "Clients",
+      "cta": "Call to action",
+      "contact": "Contact",
+      "values": "Our values",
+      "timeline": "Our story",
+      "team": "Team",
+      "awards": "Awards",
+      "faq": "Questions",
+      "stats": "Numbers",
+      "feature-split": "Highlight",
+      "location": "Location"
+    },
+    "fields": {
+      "eyebrow": "Eyebrow",
+      "title": "Title",
+      "body": "Body",
+      "image": "Photo",
+      "images": "Photos",
+      "primary": "Primary link",
+      "secondary": "Secondary link",
+      "link": "Link",
+      "items": "Items",
+      "paragraphs": "Paragraphs",
+      "points": "Highlights",
+      "quote": "Quote",
+      "steps": "Steps",
+      "question": "Question",
+      "answer": "Answer",
+      "form": "Form",
+      "namePlaceholder": "Name placeholder",
+      "emailPlaceholder": "Email placeholder",
+      "messagePlaceholder": "Message placeholder",
+      "submitLabel": "Send button",
+      "successMessage": "Thank-you message",
+      "value": "Value",
+      "label": "Link text",
+      "names": "Names",
+      "year": "Year",
+      "meta": "Details",
+      "category": "Category",
+      "name": "Name",
+      "role": "Role",
+      "bio": "Biography",
+      "author": "Author",
+      "company": "Company",
+      "address": "Address",
+      "email": "Email",
+      "phone": "Phone",
+      "mapHref": "Map link",
+      "icon": "Icon",
+      "src": "Image address",
+      "alt": "Image description",
+      "credit": "Photo credit",
+      "url": "Credit link",
+      "href": "Link address"
     }
   }
 }

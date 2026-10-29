@@ -7,6 +7,8 @@ export type IconName =
   | "pen"
   | "layout"
   | "monitor"
+  | "tablet"
+  | "phone"
   | "plus"
   | "chevron"
   | "check"
@@ -58,6 +60,18 @@ const paths: Record<IconName, ReactNode> = {
     <>
       <rect x="2" y="4" width="20" height="13" rx="2" />
       <path d="M8 21h8M12 17v4" />
+    </>
+  ),
+  tablet: (
+    <>
+      <rect x="4" y="2" width="16" height="20" rx="2" />
+      <path d="M11 18h2" />
+    </>
+  ),
+  phone: (
+    <>
+      <rect x="7" y="2" width="10" height="20" rx="2" />
+      <path d="M11 18h2" />
     </>
   ),
   plus: <path d="M12 5v14M5 12h14" />,

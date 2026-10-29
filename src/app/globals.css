@@ -179,6 +179,13 @@ button {
   backdrop-filter: blur(24px) saturate(1.1);
 }
 
+.editor-dots {
+  background-color: var(--color-stage);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px);
+  background-size: 20px 20px;
+  scrollbar-width: none;
+}
+
 .mono-label {
   font-family: var(--font-mono);
   font-size: 10px;
