@@ -6,7 +6,7 @@ import { routing } from "./shared/i18n/routing";
 const intlMiddleware = createMiddleware(routing);
 
 const PROTECTED_PATH = new RegExp(
-  `^/(${routing.locales.join("|")})(/(?:dashboard|edit)(?:/.*)?)$`,
+  `^/(${routing.locales.join("|")})(/(?:dashboard|edit|billing)(?:/.*)?)$`,
 );
 
 function signInRedirect(request: NextRequest): NextResponse | null {

@@ -531,7 +531,8 @@
       "createWebsite": "Create website",
       "creating": "Creating...",
       "writingPages": "Writing pages...",
-      "openEditor": "Open the editor"
+      "openEditor": "Open the editor",
+      "subscribe": "Subscribe"
     },
     "status": {
       "saving": "Saving your business details...",
@@ -548,6 +549,7 @@
       "save_failed": "Could not save your changes. Please try again.",
       "generation_failed": "AI generation failed. Your draft is saved and you can retry.",
       "site_exists": "Your account already has a website. Open it from the dashboard.",
+      "subscription_required": "Your free trial has ended. Subscribe to keep creating and editing your website.",
       "unauthorized": "Your session has ended. Please sign in again.",
       "default": "Something went wrong. Please try again."
     },
@@ -558,6 +560,42 @@
       "deleting": "Deleting...",
       "confirm": "Confirm",
       "cancel": "Cancel"
+    }
+  },
+  "billing": {
+    "meta": {
+      "title": "Billing",
+      "description": "Your plan, free trial and subscription."
+    },
+    "breadcrumb": "Billing",
+    "title": "Billing",
+    "subtitle": "Your plan and subscription.",
+    "currentPlan": "Current plan",
+    "state": {
+      "trial": "Free trial",
+      "active": "Pro",
+      "expired": "Trial ended"
+    },
+    "badge": {
+      "trial": "{count, plural, one {# day left} other {# days left}}",
+      "active": "Pro",
+      "expired": "Trial ended"
+    },
+    "trialDaysLeft": "{count, plural, one {# day left in your free trial} other {# days left in your free trial}}",
+    "trialEnds": "Your free trial ends on {date}.",
+    "renews": "Your subscription renews on {date}.",
+    "canceled": "Your subscription is canceled and stays active until {date}.",
+    "expiredBody": "Your free trial has ended. Subscribe to keep creating and editing your website. Your website is kept and its preview stays available.",
+    "subscribe": "Subscribe to Pro",
+    "manage": "Manage subscription",
+    "opening": "Opening...",
+    "errors": {
+      "unauthorized": "Your session has ended. Please sign in again.",
+      "billing_unavailable": "Billing is not available right now. Please try again later.",
+      "no_subscription": "There is no subscription to manage yet.",
+      "checkout_failed": "Could not start the checkout. Please try again.",
+      "portal_failed": "Could not open the billing portal. Please try again.",
+      "default": "Something went wrong. Please try again."
     }
   },
   "editor": {
@@ -622,7 +660,9 @@
     },
     "errors": {
       "invalid": "Some details need attention. Please review your changes.",
-      "saveFailed": "Could not save your changes. Please try again."
+      "saveFailed": "Could not save your changes. Please try again.",
+      "subscriptionRequired": "Your free trial has ended. Subscribe to keep editing.",
+      "subscribe": "Subscribe"
     },
     "languages": {
       "en": "English",

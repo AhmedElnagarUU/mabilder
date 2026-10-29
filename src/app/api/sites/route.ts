@@ -1,4 +1,5 @@
 import { requireSession, unauthorizedResponse } from "@/features/auth/session";
+import { subscriptionRequiredResponse } from "@/features/billing/require-access";
 import { createSite, listSites } from "@/features/site-creation/service";
 import { databaseErrorResponse } from "@/shared/db/errors";
 
@@ -54,6 +55,12 @@ export async function POST(request: Request) {
 
     return Response.json({ site: result.site }, { status: 201 });
   } catch (error) {
+    const expired = subscriptionRequiredResponse(error);
+
+    if (expired) {
+      return expired;
+    }
+
     const unavailable = databaseErrorResponse(error);
 
     if (unavailable) {

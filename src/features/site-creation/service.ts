@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { requireAccess } from "../billing/require-access";
 import { notify } from "../notifications/service";
 import { recordActivity, recordContentSaved } from "../activity/service";
 import {
@@ -52,6 +53,8 @@ export async function createSite(
   ownerId: string,
   briefInput: unknown,
 ): Promise<CreateSiteResult> {
+  await requireAccess(ownerId);
+
   const parsed = businessBriefSchema.safeParse(briefInput);
 
   if (!parsed.success) {
@@ -108,6 +111,8 @@ export async function saveContent(
   siteId: string,
   contentInput: unknown,
 ): Promise<SaveContentResult> {
+  await requireAccess(ownerId);
+
   let site: SiteRecord | null;
 
   try {
@@ -146,6 +151,8 @@ export async function generateContent(
   createModel: () => GenerationModel = createGenerationModel,
   fetchFunction: FetchFunction = fetch,
 ): Promise<SiteRecord | null> {
+  await requireAccess(ownerId);
+
   const site = await getSiteRecord(ownerId, siteId);
 
   if (!site) {
