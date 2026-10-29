@@ -6,6 +6,7 @@ const siteSchema = new Schema(
     slug: { type: String, required: true, unique: true, index: true },
     brief: { type: Schema.Types.Mixed, required: true },
     content: { type: Schema.Types.Mixed, default: null },
+    tracking: { type: Schema.Types.Mixed, default: {} },
     status: {
       type: String,
       enum: ["draft", "generating", "ready", "error"],

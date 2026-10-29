@@ -5,6 +5,7 @@ import {
   deleteGeneratedSite,
   generateSite,
 } from "../static-site-generator/generate-site";
+import { renderTags } from "../tracking/render-tags";
 import { generateSiteContent } from "./build-content";
 import { createGenerationModel, type GenerationModel } from "./generation/index";
 import type { FetchFunction } from "./images/pexels";
@@ -14,6 +15,7 @@ import {
   getSite as getSiteRecord,
   listSites as listSiteRecords,
   saveSiteContent as saveSiteContentRecord,
+  saveSiteTracking as saveSiteTrackingRecord,
   setSiteStatus,
 } from "./repository";
 import {
@@ -129,13 +131,41 @@ export async function saveContent(
   }
 
   try {
-    await generateSite(site.id, site.content);
+    await generateSite(site.id, site.content, renderTags(site.tracking));
   } catch (error) {
     await setSiteStatus(ownerId, site.id, "error", errorMessage(error));
     throw error;
   }
 
   await recordContentSaved(ownerId, site.id);
+
+  return { ok: true, site };
+}
+
+export async function saveTracking(
+  ownerId: string,
+  siteId: string,
+  trackingInput: unknown,
+): Promise<SaveContentResult> {
+  let site: SiteRecord | null;
+
+  try {
+    site = await saveSiteTrackingRecord(ownerId, siteId, trackingInput);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return { ok: false, errors: toIssues(error) };
+    }
+
+    throw error;
+  }
+
+  if (!site) {
+    return null;
+  }
+
+  if (site.content) {
+    await generateSite(site.id, site.content, renderTags(site.tracking));
+  }
 
   return { ok: true, site };
 }
@@ -161,7 +191,7 @@ export async function generateContent(
       site.content,
       fetchFunction,
     );
-    await generateSite(siteId, content);
+    await generateSite(siteId, content, renderTags(site.tracking));
 
     const saved = await saveSiteContentRecord(ownerId, siteId, content);
 

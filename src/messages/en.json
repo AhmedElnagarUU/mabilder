@@ -293,7 +293,8 @@
       "aria": "Main navigation",
       "overview": "Overview",
       "editWebsite": "Edit website",
-      "previewSite": "Preview site"
+      "previewSite": "Preview site",
+      "tracking": "Tracking"
     },
     "welcome": {
       "title": "Welcome back, {name}.",
@@ -376,6 +377,51 @@
       "generation_failed": "AI generation failed. Your draft is saved and you can retry.",
       "unauthorized": "Your session has ended. Please sign in again.",
       "default": "Something went wrong. Please try again."
+    }
+  },
+  "tracking": {
+    "meta": {
+      "title": "Tracking",
+      "description": "Connect your advertising and analytics accounts to your website."
+    },
+    "title": "Tracking",
+    "subtitle": "Paste the ID from each service you use. Leave a field empty to turn it off. Your website is updated when you save.",
+    "help": "Where do I find this?",
+    "save": "Save",
+    "saving": "Saving…",
+    "saved": "Saved. Your website has been updated.",
+    "noSite": "Create your website first, then come back to connect tracking.",
+    "errors": {
+      "invalid": "This ID does not look right. Check it and try again.",
+      "save_failed": "We could not save your changes. Please try again.",
+      "default": "Something went wrong. Please try again."
+    },
+    "fields": {
+      "metaPixelId": {
+        "label": "Meta Pixel (Facebook and Instagram)",
+        "placeholder": "123456789012345",
+        "help": "In Meta Events Manager, open your data source (Pixel) and copy the Pixel ID. It is 15 or 16 digits."
+      },
+      "ga4Id": {
+        "label": "Google Analytics 4",
+        "placeholder": "G-XXXXXXXXXX",
+        "help": "In Google Analytics, go to Admin, then Data streams, open your website stream and copy the Measurement ID. It starts with G-."
+      },
+      "tiktokPixelId": {
+        "label": "TikTok Pixel",
+        "placeholder": "ABCDEFGHIJ0123456789",
+        "help": "In TikTok Ads Manager, go to Assets, then Events, open your Web Events data source and copy the Pixel ID. It is 20 letters and numbers."
+      },
+      "snapPixelId": {
+        "label": "Snapchat Pixel",
+        "placeholder": "12345678-1234-1234-1234-123456789abc",
+        "help": "In Snapchat Events Manager, open your Pixel and copy the Pixel ID. It looks like 12345678-1234-1234-1234-123456789abc."
+      },
+      "clarityId": {
+        "label": "Microsoft Clarity",
+        "placeholder": "abcd1234ef",
+        "help": "In Microsoft Clarity, open your project, go to Settings, then Overview, and copy the Project ID. It is 8 to 12 lowercase letters and numbers."
+      }
     }
   },
   "notifications": {

@@ -4,6 +4,7 @@ import {
   siteContentSchema,
   type SiteContent,
 } from "../static-site-generator/site-content";
+import { trackingSettingsSchema, type TrackingSettings } from "../tracking/types";
 import { SiteModel } from "./model";
 import { createSlug } from "./slug";
 import {
@@ -18,6 +19,7 @@ type LeanSite = {
   slug: string;
   brief: unknown;
   content: unknown;
+  tracking?: unknown;
   status: SiteStatus;
   error?: string | null;
   createdAt: Date;
@@ -59,6 +61,11 @@ function readStatus(site: LeanSite, content: SiteContent | null): SiteStatus {
   return site.status === "ready" && content === null ? "draft" : site.status;
 }
 
+function readTracking(site: LeanSite): TrackingSettings {
+  const parsed = trackingSettingsSchema.safeParse(site.tracking ?? {});
+  return parsed.success ? parsed.data : {};
+}
+
 function toSummary(site: LeanSite): SiteSummary {
   const brief = businessBriefSchema.parse(site.brief);
 
@@ -80,6 +87,7 @@ function toRecord(site: LeanSite): SiteRecord {
     ...toSummary(site),
     brief,
     content,
+    tracking: readTracking(site),
     error: site.error ?? null,
     createdAt: site.createdAt.toISOString(),
   };
@@ -168,6 +176,27 @@ export async function saveSiteContent(
   const site = (await SiteModel.findOneAndUpdate(
     { _id: siteId, ownerId },
     { content, status: "ready", error: null },
+    { returnDocument: "after" },
+  ).lean()) as LeanSite | null;
+
+  return site ? toRecord(site) : null;
+}
+
+export async function saveSiteTracking(
+  ownerId: string,
+  siteId: string,
+  trackingInput: unknown,
+): Promise<SiteRecord | null> {
+  if (!isValidObjectId(siteId)) {
+    return null;
+  }
+
+  const tracking = trackingSettingsSchema.parse(trackingInput);
+  await connectToDatabase();
+
+  const site = (await SiteModel.findOneAndUpdate(
+    { _id: siteId, ownerId },
+    { tracking },
     { returnDocument: "after" },
   ).lean()) as LeanSite | null;
 
