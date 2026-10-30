@@ -211,3 +211,38 @@ and on mobile.
 - Every owner-scoped API: `requireSession` + owner check (401 / 404).
 - All user-facing text in `src/messages/en.json` and `ar.json`.
 - Run every check in CODE_RULES §9 and verify acceptance in the browser/curl.
+
+## P2 Projects v2 (owner request 2026-10-30)
+
+Research (interior design, construction and real-estate portfolios): a strong project page answers *what, where,
+how big, when, for whom, what was done and how it turned out*, with a cover photo and a gallery; a short
+challenge → solution → result story beats a long gallery.
+
+Project fields (all optional except title and one photo; localized text per site language):
+
+| Field | Example | Notes |
+|---|---|---|
+| title | "Nile View Apartment" | required |
+| category | Residential · Commercial · Hospitality · Retail · Office · Villa · Other | dropdown + free text |
+| status | completed · in progress · upcoming | badge on cards |
+| location | "New Cairo" | |
+| year | 2025 | completion year (or expected) |
+| client | "Private client" | optional, may be hidden |
+| area | 220 m² | number + unit |
+| duration | "6 months" | |
+| scope | tags from the business's services ("Design", "Fit-out", "Furniture") | |
+| summary | one or two lines | used on cards and the home page |
+| challenge / solution / result | short paragraphs | the project story |
+| photos | cover + up to 15 gallery photos, optional "before" photos | multi-upload, reorder, choose cover |
+
+Photos: **many at once** (multi-select upload with per-file progress), thumbnails, drag or arrows to reorder,
+"Set as cover", remove. Guidance shown in the form: landscape, at least 1600 px wide; any size works because
+the site shows every photo in a fixed frame (cards 4:3, gallery 3:2) with `object-fit: cover`.
+
+Website: project cards show cover, title, category, location, year, status; each project gets its own page
+(`projects/<slug>.html`) with facts row, story, gallery (lightbox optional) and a call to action. Projects are
+facts (never AI-written); the AI may only write the section headings around them.
+
+Acceptance: multi-upload of 10 photos in one pick; reorder and cover persist; cards look consistent with
+mixed photo sizes; project pages exist for every project in both languages; old projects (title + photos
+only) still render.

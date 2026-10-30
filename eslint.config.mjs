@@ -13,6 +13,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Owner-provided HTML/CSS design sources, converted into blocks by hand (docs/block-library-plan.md).
+    "templates/**",
   ]),
 ]);
 
