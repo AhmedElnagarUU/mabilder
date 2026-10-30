@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { buttonClass } from "@/shared/ui/button";
 import { Field, TextAreaField, inputClass, labelClass } from "@/shared/ui/field";
 import { Icon } from "@/shared/ui/icon";
+import { ImageUploadButton } from "@/features/uploads/components/image-upload-button";
 import {
   MAX_PROJECT_PHOTOS,
   type LocalizedText,
@@ -89,6 +90,10 @@ export function ProjectForm({
 
   function addPhoto(): void {
     setState((current) => ({ ...current, photos: [...current.photos, { url: "", alt: "" }] }));
+  }
+
+  function addUploadedPhoto(url: string): void {
+    setState((current) => ({ ...current, photos: [...current.photos, { url, alt: "" }] }));
   }
 
   function removePhoto(index: number): void {
@@ -207,10 +212,18 @@ export function ProjectForm({
           </div>
         ))}
         {state.photos.length < MAX_PROJECT_PHOTOS ? (
-          <button type="button" onClick={addPhoto} className={buttonClass("secondary", "sm", "gap-1.5")}>
-            <Icon name="plus" className="h-3.5 w-3.5" />
-            {t("addPhoto")}
-          </button>
+          <div className="flex flex-wrap items-start gap-2">
+            <button type="button" onClick={addPhoto} className={buttonClass("secondary", "sm", "gap-1.5")}>
+              <Icon name="plus" className="h-3.5 w-3.5" />
+              {t("addPhoto")}
+            </button>
+            <ImageUploadButton
+              siteId={site.siteId}
+              slotId="projects"
+              onUploaded={addUploadedPhoto}
+              disabled={busy}
+            />
+          </div>
         ) : null}
       </fieldset>
 

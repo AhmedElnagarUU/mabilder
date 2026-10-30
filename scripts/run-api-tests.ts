@@ -15,6 +15,15 @@ const testAdminEnv = {
   PRO_PRICE_EGP: "500",
 };
 
+// Fake values: presigning is a local computation, so the tests never reach S3.
+const testS3Env = {
+  S3_REGION: "us-east-1",
+  S3_BUCKET: "test-bucket",
+  S3_ACCESS_KEY_ID: "AKIAFAKEFAKEFAKEFAKE",
+  S3_SECRET_ACCESS_KEY: "fake-secret-fake-secret-fake-secret-0000",
+  S3_PUBLIC_BASE_URL: "https://uploads.test.local",
+};
+
 function getTestDatabaseName(): string {
   const name = process.env.MONGODB_DB_NAME;
 
@@ -62,6 +71,7 @@ function startServer(databaseName: string): ChildProcess {
         EMAIL_PROVIDER: "none",
         CRON_SECRET: testCronSecret,
         ...testAdminEnv,
+        ...testS3Env,
         POLAR_WEBHOOK_SECRET: testWebhookSecret,
       },
       stdio: ["ignore", "inherit", "inherit"],

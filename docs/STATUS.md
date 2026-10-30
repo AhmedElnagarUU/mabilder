@@ -60,4 +60,5 @@ Read `AGENTS.md`, `CODE_RULES.md`, then the docs your task touches:
 - Checks: `npm run lint`, `npx tsc --noEmit`, `npx tsc -p tsconfig.generator.json --noEmit`,
   `npm run check:blocks`, `npm run check:messages`, `npm run check:theme`, `npm run check:composition`, `npm run build`, `npm test`, `npm run test:api` (after build; uses port 3100 and a `_test` DB; never calls AI).
 - Delegation used the OpenCode lane `saas` (local machine only; config in `~/.config/delegate-skills/`).
+- S3 bucket CORS (U1): allow `PUT` from the app origin (`NEXT_PUBLIC_APP_URL`) with header `Content-Type`.
 - `.env` is not in git. Copy `.env.example` and fill in the values on a new machine.

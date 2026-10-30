@@ -7,8 +7,10 @@ import { inputClass } from "../../../shared/ui/field";
 import type { EditableField } from "../content-ops";
 import { fieldLabelKey } from "../field-groups";
 import type { OverlayBounds, OverlayRect } from "../preview-document";
+import { ImageUploadButton } from "../../uploads/components/image-upload-button";
 
 type InlineFieldEditorProps = {
+  siteId: string;
   mode: "text" | "image";
   field: EditableField;
   rect: OverlayRect;
@@ -50,6 +52,7 @@ function TextHint({
 }
 
 function ImageEditor({
+  siteId,
   label,
   field,
   rect,
@@ -57,6 +60,7 @@ function ImageEditor({
   onApply,
   onCancel,
 }: {
+  siteId: string;
   label: string;
   field: EditableField;
   rect: OverlayRect;
@@ -85,7 +89,7 @@ function ImageEditor({
       onSubmit={handleSubmit}
       style={{
         position: "absolute",
-        top: clamp(rect.top + 8, 12, Math.max(12, bounds.height - 220)),
+        top: clamp(rect.top + 8, 12, Math.max(12, bounds.height - 300)),
         left: clamp(rect.left, 12, Math.max(12, bounds.width - 332)),
       }}
       className="glass-strong z-40 w-80 rounded-panel p-3 text-ink shadow-soft"
@@ -105,6 +109,12 @@ function ImageEditor({
         className={`${inputClass} mt-1.5`}
       />
       {error ? <p className="mt-1 text-sm text-danger">{error}</p> : null}
+      <ImageUploadButton
+        siteId={siteId}
+        slotId="editor"
+        onUploaded={onApply}
+        className="mt-2"
+      />
       <div className="mt-2 flex justify-end gap-1.5">
         <button
           type="button"
@@ -125,6 +135,7 @@ function ImageEditor({
 }
 
 export function InlineFieldEditor({
+  siteId,
   mode,
   field,
   rect,
@@ -143,6 +154,7 @@ export function InlineFieldEditor({
 
   return (
     <ImageEditor
+      siteId={siteId}
       label={label}
       field={field}
       rect={rect}

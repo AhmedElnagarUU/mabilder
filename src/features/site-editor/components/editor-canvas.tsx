@@ -617,6 +617,7 @@ export function EditorCanvas({
         {focusMode && editingField && editingRect ? (
           <InlineFieldEditor
             key={`text-${fieldPathKey(editingField.path)}`}
+            siteId={siteId}
             mode="text"
             field={editingField}
             rect={editingRect}
@@ -627,6 +628,7 @@ export function EditorCanvas({
         {focusMode && activeImage && imageRect ? (
           <InlineFieldEditor
             key={`image-${activeImage.blockId}-${fieldPathKey(activeImage.field.path)}`}
+            siteId={siteId}
             mode="image"
             field={activeImage.field}
             rect={imageRect}
