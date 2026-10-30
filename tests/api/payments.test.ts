@@ -239,9 +239,10 @@ test("without an admin session every admin payment, plan and settings route is r
   ];
 
   for (const [method, path] of targets) {
-    assert.equal((await request(path, { method, body: {} })).status, 401, `${method} ${path}`);
+    const body = method === "GET" ? undefined : {};
+    assert.equal((await request(path, { method, body })).status, 401, `${method} ${path}`);
     assert.equal(
-      (await request(path, { method, body: {}, cookie: customerCookie })).status,
+      (await request(path, { method, body, cookie: customerCookie })).status,
       401,
       `${method} ${path} as a customer`,
     );
