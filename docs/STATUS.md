@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-10-29 · Branch: `block-system`
+Last updated: 2026-10-30 · Branch: `block-system`
 
 ## Start here (new session)
 
@@ -22,11 +22,23 @@ Read `AGENTS.md`, `CODE_RULES.md`, then the docs your task touches:
 | E1 | Block editor: Structure mode (sections, devices, collapsible panels) + Content mode (one section, inline edit) | `0afd328` |
 | M6 | Pexels stock photos for empty image slots + credits | `e61bd33` |
 | I1 | App UI in English and Arabic (next-intl, `/en` + `/ar`, RTL, switcher, API error codes), `npm run check:messages` | `cd8392e` |
+| F1 | Bigger dashboard and editor text | `e91a0b8` |
+| X1 | Activity tracking + customer "Recent activity" | `9be2538` |
+| X2 | Notifications: in-app bell, email outbox with provider interface, cron dispatch | `c6f078b` |
+| X3 | Isolated admin area (env login, 5-hour session), overview, users, activate/deactivate | `94e4ca7` |
+| P1 | Projects manager (dashboard CRUD, reorder, show on home, facts refresh without AI) | `fac2241` |
+| T1 | Tracking pixels (Meta, GA4, TikTok, Snapchat, Clarity) | `fac2241` |
+| S1 | SEO page (per-page titles/descriptions, Google preview) | `fac2241` |
+| B1 | Polar billing: trial, checkout, portal, signed webhook, 402 when expired | `fac2241` |
+| D2 | Dashboard: active sidebar item, website health cards | `accfc57` |
+| X4 | Feedback: customer dialog, admin inbox, reply | `56fd00b` |
+| B2 | Egyptian wallet payments with admin approval, manual plan change, payment settings | `56fd00b` |
 
 ## Next, in order
 
-1. Owner system (`docs/owner-system-plan.md`): **F1** fonts → **X1** activity → **X2** notifications → **X3** admin → **B1** Polar → **B2** Egyptian wallet payments → **X4** feedback
-2. Then `docs/features-v2-plan.md`: **P1** projects → **U1** S3 uploads (needs S3 env) → **S1** SEO → **C1** AI credits → **T1** tracking → **G1** tutorials
+1. **C1** AI credits + scoped rewrite (in progress) → **M8** wizard website languages (done on a branch, merging) → **G1** tutorials
+2. **U1** S3 uploads — needs `S3_REGION`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_PUBLIC_BASE_URL` in `.env` and bucket CORS allowing PUT
+3. Later: real email provider, Paymob gateway (`docs/owner-system-plan.md`)
 
 ## Current state of the app
 
