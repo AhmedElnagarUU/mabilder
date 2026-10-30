@@ -36,7 +36,7 @@ Read `AGENTS.md`, `CODE_RULES.md`, then the docs your task touches:
 
 ## Next, in order
 
-1. **C1** AI credits + scoped rewrite (in progress) → **M8** wizard website languages (done on a branch, merging) → **G1** tutorials
+1. Done: **C1** AI credits (`45b45c3`), **M8** website languages (`23347ad`), **G1** tours (see log)
 2. **U1** S3 uploads — needs `S3_REGION`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_PUBLIC_BASE_URL` in `.env` and bucket CORS allowing PUT
 3. Later: real email provider, Paymob gateway (`docs/owner-system-plan.md`)
 
