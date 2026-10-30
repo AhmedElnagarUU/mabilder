@@ -7,6 +7,7 @@ import {
   generationBudget,
   writeSiteCopy,
 } from "./generation/page-copy";
+import { resolveLanguages } from "./languages";
 import { normalizeBusinessProfile } from "./generation/profile";
 import { createSpendGuard } from "./generation/spend-guard";
 import { fillImages } from "./images/fill-images";
@@ -20,12 +21,12 @@ export function buildSiteContent(
   brief: BusinessBrief,
   currentYear = new Date().getFullYear(),
 ): SiteContent {
-  const locale = brief.locale ?? "en";
+  const { locales, defaultLocale } = resolveLanguages(brief);
 
   return composeSite({
     theme: defaultTheme,
-    locales: [locale],
-    defaultLocale: locale,
+    locales,
+    defaultLocale,
     facts: buildFacts(brief),
     currentYear,
   });

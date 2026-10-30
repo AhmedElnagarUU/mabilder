@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { recordActivity } from "../activity/service";
 import type { ActivityType } from "../activity/types";
+import { resolveLanguages } from "../site-creation/languages";
 import { refreshFactBlocks } from "../site-creation/refresh-facts";
 import { getSite, listSites, saveContent } from "../site-creation/service";
 import type { SiteRecord } from "../site-creation/types";
@@ -47,12 +48,12 @@ async function findOwnerSite(ownerId: string): Promise<SiteRecord | null> {
 }
 
 function toProjectsSite(site: SiteRecord): ProjectsSite {
-  const locale = site.brief.locale ?? "en";
+  const languages = resolveLanguages(site.brief);
 
   return {
     siteId: site.id,
-    locales: site.content?.locales ?? [locale],
-    defaultLocale: site.content?.defaultLocale ?? locale,
+    locales: site.content?.locales ?? languages.locales,
+    defaultLocale: site.content?.defaultLocale ?? languages.defaultLocale,
   };
 }
 
