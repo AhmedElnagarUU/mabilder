@@ -16,6 +16,19 @@ const optionalText = z.preprocess(
     .transform((value) => value ?? undefined),
 );
 
+export const websiteLanguagesSchema = z
+  .object({
+    locales: z.array(localeSchema).min(1).max(2),
+    defaultLocale: localeSchema,
+  })
+  .refine(
+    ({ locales, defaultLocale }) =>
+      new Set(locales).size === locales.length && locales.includes(defaultLocale),
+    { message: "defaultLocale must be one of the unique locales" },
+  );
+
+export type WebsiteLanguages = z.infer<typeof websiteLanguagesSchema>;
+
 export const businessBriefSchema = z.object({
   businessName: requiredText,
   industry: requiredText,
@@ -32,6 +45,8 @@ export const businessBriefSchema = z.object({
   notableClients: optionalText,
   projectCount: optionalText,
   extraDetails: optionalText,
+  languages: websiteLanguagesSchema.nullish().transform((value) => value ?? undefined),
+  // Old briefs only: read through resolveLanguages, never directly.
   locale: localeSchema.nullish().transform((value) => value ?? undefined),
 });
 

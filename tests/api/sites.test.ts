@@ -217,3 +217,21 @@ test("saving a hidden block removes it from the preview (CODE_RULES §8: hidden 
   assert.equal(blockPosition(html, hiddenId), -1, "the hidden block is still in the preview");
   assert.ok(blockPosition(html, homeBlockIds(siteContent)[0]) >= 0, "visible blocks disappeared");
 });
+
+test("a site created with both languages returns them on GET (M8)", async () => {
+  const cookie = await signUpUser("M8 Languages");
+  const languages = { locales: ["en", "ar"], defaultLocale: "ar" };
+  const created = await request("/api/sites", {
+    method: "POST",
+    cookie,
+    body: { ...briefFor("M8 Languages Studio"), locale: undefined, languages },
+  });
+  assert.equal(created.status, 201, await created.clone().text());
+
+  const { site } = (await created.json()) as { site: { id: string } };
+  const fetched = await request(`/api/sites/${site.id}`, { cookie });
+  assert.equal(fetched.status, 200);
+
+  const body = (await fetched.json()) as { site: { brief: { languages: unknown } } };
+  assert.deepEqual(body.site.brief.languages, languages);
+});

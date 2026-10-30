@@ -573,10 +573,19 @@
       "contactLocation": "الاتصال والموقع",
       "trackRecord": "السجل"
     },
+    "languages": {
+      "label": "لغة الموقع",
+      "en": "الإنجليزية",
+      "ar": "العربية",
+      "both": "كلتاهما",
+      "mainLabel": "اللغة الرئيسية",
+      "mainHint": "يرى الزوار اللغة الرئيسية أولًا ويمكنهم التبديل من القائمة."
+    },
     "fields": {
       "businessName": "اسم النشاط التجاري",
       "industry": "المجال",
       "description": "ماذا يفعل النشاط التجاري؟",
+      "websiteLanguage": "لغة الموقع",
       "services": "الخدمات",
       "audience": "الجمهور",
       "tone": "النبرة",

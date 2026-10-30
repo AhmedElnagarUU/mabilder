@@ -573,10 +573,19 @@
       "contactLocation": "Contact and location",
       "trackRecord": "Track record"
     },
+    "languages": {
+      "label": "Website language",
+      "en": "English",
+      "ar": "Arabic",
+      "both": "Both",
+      "mainLabel": "Main language",
+      "mainHint": "Visitors land on the main language first and can switch from the menu."
+    },
     "fields": {
       "businessName": "Business name",
       "industry": "Industry",
       "description": "What does the business do?",
+      "websiteLanguage": "Website language",
       "services": "Services",
       "audience": "Audience",
       "tone": "Tone",

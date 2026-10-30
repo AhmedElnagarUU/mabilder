@@ -5,7 +5,13 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link, useRouter } from "@/shared/i18n/navigation";
 import { buttonClass } from "@/shared/ui/button";
 import { Field, TextAreaField } from "@/shared/ui/field";
+import type { Locale } from "../../static-site-generator/locale";
 import { wizardSteps } from "../wizard-steps";
+import {
+  LanguagePicker,
+  toWebsiteLanguages,
+  type LanguageSelection,
+} from "./language-picker";
 import { WizardStepper } from "./wizard-stepper";
 
 type FormState = {
@@ -94,9 +100,12 @@ function isBlank(value: string): boolean {
 
 export function CreateSiteWizard() {
   const t = useTranslations("siteCreation");
-  const locale = useLocale();
+  const appLocale = useLocale() as Locale;
   const router = useRouter();
   const [step, setStep] = useState(0);
+  const [languageSelection, setLanguageSelection] = useState<LanguageSelection>(
+    { choice: appLocale, mainLocale: appLocale },
+  );
   const [form, setForm] = useState<FormState>(emptyForm);
   const [busy, setBusy] = useState<"idle" | "creating" | "generating">("idle");
   const [statusKey, setStatusKey] = useState<"saving" | "generating" | null>(
@@ -165,7 +174,10 @@ export function CreateSiteWizard() {
       const createResponse = await fetch("/api/sites", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, locale }),
+        body: JSON.stringify({
+          ...form,
+          languages: toWebsiteLanguages(languageSelection),
+        }),
       });
       const created = (await createResponse.json()) as CreateResponse;
 
@@ -209,6 +221,11 @@ export function CreateSiteWizard() {
     }
   }
 
+  const languageSummary =
+    languageSelection.choice === "both"
+      ? `${t("languages.both")} · ${t("languages.mainLabel")}: ${t(`languages.${languageSelection.mainLocale}`)}`
+      : t(`languages.${languageSelection.choice}`);
+
   const reviewGroups = [
     {
       title: t("review.basics"),
@@ -217,6 +234,7 @@ export function CreateSiteWizard() {
         ["businessName", form.businessName],
         ["industry", form.industry],
         ["description", form.description],
+        ["websiteLanguage", languageSummary],
       ],
     },
     {
@@ -331,6 +349,14 @@ export function CreateSiteWizard() {
                       placeholder={t("placeholders.description")}
                       required
                       rows={5}
+                    />
+
+                    <LanguagePicker
+                      value={languageSelection}
+                      onChange={(value) => {
+                        setLanguageSelection(value);
+                        setError(null);
+                      }}
                     />
                   </>
                 ) : null}
