@@ -5,6 +5,7 @@ import { LocaleSwitcher } from "../../../shared/i18n/locale-switcher";
 import { Link } from "../../../shared/i18n/navigation";
 import { buttonClass } from "../../../shared/ui/button";
 import { CreditBadge } from "../../credits/components/credit-badge";
+import { HelpButton } from "../../onboarding/components/help-button";
 import { Icon, type IconName } from "../../../shared/ui/icon";
 import { deviceIds, type DeviceId, type EditorMode } from "../canvas-frame";
 
@@ -40,6 +41,7 @@ type EditorTopbarProps = {
 
 type SegmentedProps<Id extends string> = {
   ariaLabel: string;
+  tourTarget: string;
   ids: Id[];
   value: Id;
   icons: Record<Id, IconName>;
@@ -50,6 +52,7 @@ type SegmentedProps<Id extends string> = {
 
 function Segmented<Id extends string>({
   ariaLabel,
+  tourTarget,
   ids,
   value,
   icons,
@@ -61,6 +64,7 @@ function Segmented<Id extends string>({
     <div
       role="group"
       aria-label={ariaLabel}
+      data-tour={tourTarget}
       className="flex rounded-full border border-line bg-white/[0.025] p-0.5"
     >
       {ids.map((id) => (
@@ -109,6 +113,7 @@ export function EditorTopbar({
       <>
         <Segmented
           ariaLabel={t("modes.label")}
+          tourTarget="editor-modes"
           ids={modeIds}
           value={mode}
           icons={modeIcons}
@@ -118,6 +123,7 @@ export function EditorTopbar({
         />
         <Segmented
           ariaLabel={t("devices.label")}
+          tourTarget="editor-devices"
           ids={deviceIds}
           value={device}
           icons={deviceIcons}
@@ -157,6 +163,7 @@ export function EditorTopbar({
               <button
                 type="button"
                 onClick={() => onToggleDrawer("sections")}
+                data-tour="editor-sections"
                 aria-label={t("panel.sections")}
                 title={t("panel.sections")}
                 className={buttonClass("secondary", "sm", "px-0 max-sm:w-9 sm:px-3 lg:hidden")}
@@ -177,6 +184,7 @@ export function EditorTopbar({
             </>
           ) : null}
           <CreditBadge left={creditsLeft} />
+          <HelpButton tourId="editor" />
           <LocaleSwitcher
             className={buttonClass("secondary", "sm", "px-3 sm:px-3.5")}
             beforeSwitch={onBeforeSwitchLocale}
@@ -184,6 +192,7 @@ export function EditorTopbar({
           <button
             type="button"
             onClick={onSave}
+            data-tour="editor-save"
             disabled={saving}
             title={dirty ? t("panel.unsaved") : undefined}
             className={buttonClass("primary", "sm", "px-3 sm:px-3.5")}

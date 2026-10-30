@@ -36,7 +36,7 @@ export function SectionList({
   const removed = page.blocks.filter((block) => block.hidden);
 
   return (
-    <aside className="w-[260px] shrink-0 space-y-5 overflow-y-auto border-e border-line bg-surface px-3 py-3">
+    <aside data-tour="editor-sections" className="w-[260px] shrink-0 space-y-5 overflow-y-auto border-e border-line bg-surface px-3 py-3">
       <section>
         <div className="mb-2 flex items-center justify-between gap-2">
           <p className="mono-label truncate text-[13px] tracking-[0.12em] text-faint">
@@ -47,6 +47,7 @@ export function SectionList({
         <button
           type="button"
           onClick={onRewritePage}
+          data-tour="editor-rewrite"
           className="mb-3 flex h-9 w-full items-center justify-center gap-1.5 rounded-full border border-accent/30 bg-accent/10 px-3 text-sm text-accent transition-colors hover:bg-accent/15"
         >
           <Icon name="spark" className="h-4 w-4" />

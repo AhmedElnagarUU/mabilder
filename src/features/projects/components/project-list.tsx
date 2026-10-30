@@ -92,7 +92,7 @@ export function ProjectList({
         </p>
       ) : null}
 
-      <ul aria-label={t("list.aria")} className="space-y-3">
+      <ul aria-label={t("list.aria")} data-tour="projects-list" className="space-y-3">
         {projects.map((project, index) =>
           editing === project.id ? (
             <li key={project.id}>
@@ -145,7 +145,10 @@ export function ProjectList({
               </div>
 
               <div className="mt-3 flex flex-wrap items-center gap-3 border-t border-line-soft pt-3">
-                <label className="flex items-center gap-2.5 text-sm text-ink">
+                <label
+                  data-tour={index === 0 ? "projects-home" : undefined}
+                  className="flex items-center gap-2.5 text-sm text-ink"
+                >
                   <input
                     type="checkbox"
                     checked={project.showOnHome}
@@ -213,6 +216,7 @@ export function ProjectList({
           type="button"
           disabled={busy}
           onClick={() => setEditing("new")}
+          data-tour="projects-add"
           className={buttonClass("primary", "md", "gap-2")}
         >
           <Icon name="plus" className="h-4 w-4" />

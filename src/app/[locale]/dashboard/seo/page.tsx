@@ -62,7 +62,7 @@ export default async function SeoPage({
   return (
     <DashboardShell user={user} site={site} crumbLabel={t("navLabel")} active="seo">
       <main className="pt-7 pb-6">
-        <div className="mb-6">
+        <div data-tour="seo-intro" className="mb-6">
           <h1 className="font-display text-[clamp(24px,2.4vw,29px)] leading-[1.05] font-light tracking-[-0.045em] text-[#f1f1ee]">
             {t("heading")}
           </h1>

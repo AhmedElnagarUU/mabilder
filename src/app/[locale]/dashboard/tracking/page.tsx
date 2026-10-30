@@ -39,7 +39,7 @@ export default async function TrackingPage({
         </h1>
         {site ? (
           <>
-            <p className="mt-2 max-w-2xl text-base text-dim">{t("subtitle")}</p>
+            <p data-tour="tracking-intro" className="mt-2 max-w-2xl text-base text-dim">{t("subtitle")}</p>
             <TrackingForm siteId={site.id} initial={site.tracking} />
           </>
         ) : (

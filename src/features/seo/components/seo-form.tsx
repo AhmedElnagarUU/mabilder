@@ -156,30 +156,34 @@ function LocaleSeoFields({
 function PageSeoCard({
   page,
   locales,
+  tourTarget,
   onChange,
 }: {
   page: SeoFormPage;
   locales: Locale[];
+  tourTarget?: string;
   onChange: (locale: Locale, field: keyof SeoText, value: string) => void;
 }) {
   const pageName = useTranslations("editor.pages");
 
   return (
-    <Card className="p-5">
-      <h2 className="text-base font-medium text-ink">{pageName(page.slug)}</h2>
+    <div data-tour={tourTarget}>
+      <Card className="p-5">
+        <h2 className="text-base font-medium text-ink">{pageName(page.slug)}</h2>
 
-      <div className="mt-4 flex flex-col gap-6">
-        {locales.map((locale) => (
-          <LocaleSeoFields
-            key={locale}
-            locale={locale}
-            text={page.meta[locale]}
-            path={pagePath(page.slug)}
-            onChange={(field, value) => onChange(locale, field, value)}
-          />
-        ))}
-      </div>
-    </Card>
+        <div className="mt-4 flex flex-col gap-6">
+          {locales.map((locale) => (
+            <LocaleSeoFields
+              key={locale}
+              locale={locale}
+              text={page.meta[locale]}
+              path={pagePath(page.slug)}
+              onChange={(field, value) => onChange(locale, field, value)}
+            />
+          ))}
+        </div>
+      </Card>
+    </div>
   );
 }
 
@@ -222,11 +226,12 @@ export function SeoForm({
 
   return (
     <div className="flex flex-col gap-4">
-      {pages.map((page) => (
+      {pages.map((page, index) => (
         <PageSeoCard
           key={page.id}
           page={page}
           locales={locales}
+          tourTarget={index === 0 ? "seo-page" : undefined}
           onChange={(locale, field, value) => changeText(page.id, locale, field, value)}
         />
       ))}
@@ -241,6 +246,7 @@ export function SeoForm({
         <button
           type="button"
           onClick={save}
+          data-tour="seo-save"
           disabled={saveState === "saving"}
           className={buttonClass("primary", "md")}
         >

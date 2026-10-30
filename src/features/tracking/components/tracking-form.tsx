@@ -84,11 +84,15 @@ export function TrackingForm({
       noValidate
       className="mt-6 grid max-w-2xl gap-5"
     >
-      {trackingFields.map((field) => {
+      {trackingFields.map((field, index) => {
         const hasError = invalid.includes(field);
 
         return (
-          <div key={field} className="grid gap-1.5">
+          <div
+            key={field}
+            data-tour={index === 0 ? "tracking-fields" : undefined}
+            className="grid gap-1.5"
+          >
             <label htmlFor={`tracking-${field}`} className="text-base text-ink">
               {t(`fields.${field}.label`)}
             </label>
@@ -125,6 +129,7 @@ export function TrackingForm({
       <div className="flex flex-wrap items-center gap-3">
         <button
           type="submit"
+          data-tour="tracking-save"
           disabled={busy}
           className={buttonClass("primary", "md", "px-6")}
         >

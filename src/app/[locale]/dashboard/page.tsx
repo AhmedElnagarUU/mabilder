@@ -255,7 +255,7 @@ export default async function DashboardPage({
           </section>
         ) : (
           <>
-            <section aria-label={t("aria.metrics")} className="grid grid-cols-1 min-[480px]:grid-cols-2 gap-2.5 lg:grid-cols-4">
+            <section aria-label={t("aria.metrics")} data-tour="dashboard-health" className="grid grid-cols-1 min-[480px]:grid-cols-2 gap-2.5 lg:grid-cols-4">
               <HealthCard
                 href={editHref}
                 label={t("health.pages.label")}
@@ -359,7 +359,7 @@ export default async function DashboardPage({
                 </dl>
 
                 <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-line-soft pt-3.5">
-                  <Link href={editHref} className={buttonClass("primary", "sm", "px-4")}>
+                  <Link href={editHref} data-tour="dashboard-edit" className={buttonClass("primary", "sm", "px-4")}>
                     {t("action.edit")}
                   </Link>
                   <a

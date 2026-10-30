@@ -662,6 +662,98 @@
       "cancel": "Cancel"
     }
   },
+  "onboarding": {
+    "ui": {
+      "counter": "{current} of {total}",
+      "skip": "Skip",
+      "back": "Back",
+      "next": "Next",
+      "done": "Done",
+      "help": "Show me around this page"
+    },
+    "dashboard": {
+      "health": {
+        "title": "Your website at a glance",
+        "body": "These cards show how complete your website is: pages, projects, Google details and tracking. Tap a card to fix or finish it."
+      },
+      "edit": {
+        "title": "Change your website",
+        "body": "Press Edit to change your texts, photos and the order of your sections. Your changes are saved when you press Save."
+      },
+      "menu": {
+        "title": "Everything in one menu",
+        "body": "Use this menu to go to your projects, how your website appears on Google, and your visitor tracking."
+      },
+      "notifications": {
+        "title": "Your messages",
+        "body": "News about your account and your website shows up here."
+      }
+    },
+    "projects": {
+      "list": {
+        "title": "Your projects",
+        "body": "Each project is a piece of your work with its own photos. Use the arrows to change the order your visitors see them."
+      },
+      "home": {
+        "title": "Show on the home page",
+        "body": "Tick this to feature a project on your home page. Leave it unticked to show it only on the projects page."
+      },
+      "add": {
+        "title": "Add a new project",
+        "body": "Press here to add a project with a title, a short description and photos."
+      }
+    },
+    "editor": {
+      "modes": {
+        "title": "Two ways to edit",
+        "body": "Switch between arranging your sections and changing the words on your pages."
+      },
+      "devices": {
+        "title": "See it on any screen",
+        "body": "Check how your website looks on a computer, a tablet and a phone before you share it."
+      },
+      "sections": {
+        "title": "Your sections",
+        "body": "Every part of your page is a section. Move one up or down, remove it, or bring a removed one back at any time."
+      },
+      "rewrite": {
+        "title": "Rewrite with AI",
+        "body": "Not happy with the words? Let AI write them again. You choose what to rewrite and can ask for a shorter or more formal tone. Each section uses 1 credit."
+      },
+      "save": {
+        "title": "Save your changes",
+        "body": "Press Save to publish your changes to your website. A dot means you have changes that are not saved yet."
+      }
+    },
+    "seo": {
+      "intro": {
+        "title": "Be found on Google",
+        "body": "Here you choose how each page of your website appears in Google search results."
+      },
+      "page": {
+        "title": "A title and a description",
+        "body": "The title is the main line people see, and the description is the short text under it. The preview shows how it will look. Keep them clear and short."
+      },
+      "save": {
+        "title": "Save your changes",
+        "body": "Press Save to update your website with the new details."
+      }
+    },
+    "tracking": {
+      "intro": {
+        "title": "Know who visits",
+        "body": "Connect free tools that count your visitors and show which ads bring you customers."
+      },
+      "fields": {
+        "title": "Paste your codes",
+        "body": "Paste the ID from each tool you use. Leave the others empty. Open “Where do I find this?” under a field if you are not sure."
+      },
+      "save": {
+        "title": "Save your changes",
+        "body": "Press Save and the tools start working on your website."
+      }
+    }
+  },
   "seo": {
     "meta": {
       "title": "SEO",

@@ -4,6 +4,8 @@ import { SignOutButton } from "@/features/auth/components/sign-out-button";
 import { PlanBadge } from "@/features/billing/components/plan-badge";
 import { SendFeedbackButton } from "@/features/feedback/components/send-feedback-button";
 import { NotificationBell } from "@/features/notifications/components/notification-bell";
+import { HelpButton } from "@/features/onboarding/components/help-button";
+import type { TourId } from "@/features/onboarding/tours";
 import { LocaleSwitcher } from "@/shared/i18n/locale-switcher";
 import { Link } from "@/shared/i18n/navigation";
 import { buttonClass } from "@/shared/ui/button";
@@ -59,6 +61,13 @@ function SidebarLink({
 
 export type DashboardNavId = "overview" | "seo" | "projects" | "tracking";
 
+const tourByNav: Record<DashboardNavId, TourId> = {
+  overview: "dashboard",
+  seo: "seo",
+  projects: "projects",
+  tracking: "tracking",
+};
+
 export async function DashboardShell({
   user,
   site,
@@ -75,6 +84,7 @@ export async function DashboardShell({
   const t = await getTranslations("dashboard");
   const common = await getTranslations("common");
   const seo = await getTranslations("seo");
+  const tourId = active ? tourByNav[active] : null;
 
   return (
     <div className="relative min-h-screen">
@@ -114,6 +124,7 @@ export async function DashboardShell({
           </p>
           <nav
             aria-label={t("sidebar.aria")}
+            data-tour="dashboard-menu"
             className="mt-2 flex min-[980px]:flex-col flex-col gap-0.5 min-[980px]:items-stretch items-center"
           >
             <SidebarLink
@@ -172,6 +183,7 @@ export async function DashboardShell({
               </p>
               <nav
                 aria-label={t("sidebar.aria")}
+                data-tour="dashboard-menu"
                 className="flex items-center gap-1.5 md:hidden"
               >
                 <Link
@@ -209,7 +221,10 @@ export async function DashboardShell({
             <div className="flex items-center gap-2">
               <PlanBadge userId={user.id} />
               <SendFeedbackButton />
-              <NotificationBell />
+              <span data-tour="dashboard-notifications" className="inline-flex">
+                <NotificationBell />
+              </span>
+              {tourId ? <HelpButton tourId={tourId} /> : null}
               <LocaleSwitcher
                 className={buttonClass("secondary", "sm", "px-3.5")}
               />
