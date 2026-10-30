@@ -27,7 +27,7 @@ export default async function AdminUserPage({
   }
 
   return (
-    <AdminShell title={detail.user.name || detail.user.email}>
+    <AdminShell title={detail.user.name || detail.user.email} active="users">
       <UserDetailView detail={detail} />
     </AdminShell>
   );

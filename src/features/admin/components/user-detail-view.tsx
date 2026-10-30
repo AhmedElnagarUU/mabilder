@@ -22,6 +22,21 @@ export function UserDetailView({ detail }: { detail: UserDetail }) {
 
   return (
     <div className="grid gap-6 xl:grid-cols-2">
+      <Card className="flex flex-wrap items-center justify-between gap-3 p-5 xl:col-span-2">
+        <div className="min-w-0">
+          <p className="truncate text-lg font-semibold">{user.name || "(no name)"}</p>
+          <p className="truncate text-sm text-muted">
+            <bdi dir="ltr">{user.email}</bdi>
+          </p>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge tone={user.inactive ? "danger" : "success"}>{user.inactive ? "Deactivated" : "Active"}</Badge>
+          <Badge tone={plan.state === "expired" ? "danger" : plan.state === "active" ? "success" : "neutral"}>
+            {planLabels[plan.state]}
+          </Badge>
+        </div>
+      </Card>
+
       <Card className="p-6">
         <div className="mb-4 flex items-center justify-between gap-3">
           <h2 className="text-lg font-semibold">Profile</h2>

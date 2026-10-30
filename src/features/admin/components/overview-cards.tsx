@@ -22,8 +22,8 @@ export function OverviewCards({ stats }: { stats: OverviewStats }) {
     <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
       {cards.map((card) => (
         <Card key={card.label} className="p-5">
-          <p className="text-sm text-muted">{card.label}</p>
-          <p className="mt-2 text-3xl font-semibold">{card.value(stats)}</p>
+          <p className="mono-label text-[11px] tracking-[0.13em] text-dim">{card.label}</p>
+          <p className="mt-2 font-display text-3xl font-normal tracking-[-0.03em]">{card.value(stats)}</p>
         </Card>
       ))}
     </div>

@@ -5,6 +5,7 @@ import { inputClass } from "@/shared/ui/field";
 import { buttonClass } from "@/shared/ui/button";
 import type { UserListPage, UserListQuery } from "../types";
 import { formatDate, formatDateTime } from "./format";
+import { selectClass } from "./select-class";
 
 const cellClass = "px-4 py-3 text-start text-sm";
 
@@ -22,28 +23,30 @@ function pageHref(query: UserListQuery, page: number) {
 
 export function UsersFilters({ query }: { query: UserListQuery }) {
   return (
-    <form method="get" className="mb-6 flex flex-wrap items-end gap-3">
-      <input
-        type="search"
-        name="search"
-        defaultValue={query.search ?? ""}
-        placeholder="Search name or email"
-        aria-label="Search name or email"
-        className={`${inputClass} max-w-xs`}
-      />
-      <select name="status" defaultValue={query.status ?? ""} aria-label="Status" className={`${inputClass} w-auto`}>
-        <option value="">All accounts</option>
-        <option value="active">Active</option>
-        <option value="inactive">Deactivated</option>
-      </select>
-      <select name="sort" defaultValue={query.sort} aria-label="Sort by" className={`${inputClass} w-auto`}>
-        <option value="lastActive">Last active</option>
-        <option value="joined">Joined</option>
-      </select>
-      <button type="submit" className={buttonClass("secondary", "md")}>
-        Apply
-      </button>
-    </form>
+    <Card className="mb-4 p-4">
+      <form method="get" className="flex flex-wrap items-center gap-3">
+        <input
+          type="search"
+          name="search"
+          defaultValue={query.search ?? ""}
+          placeholder="Search name or email"
+          aria-label="Search name or email"
+          className={`${inputClass} max-w-xs`}
+        />
+        <select name="status" defaultValue={query.status ?? ""} aria-label="Status" className={selectClass}>
+          <option value="">All accounts</option>
+          <option value="active">Active</option>
+          <option value="inactive">Deactivated</option>
+        </select>
+        <select name="sort" defaultValue={query.sort} aria-label="Sort by" className={selectClass}>
+          <option value="lastActive">Last active</option>
+          <option value="joined">Joined</option>
+        </select>
+        <button type="submit" className={buttonClass("secondary", "md")}>
+          Apply
+        </button>
+      </form>
+    </Card>
   );
 }
 
@@ -53,7 +56,7 @@ export function UsersTable({ users, query }: { users: UserListPage; query: UserL
       <Card className="overflow-x-auto">
         <table className="w-full min-w-[720px]">
           <thead>
-            <tr className="border-b border-line text-xs tracking-[0.08em] text-muted uppercase">
+            <tr className="border-b border-line font-mono text-[11px] tracking-[0.1em] text-muted uppercase">
               <th className={cellClass}>Name</th>
               <th className={cellClass}>Email</th>
               <th className={cellClass}>Status</th>

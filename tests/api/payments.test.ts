@@ -296,3 +296,30 @@ test("invalid payment settings are refused and change nothing", async () => {
   const after = await (await request("/api/admin/settings/payment", { cookie: adminCookie })).json();
   assert.deepEqual(after, before);
 });
+
+test("saving a wallet list with one wallet removed returns the shorter list", async () => {
+  const wallets = [
+    { method: "vodafone_cash", number: "01011111111", name: "First" },
+    { method: "other_wallet", number: "01022222222", name: "Second" },
+  ];
+  const settings = { instapayAddress: "owner@instapay", instructions: { en: "Pay.", ar: "" } };
+
+  const full = await request("/api/admin/settings/payment", {
+    method: "PUT",
+    cookie: adminCookie,
+    body: { ...settings, wallets },
+  });
+  assert.equal(full.status, 200);
+
+  const shorter = await request("/api/admin/settings/payment", {
+    method: "PUT",
+    cookie: adminCookie,
+    body: { ...settings, wallets: wallets.slice(1) },
+  });
+  assert.equal(shorter.status, 200);
+
+  const read = (await (await request("/api/admin/settings/payment", { cookie: adminCookie })).json()) as {
+    wallets: typeof wallets;
+  };
+  assert.deepEqual(read.wallets, wallets.slice(1));
+});

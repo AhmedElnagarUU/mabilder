@@ -30,7 +30,7 @@ export default async function AdminFeedbackPage({
   const query = feedbackListQuerySchema.parse(firstValues(await searchParams));
 
   return (
-    <AdminShell title="Feedback">
+    <AdminShell title="Feedback" active="feedback">
       <FeedbackInbox page={await listFeedbackInbox(query)} query={query} />
     </AdminShell>
   );

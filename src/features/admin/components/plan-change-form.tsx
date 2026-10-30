@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "@/shared/i18n/navigation";
 import { buttonClass } from "@/shared/ui/button";
 import { inputClass, labelClass } from "@/shared/ui/field";
+import { selectClass } from "./select-class";
 
 type Action = "extend_trial" | "grant_pro" | "end_plan";
 
@@ -50,7 +51,7 @@ export function PlanChangeForm({ userId }: { userId: string }) {
         <select
           value={action}
           onChange={(event) => setAction(event.target.value as Action)}
-          className={`${inputClass} w-auto`}
+          className={selectClass}
         >
           <option value="extend_trial">Extend trial until</option>
           <option value="grant_pro">Grant Pro until</option>
