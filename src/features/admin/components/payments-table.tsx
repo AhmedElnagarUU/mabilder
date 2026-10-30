@@ -71,7 +71,19 @@ export function PaymentsTable({ payments }: { payments: AdminPaymentList }) {
                   Expected: {expectedPriceEgp === null ? "not set" : `${expectedPriceEgp} EGP`}
                 </p>
               </td>
-              <td className={cellClass}>{payment.reference}</td>
+              <td className={cellClass}>
+                {payment.reference ?? "-"}
+                {payment.proofImageUrl ? (
+                  <a
+                    href={payment.proofImageUrl}
+                    target="_blank"
+                    rel="noopener"
+                    className="mt-1 block text-xs text-accent underline underline-offset-4"
+                  >
+                    View screenshot
+                  </a>
+                ) : null}
+              </td>
               <td className={cellClass}>{payment.senderPhone ?? "-"}</td>
               <td className={cellClass}>{formatDateTime(payment.createdAt)}</td>
               <td className={cellClass}>

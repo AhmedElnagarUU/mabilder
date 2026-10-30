@@ -24,8 +24,7 @@ export async function POST(request: Request) {
       return invalidRequestResponse();
     }
 
-    const { siteId, slotId, contentType, size } = parsed.data;
-    const result = await requestUpload(user.id, siteId, slotId, contentType, size);
+    const result = await requestUpload(user.id, parsed.data);
 
     if (result.ok) {
       return Response.json({ uploadUrl: result.uploadUrl, publicUrl: result.publicUrl });

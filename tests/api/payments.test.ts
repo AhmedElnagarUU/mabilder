@@ -31,7 +31,7 @@ function submit(user: TestUser, overrides: Record<string, unknown> = {}): Promis
   return request(PAYMENTS, {
     method: "POST",
     cookie: user.cookie,
-    body: { method: "vodafone_cash", amount: 500, reference: "TX-1001", senderPhone: "01000000000", ...overrides },
+    body: { method: "vodafone_cash", reference: "TX-1001", senderPhone: "01000000000", ...overrides },
   });
 }
 
@@ -82,7 +82,7 @@ test("a submitted payment is pending, logged, and a second one is refused while 
 
   assert.equal(payment.status, "pending");
   assert.equal(payment.currency, "EGP");
-  assert.equal(payment.amount, 500);
+  assert.equal(payment.amount, Number(process.env.PRO_PRICE_EGP));
   assert.equal(payment.userId, payer.id);
 
   const event = await ActivityEventModel.findOne({ userId: payer.id, type: "payment_submitted" });
@@ -96,12 +96,33 @@ test("a submitted payment is pending, logged, and a second one is refused while 
 
 test("invalid payments and anonymous requests are refused", async () => {
   assert.equal((await submit(other, { method: "bitcoin" })).status, 400);
-  assert.equal((await submit(other, { amount: -5 })).status, 400);
-  assert.equal((await submit(other, { reference: "   " })).status, 400);
+  assert.equal((await submit(other, { senderPhone: undefined })).status, 400);
+  assert.equal((await submit(other, { senderPhone: "12345" })).status, 400);
+  assert.equal((await submit(other, { senderPhone: "02000000000" })).status, 400);
+  assert.equal((await submit(other, { proofImageUrl: "https://evil.example.com/a.png" })).status, 400);
   assert.equal(await PaymentModel.countDocuments({ userId: other.id }), 0);
 
   assert.equal((await request(PAYMENTS)).status, 401);
   assert.equal((await request(PAYMENTS, { method: "POST", body: {} })).status, 401);
+});
+
+test("the phone may contain spaces or dashes, the reference is optional and a client amount is ignored", async () => {
+  const user = await createUser("B2 Optional");
+  const proofImageUrl = `https://uploads.test.local/users/${user.id}/payments/proof.png`;
+
+  const response = await submit(user, {
+    reference: undefined,
+    senderPhone: "010 0000-0000",
+    amount: 1,
+    proofImageUrl,
+  });
+  assert.equal(response.status, 201, await response.clone().text());
+
+  const stored = await PaymentModel.findOne({ userId: user.id });
+  assert.equal(stored?.amount, Number(process.env.PRO_PRICE_EGP));
+  assert.equal(stored?.senderPhone, "01000000000");
+  assert.equal(stored?.reference, undefined);
+  assert.equal(stored?.proofImageUrl, proofImageUrl);
 });
 
 test("approving gives Pro for one month, notifies and logs once; approving again changes nothing", async () => {

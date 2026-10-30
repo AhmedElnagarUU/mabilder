@@ -59,9 +59,9 @@ function SidebarLink({
   );
 }
 
-export type DashboardNavId = "overview" | "seo" | "projects" | "tracking";
+export type DashboardNavId = "overview" | "seo" | "projects" | "tracking" | "billing";
 
-const tourByNav: Record<DashboardNavId, TourId> = {
+const tourByNav: Partial<Record<DashboardNavId, TourId>> = {
   overview: "dashboard",
   seo: "seo",
   projects: "projects",
@@ -84,7 +84,7 @@ export async function DashboardShell({
   const t = await getTranslations("dashboard");
   const common = await getTranslations("common");
   const seo = await getTranslations("seo");
-  const tourId = active ? tourByNav[active] : null;
+  const tourId = active ? (tourByNav[active] ?? null) : null;
 
   return (
     <div className="relative min-h-screen">
@@ -166,6 +166,12 @@ export async function DashboardShell({
                 />
               </>
             ) : null}
+            <SidebarLink
+              href="/billing"
+              label={t("sidebar.upgrade")}
+              icon="upgrade"
+              active={active === "billing"}
+            />
           </nav>
 
         </aside>

@@ -296,7 +296,8 @@
       "editWebsite": "تحرير الموقع",
       "previewSite": "معاينة الموقع",
       "projects": "المشاريع",
-      "tracking": "التتبع"
+      "tracking": "التتبع",
+      "upgrade": "الترقية"
     },
     "welcome": {
       "title": "مرحبًا بعودتك، {name}.",
@@ -1069,10 +1070,18 @@
       "instructionsTitle": "تعليمات",
       "formTitle": "لقد حوّلت المبلغ",
       "method": "طريقة الدفع",
-      "amount": "المبلغ المحوَّل (جنيه)",
-      "reference": "رقم مرجع التحويل",
+      "amount": "المبلغ المطلوب تحويله",
+      "amountValue": "{price} جنيه",
+      "reference": "رقم مرجع التحويل (اختياري)",
       "referencePlaceholder": "رقم العملية أو المرجع",
-      "senderPhone": "رقم الهاتف الذي حوّلت منه (اختياري)",
+      "senderPhone": "رقم الهاتف الذي حوّلت منه",
+      "senderPhoneHint": "رقم المحفظة أو الهاتف الذي أُرسل منه المبلغ، مثل 01012345678.",
+      "screenshot": "لقطة شاشة للتحويل (اختياري)",
+      "screenshotLink": "لقطة الشاشة",
+      "screenshotAlt": "لقطة شاشة التحويل الخاصة بك",
+      "screenshotRemove": "إزالة",
+      "senderPhoneLabel": "من",
+      "referenceLabel": "المرجع",
       "submit": "إرسال للمراجعة",
       "sending": "جارٍ الإرسال...",
       "pendingNotice": "دفعتك قيد المراجعة. سيصلك إشعار فور تأكيدها.",
@@ -1084,7 +1093,7 @@
         "rejected": "مرفوضة"
       },
       "errors": {
-        "invalid_request": "تحقق من المبلغ ورقم مرجع التحويل ثم حاول مرة أخرى.",
+        "invalid_request": "تحقق من رقم الهاتف الذي حوّلت منه (01 متبوعًا بـ 9 أرقام) ثم حاول مرة أخرى.",
         "payment_pending": "لديك دفعة قيد المراجعة بالفعل.",
         "payments_unavailable": "الدفع بالمحفظة غير متاح حاليًا.",
         "unauthorized": "انتهت جلستك. يرجى تسجيل الدخول مرة أخرى.",

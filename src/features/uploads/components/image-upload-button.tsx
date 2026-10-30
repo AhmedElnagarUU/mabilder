@@ -14,7 +14,7 @@ export function ImageUploadButton({
   disabled = false,
   className = "",
 }: {
-  siteId: string;
+  siteId?: string;
   slotId: UploadSlotId;
   onUploaded: (publicUrl: string) => void;
   disabled?: boolean;

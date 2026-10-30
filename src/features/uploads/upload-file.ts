@@ -36,7 +36,7 @@ function failureOfStatus(status: number): UploadFailure {
 }
 
 async function requestGrant(
-  siteId: string,
+  siteId: string | undefined,
   slotId: UploadSlotId,
   file: File,
 ): Promise<UploadGrant | UploadFailure> {
@@ -72,7 +72,7 @@ function putFile(uploadUrl: string, file: File, onProgress: (percent: number) =>
 }
 
 export async function uploadImage(
-  siteId: string,
+  siteId: string | undefined,
   slotId: UploadSlotId,
   file: File,
   onProgress: (percent: number) => void,

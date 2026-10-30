@@ -156,6 +156,17 @@ button {
   color: inherit;
 }
 
+select {
+  color-scheme: dark;
+  background-color: var(--color-panel);
+}
+
+option,
+optgroup {
+  background-color: var(--color-panel);
+  color: var(--color-ink);
+}
+
 }
 
 @layer components {

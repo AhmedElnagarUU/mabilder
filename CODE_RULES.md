@@ -121,7 +121,7 @@ Full design: `docs/i18n-plan.md`.
   `code: "subscription_required"`. One website per account (`409 site_exists`). AI is limited by daily
   credits (`src/features/credits/`): 20 per rolling 24 hours, 1 per rewritten section, the first
   generation of a site is free, failed AI calls are not charged (`429 credits_exhausted`).
-- **S3**: presigned PUT uploads from the browser; objects are served from the bucket's public base URL (`S3_PUBLIC_BASE_URL`). Key pattern: `sites/{siteId}/{slotId}/{uuid}.{ext}`.
+- **S3**: presigned PUT uploads from the browser; objects are served from the bucket's public base URL (`S3_PUBLIC_BASE_URL`). Key pattern: `sites/{siteId}/{slotId}/{uuid}.{ext}`; payment screenshots (slot `payments`, no site needed) use `users/{userId}/payments/{uuid}.{ext}`.
 - **Env vars** are documented in `.env.example` (names only). Never commit real secrets.
 - **Static generator code** (`src/features/static-site-generator/**`, `src/features/site-creation/**`
   non-component files, `scripts/**`) must also compile with `tsconfig.generator.json` (CommonJS, no

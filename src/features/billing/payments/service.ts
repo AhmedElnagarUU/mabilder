@@ -27,13 +27,14 @@ import {
 async function insertIfNoneIsPending(
   userId: string,
   input: SubmitPaymentInput,
+  priceEgp: number,
 ): Promise<PaymentItem | null> {
   if (await hasPendingPayment(userId)) {
     return null;
   }
 
   try {
-    return await insertPayment(userId, input, PAYMENT_CURRENCY);
+    return await insertPayment(userId, input, priceEgp, PAYMENT_CURRENCY);
   } catch (error) {
     if (isDuplicateKey(error)) {
       return null;
@@ -47,7 +48,9 @@ export async function submitPayment(
   user: { id: string; name: string },
   input: unknown,
 ): Promise<SubmitPaymentResult> {
-  if (getProPriceEgp() === null) {
+  const priceEgp = getProPriceEgp();
+
+  if (priceEgp === null) {
     return { ok: false, code: "payments_unavailable" };
   }
 
@@ -57,7 +60,7 @@ export async function submitPayment(
     return { ok: false, code: "invalid_request" };
   }
 
-  const payment = await insertIfNoneIsPending(user.id, parsed.data);
+  const payment = await insertIfNoneIsPending(user.id, parsed.data, priceEgp);
 
   if (!payment) {
     return { ok: false, code: "payment_pending" };

@@ -69,6 +69,26 @@ export async function WalletPayments({
             <li key={payment.id} className="flex justify-between gap-4 py-2">
               <span className="text-ink">
                 {payment.amount} {payment.currency} · {t(payment.method)}
+                {payment.senderPhone ? (
+                  <span className="block text-muted">
+                    {t("senderPhoneLabel")}: <bdi>{payment.senderPhone}</bdi>
+                  </span>
+                ) : null}
+                {payment.reference ? (
+                  <span className="block text-muted">
+                    {t("referenceLabel")}: <bdi>{payment.reference}</bdi>
+                  </span>
+                ) : null}
+                {payment.proofImageUrl ? (
+                  <a
+                    href={payment.proofImageUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-accent underline underline-offset-4"
+                  >
+                    {t("screenshotLink")}
+                  </a>
+                ) : null}
               </span>
               <span className="text-muted">
                 {new Date(payment.createdAt).toLocaleDateString(locale, { dateStyle: "medium" })} ·{" "}

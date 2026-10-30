@@ -7,11 +7,22 @@ export const PAYMENT_CURRENCY = "EGP";
 export type PaymentMethod = (typeof PAYMENT_METHODS)[number];
 export type PaymentStatus = (typeof PAYMENT_STATUSES)[number];
 
+const egyptianMobile = z
+  .string()
+  .transform((value) => value.replace(/[\s-]/g, ""))
+  .pipe(z.string().regex(/^01\d{9}$/));
+
+function isOwnImageUrl(url: string): boolean {
+  const base = process.env.S3_PUBLIC_BASE_URL?.trim().replace(/\/+$/, "");
+  return Boolean(base) && url.startsWith(`${base}/`);
+}
+
+// The amount is never read from the client: the server stores the Pro price itself.
 export const submitPaymentSchema = z.object({
   method: z.enum(PAYMENT_METHODS),
-  amount: z.number().positive().max(10_000_000),
-  reference: z.string().trim().min(1).max(100),
-  senderPhone: z.string().trim().min(1).max(30).optional(),
+  senderPhone: egyptianMobile,
+  reference: z.string().trim().max(100).optional(),
+  proofImageUrl: z.string().max(500).refine(isOwnImageUrl).optional(),
 });
 
 export type SubmitPaymentInput = z.output<typeof submitPaymentSchema>;
@@ -32,8 +43,9 @@ export type PaymentItem = {
   method: PaymentMethod;
   amount: number;
   currency: string;
-  reference: string;
+  reference?: string;
   senderPhone?: string;
+  proofImageUrl?: string;
   status: PaymentStatus;
   reviewedAt?: string;
   note?: string;

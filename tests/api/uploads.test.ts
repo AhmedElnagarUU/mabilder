@@ -58,6 +58,25 @@ test("invalid type, size, slot or body returns 400 invalid_request", async () =>
   }
 });
 
+test("the payments slot works without a site and keys the file under the user", async () => {
+  const userId = (
+    (await (await request("/api/auth/get-session", { cookie: otherCookie })).json()) as { user: { id: string } }
+  ).user.id;
+
+  const response = await postUpload(
+    { slotId: "payments", contentType: "image/png", size: 2048 },
+    otherCookie,
+  );
+  assert.equal(response.status, 200, await response.clone().text());
+
+  const body = (await response.json()) as { publicUrl: string };
+  const key = new URL(body.publicUrl).pathname.slice(1);
+  assert.match(key, new RegExp(`^users/${userId}/payments/[0-9a-f-]{36}\\.png$`));
+
+  const withoutSlot = await postUpload({ contentType: "image/png", size: 2048 });
+  assert.equal(withoutSlot.status, 400);
+});
+
 test("owner gets a presigned upload URL and the public URL for the key", async () => {
   const response = await postUpload(validBody());
   assert.equal(response.status, 200, await response.clone().text());

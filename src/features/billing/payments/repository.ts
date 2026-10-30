@@ -15,8 +15,9 @@ type LeanPayment = {
   method: PaymentMethod;
   amount: number;
   currency: string;
-  reference: string;
+  reference?: string;
   senderPhone?: string;
+  proofImageUrl?: string;
   status: PaymentStatus;
   reviewedAt?: Date;
   note?: string;
@@ -34,6 +35,7 @@ function toItem(doc: LeanPayment): PaymentItem {
     currency: doc.currency,
     reference: doc.reference,
     senderPhone: doc.senderPhone,
+    proofImageUrl: doc.proofImageUrl,
     status: doc.status,
     reviewedAt: doc.reviewedAt?.toISOString(),
     note: doc.note,
@@ -53,10 +55,11 @@ export async function hasPendingPayment(userId: string): Promise<boolean> {
 export async function insertPayment(
   userId: string,
   input: SubmitPaymentInput,
+  amount: number,
   currency: string,
 ): Promise<PaymentItem> {
   await connectToDatabase();
-  const created = await PaymentModel.create({ userId, ...input, currency, status: "pending" });
+  const created = await PaymentModel.create({ userId, ...input, amount, currency, status: "pending" });
 
   return toItem(created.toObject() as unknown as LeanPayment);
 }
