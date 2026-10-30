@@ -25,7 +25,7 @@ export default async function AdminPaymentsPage({
   const query = paymentListQuerySchema.parse({ status: Array.isArray(status) ? status[0] : status });
 
   return (
-    <AdminShell title="Payments">
+    <AdminShell title="Payments" active="payments">
       <PaymentsFilters query={query} />
       <PaymentsTable payments={await listAdminPayments(query)} />
     </AdminShell>

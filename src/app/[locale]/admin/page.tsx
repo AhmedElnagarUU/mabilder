@@ -20,7 +20,7 @@ export default async function AdminOverviewPage({
   await requireAdminPage(locale);
 
   return (
-    <AdminShell title="Overview">
+    <AdminShell title="Overview" active="overview">
       <OverviewCards stats={await getOverview()} />
     </AdminShell>
   );

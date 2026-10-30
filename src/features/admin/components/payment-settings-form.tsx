@@ -1,112 +1,135 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useRouter } from "@/shared/i18n/navigation";
 import { buttonClass } from "@/shared/ui/button";
+import { Card } from "@/shared/ui/card";
 import { Field, TextAreaField } from "@/shared/ui/field";
 import type { PaymentSettings } from "../../billing/settings/types";
+import { WalletList, type Wallet } from "./wallet-list";
 
-type Wallet = PaymentSettings["wallets"][number];
+type Message = { kind: "ok" | "error"; text: string };
 
-const walletLabels: Record<Wallet["method"], string> = {
-  vodafone_cash: "Vodafone Cash",
-  other_wallet: "Other wallet",
-};
+function Section({ title, message, children }: { title: string; message?: Message; children: ReactNode }) {
+  return (
+    <Card className="p-6">
+      <h2 className="mb-4 text-lg font-semibold">{title}</h2>
+      {children}
+      {message ? (
+        <p role="status" className={`mt-4 text-sm ${message.kind === "ok" ? "text-ok" : "text-danger"}`}>
+          {message.text}
+        </p>
+      ) : null}
+    </Card>
+  );
+}
+
+function TextValue({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="py-2">
+      <p className="text-sm text-muted">{label}</p>
+      <p className="mt-1 text-sm whitespace-pre-wrap">{value || "Not set"}</p>
+    </div>
+  );
+}
 
 export function PaymentSettingsForm({ initial }: { initial: PaymentSettings }) {
   const router = useRouter();
-  const [wallets, setWallets] = useState<Wallet[]>(initial.wallets);
+  const [settings, setSettings] = useState(initial);
+  const [busy, setBusy] = useState(false);
+  const [walletMessage, setWalletMessage] = useState<Message>();
+  const [textMessage, setTextMessage] = useState<Message>();
+  const [editingText, setEditingText] = useState(false);
   const [instapayAddress, setInstapayAddress] = useState(initial.instapayAddress);
   const [instructionsEn, setInstructionsEn] = useState(initial.instructions.en);
   const [instructionsAr, setInstructionsAr] = useState(initial.instructions.ar);
-  const [busy, setBusy] = useState(false);
-  const [message, setMessage] = useState("");
 
-  function updateWallet(index: number, change: Partial<Wallet>) {
-    setWallets((current) => current.map((wallet, i) => (i === index ? { ...wallet, ...change } : wallet)));
-  }
-
-  async function save() {
+  async function save(next: PaymentSettings, report: (message: Message) => void): Promise<boolean> {
     setBusy(true);
-    setMessage("");
 
     try {
       const response = await fetch("/api/admin/settings/payment", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          wallets,
-          instapayAddress,
-          instructions: { en: instructionsEn, ar: instructionsAr },
-        }),
+        body: JSON.stringify(next),
       });
 
-      setMessage(response.ok ? "Saved." : "Could not save. Check the wallet numbers and text lengths.");
-
-      if (response.ok) {
-        router.refresh();
+      if (!response.ok) {
+        report({ kind: "error", text: "Could not save. Check the wallet numbers and text lengths." });
+        return false;
       }
+
+      setSettings((await response.json()) as PaymentSettings);
+      report({ kind: "ok", text: "Saved." });
+      router.refresh();
+      return true;
     } catch {
-      setMessage("Could not save. Try again.");
+      report({ kind: "error", text: "Could not save. Try again." });
+      return false;
     } finally {
       setBusy(false);
     }
   }
 
+  function saveWallets(wallets: Wallet[]) {
+    return save({ ...settings, wallets }, setWalletMessage);
+  }
+
+  async function saveText() {
+    const saved = await save(
+      { ...settings, instapayAddress, instructions: { en: instructionsEn, ar: instructionsAr } },
+      setTextMessage,
+    );
+
+    if (saved) {
+      setEditingText(false);
+    }
+  }
+
+  function startEditingText() {
+    setInstapayAddress(settings.instapayAddress);
+    setInstructionsEn(settings.instructions.en);
+    setInstructionsAr(settings.instructions.ar);
+    setTextMessage(undefined);
+    setEditingText(true);
+  }
+
   return (
-    <div className="flex max-w-2xl flex-col gap-6">
-      <div className="flex flex-col gap-3">
-        <h2 className="text-lg font-semibold">Wallets</h2>
-        {wallets.map((wallet, index) => (
-          <div key={index} className="grid gap-3 sm:grid-cols-[10rem_1fr_1fr_auto] sm:items-end">
-            <select
-              aria-label="Wallet type"
-              value={wallet.method}
-              onChange={(event) => updateWallet(index, { method: event.target.value as Wallet["method"] })}
-              className="h-11 rounded-xl border border-line bg-white/[0.025] px-3 text-sm text-ink"
-            >
-              {Object.entries(walletLabels).map(([method, label]) => (
-                <option key={method} value={method}>
-                  {label}
-                </option>
-              ))}
-            </select>
-            <Field label="Number" value={wallet.number} onChange={(number) => updateWallet(index, { number })} />
-            <Field label="Account name" value={wallet.name} onChange={(name) => updateWallet(index, { name })} />
-            <button
-              type="button"
-              onClick={() => setWallets((current) => current.filter((_, i) => i !== index))}
-              className={buttonClass("ghost", "md")}
-            >
-              Remove
-            </button>
+    <div className="flex max-w-3xl flex-col gap-6">
+      <Section title="Wallets" message={walletMessage}>
+        <WalletList wallets={settings.wallets} busy={busy} onChange={saveWallets} />
+      </Section>
+
+      <Section title="InstaPay and instructions" message={textMessage}>
+        {editingText ? (
+          <div className="flex flex-col gap-4">
+            <Field label="InstaPay address" value={instapayAddress} onChange={setInstapayAddress} />
+            <TextAreaField label="Instructions (English)" value={instructionsEn} onChange={setInstructionsEn} rows={4} />
+            <TextAreaField label="Instructions (Arabic)" value={instructionsAr} onChange={setInstructionsAr} rows={4} />
+            <div className="flex gap-2">
+              <button type="button" onClick={() => void saveText()} disabled={busy} className={buttonClass("accent", "md")}>
+                {busy ? "Saving..." : "Save"}
+              </button>
+              <button type="button" onClick={() => setEditingText(false)} className={buttonClass("ghost", "md")}>
+                Cancel
+              </button>
+            </div>
           </div>
-        ))}
-        <div>
-          <button
-            type="button"
-            onClick={() => setWallets((current) => [...current, { method: "vodafone_cash", number: "", name: "" }])}
-            className={buttonClass("secondary", "sm")}
-          >
-            Add wallet
-          </button>
-        </div>
-      </div>
-
-      <Field label="InstaPay address" value={instapayAddress} onChange={setInstapayAddress} />
-      <TextAreaField label="Instructions (English)" value={instructionsEn} onChange={setInstructionsEn} rows={4} />
-      <TextAreaField label="Instructions (Arabic)" value={instructionsAr} onChange={setInstructionsAr} rows={4} />
-
-      <div className="flex items-center gap-3">
-        <button type="button" onClick={() => void save()} disabled={busy} className={buttonClass("accent", "md")}>
-          {busy ? "Saving..." : "Save settings"}
-        </button>
-        {message ? (
-          <p role="status" className="text-sm text-muted">
-            {message}
-          </p>
-        ) : null}
-      </div>
+        ) : (
+          <>
+            <div className="divide-y divide-line-soft">
+              <TextValue label="InstaPay address" value={settings.instapayAddress} />
+              <TextValue label="Instructions (English)" value={settings.instructions.en} />
+              <TextValue label="Instructions (Arabic)" value={settings.instructions.ar} />
+            </div>
+            <div className="mt-4">
+              <button type="button" onClick={startEditingText} className={buttonClass("secondary", "sm")}>
+                Edit
+              </button>
+            </div>
+          </>
+        )}
+      </Section>
     </div>
   );
 }

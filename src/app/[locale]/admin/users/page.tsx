@@ -30,7 +30,7 @@ export default async function AdminUsersPage({
   const query = userListQuerySchema.parse(firstValues(await searchParams));
 
   return (
-    <AdminShell title="Users">
+    <AdminShell title="Users" active="users">
       <UsersFilters query={query} />
       <UsersTable users={await listUsers(query)} query={query} />
     </AdminShell>

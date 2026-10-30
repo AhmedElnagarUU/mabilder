@@ -2,11 +2,11 @@ import { Link } from "@/shared/i18n/navigation";
 import { Badge } from "@/shared/ui/badge";
 import { buttonClass } from "@/shared/ui/button";
 import { Card } from "@/shared/ui/card";
-import { inputClass } from "@/shared/ui/field";
 import type { PaymentListQuery, PaymentStatus } from "../../billing/payments/types";
 import type { AdminPaymentList } from "../types";
 import { formatDateTime } from "./format";
 import { PaymentActions } from "./payment-actions";
+import { selectClass } from "./select-class";
 
 const cellClass = "px-4 py-3 text-start text-sm align-top";
 
@@ -24,17 +24,19 @@ const statusTones: Record<PaymentStatus, "warn" | "success" | "danger"> = {
 
 export function PaymentsFilters({ query }: { query: PaymentListQuery }) {
   return (
-    <form method="get" className="mb-6 flex flex-wrap items-end gap-3">
-      <select name="status" defaultValue={query.status ?? ""} aria-label="Status" className={`${inputClass} w-auto`}>
-        <option value="">Pending first, then history</option>
-        <option value="pending">Pending</option>
-        <option value="approved">Approved</option>
-        <option value="rejected">Rejected</option>
-      </select>
-      <button type="submit" className={buttonClass("secondary", "md")}>
-        Apply
-      </button>
-    </form>
+    <Card className="mb-4 p-4">
+      <form method="get" className="flex flex-wrap items-center gap-3">
+        <select name="status" defaultValue={query.status ?? ""} aria-label="Status" className={selectClass}>
+          <option value="">Pending first, then history</option>
+          <option value="pending">Pending</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+        </select>
+        <button type="submit" className={buttonClass("secondary", "md")}>
+          Apply
+        </button>
+      </form>
+    </Card>
   );
 }
 
@@ -45,7 +47,7 @@ export function PaymentsTable({ payments }: { payments: AdminPaymentList }) {
     <Card className="overflow-x-auto">
       <table className="w-full min-w-[960px]">
         <thead>
-          <tr className="border-b border-line text-xs tracking-[0.08em] text-muted uppercase">
+          <tr className="border-b border-line font-mono text-[11px] tracking-[0.1em] text-muted uppercase">
             <th className={cellClass}>User</th>
             <th className={cellClass}>Method</th>
             <th className={cellClass}>Amount</th>
