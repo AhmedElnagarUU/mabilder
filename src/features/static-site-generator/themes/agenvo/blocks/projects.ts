@@ -1,4 +1,4 @@
-import { renderText } from "../../../content/html";
+import { escapeAttribute, renderText } from "../../../content/html";
 import type { BlockContext, ThemeBlock } from "../../types";
 import {
   getToneStyle,
@@ -20,6 +20,14 @@ function renderCategory(category: string | undefined): string {
   return `<span class="text-[10px] uppercase tracking-[0.18em] text-brass whitespace-nowrap">${renderText(category)}</span>`;
 }
 
+function renderStatus(status: string | undefined): string {
+  if (!status) {
+    return "";
+  }
+
+  return `<span class="project-status">${renderText(status)}</span>`;
+}
+
 function renderProjectBody(body: string | undefined, style: ToneStyle): string {
   if (!body) {
     return "";
@@ -28,42 +36,37 @@ function renderProjectBody(body: string | undefined, style: ToneStyle): string {
   return `<p class="text-sm ${style.body} leading-relaxed mt-3">${renderText(body)}</p>`;
 }
 
-function renderFeaturedProject(project: Project, index: number, style: ToneStyle): string {
-  const large = index < 2;
-  const span = index === 0 ? "md:col-span-7" : index === 1 ? "md:col-span-5" : "md:col-span-4";
-  const height = large ? "h-72 md:h-[480px]" : "h-64";
-
+function renderCover(project: Project): string {
   return `
-        <article class="${span} reveal">
-          <div class="img-zoom overflow-hidden rounded-sm">
-            ${renderImage(project.image, `w-full ${height} object-cover`)}
-          </div>
-          <div class="mt-4 flex justify-between items-start gap-4">
-            <div>
-              <h3 class="font-display ${large ? "text-2xl" : "text-xl"}">${renderText(project.title)}</h3>
-              <p class="text-sm ${style.muted} mt-1">${renderText(project.meta)}</p>
-            </div>
-            ${renderCategory(project.category)}
-          </div>
-          ${large ? renderProjectBody(project.body, style) : ""}
-        </article>`;
+          <div class="frame-4x3 img-zoom">
+            ${renderImage(project.image, "")}
+            ${renderStatus(project.status)}
+          </div>`;
 }
 
-function renderGridProject(project: Project, style: ToneStyle): string {
-  return `
-        <article class="reveal">
-          <div class="img-zoom overflow-hidden">
-            ${renderImage(project.image, "w-full h-64 md:h-72 object-cover")}
-          </div>
-          <div class="mt-4 flex items-start justify-between gap-4">
+function renderCard(project: Project, style: ToneStyle, classes: string, showBody: boolean): string {
+  const inner = `${renderCover(project)}
+          <div class="mt-4 flex justify-between items-start gap-4">
             <div>
               <h3 class="font-display text-2xl">${renderText(project.title)}</h3>
               <p class="text-sm ${style.muted} mt-1">${renderText(project.meta)}</p>
             </div>
             ${renderCategory(project.category)}
           </div>
-          ${renderProjectBody(project.body, style)}
+          ${showBody ? renderProjectBody(project.body, style) : ""}`;
+  const content = project.href
+    ? `<a href="${escapeAttribute(project.href)}" class="block">${inner}</a>`
+    : inner;
+
+  return `
+        <article class="${classes}">${content}
         </article>`;
+}
+
+function renderFeaturedProject(project: Project, index: number, style: ToneStyle): string {
+  const span = index === 0 ? "md:col-span-7" : index === 1 ? "md:col-span-5" : "md:col-span-4";
+
+  return renderCard(project, style, `${span} reveal`, index < 2);
 }
 
 export function renderProjects(block: ThemeBlock<"projects">, context: BlockContext): string {
@@ -75,7 +78,9 @@ export function renderProjects(block: ThemeBlock<"projects">, context: BlockCont
     : "grid md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12";
   const items = props.items
     .map((project, index) =>
-      featured ? renderFeaturedProject(project, index, style) : renderGridProject(project, style),
+      featured
+        ? renderFeaturedProject(project, index, style)
+        : renderCard(project, style, "reveal", true),
     )
     .join("");
 

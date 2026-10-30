@@ -1,6 +1,6 @@
 import type { Image, Link } from "../../blocks/common";
 import { escapeAttribute, renderText } from "../../content/html";
-import type { ThemeBlock, Tone } from "../types";
+import type { PageContext, ThemeBlock, Tone } from "../types";
 
 export type ToneStyle = {
   section: string;
@@ -29,6 +29,17 @@ const toneStyles: Record<Tone, ToneStyle> = {
     field: "form-field",
   },
 };
+
+// Project pages live one folder deeper, so their page links need a "../" prefix.
+export function pageHref(context: PageContext, href: string): string {
+  if (context.linkPrefix === "" || /^(https?:|mailto:|tel:)/.test(href)) {
+    return href;
+  }
+
+  return href.startsWith("#")
+    ? `${context.linkPrefix}index.html${href}`
+    : `${context.linkPrefix}${href}`;
+}
 
 export const sectionPadding = "py-24 lg:py-32 px-6 md:px-10 lg:px-16";
 

@@ -177,7 +177,7 @@ test("bad photo links and too many photos are rejected", async () => {
   });
   assert.equal(badLink.status, 400);
 
-  const photos = Array.from({ length: 11 }, (_unused, index) => ({
+  const photos = Array.from({ length: 16 }, (_unused, index) => ({
     url: `https://example.com/${index}.jpg`,
   }));
   const tooMany = await request("/api/projects", {
@@ -235,4 +235,40 @@ test("deleting projects removes them from the website and the last one removes t
 
   const projectsPage = await request(`/preview/${siteIdA}/projects.html`, { cookie: cookieA });
   assert.equal(projectsPage.status, 404);
+});
+
+test("a project with the new fields round-trips and gets its own page", async () => {
+  const body = projectBody("Garden Court", {
+    categoryKey: "villa",
+    status: "in-progress",
+    location: { en: "Sheikh Zayed" },
+    client: { en: "Private client" },
+    area: 310,
+    duration: { en: "8 months" },
+    scope: ["Design", "Landscape"],
+    description: { en: "A courtyard villa." },
+    challenge: { en: "A narrow plot." },
+    solution: { en: "Inward-facing rooms." },
+    result: { en: "Calm and private." },
+    beforePhotos: [{ url: "https://example.com/before.jpg" }],
+  });
+  const created = await addProject(cookieA, "Garden Court", body);
+  const saved = (await listProjects(cookieA)).find((project) => project.id === created.id) as unknown as Record<string, unknown>;
+
+  for (const key of ["categoryKey", "status", "area", "scope", "challenge", "solution", "result", "client", "duration", "location", "beforePhotos"]) {
+    assert.deepEqual(saved[key], (body as Record<string, unknown>)[key], key);
+  }
+
+  const page = await readPage("projects/garden-court.html");
+  assert.ok(page.includes("A narrow plot."));
+  assert.ok(page.includes("310 m²"));
+});
+
+test("a project without a photo is rejected", async () => {
+  const response = await request("/api/projects", {
+    method: "POST",
+    cookie: cookieA,
+    body: projectBody("No Photo", { photos: [] }),
+  });
+  assert.equal(response.status, 400);
 });

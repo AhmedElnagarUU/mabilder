@@ -1,6 +1,7 @@
 import type { Facts } from "../../blocks/facts";
 import { escapeAttribute, renderText } from "../../content/html";
 import type { PageContext, PhotoCredit } from "../types";
+import { pageHref } from "./parts";
 
 function renderFactLines(facts: Facts): string {
   const lines = [
@@ -39,14 +40,14 @@ export function renderFooter(context: PageContext): string {
     <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 pt-16 pb-8">
       <div class="grid gap-12 lg:grid-cols-12">
         <div class="lg:col-span-5">
-          <a href="index.html" class="font-display text-3xl">${renderText(content.facts.businessName)}</a>
+          <a href="${escapeAttribute(pageHref(context, "index.html"))}" class="font-display text-3xl">${renderText(content.facts.businessName)}</a>
           <p class="mt-5 text-sm text-white/45 leading-relaxed max-w-xs">${renderText(footer.blurb)}</p>
         </div>
         <ul class="lg:col-span-3 space-y-3 text-sm text-white/55">
           ${nav.items
             .map(
               (item) =>
-                `<li><a href="${escapeAttribute(item.href)}" class="hover:text-cream transition">${renderText(item.label)}</a></li>`,
+                `<li><a href="${escapeAttribute(pageHref(context, item.href))}" class="hover:text-cream transition">${renderText(item.label)}</a></li>`,
             )
             .join("\n          ")}
         </ul>

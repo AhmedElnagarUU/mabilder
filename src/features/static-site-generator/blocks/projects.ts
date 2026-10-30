@@ -6,7 +6,9 @@ const projectItemSchema = z.object({
   title: nonEmptyText,
   meta: nonEmptyText,
   category: nonEmptyText.optional(),
+  status: nonEmptyText.optional(),
   body: nonEmptyText.optional(),
+  href: linkSchema.shape.href.optional(),
   image: imageSchema,
 });
 

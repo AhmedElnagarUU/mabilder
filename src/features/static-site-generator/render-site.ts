@@ -1,6 +1,11 @@
 import type { Block, BlockType } from "./blocks/catalog";
 import { imageSchema } from "./blocks/common";
 import { escapeAttribute } from "./content/html";
+import {
+  buildProjectPages,
+  type ProjectDetail,
+  type ProjectPage,
+} from "./content/project-pages";
 import type { Locale } from "./locale";
 import type { Page, SiteContent } from "./site-content";
 import { getTheme } from "./themes/registry";
@@ -103,6 +108,7 @@ export function createPageContext(
     nav: pickLocale(content.nav, locale, "Nav"),
     footer: pickLocale(content.footer, locale, "Footer"),
     rootPath: isMultilingual(content) ? "../" : "",
+    linkPrefix: "",
     alternate: getAlternate(content, page, locale),
     credits: getCredits(blocks),
   };
@@ -145,6 +151,69 @@ function renderPage(
   };
 }
 
+function getProjectFileName(content: SiteContent, slug: string, locale: Locale): string {
+  return isMultilingual(content) ? `${locale}/projects/${slug}.html` : `projects/${slug}.html`;
+}
+
+// A project page sits one folder below the site pages, so every relative path gets one more "../".
+function createProjectContext(
+  content: SiteContent,
+  project: ProjectPage,
+  detail: ProjectDetail,
+  locale: Locale,
+): PageContext {
+  const page = content.pages.find((candidate) => candidate.slug === "projects") ?? content.pages[0];
+  const base = createPageContext(content, page, locale, []);
+  const other = content.locales.find((candidate) => candidate !== locale);
+  const credits = new Map<string, PhotoCredit>();
+  collectCredits(detail, credits);
+
+  return {
+    ...base,
+    meta: {
+      title: `${detail.title} | ${content.facts.businessName}`,
+      description: detail.summary ?? content.facts.industry,
+    },
+    rootPath: isMultilingual(content) ? "../../" : "../",
+    linkPrefix: "../",
+    alternate:
+      other && project.details[other]
+        ? { locale: other, href: `../../${other}/projects/${project.slug}.html` }
+        : undefined,
+    credits: [...credits.values()],
+  };
+}
+
+function renderProjectPages(
+  theme: Theme,
+  content: SiteContent,
+  headExtra: string,
+): RenderedFile[] {
+  return buildProjectPages(content).flatMap((project) =>
+    content.locales.flatMap((locale) => {
+      const detail = project.details[locale];
+
+      if (!detail) {
+        return [];
+      }
+
+      const context = createProjectContext(content, project, detail, locale);
+      const body = [
+        theme.renderNav(context),
+        theme.renderProject(detail, context),
+        theme.renderFooter(context),
+      ].join("\n");
+
+      return [
+        {
+          fileName: getProjectFileName(content, project.slug, locale),
+          html: theme.renderDocument(context, body, headExtra),
+        },
+      ];
+    }),
+  );
+}
+
 function renderLocaleRedirect(defaultLocale: Locale): RenderedFile {
   const target = escapeAttribute(`${defaultLocale}/index.html`);
 
@@ -165,9 +234,12 @@ function renderLocaleRedirect(defaultLocale: Locale): RenderedFile {
 
 export function renderSite(content: SiteContent, headExtra = ""): RenderedFile[] {
   const theme = getTheme(content.theme);
-  const pages = content.locales.flatMap((locale) =>
-    content.pages.map((page) => renderPage(theme, content, page, locale, headExtra)),
-  );
+  const pages = [
+    ...content.locales.flatMap((locale) =>
+      content.pages.map((page) => renderPage(theme, content, page, locale, headExtra)),
+    ),
+    ...renderProjectPages(theme, content, headExtra),
+  ];
 
   if (!isMultilingual(content)) {
     return pages;

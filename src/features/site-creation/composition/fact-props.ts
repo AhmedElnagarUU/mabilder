@@ -12,6 +12,7 @@ import {
   type TestimonialsProps,
 } from "../../static-site-generator/blocks/testimonials";
 import { timelineBlock, type TimelineProps } from "../../static-site-generator/blocks/timeline";
+import { projectInLocale, projectSlugs } from "../../static-site-generator/content/project-pages";
 import type { Locale } from "../../static-site-generator/locale";
 import type { PageSlug } from "../../static-site-generator/site-content";
 import { toMapsHref } from "../text";
@@ -79,14 +80,6 @@ function buildTimelineProps({ facts, labels, currentYear }: FactContext): Timeli
 
 type FactProject = Facts["projects"][number];
 
-// The second language is optional: every missing field falls back to the first language.
-function inLocale(project: FactProject, locale: Locale): FactProject {
-  const translation = Object.fromEntries(
-    Object.entries(project.translations?.[locale] ?? {}).filter(([, value]) => value !== undefined),
-  );
-  return { ...project, ...translation };
-}
-
 function buildProjectMeta(project: FactProject, facts: Facts): string {
   const parts = [project.location, project.year].filter(Boolean);
   return parts.length > 0 ? parts.join(" — ") : (project.category ?? facts.industry);
@@ -101,8 +94,10 @@ function listProjectsForPage({ facts, pageSlug }: FactContext): FactProject[] {
 }
 
 function buildProjectItems(context: FactContext): ProjectsProps["items"] {
+  const slugs = projectSlugs(context.facts.projects);
   const items = listProjectsForPage(context).flatMap((original) => {
-    const project = inLocale(original, context.locale);
+    const project = projectInLocale(original, context.locale);
+    const slug = slugs[context.facts.projects.indexOf(original)];
 
     return project.images.length === 0
       ? []
@@ -111,7 +106,9 @@ function buildProjectItems(context: FactContext): ProjectsProps["items"] {
             title: project.title,
             meta: buildProjectMeta(project, context.facts),
             category: project.category,
+            status: project.status,
             body: project.description,
+            href: `projects/${slug}.html`,
             image: project.images[0],
           },
         ];

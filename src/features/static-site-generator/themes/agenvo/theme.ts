@@ -20,6 +20,7 @@ import { renderValues } from "./blocks/values";
 import { renderDocument } from "./document";
 import { renderFooter } from "./footer";
 import { renderNav } from "./nav";
+import { renderProject } from "./project-page";
 
 export const agenvoTheme: Theme = {
   id: "agenvo",
@@ -29,6 +30,7 @@ export const agenvoTheme: Theme = {
   renderDocument,
   renderNav,
   renderFooter,
+  renderProject,
   blocks: {
     hero: renderHero,
     marquee: renderMarquee,

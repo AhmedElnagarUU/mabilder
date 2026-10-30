@@ -15,16 +15,9 @@ function titleOf(project: Project, site: ProjectsSite): string {
   return project.title[site.defaultLocale] ?? project.title.en ?? project.title.ar ?? "";
 }
 
+// The API ignores the id and order, so the whole project can be sent back with one change.
 function toInput(project: Project, showOnHome: boolean) {
-  return {
-    title: project.title,
-    category: project.category,
-    location: project.location,
-    year: project.year,
-    description: project.description,
-    photos: project.photos,
-    showOnHome,
-  };
+  return { ...project, showOnHome };
 }
 
 export function ProjectList({
@@ -109,12 +102,21 @@ export function ProjectList({
               className="rounded-panel border border-line-soft bg-[linear-gradient(160deg,rgba(255,255,255,0.036),rgba(255,255,255,0.01))] p-4"
             >
               <div className="flex flex-wrap items-start justify-between gap-3">
-                <div className="min-w-0">
+                {project.photos[0] ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={project.photos[0].url}
+                    alt=""
+                    className="aspect-[4/3] w-24 shrink-0 rounded-lg object-cover"
+                  />
+                ) : null}
+                <div className="min-w-0 flex-1">
                   <h3 className="truncate text-base font-medium text-[#dededb]">
                     {titleOf(project, site)}
                   </h3>
                   <p className="mt-1 text-sm text-muted">
                     {t("list.photos", { count: project.photos.length })}
+                    {project.status ? ` · ${t(`form.statuses.${project.status}`)}` : ""}
                   </p>
                   {project.photos.length === 0 ? (
                     <p className="mt-1 text-sm text-warn">{t("list.noPhotos")}</p>

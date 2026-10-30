@@ -1,7 +1,7 @@
 import { isValidObjectId } from "mongoose";
 import { connectToDatabase } from "../../shared/db/mongoose";
 import { ProjectModel } from "./model";
-import { projectInputSchema, type Project, type ProjectInput } from "./types";
+import { storedProjectSchema, type Project, type ProjectInput } from "./types";
 
 type LeanProject = {
   _id: { toString(): string };
@@ -10,7 +10,7 @@ type LeanProject = {
 
 function toProject(document: LeanProject): Project {
   return {
-    ...projectInputSchema.parse(document),
+    ...storedProjectSchema.parse(document),
     id: document._id.toString(),
     order: document.order,
   };
@@ -46,7 +46,22 @@ export async function createProject(
   return toProject(created.toObject() as unknown as LeanProject);
 }
 
-const optionalKeys = ["category", "location", "year", "description"] as const;
+const optionalKeys = [
+  "category",
+  "categoryKey",
+  "status",
+  "location",
+  "year",
+  "client",
+  "area",
+  "duration",
+  "scope",
+  "description",
+  "challenge",
+  "solution",
+  "result",
+  "beforePhotos",
+] as const;
 
 // An optional field the owner cleared must be removed from the stored project.
 function unsetKeys(input: ProjectInput): Record<string, ""> {

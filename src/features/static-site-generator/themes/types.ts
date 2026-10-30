@@ -1,5 +1,6 @@
 import type { Block, BlockType } from "../blocks/catalog";
 import type { Image } from "../blocks/common";
+import type { ProjectDetail } from "../content/project-pages";
 import type { Locale } from "../locale";
 import type { Page, SiteContent } from "../site-content";
 
@@ -24,6 +25,7 @@ export type PageContext = {
   nav: NavContent;
   footer: FooterContent;
   rootPath: string;
+  linkPrefix: string;
   alternate?: AlternatePage;
   credits: PhotoCredit[];
 };
@@ -56,5 +58,6 @@ export type Theme = {
   renderDocument: (context: PageContext, body: string, headExtra: string) => string;
   renderNav: (context: PageContext) => string;
   renderFooter: (context: PageContext) => string;
+  renderProject: (detail: ProjectDetail, context: PageContext) => string;
   blocks: { [T in BlockType]?: BlockRenderer<T> };
 };

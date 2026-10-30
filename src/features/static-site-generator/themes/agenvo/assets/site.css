@@ -97,6 +97,51 @@ html[lang="ar"] body * {
   font-variant-numeric: tabular-nums;
 }
 
+/* Fixed photo frames: every photo is cropped to the frame, whatever its size */
+.frame-4x3,
+.frame-3x2 {
+  position: relative;
+  overflow: hidden;
+}
+
+.frame-4x3 {
+  aspect-ratio: 4 / 3;
+}
+
+.frame-3x2 {
+  aspect-ratio: 3 / 2;
+}
+
+.frame-4x3 img,
+.frame-3x2 img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-status {
+  position: absolute;
+  inset-block-start: 0.75rem;
+  inset-inline-start: 0.75rem;
+  padding: 0.25rem 0.65rem;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #1c1c1c;
+  background: #b8956c;
+}
+
+.project-status-inline {
+  position: static;
+}
+
+.project-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 1.5rem 2rem;
+}
+
 /* Navigation */
 #site-nav {
   border-bottom: 1px solid transparent;

@@ -1,10 +1,11 @@
-﻿import assert from "node:assert/strict";
+import assert from "node:assert/strict";
 import { test } from "node:test";
 import { getBlockDefinition } from "../../src/features/static-site-generator/blocks/catalog";
 import type { Facts } from "../../src/features/static-site-generator/blocks/facts";
 import type { SiteContent } from "../../src/features/static-site-generator/site-content";
 import { toFactProjects } from "../../src/features/projects/facts";
 import type { Project } from "../../src/features/projects/types";
+import { renderSite } from "../../src/features/static-site-generator/render-site";
 import { refreshFactBlocks } from "../../src/features/site-creation/refresh-facts";
 import { businessBriefSchema } from "../../src/features/site-creation/types";
 import { composeFor, pageSlugs, richBrief, richProjects, thinBrief } from "./samples";
@@ -199,3 +200,114 @@ test("a project with a title only in the second language still gets a title", ()
   assert.equal(facts[0].title, "Ø§Ù„Ø¨Ø±Ø¬");
 });
 
+
+function fullProject(order: number, overrides: Partial<Project> = {}): Project {
+  return makeProject(order, {
+    title: { en: "Nile View", ar: "إطلالة النيل" },
+    categoryKey: "residential",
+    status: "completed",
+    location: { en: "New Cairo", ar: "القاهرة الجديدة" },
+    year: "2025",
+    client: { en: "Private client", ar: "عميل خاص" },
+    area: 220,
+    duration: { en: "6 months", ar: "6 أشهر" },
+    scope: ["Design", "Fit-out"],
+    description: { en: "A bright family home.", ar: "منزل عائلي مشرق." },
+    challenge: { en: "Tight deadline.", ar: "موعد ضيق." },
+    solution: { en: "Phased delivery.", ar: "تسليم على مراحل." },
+    result: { en: "Delivered early.", ar: "سُلّم مبكرًا." },
+    photos: [
+      { url: "https://example.com/cover.jpg", alt: "Living room" },
+      { url: "https://example.com/second.jpg" },
+    ],
+    beforePhotos: [{ url: "https://example.com/before.jpg" }],
+    ...overrides,
+  });
+}
+
+function renderProjects(projects: Project[], locales: ("en" | "ar")[]) {
+  const content = refreshFactBlocks(
+    composeFor(richBrief, [], locales),
+    brief,
+    toFactProjects(projects, locales, "en"),
+    currentYear,
+  );
+  return renderSite(content);
+}
+
+function htmlOf(files: { fileName: string; html: string }[], fileName: string): string {
+  const file = files.find((candidate) => candidate.fileName === fileName);
+  assert.ok(file, `${fileName} was not written`);
+  return file.html;
+}
+
+test("an old project (title and photos only) still renders a card and a page", () => {
+  const files = renderProjects([makeProject(0)], ["en"]);
+  const card = htmlOf(files, "projects.html");
+  const page = htmlOf(files, "projects/tower-0.html");
+
+  assert.ok(card.includes("Tower 0"));
+  assert.ok(card.includes('href="projects/tower-0.html"'));
+  assert.ok(page.includes("Tower 0"));
+  assert.ok(!page.includes("project-facts"));
+  assert.ok(!page.includes('data-project-part="story"'));
+  assert.ok(!page.includes('data-project-part="before"'));
+});
+
+test("a full project renders every filled fact and the story, with no empty labels", () => {
+  const page = htmlOf(renderProjects([fullProject(0)], ["en"]), "projects/nile-view.html");
+
+  for (const text of [
+    "Residential", "Completed", "New Cairo", "2025", "220 m²", "6 months", "Private client",
+    "Design, Fit-out", "A bright family home.", "Tight deadline.", "Phased delivery.",
+    "Delivered early.", "Before", "After", "before.jpg", "second.jpg",
+  ]) {
+    assert.ok(page.includes(text), `missing ${text}`);
+  }
+
+  assert.ok(page.includes("frame-3x2"));
+  assert.ok(page.includes("contact.html"));
+  assert.ok(!/<dd[^>]*>\s*<\/dd>/.test(page));
+  assert.ok(!/<h2[^>]*>\s*<\/h2>/.test(page));
+
+  const sparse = htmlOf(renderProjects([fullProject(0, { client: undefined, area: undefined })], ["en"]), "projects/nile-view.html");
+  assert.ok(!sparse.includes("Client"));
+  assert.ok(!sparse.includes("Area"));
+});
+
+test("project pages exist for every project in both languages with unique slugs", () => {
+  const projects = [fullProject(0), fullProject(1), makeProject(2, { title: { ar: "برج" } })];
+  const files = renderProjects(projects, ["en", "ar"]);
+  const names = files.map((file) => file.fileName).filter((name) => name.includes("/projects/"));
+
+  assert.deepEqual(names.sort(), [
+    "ar/projects/nile-view-2.html",
+    "ar/projects/nile-view.html",
+    "ar/projects/project-3.html",
+    "en/projects/nile-view-2.html",
+    "en/projects/nile-view.html",
+    "en/projects/project-3.html",
+  ]);
+  assert.ok(htmlOf(files, "ar/projects/nile-view.html").includes("القاهرة الجديدة"));
+  assert.ok(htmlOf(files, "ar/projects/nile-view.html").includes("مكتمل"));
+  assert.ok(htmlOf(files, "en/projects/nile-view.html").includes("../../ar/projects/nile-view.html"));
+});
+
+test("project cards use the fixed 4:3 frame", () => {
+  const files = renderProjects([fullProject(0), makeProject(1)], ["en"]);
+
+  assert.equal(htmlOf(files, "projects.html").split("frame-4x3").length - 1, 2);
+  assert.ok(htmlOf(files, "index.html").includes("frame-4x3"));
+});
+
+test("project facts are rebuilt from the owner's projects, never from edited block props", () => {
+  const before = structuredClone(composeFor(richBrief, [], ["en"]));
+  const withProjects = refreshFactBlocks(before, brief, toFactProjects([fullProject(0)], ["en"], "en"), currentYear);
+  const tampered = structuredClone(withProjects);
+  const [block] = projectBlocks(tampered, "projects");
+  (block.props.en as { items: { title: string }[] }).items[0].title = "AI invented title";
+
+  const after = refreshFactBlocks(tampered, brief, toFactProjects([fullProject(0)], ["en"], "en"), currentYear);
+
+  assert.deepEqual(itemTitles(after, "projects"), ["Nile View"]);
+});

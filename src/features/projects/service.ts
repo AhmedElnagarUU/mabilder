@@ -54,6 +54,7 @@ function toProjectsSite(site: SiteRecord): ProjectsSite {
     siteId: site.id,
     locales: site.content?.locales ?? languages.locales,
     defaultLocale: site.content?.defaultLocale ?? languages.defaultLocale,
+    services: site.content?.facts.services ?? [],
   };
 }
 

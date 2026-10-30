@@ -21,9 +21,10 @@ export const renderAttribute = escapeAttribute;
 
 const internalPagePattern =
   /^(index|about|services|our-work|profile|contact|projects)\.html(#[\w-]+)?$/;
+const projectPagePattern = /^projects\/[a-z0-9-]+\.html$/;
 
 export function isSafeHref(value: string): boolean {
-  if (internalPagePattern.test(value)) {
+  if (internalPagePattern.test(value) || projectPagePattern.test(value)) {
     return true;
   }
 

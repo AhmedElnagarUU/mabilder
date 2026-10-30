@@ -53,6 +53,7 @@ test("a two-language site writes en/, ar/ and the root redirect to the default l
   const files = renderSite(content);
   const expected = ["index.html"].concat(
     ...["ar", "en"].map((locale) => content.pages.map((page) => `${locale}/${page.slug}.html`)),
+    ["ar", "en"].map((locale) => `${locale}/projects/corporate-tower.html`),
   );
 
   assert.deepEqual(fileNames(files), expected);
