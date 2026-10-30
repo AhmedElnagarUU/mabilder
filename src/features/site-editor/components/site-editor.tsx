@@ -24,6 +24,10 @@ import { SectionList } from "./section-list";
 import { useEditorMode } from "./use-editor-mode";
 import { usePanelOpen } from "./use-panel-open";
 import { SaveToast, type SaveToastMessage } from "./save-toast";
+import { useCredits } from "../../credits/components/use-credits";
+import { requestRewrite, type RewriteError } from "../rewrite-request";
+import { rewriteSections, type RewriteScope } from "../rewrite-sections";
+import { RewriteDialog } from "./rewrite-dialog";
 
 type SiteEditorProps = {
   siteId: string;
@@ -47,7 +51,13 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
   const [rightOpen, setRightOpen] = usePanelOpen("editor.rightPanel");
   const [drawer, setDrawer] = useState<EditorDrawer | null>(null);
 
+  const [balance, setBalance] = useCredits();
+  const [rewriteScope, setRewriteScope] = useState<RewriteScope | null>(null);
+  const [rewriting, setRewriting] = useState(false);
+  const [rewriteError, setRewriteError] = useState<RewriteError | null>(null);
+
   const contentRef = useRef(content);
+  const dirtyRef = useRef(false);
   const revisionRef = useRef(0);
   const attemptedRef = useRef(0);
   const savingRef = useRef(false);
@@ -57,6 +67,10 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
   useEffect(() => {
     contentRef.current = content;
   }, [content]);
+
+  useEffect(() => {
+    dirtyRef.current = dirty;
+  }, [dirty]);
 
   const showToast = useCallback(
     (kind: SaveToastMessage["kind"], message: string, link?: SaveToastMessage["link"]): void => {
@@ -242,6 +256,54 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
     setDrawer((current) => (current === next ? null : next));
   }
 
+  function openRewrite(scope: RewriteScope): void {
+    setRewriteError(null);
+    setRewriteScope(scope);
+  }
+
+  function closeRewrite(): void {
+    setRewriteScope(null);
+    setRewriteError(null);
+  }
+
+  // Waits for a running autosave, then saves what is still pending, so no edit is lost.
+  async function savePendingEdits(): Promise<boolean> {
+    while (savingRef.current) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+
+    return dirtyRef.current ? saveContent() : true;
+  }
+
+  async function handleRewrite(blockIds: string[], instruction: string): Promise<void> {
+    setRewriting(true);
+    setRewriteError(null);
+
+    const saved = await savePendingEdits();
+    const outcome = saved
+      ? await requestRewrite(siteId, page.id, blockIds, instruction)
+      : null;
+
+    setRewriting(false);
+
+    if (!outcome) {
+      setRewriteError({ code: "generic" });
+      return;
+    }
+
+    if (!outcome.ok) {
+      setRewriteError(outcome.error);
+      return;
+    }
+
+    contentRef.current = outcome.content;
+    setContent(outcome.content);
+    setBalance(outcome.balance);
+    setDirty(false);
+    closeRewrite();
+    showToast("success", t("rewrite.done"));
+  }
+
   async function saveBeforeSwitchingLanguage(): Promise<boolean> {
     if (!dirty) {
       return true;
@@ -292,6 +354,7 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
         device={device}
         dirty={dirty}
         saving={saving}
+        creditsLeft={balance?.left ?? null}
         onSave={() => void saveContent()}
         onBeforeSwitchLocale={saveBeforeSwitchingLanguage}
         onToggleDrawer={toggleDrawer}
@@ -309,6 +372,7 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
           onSelectBlock={handleSelectBlock}
           onSelectPage={handleSelectPage}
           onSelectLocale={handleSelectLocale}
+          onRewrite={() => openRewrite("section")}
         />
       )}
 
@@ -338,6 +402,7 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
                 onHide={handleHide}
                 onRestore={handleRestore}
                 onCollapse={() => setLeftOpen(false)}
+                onRewritePage={() => openRewrite("page")}
               />
             </div>
             {leftOpen ? null : <PanelRail side="start" onShow={() => setLeftOpen(true)} />}
@@ -382,6 +447,18 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
           </>
         ) : null}
       </div>
+
+      {rewriteScope ? (
+        <RewriteDialog
+          mode={rewriteScope}
+          sections={rewriteSections(page.blocks, rewriteScope, focusId, (type) => t(`blocks.${type}`))}
+          left={balance?.left ?? null}
+          running={rewriting}
+          error={rewriteError}
+          onConfirm={(blockIds, instruction) => void handleRewrite(blockIds, instruction)}
+          onClose={closeRewrite}
+        />
+      ) : null}
 
       <SaveToast toast={toast} />
     </div>

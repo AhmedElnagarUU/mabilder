@@ -118,7 +118,9 @@ Technical design: `docs/i18n-plan.md`.
 - **15-day free trial** from sign-up, with no card needed and every feature included.
 - **One paid plan (Pro), monthly through Polar.** Customers subscribe through Polar checkout and manage
   or cancel through the Polar customer portal.
-- **AI generation is included** in the trial and in Pro, with no count limit.
+- **AI is included** in the trial and in Pro, limited by **daily credits**: 20 per rolling 24 hours.
+  Rewriting one section costs 1 credit. The first generation of a site is free. Failed AI calls are
+  not charged.
 - **After the trial without a subscription**, the website is kept and can still be previewed, but
   editing and AI generation are locked. The customer sees a clear message in their language with a
   subscribe button.

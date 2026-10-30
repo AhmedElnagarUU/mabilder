@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { LocaleSwitcher } from "../../../shared/i18n/locale-switcher";
 import { Link } from "../../../shared/i18n/navigation";
 import { buttonClass } from "../../../shared/ui/button";
+import { CreditBadge } from "../../credits/components/credit-badge";
 import { Icon, type IconName } from "../../../shared/ui/icon";
 import { deviceIds, type DeviceId, type EditorMode } from "../canvas-frame";
 
@@ -29,6 +30,7 @@ type EditorTopbarProps = {
   device: DeviceId;
   dirty: boolean;
   saving: boolean;
+  creditsLeft: number | null;
   onSave: () => void;
   onBeforeSwitchLocale: () => Promise<boolean>;
   onToggleDrawer: (drawer: EditorDrawer) => void;
@@ -88,6 +90,7 @@ export function EditorTopbar({
   device,
   dirty,
   saving,
+  creditsLeft,
   onSave,
   onBeforeSwitchLocale,
   onToggleDrawer,
@@ -173,6 +176,7 @@ export function EditorTopbar({
               </button>
             </>
           ) : null}
+          <CreditBadge left={creditsLeft} />
           <LocaleSwitcher
             className={buttonClass("secondary", "sm", "px-3 sm:px-3.5")}
             beforeSwitch={onBeforeSwitchLocale}

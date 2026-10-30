@@ -689,6 +689,10 @@
       "failed": "Could not save your changes. Please try again."
     }
   },
+  "credits": {
+    "badge": "{left} AI credits",
+    "hint": "Daily AI credits. Each credit comes back 24 hours after you use it."
+  },
   "editor": {
     "meta": {
       "title": "Website editor",
@@ -754,6 +758,34 @@
       "saveFailed": "Could not save your changes. Please try again.",
       "subscriptionRequired": "Your free trial has ended. Subscribe to keep editing.",
       "subscribe": "Subscribe"
+    },
+    "rewrite": {
+      "open": "Rewrite with AI",
+      "openPage": "Rewrite this page",
+      "sectionTitle": "Rewrite this section with AI",
+      "pageTitle": "Rewrite this page with AI",
+      "sectionHint": "The AI writes new text for this section. Your photos and business details stay the same.",
+      "pageHint": "Tick the sections to rewrite. Sections that use your business details can't be rewritten.",
+      "factNote": "Uses your business details",
+      "instructionLabel": "What should change? (optional)",
+      "instructionPlaceholder": "For example: shorter, more formal",
+      "examples": {
+        "shorter": "Shorter",
+        "moreFormal": "More formal",
+        "warmer": "Warmer"
+      },
+      "cost": "Costs {count, plural, one {# credit} other {# credits}} · {left} left",
+      "costOnly": "Costs {count, plural, one {# credit} other {# credits}}",
+      "notEnough": "You don't have enough credits for this. Untick some sections.",
+      "confirm": "Rewrite",
+      "running": "Rewriting…",
+      "cancel": "Cancel",
+      "done": "Text rewritten",
+      "errors": {
+        "creditsExhausted": "You have used all your AI credits. They refill from {time}.",
+        "subscriptionRequired": "Your free trial has ended. Subscribe to keep using AI.",
+        "generic": "The rewrite didn't work and no credit was used. Please try again."
+      }
     },
     "languages": {
       "en": "English",

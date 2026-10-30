@@ -14,6 +14,7 @@ type SectionListProps = {
   onHide: (blockId: string) => void;
   onRestore: (blockId: string) => void;
   onCollapse: () => void;
+  onRewritePage: () => void;
 };
 
 const iconButtonClass =
@@ -28,6 +29,7 @@ export function SectionList({
   onHide,
   onRestore,
   onCollapse,
+  onRewritePage,
 }: SectionListProps) {
   const t = useTranslations("editor");
   const visible = page.blocks.filter((block) => !block.hidden);
@@ -42,6 +44,14 @@ export function SectionList({
           </p>
           <PanelToggle direction="start" onClick={onCollapse} />
         </div>
+        <button
+          type="button"
+          onClick={onRewritePage}
+          className="mb-3 flex h-9 w-full items-center justify-center gap-1.5 rounded-full border border-accent/30 bg-accent/10 px-3 text-sm text-accent transition-colors hover:bg-accent/15"
+        >
+          <Icon name="spark" className="h-4 w-4" />
+          {t("rewrite.openPage")}
+        </button>
         <ul className="space-y-1">
           {visible.map((block, visibleIndex) => {
             const selected = block.id === selectedBlockId;

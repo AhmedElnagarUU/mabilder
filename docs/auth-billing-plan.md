@@ -66,8 +66,9 @@ There is **one paid plan (Pro, monthly)** and a **15-day free trial**. There is 
   `409 { code: "site_exists" }` if one already exists. The site model has a **unique index on `ownerId`**.
 - **The trial starts at sign-up**: `trialEndsAt = user.createdAt + 15 days`. No card is needed and it
   isn't created in Polar. Polar is only used when the customer subscribes.
-- **AI generation is not counted** and has no plan limit. Only the existing AI rate limiter
-  (`generation/rate-limit.ts`) applies, to protect the API quota.
+- **AI is limited by daily credits** (features v2 C1): 20 per rolling 24 hours, one credit per
+  section rewritten. The first generation of a site is free. Failed AI calls are not charged. The
+  existing AI rate limiter (`generation/rate-limit.ts`) still protects the API quota.
 - The duration lives in **one** place: `src/features/billing/plans.ts` (`TRIAL_DAYS = 15`).
 
 ### Files

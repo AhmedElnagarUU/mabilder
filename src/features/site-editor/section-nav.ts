@@ -1,4 +1,4 @@
-import type { Block } from "../static-site-generator/blocks/catalog";
+import { getBlockDefinition, type Block } from "../static-site-generator/blocks/catalog";
 
 export type SectionNav = {
   number: number;
@@ -9,6 +9,11 @@ export type SectionNav = {
 
 export function visibleSections(blocks: Block[]): Block[] {
   return blocks.filter((block) => !block.hidden);
+}
+
+// Only copy sections can be rewritten with AI; fact sections come from the business details.
+export function isCopySection(block: Block): boolean {
+  return getBlockDefinition(block.type)?.kind === "copy";
 }
 
 export function resolveFocusId(blocks: Block[], selectedId: string | null): string | null {

@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { Icon } from "../../../shared/ui/icon";
 import type { Locale } from "../../static-site-generator/locale";
 import type { Page, SiteContent } from "../../static-site-generator/site-content";
-import { sectionNav, visibleSections } from "../section-nav";
+import { isCopySection, sectionNav, visibleSections } from "../section-nav";
 
 type FocusBarProps = {
   content: SiteContent;
@@ -15,6 +15,7 @@ type FocusBarProps = {
   onSelectBlock: (blockId: string) => void;
   onSelectPage: (pageId: string) => void;
   onSelectLocale: (locale: Locale) => void;
+  onRewrite: () => void;
 };
 
 const navButtonClass =
@@ -31,6 +32,7 @@ export function FocusBar({
   onSelectBlock,
   onSelectPage,
   onSelectLocale,
+  onRewrite,
 }: FocusBarProps) {
   const t = useTranslations("editor");
   const sections = visibleSections(page.blocks);
@@ -91,6 +93,16 @@ export function FocusBar({
         </div>
 
         <div className="flex min-w-0 items-center gap-2">
+          {focused && isCopySection(focused) ? (
+            <button
+              type="button"
+              onClick={onRewrite}
+              className="flex h-9 shrink-0 items-center gap-1.5 rounded-full border border-accent/30 bg-accent/10 px-3 text-sm text-accent transition-colors hover:bg-accent/15"
+            >
+              <Icon name="spark" className="h-4 w-4" />
+              {t("rewrite.open")}
+            </button>
+          ) : null}
           <button
             type="button"
             onClick={() => nav?.prevId && onSelectBlock(nav.prevId)}
