@@ -86,6 +86,12 @@ function groupBySlotType(needs: SlotNeed[]): SlotNeed[][] {
 
 function buildQuery(type: BlockType, background: ImageBackground): string {
   const { brief, profile } = background;
+  const generated = profile?.imageQueries[type]?.trim();
+
+  if (generated) {
+    return generated;
+  }
+
   const keyword = profile?.keywords[0] ?? splitList(brief.services)[0] ?? "";
 
   return [brief.industry, purposeOf(type).purpose, keyword]

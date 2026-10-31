@@ -1,5 +1,6 @@
 ﻿import type { Facts } from "../../static-site-generator/blocks/facts";
 import type { Locale } from "../../static-site-generator/locale";
+import type { PageSlug } from "../../static-site-generator/site-content";
 import type { BusinessBrief } from "../types";
 import type { BusinessProfile } from "./profile";
 
@@ -26,6 +27,14 @@ export type TranslatePromptInput = {
   blocks: BlockPromptInput[];
 };
 
+export type SeoPromptInput = {
+  brief: BusinessBrief;
+  profile?: BusinessProfile;
+  facts: Facts;
+  locale: Locale;
+  pages: Array<{ slug: PageSlug; title: string }>;
+};
+
 const languageNames: Record<Locale, string> = {
   en: "English",
   ar: "Modern Standard Arabic",
@@ -48,7 +57,14 @@ Rules:
 - Differentiators are 3-5 short points grounded in the description.
 - Tone is a short descriptor.
 - Keywords are 5-10 short terms.
+- ImageQueries has one entry per image category: "hero" (homepage banner), "intro" (craft, team, or detail), "feature-split" (a service or project at work). Each value is a concrete, visual English stock-photo search of 2-5 words, with no brand names and no person names.
 - Do not invent awards, clients, numbers, credentials, dates, or personal names.`;
+}
+
+function toneHint(profile: BusinessProfile | undefined): string {
+  return profile
+    ? `\n- Match the brand tone (${profile.tone}) and positioning (${profile.positioning}) without adding facts.`
+    : "";
 }
 
 export const copySystemPrompt = `You are a senior website copywriter. You write clear, specific website copy for one business, block by block. You never invent facts: no numbers, years, awards, clients, prices, credentials, addresses, or personal names beyond the facts you are given. Return only the requested structured data.`;
@@ -85,7 +101,7 @@ ${blockOutputRules}
 - Write new text for every field. The current text is a placeholder or the previous version: do not copy it, and do not reuse its names, places, or claims.
 - Write everything in ${language}. Keep the business name and every fact exactly as given.
 - Fit each block's type and design: titles are short (at most 10 words), bodies 1-3 sentences, list items concise.
-- Do not invent awards, clients, numbers, credentials, dates, prices, or personal names.`;
+- Do not invent awards, clients, numbers, credentials, dates, prices, or personal names.${toneHint(input.profile)}`;
 }
 
 export const translateSystemPrompt = `You are a professional website translator. You translate website copy naturally and keep its meaning, tone, and structure. You never add or remove information. Return only the requested structured data.`;
@@ -105,4 +121,33 @@ Rules:
 ${blockOutputRules}
 - Keep the same fields and the same number of list items as "current".
 - Translate every text field into ${language}; keep the business name and personal names as written.`;
+}
+
+export const seoSystemPrompt = `You are a senior SEO copywriter. You write page titles and meta descriptions that are natural, specific, and true to one business. You never invent facts: no numbers, years, awards, clients, prices, credentials, addresses, or personal names beyond the facts you are given. Return only the requested structured data.`;
+
+export function buildSeoPrompt(input: SeoPromptInput): string {
+  const language = languageNames[input.locale];
+
+  return `Write the SEO title and meta description for every page of this website, in ${language}.
+
+Brief:
+${JSON.stringify(input.brief, null, 2)}
+
+Business profile:
+${JSON.stringify(input.profile ?? null, null, 2)}
+
+Facts (use them exactly as written; never change them or add new ones):
+${JSON.stringify(input.facts, null, 2)}
+
+Pages (slug and current title):
+${JSON.stringify(input.pages, null, 2)}
+
+Rules:
+- Return { "pages": [ { "slug": "<slug>", "title": "<title>", "description": "<description>" } ] } with one entry per slug above.
+- title is at most 60 characters. description is 120-160 characters.
+- Write both in ${language}, natural ${language} for real readers, not keyword stuffing.
+- The "index" page title is "<business name> — <main service>" (add the city only when the facts include it).
+- Every other title names that page's subject; it may add the business name when it fits.
+- Use only the brief, profile, and facts above. Do not invent awards, clients, numbers, credentials, dates, prices, or personal names.
+- Do not copy the current title as it is unless it already fits these rules.${toneHint(input.profile)}`;
 }

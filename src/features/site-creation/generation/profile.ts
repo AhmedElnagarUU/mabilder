@@ -14,6 +14,7 @@ export const businessProfileSchema = z.object({
   differentiators: z.array(z.string()),
   tone: z.string(),
   keywords: z.array(z.string()),
+  imageQueries: z.record(z.string(), z.string()).default({}),
 });
 
 export type BusinessProfile = z.infer<typeof businessProfileSchema>;
@@ -28,6 +29,7 @@ export function fallbackProfile(brief: BusinessBrief): BusinessProfile {
     differentiators: [],
     tone: brief.tone ?? "Clear, confident, and approachable",
     keywords: [],
+    imageQueries: {},
   };
 }
 

@@ -53,10 +53,10 @@ test("when one page fails for good, the other pages' in-flight calls are aborted
   assert.ok(servicesCalls[0].signal.aborted);
 });
 
-test("a generation never makes more AI calls than its budget (1 profile + 2 per page and language)", async () => {
+test("a generation never makes more AI calls than its budget (1 profile + 2 per page and language + 1 SEO per language)", async () => {
   const seen = new Set<string>();
 
-  // Every call is rate limited once, so each needs two attempts: 1×2 + 3 pages×2 = 8 > 7.
+  // Every call is rate limited once: 1 profile×2 + 3 pages×2 = 8 calls, so the SEO call exceeds 8.
   function rateLimitedOnce(answer: unknown) {
     return (call: StubCall) => {
       if (!seen.has(call.prompt)) {
@@ -79,9 +79,9 @@ test("a generation never makes more AI calls than its budget (1 profile + 2 per 
       keywords: [],
     }),
   );
-  const budget = 1 + content.pages.length * 2;
+  const budget = 1 + content.pages.length * 2 + 1;
 
-  await assert.rejects(generateSiteContent(stub.model, thin, null), /budget of 7 calls/);
+  await assert.rejects(generateSiteContent(stub.model, thin, null), /budget of 8 calls/);
   assert.equal(stub.calls.length, budget);
 });
 

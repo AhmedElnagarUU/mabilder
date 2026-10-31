@@ -8,7 +8,7 @@ import { getBlockDefinition, type Block } from "../../src/features/static-site-g
 import { renderSite } from "../../src/features/static-site-generator/render-site";
 import type { SiteContent } from "../../src/features/static-site-generator/site-content";
 import { composeFor, richBrief, richProjects, thinBrief } from "./samples";
-import { markedAnswer, stubModel } from "./stub-model";
+import { markedAnswer, stubModel, stubProfile } from "./stub-model";
 
 setMinIntervalMs(0);
 
@@ -69,9 +69,22 @@ function imagesOf(block: Block): NonNullable<ImageProps["image"]>[] {
   return [props.image, ...(props.images ?? [])].filter((image) => image !== undefined);
 }
 
-function generate(content: SiteContent, brief: typeof thin, fetchFunction: typeof fetch) {
-  const stub = stubModel(() => markedAnswer(content, "AI"));
+function generate(
+  content: SiteContent,
+  brief: typeof thin,
+  fetchFunction: typeof fetch,
+  profile: Record<string, unknown> = stubProfile,
+) {
+  const stub = stubModel(
+    () => markedAnswer(content, "AI"),
+    () => profile,
+    () => ({ pages: [] }),
+  );
   return generateSiteContent(stub.model, brief, content, fetchFunction);
+}
+
+function queryOf(url: string): string {
+  return new URL(url).searchParams.get("query") ?? "";
 }
 
 function slotTypes(): string[] {
@@ -103,6 +116,30 @@ test("empty copy-block image slots get stock photos with credits and the image d
   assert.equal(searches.size, stub.urls.length, "the same search ran twice");
   assert.ok(stub.urls.length <= slotTypes().length);
   assert.match(decodeURIComponent(stub.urls[0]), /Interior\+design|Interior design/);
+});
+
+test("profile imageQueries drive the Pexels search per category; a missing query falls back; landscape only", async () => {
+  withKey("test-key");
+  const current = composeFor(richBrief, richProjects);
+  const stub = stubFetch();
+  const imageQueries = {
+    hero: "modern architecture facade",
+    "feature-split": "architect drawing plans",
+  };
+
+  await generate(current, rich, stub.fetch, { ...stubProfile, imageQueries });
+
+  const queries = stub.urls.map(queryOf);
+  assert.ok(queries.includes("modern architecture facade"), "hero query not used");
+  assert.ok(queries.includes("architect drawing plans"), "feature-split query not used");
+  assert.ok(
+    queries.some((query) => query.includes("craft detail")),
+    "a missing category must fall back to the default query",
+  );
+
+  for (const url of stub.urls) {
+    assert.equal(new URL(url).searchParams.get("orientation"), "landscape");
+  }
 });
 
 test("no photo id is used twice in one site", async () => {

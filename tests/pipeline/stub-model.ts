@@ -33,6 +33,7 @@ export const stubProfile = {
 export function stubModel(
   answer: (call: StubCall) => unknown,
   answerProfile: (call: StubCall) => unknown = () => stubProfile,
+  answerSeo: (call: StubCall) => unknown = () => ({ pages: [] }),
 ): StubModel {
   const calls: StubCall[] = [];
   const model: GenerationModel = {
@@ -48,7 +49,12 @@ export function stubModel(
             signal: options.signal,
           };
           calls.push(call);
-          const respond = call.name === "business_profile" ? answerProfile : answer;
+          const respond =
+            call.name === "business_profile"
+              ? answerProfile
+              : call.name === "page_seo"
+                ? answerSeo
+                : answer;
           return (await respond(call)) as Output;
         },
       };

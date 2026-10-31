@@ -9,6 +9,7 @@ import {
 } from "./generation/page-copy";
 import { resolveLanguages } from "./languages";
 import { normalizeBusinessProfile } from "./generation/profile";
+import { writeSiteSeo } from "./generation/seo";
 import { createSpendGuard } from "./generation/spend-guard";
 import { fillImages } from "./images/fill-images";
 import type { FetchFunction } from "./images/pexels";
@@ -46,5 +47,6 @@ export async function generateSiteContent(
   const guard = createSpendGuard(generationBudget(content));
   const profile = await normalizeBusinessProfile(model, brief, guard);
   const written = await writeSiteCopy(model, content, { brief, profile }, guard);
-  return fillImages(written, { brief, profile }, fetchFunction);
+  const localized = await writeSiteSeo(model, written, { brief, profile }, guard);
+  return fillImages(localized, { brief, profile }, fetchFunction);
 }

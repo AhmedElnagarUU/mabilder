@@ -77,7 +77,8 @@ function callsPerPage(content: SiteContent): number {
 }
 
 export function generationBudget(content: SiteContent): number {
-  return 1 + content.pages.length * callsPerPage(content);
+  const seoCalls = content.locales.length;
+  return 1 + content.pages.length * callsPerPage(content) + seoCalls;
 }
 
 function checkBlock(content: SiteContent, block: Block): void {
