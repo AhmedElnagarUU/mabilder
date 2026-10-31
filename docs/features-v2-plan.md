@@ -246,3 +246,30 @@ facts (never AI-written); the AI may only write the section headings around them
 Acceptance: multi-upload of 10 photos in one pick; reorder and cover persist; cards look consistent with
 mixed photo sizes; project pages exist for every project in both languages; old projects (title + photos
 only) still render.
+
+## R1 Professional first result (owner request 2026-10-31)
+
+Goal: the first generated site is ready to publish as it is. Photos fit the business and every page has real SEO.
+The customer can still edit everything, but should not have to.
+
+Today:
+- Page SEO is a template: the title is `<page> | <business>` and the description is just the industry (`composition/compose.ts` `buildPageMeta`).
+- Photo searches are generic (`industry + purpose + first keyword`, `images/fill-images.ts` `buildQuery`).
+
+| Part | Decision |
+|---|---|
+| Photo search | The existing profile AI call (`generation/profile.ts`, no extra AI call) also returns `imageQueries`: one concrete, visual English Pexels search (2–5 words, no brand or person names) per image category in use (hero, about, services, projects, …). `fill-images` uses `imageQueries[type]` first and the current query as the fallback. Ask Pexels for landscape photos. Never reuse a photo on one site (unchanged). |
+| Page SEO | A new structured AI step, `generation/seo.ts`, runs once per site language after copy. It returns `title` (≤ 60 chars) and `description` (120–160 chars) for every kept page. The input is the facts, profile and page purpose; the output is natural in that language and has no invented facts. The index page is "business — main service (+ city if known)". Out-of-range lengths are trimmed on a word boundary. If the step fails, the meta falls back to a better template: the title as today, and the description from the profile summary trimmed to 160. |
+| Where it shows | The meta goes into `page.meta` (no new data), so the SEO dashboard shows it right away and the customer can edit it there. |
+| Cost | The SEO step goes through the existing spend guard and rate limiter. Admin-only knobs stay in env. |
+| Quality prompts | Keep the "never invent facts" rules. Add an industry-aware writing hint from the profile (`tone`, `positioning`). |
+
+Tests (fake model and injected fetch only; never real AI or Pexels):
+- the profile with `imageQueries` drives the Pexels query per category, and a missing query falls back;
+- the SEO step output lands in `page.meta` per locale with lengths in range;
+- an AI failure falls back to the template meta and still renders;
+- fact data is never taken from AI output.
+
+Flow: `docs/flows/generation.md` (CODE_RULES §11).
+
+Acceptance: a new site from the wizard has a distinct, business-specific title and description on every page in each language, shown in the SEO dashboard, and photos that match the business type.

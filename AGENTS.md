@@ -31,6 +31,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Code follows `CODE_RULES.md`.
 - Build and relevant checks pass.
 - Any unverified item is reported as **unverified**, never assumed to work.
+- New or changed features have their Mermaid flow in `docs/flows/` (`CODE_RULES.md` §11).
 
 <!-- END:project-rules -->
 

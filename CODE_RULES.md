@@ -176,3 +176,14 @@ The owner-only admin area is a separate system inside the app (owner decision 20
   - `npm test` and `npm run test:api` (once they exist, see `docs/features-v2-plan.md` Q1)
 - New behaviour comes with tests for its acceptance criteria (Q1 rules: test real behaviour, no fake tests).
 - Manually verify the acceptance criteria in your task file (curl for APIs, browser for UI).
+
+## 11. Flow diagrams for every new feature
+
+- Every new feature or milestone adds (or updates) a Mermaid diagram as **text** in `docs/flows/<feature>.md`.
+  The owner renders it with their own tool; agents only write the Mermaid source, never images.
+- One file per feature: a one-line purpose, then a ```` ```mermaid ```` `flowchart TD` block showing the real path:
+  user action → page/component → API route → service → database / external service (AI, S3, Pexels, email),
+  including the main error branches (validation fails, not allowed, limit reached).
+- Use the real names from the code (component, route, function) so the diagram can be checked against it.
+  Keep it readable: about 8–25 nodes; split into a second diagram instead of one huge one.
+- When a change alters an existing flow, update its diagram in the same commit. The diagram is part of "done".
