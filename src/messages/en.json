@@ -843,6 +843,15 @@
       "label": "Search result preview",
       "untitled": "Untitled page"
     },
+    "pagePicker": {
+      "label": "Page"
+    },
+    "confirm": {
+      "title": "Save changes?",
+      "body": "You have unsaved changes on this page. Save them before switching?",
+      "save": "Yes",
+      "discard": "No"
+    },
     "save": {
       "button": "Save",
       "saving": "Saving…",
@@ -1041,6 +1050,25 @@
     "saving": "Saving…",
     "saved": "Saved. Your website has been updated.",
     "noSite": "Create your website first, then come back to connect tracking.",
+    "connected": {
+      "title": "Connected",
+      "empty": "No tracking tools are connected yet. Choose one below to connect it."
+    },
+    "connect": {
+      "title": "Connect a platform",
+      "allConnected": "All tracking tools are connected."
+    },
+    "idLabel": "Tracking ID",
+    "cancel": "Cancel",
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "deleteConfirm": {
+      "title": "Remove this connection?",
+      "body": "The tracking ID will be removed from your website. You can connect it again at any time.",
+      "confirm": "Delete"
+    },
     "errors": {
       "invalid": "This ID does not look right. Check it and try again.",
       "save_failed": "We could not save your changes. Please try again.",
