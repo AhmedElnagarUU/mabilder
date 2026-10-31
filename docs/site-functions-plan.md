@@ -54,7 +54,8 @@ dashboard /dashboard/inbox  ◀── GET/PATCH /api/sites/{siteId}/inquiries (o
    - click-to-call (`tel:`) and "Reply on WhatsApp" links;
    - status change and delete;
    - en + ar, an empty state, and a tour step (G1 pattern).
-6. **Flow:** `docs/flows/inquiries.md`.
+6. **Admin numbers** (owner-approved admin change, see Owner decisions): request counts on the admin overview and user detail.
+7. **Flow:** `docs/flows/inquiries.md`.
 
 Tests:
 - **API:** valid quote saved and owner notified; missing phone gives 400; honeypot stores nothing (but returns 200);
@@ -101,7 +102,34 @@ review text.
 - **Real visitors** need public publishing (not built yet; PRD "Out of scope for v1"). Until then everything works
   and is testable in the preview, and the endpoint is designed to need no change when publishing arrives.
 
-## Open questions (owner)
+## Owner decisions (2026-10-31)
 
-- Is the Inbox for every plan, or a Pro feature (e.g. free sites keep the WhatsApp button only)?
-- How long do we keep inquiries (e.g. delete after 12 months)?
+| Topic | Decision |
+|---|---|
+| Plans | The **15-day free trial includes everything** (Inbox, all forms, WhatsApp, reviews), so the customer sees the full value. After the trial without Pro, the site follows the existing locked rules: requests are still **saved** (never lost), but the Inbox shows the count and asks the customer to subscribe to read them. |
+| Retention | Valid requests are kept **12 months**, then deleted automatically (a Mongo TTL index on `createdAt`). Requests marked as spam are deleted after **30 days**. |
+| Notification | The owner gets a notification for **every** valid request (`inquiry_received`, en + ar). Spam never notifies. |
+| Admin numbers | The owner explicitly asks for this admin change (CODE_RULES §9): the admin overview shows requests in total, today, 7 days and 30 days, valid vs spam, and the top sites by requests. The admin user detail page shows that user's request counts. **Counts only**: the admin never sees visitor names, phones or messages (customer privacy). Admin reads through an inquiries service function; inquiries never import admin. |
+
+## Spam validation (all milestones)
+
+Each request gets a **spam check** before it is saved. The result is `valid` or `spam` with a reason code (e.g.
+`honeypot`, `too_fast`, `rate_limit`, `bad_phone`, `links`, `duplicate`). The reason codes are stored, so the admin
+numbers show why requests were blocked.
+
+1. **Silent drops (not stored):** honeypot filled; form sent under 3 s after render; over the rate limit (5 per
+   visitor per site per hour, 200 per site per day; the visitor is identified by a hashed IP, raw IPs are never
+   stored).
+2. **Phone check:** the number is normalised to digits. Egyptian mobile (`01[0125]` + 8 digits, or `+20…`) or an
+   international `+` number with 8–15 digits is accepted; anything else returns 400 with a clear message on the form.
+3. **Content check (stored as spam, not shown as new):**
+   - the message contains links (`http`, `www.`, more than one URL);
+   - the same phone number sent to the same site within 24 h (duplicate: kept once, counted);
+   - text that is mostly non-letters, or a name that contains a URL.
+4. **Owner control:** in the Inbox, "Mark as spam" / "Not spam". A spam request is hidden from the main list under a
+   "Spam" filter so the owner can rescue a real one.
+5. **Later, only if spam grows:** Cloudflare Turnstile ("I'm not a robot" without puzzles, free). It needs owner
+   approval and its env keys.
+
+Tests: each reason code is produced by its case; spam does not notify; valid notifies; "Not spam" moves the request
+back and notifies nothing twice; TTL indexes exist on the model.
