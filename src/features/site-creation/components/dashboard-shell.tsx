@@ -23,21 +23,29 @@ function SidebarLink({
   icon,
   active = false,
   external = false,
+  gold = false,
 }: {
   href: string;
   label: string;
   icon: IconName;
   active?: boolean;
   external?: boolean;
+  gold?: boolean;
 }) {
-  const className = `flex h-[38px] w-[42px] items-center justify-center rounded-[9px] border text-soft transition-colors min-[980px]:w-full min-[980px]:justify-start min-[980px]:gap-2.5 min-[980px]:px-3 ${
+  const baseText = gold ? "text-gold" : "text-soft";
+  const hoverText = gold ? "hover:text-gold" : "hover:text-ink";
+  const activeText = gold ? "text-gold" : "text-ink";
+  const iconOpacity = gold ? "opacity-90" : "opacity-70";
+  const className = `flex h-[38px] w-[42px] items-center justify-center rounded-[9px] border transition-colors ${baseText} min-[980px]:w-full min-[980px]:justify-start min-[980px]:gap-2.5 min-[980px]:px-3 ${
     active
-      ? "border-white/[0.07] bg-white/[0.065] text-ink shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
-      : "border-transparent hover:bg-white/[0.033] hover:text-ink"
+      ? "border-white/[0.07] bg-white/[0.065] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
+      : "border-transparent hover:bg-white/[0.033]"
+  } ${
+    active ? activeText : hoverText
   }`;
 
   const iconElement = (
-    <Icon name={icon} className="h-[15px] w-[15px] shrink-0 opacity-70" />
+    <Icon name={icon} className={`h-[15px] w-[15px] shrink-0 ${iconOpacity}`} />
   );
 
   if (external) {
@@ -171,6 +179,7 @@ export async function DashboardShell({
               label={t("sidebar.upgrade")}
               icon="upgrade"
               active={active === "billing"}
+              gold
             />
           </nav>
 

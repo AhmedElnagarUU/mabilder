@@ -206,8 +206,8 @@ const paths: Record<IconName, ReactNode> = {
   ),
   upgrade: (
     <>
-      <path d="M12 20V6M6 12l6-6 6 6" />
-      <path d="M5 3h14" />
+      <path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7Z" />
+      <path d="M5 20h14" />
     </>
   ),
 };
