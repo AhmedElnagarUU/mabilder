@@ -6,7 +6,6 @@ export type BlockKind = "copy" | "fact";
 export type BlockDefinition<Props> = {
   type: string;
   kind: BlockKind;
-  variants: readonly [string, ...string[]];
   schema: ZodType<Props>;
   needs: (facts: Facts) => boolean;
   fixtures: {

@@ -32,7 +32,7 @@ export function buildSiteContent(
   });
 }
 
-// Regenerate starts from the current content, so ids, variants, hidden flags, order and
+// Regenerate starts from the current content, so ids, designs, hidden flags, order and
 // images stay; only the copy is written again.
 export async function generateSiteContent(
   model: GenerationModel,

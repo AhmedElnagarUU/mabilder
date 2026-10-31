@@ -20,7 +20,6 @@ export type ContactProps = z.infer<typeof contactSchema>;
 export const contactBlock = {
   type: "contact" as const,
   kind: "copy",
-  variants: ["split", "form-only"] as const,
   schema: contactSchema,
   needs: () => true,
   fixtures: {

@@ -2,7 +2,7 @@ import { renderText } from "../../../content/html";
 import type { BlockContext, ThemeBlock, Tone } from "../../types";
 import { getToneStyle, renderButton, renderSection } from "../parts";
 
-type CtaVariant = ThemeBlock<"cta">["variant"];
+type CtaVariant = "dark" | "light";
 
 type PanelStyle = {
   panel: string;
@@ -37,7 +37,7 @@ const panelStyles: Record<CtaVariant, Record<Tone, PanelStyle>> = {
 export function renderCta(block: ThemeBlock<"cta">, context: BlockContext): string {
   const { props } = block;
   const style = getToneStyle(context.tone);
-  const panel = panelStyles[block.variant][context.tone];
+  const panel = panelStyles[block.design === "agenvo/cta-light" ? "light" : "dark"][context.tone];
 
   const inner = `
     <div class="max-w-7xl mx-auto ${panel.panel} px-8 py-16 md:px-16 md:py-20 grid lg:grid-cols-2 gap-10 items-center reveal">

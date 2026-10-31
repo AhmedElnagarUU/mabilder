@@ -14,7 +14,6 @@ export type ValuesProps = z.infer<typeof valuesSchema>;
 export const valuesBlock = {
   type: "values" as const,
   kind: "copy",
-  variants: ["default"] as const,
   schema: valuesSchema,
   needs: () => true,
   fixtures: {

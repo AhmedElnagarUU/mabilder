@@ -65,7 +65,8 @@ function renderSplit(block: ThemeBlock<"stats">, style: ToneStyle): string {
 
 export function renderStats(block: ThemeBlock<"stats">, context: BlockContext): string {
   const style = getToneStyle(context.tone);
-  const inner = block.variant === "dark" ? renderBand(block, style) : renderSplit(block, style);
+  const inner =
+    block.design === "agenvo/stats-dark" ? renderBand(block, style) : renderSplit(block, style);
 
   return renderSection(block, `${style.section} ${sectionPadding}`, inner);
 }

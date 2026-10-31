@@ -72,7 +72,7 @@ function renderQuoteVariant(block: ThemeBlock<"intro">, style: ToneStyle): strin
 export function renderIntro(block: ThemeBlock<"intro">, context: BlockContext): string {
   const style = getToneStyle(context.tone);
   const inner =
-    block.variant === "quote"
+    block.design === "agenvo/intro-quote"
       ? renderQuoteVariant(block, style)
       : renderImagesVariant(block, style);
 

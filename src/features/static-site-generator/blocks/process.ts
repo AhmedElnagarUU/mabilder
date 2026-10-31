@@ -14,7 +14,6 @@ export type ProcessProps = z.infer<typeof processSchema>;
 export const processBlock = {
   type: "process" as const,
   kind: "copy",
-  variants: ["default"] as const,
   schema: processSchema,
   needs: () => true,
   fixtures: {

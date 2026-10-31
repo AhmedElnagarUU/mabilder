@@ -1,0 +1,345 @@
+{
+  "theme": "agenvo",
+  "locales": [
+    "en"
+  ],
+  "defaultLocale": "en",
+  "facts": {
+    "businessName": "Nour Studio",
+    "industry": "Interior design",
+    "services": [],
+    "clients": [],
+    "awards": [],
+    "projects": [],
+    "team": [],
+    "testimonials": []
+  },
+  "nav": {
+    "en": {
+      "items": [
+        {
+          "label": "Home",
+          "href": "index.html"
+        },
+        {
+          "label": "Services",
+          "href": "services.html"
+        },
+        {
+          "label": "Contact",
+          "href": "contact.html"
+        }
+      ],
+      "cta": {
+        "label": "Get in touch",
+        "href": "contact.html"
+      },
+      "menuLabel": "Menu",
+      "languageLabel": "العربية"
+    }
+  },
+  "footer": {
+    "en": {
+      "blurb": "Interior design",
+      "copyright": "© 2026 Nour Studio. All rights reserved.",
+      "photoCreditLabel": "Photo credits"
+    }
+  },
+  "pages": [
+    {
+      "id": "index",
+      "slug": "index",
+      "meta": {
+        "en": {
+          "title": "Nour Studio",
+          "description": "Interior design"
+        }
+      },
+      "blocks": [
+        {
+          "id": "index-hero-1",
+          "hidden": false,
+          "type": "hero",
+          "variant": "text-only",
+          "props": {
+            "en": {
+              "title": "A practice built on patience.",
+              "body": "We are architects, engineers and interior designers working from Zurich and Dubai."
+            }
+          }
+        },
+        {
+          "id": "index-marquee-1",
+          "hidden": false,
+          "type": "marquee",
+          "variant": "default",
+          "props": {
+            "en": {
+              "items": [
+                "Corporate Tower — 2024",
+                "Water Pavilion — 2023",
+                "Forest Retreat — 2023"
+              ]
+            }
+          }
+        },
+        {
+          "id": "index-intro-1",
+          "hidden": false,
+          "type": "intro",
+          "variant": "quote",
+          "props": {
+            "en": {
+              "title": "Where precision meets poetry.",
+              "paragraphs": [
+                "Agenvo is a collective of architects, structural engineers, and interior designers working from Zurich and Dubai."
+              ],
+              "images": []
+            }
+          }
+        },
+        {
+          "id": "index-services-1",
+          "hidden": false,
+          "type": "services",
+          "variant": "columns",
+          "props": {
+            "en": {
+              "title": "Three disciplines, one studio.",
+              "items": [
+                {
+                  "title": "Architecture",
+                  "body": "Residential, commercial, and mixed-use projects from concept to completion documents."
+                },
+                {
+                  "title": "Engineering",
+                  "body": "Structural, MEP, and sustainability consulting integrated into every design decision."
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "index-process-1",
+          "hidden": false,
+          "type": "process",
+          "variant": "default",
+          "props": {
+            "en": {
+              "title": "A disciplined creative process",
+              "steps": [
+                {
+                  "title": "Discovery",
+                  "body": "Site analysis, client vision workshops, and feasibility studies."
+                },
+                {
+                  "title": "Concept",
+                  "body": "Schematic design, 3D massing, and material palette exploration."
+                },
+                {
+                  "title": "Development",
+                  "body": "Detailed drawings, BIM coordination, and engineering integration."
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "index-cta-1",
+          "hidden": false,
+          "type": "cta",
+          "variant": "dark",
+          "props": {
+            "en": {
+              "title": "Tell us what you are trying to build.",
+              "body": "We take on a limited number of commissions each year so that every project receives the attention it deserves.",
+              "primary": {
+                "label": "Start a conversation",
+                "href": "contact.html"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "services",
+      "slug": "services",
+      "meta": {
+        "en": {
+          "title": "Services | Nour Studio",
+          "description": "Interior design"
+        }
+      },
+      "blocks": [
+        {
+          "id": "services-hero-1",
+          "hidden": false,
+          "type": "hero",
+          "variant": "text-only",
+          "props": {
+            "en": {
+              "title": "A practice built on patience.",
+              "body": "We are architects, engineers and interior designers working from Zurich and Dubai."
+            }
+          }
+        },
+        {
+          "id": "services-services-1",
+          "hidden": false,
+          "type": "services",
+          "variant": "list",
+          "props": {
+            "en": {
+              "title": "Three disciplines, one studio.",
+              "items": [
+                {
+                  "title": "Architecture",
+                  "body": "Residential, commercial, and mixed-use projects from concept to completion documents."
+                },
+                {
+                  "title": "Engineering",
+                  "body": "Structural, MEP, and sustainability consulting integrated into every design decision."
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "services-process-1",
+          "hidden": false,
+          "type": "process",
+          "variant": "default",
+          "props": {
+            "en": {
+              "title": "A disciplined creative process",
+              "steps": [
+                {
+                  "title": "Discovery",
+                  "body": "Site analysis, client vision workshops, and feasibility studies."
+                },
+                {
+                  "title": "Concept",
+                  "body": "Schematic design, 3D massing, and material palette exploration."
+                },
+                {
+                  "title": "Development",
+                  "body": "Detailed drawings, BIM coordination, and engineering integration."
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "services-faq-1",
+          "hidden": false,
+          "type": "faq",
+          "variant": "default",
+          "props": {
+            "en": {
+              "title": "Before you write.",
+              "items": [
+                {
+                  "question": "Do you work outside Switzerland and the UAE?",
+                  "answer": "Yes. We have built in sixteen countries across Europe, the Middle East and Asia."
+                },
+                {
+                  "question": "What size projects do you take on?",
+                  "answer": "Our work ranges from a single room or staircase to masterplans of several hundred thousand square metres."
+                },
+                {
+                  "question": "How early should we contact you?",
+                  "answer": "As early as possible — ideally before you have purchased a site."
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "services-cta-1",
+          "hidden": false,
+          "type": "cta",
+          "variant": "dark",
+          "props": {
+            "en": {
+              "title": "Tell us what you are trying to build.",
+              "body": "We take on a limited number of commissions each year so that every project receives the attention it deserves.",
+              "primary": {
+                "label": "Start a conversation",
+                "href": "contact.html"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "contact",
+      "slug": "contact",
+      "meta": {
+        "en": {
+          "title": "Contact | Nour Studio",
+          "description": "Interior design"
+        }
+      },
+      "blocks": [
+        {
+          "id": "contact-hero-1",
+          "hidden": false,
+          "type": "hero",
+          "variant": "text-only",
+          "props": {
+            "en": {
+              "title": "A practice built on patience.",
+              "body": "We are architects, engineers and interior designers working from Zurich and Dubai."
+            }
+          }
+        },
+        {
+          "id": "contact-contact-1",
+          "hidden": false,
+          "type": "contact",
+          "variant": "form-only",
+          "props": {
+            "en": {
+              "title": "Let's build something remarkable.",
+              "body": "Tell us about the site, the brief, or the problem you are trying to solve.",
+              "form": {
+                "namePlaceholder": "Name",
+                "emailPlaceholder": "Email",
+                "messagePlaceholder": "Message",
+                "submitLabel": "Send",
+                "successMessage": "Thank you — your enquiry has been noted."
+              }
+            }
+          }
+        },
+        {
+          "id": "contact-faq-1",
+          "hidden": false,
+          "type": "faq",
+          "variant": "default",
+          "props": {
+            "en": {
+              "title": "Before you write.",
+              "items": [
+                {
+                  "question": "Do you work outside Switzerland and the UAE?",
+                  "answer": "Yes. We have built in sixteen countries across Europe, the Middle East and Asia."
+                },
+                {
+                  "question": "What size projects do you take on?",
+                  "answer": "Our work ranges from a single room or staircase to masterplans of several hundred thousand square metres."
+                },
+                {
+                  "question": "How early should we contact you?",
+                  "answer": "As early as possible — ideally before you have purchased a site."
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

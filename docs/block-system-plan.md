@@ -105,27 +105,28 @@ Facts {
 BlockDefinition<Props> {
   type: string
   kind: "copy" | "fact"
-  variants: readonly string[]          // first one is the default
   schema: z.ZodType<Props>
   needs: (facts: Facts) => boolean     // copy blocks: () => true
   fixtures: { full: Props; minimal: Props }
 }
 ```
 
+- Designs live in `designs/` (`BlockDesign`: id, category, image slots, render). A category's
+  first registered design is its default.
 - `full`: every optional field and realistic list lengths. Text comes from `content/agenvo.json`.
 - `minimal`: only required fields, shortest valid lists.
 
 ### Site content (`site-content.ts`)
 
 A site has **one or two languages** (`en`, `ar`, or both), chosen by the customer. **Layout is shared;
-text is per language.** Block order, hidden flags, variants and facts are the same in every language.
+text is per language.** Block order, hidden flags, designs and facts are the same in every language.
 Only the props are stored per language.
 
 ```ts
 Locale    = "en" | "ar"
 Localized<T> = { en?: T; ar?: T }     // must contain exactly the site's locales
 
-Block   { id: string; type: BlockType; variant: string; hidden: boolean;
+Block   { id: string; type: BlockType; design: string; hidden: boolean;
           props: Localized<schema of type> }
 Page    { id: string; slug: "index" | "about" | "services" | "projects" | "contact";
           meta: Localized<{ title: string; description: string }>; blocks: Block[] }
@@ -141,7 +142,8 @@ SiteContent {
 ```
 
 - `Block` is a zod **discriminated union on `type`**. Each locale's `props` is that block's schema and
-  `variant` must be one of its variants.
+  `design` must be a registered design of the block's category.
+- Old content with `variant` and no `design` is read as `agenvo/<type>-<variant>`.
 - `superRefine` checks that every `Localized` value has **exactly** the keys in `locales`.
 - Images and fact values are the same in each language. The editor applies an image change to all
   locales, and generation fills both from the same facts.
@@ -152,9 +154,10 @@ SiteContent {
 Common pieces (`blocks/common.ts`): `image {src, alt, credit?: {name, url}}`, `link {label, href}`,
 `card {title, body, icon?}`, `stat {value, label}`, `faqItem {question, answer}`.
 
-Every block has an optional `eyebrow` and a `title` unless noted.
+Every block has an optional `eyebrow` and a `title` unless noted. Agenvo design ids are
+`agenvo/<type>-<design name>` (e.g. `agenvo/hero-full-image`).
 
-| type | kind | variants | props (besides eyebrow/title) | needs | Agenvo source |
+| type | kind | Agenvo designs | props (besides eyebrow/title) | needs | Agenvo source |
 |---|---|---|---|---|---|
 | `hero` | copy | `full-image`, `page`, `text-only` | `body`, `image?`, `primary?: link` | — | every page hero |
 | `marquee` | copy | `default` | `items: string[]` (3–8), no title | — | `*.marquee` |

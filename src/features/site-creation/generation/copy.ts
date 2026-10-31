@@ -53,7 +53,7 @@ function toPromptInput(target: CopyTarget, locale: Locale): BlockPromptInput {
   return {
     id: block.id,
     type: block.type,
-    variant: block.variant,
+    design: block.design,
     fields: z.toJSONSchema(writableSchema(block.type, currentProps(block, locale))),
     current: target.current,
   };

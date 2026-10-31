@@ -11,7 +11,6 @@ export type MarqueeProps = z.infer<typeof marqueeSchema>;
 export const marqueeBlock = {
   type: "marquee" as const,
   kind: "copy",
-  variants: ["default"] as const,
   schema: marqueeSchema,
   needs: () => true,
   fixtures: {

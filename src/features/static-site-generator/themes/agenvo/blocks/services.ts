@@ -41,7 +41,7 @@ function renderListItem(item: Card, style: ToneStyle): string {
 export function renderServices(block: ThemeBlock<"services">, context: BlockContext): string {
   const { props } = block;
   const style = getToneStyle(context.tone);
-  const list = block.variant === "list";
+  const list = block.design === "agenvo/services-list";
   const grid = list ? "grid md:grid-cols-2 gap-x-12 gap-y-10" : "grid md:grid-cols-3 gap-12";
   const items = props.items
     .map((item) => (list ? renderListItem(item, style) : renderColumn(item, style)))

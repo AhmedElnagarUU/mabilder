@@ -14,7 +14,6 @@ export type ClientsProps = z.infer<typeof clientsSchema>;
 export const clientsBlock = {
   type: "clients" as const,
   kind: "fact",
-  variants: ["default"] as const,
   schema: clientsSchema,
   needs: (facts) => facts.clients.length >= 3,
   fixtures: {

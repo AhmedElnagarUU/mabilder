@@ -139,7 +139,10 @@ Full design: `docs/block-system-plan.md`.
 - **A fact block never renders without its facts.** Its `needs(facts)` check decides it.
 - **All dynamic output is escaped** with the helpers in `static-site-generator/content/html.ts`
   (`renderText`, `escapeAttribute`). Never interpolate raw strings into HTML.
-- **Every block's root element** is `<section data-block="{blockId}" …>`.
+- **Designs are data, not theme code.** A block stores `design` (`<pack>/<category>-<design>`); the
+  registry in `static-site-generator/designs/` must contain it for the block's category. Old content
+  with `variant` is read as `agenvo/<type>-<variant>`.
+- **Every block's root element** is `<section data-block="{blockId}" data-design="{designId}" …>`.
 - **No hardcoded template copy** in theme render files. All visible text comes from props.
 - Composition (which blocks and pages) is **pure rules**: no AI, no IO, deterministic for the same input.
 

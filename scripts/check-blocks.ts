@@ -2,6 +2,7 @@ import { siteContentSchema } from "../src/features/static-site-generator/site-co
 import type { Locale } from "../src/features/static-site-generator/locale";
 import { blockDefinitions } from "../src/features/static-site-generator/blocks/catalog";
 import type { Facts } from "../src/features/static-site-generator/blocks/facts";
+import { getDefaultDesign } from "../src/features/static-site-generator/designs/registry";
 
 type AnyBlockDefinition = (typeof blockDefinitions)[number];
 
@@ -116,7 +117,7 @@ function buildSampleContent(
     return {
       id: `index-${definition.type}`,
       type: definition.type,
-      variant: definition.variants[0],
+      design: getDefaultDesign(definition.type).id,
       hidden: false,
       props,
     };
@@ -195,12 +196,13 @@ for (const definition of blockDefinitions) {
   checkFixture(definition, "full");
   checkFixture(definition, "minimal");
 
-  const label = `${definition.type} variants`;
+  const label = `${definition.type} design`;
 
-  if (definition.variants.length > 0) {
+  try {
+    getDefaultDesign(definition.type);
     pass(label);
-  } else {
-    fail(label, ["variants must contain at least one value."]);
+  } catch (error) {
+    fail(label, [error instanceof Error ? error.message : String(error)]);
   }
 }
 

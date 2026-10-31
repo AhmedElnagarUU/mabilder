@@ -178,9 +178,9 @@ test("updateBlockImage changes only the image src for that locale", () => {
   assert.equal(siteContentSchema.safeParse(updated).success, true);
 });
 
-test("editableFields never returns href, image src, id, type or variant paths", () => {
+test("editableFields never returns href, image src, id, type or design paths", () => {
   const content = composeFor(richBrief, richProjects, ["en", "ar"]);
-  const forbidden = new Set(["href", "src", "alt", "credit", "id", "type", "variant"]);
+  const forbidden = new Set(["href", "src", "alt", "credit", "id", "type", "design"]);
 
   for (const page of content.pages) {
     for (const block of page.blocks) {

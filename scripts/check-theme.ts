@@ -2,6 +2,8 @@ import { copyFile, mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { blockDefinitions } from "../src/features/static-site-generator/blocks/catalog";
 import type { Facts } from "../src/features/static-site-generator/blocks/facts";
+import { designs, getDesignsForCategory } from "../src/features/static-site-generator/designs/registry";
+import type { BlockDesign } from "../src/features/static-site-generator/designs/types";
 import type { Locale } from "../src/features/static-site-generator/locale";
 import {
   createPageContext,
@@ -65,7 +67,7 @@ function localize<Value>(value: Value, siteLocales: Locale[]): Record<string, Va
 
 function buildBlock(
   definition: AnyBlockDefinition,
-  variant: string,
+  design: string,
   fixture: FixtureName,
   id: string,
   siteLocales: Locale[],
@@ -73,7 +75,7 @@ function buildBlock(
   return {
     id,
     type: definition.type,
-    variant,
+    design,
     hidden: false,
     props: localize(definition.fixtures[fixture], siteLocales),
   };
@@ -135,19 +137,19 @@ function findDirectionProblems(html: string, locale: Locale): string[] {
 function renderOneBlock(
   theme: Theme,
   definition: AnyBlockDefinition,
-  variant: string,
+  design: BlockDesign,
   fixture: FixtureName,
   toneIndex: number,
   locale: Locale,
 ): { blockHtml: string; documentHtml: string; blockId: string } {
   const blockId = `index-${definition.type}-1`;
   const content = buildContent([locale], locale, [
-    buildPage("index", [buildBlock(definition, variant, fixture, blockId, [locale])], [locale]),
+    buildPage("index", [buildBlock(definition, design.id, fixture, blockId, [locale])], [locale]),
   ]);
   const page = content.pages[0];
   const block = toThemeBlock(page.blocks[0], locale);
   const context = createPageContext(content, page, locale, [block]);
-  const blockHtml = renderBlock(theme, block, { ...context, tone: theme.tones[toneIndex] });
+  const blockHtml = renderBlock(block, { ...context, tone: theme.tones[toneIndex] });
   const documentHtml = theme.renderDocument(context, blockHtml, "");
 
   return { blockHtml, documentHtml, blockId };
@@ -156,23 +158,23 @@ function renderOneBlock(
 function checkBlock(
   theme: Theme,
   definition: AnyBlockDefinition,
-  variant: string,
+  design: BlockDesign,
   fixture: FixtureName,
   toneIndex: number,
   locale: Locale,
 ): void {
-  const label = `${definition.type} variant:${variant} fixture:${fixture} tone:${theme.tones[toneIndex]} locale:${locale}`;
+  const label = `${design.id} fixture:${fixture} tone:${theme.tones[toneIndex]} locale:${locale}`;
 
   try {
     const { blockHtml, documentHtml, blockId } = renderOneBlock(
       theme,
       definition,
-      variant,
+      design,
       fixture,
       toneIndex,
       locale,
     );
-    const root = `<section data-block="${blockId}"`;
+    const root = `<section data-block="${blockId}" data-design="${design.id}"`;
     const problems = [
       ...(blockHtml.trim().startsWith(root) ? [] : [`root element is not ${root}`]),
       ...findOutputProblems(documentHtml),
@@ -190,23 +192,28 @@ function checkBlock(
   }
 }
 
-function buildSampleContent(theme: Theme, siteLocales: Locale[], defaultLocale: Locale): SiteContent {
-  const homeBlocks = blockDefinitions
-    .filter((definition) => theme.blocks[definition.type] !== undefined)
-    .map((definition) =>
-      buildBlock(definition, definition.variants[0], "full", `index-${definition.type}-1`, siteLocales),
-    );
+function buildSampleContent(siteLocales: Locale[], defaultLocale: Locale): SiteContent {
+  const homeBlocks = blockDefinitions.map((definition) =>
+    buildBlock(
+      definition,
+      getDesignsForCategory(definition.type)[0].id,
+      "full",
+      `index-${definition.type}-1`,
+      siteLocales,
+    ),
+  );
   const contactBlocks = blockDefinitions
     .filter((definition) => ["hero", "contact", "location"].includes(definition.type))
-    .map((definition) =>
-      buildBlock(
+    .map((definition) => {
+      const categoryDesigns = getDesignsForCategory(definition.type);
+      return buildBlock(
         definition,
-        definition.variants.at(-1) ?? definition.variants[0],
+        categoryDesigns.at(-1)?.id ?? categoryDesigns[0].id,
         "minimal",
         `contact-${definition.type}-1`,
         siteLocales,
-      ),
-    );
+      );
+    });
 
   return buildContent(siteLocales, defaultLocale, [
     buildPage("index", homeBlocks, siteLocales),
@@ -303,7 +310,7 @@ async function checkSamples(theme: Theme): Promise<void> {
     const label = `sample:${sample.name}`;
 
     try {
-      const files = renderSite(buildSampleContent(theme, sample.locales, sample.defaultLocale));
+      const files = renderSite(buildSampleContent(sample.locales, sample.defaultLocale));
       checkFileNames(label, files, sample.expected);
       const multilingual = sample.locales.length > 1;
       checkSampleFiles(label, files, sample.defaultLocale, multilingual);
@@ -322,21 +329,21 @@ async function checkSamples(theme: Theme): Promise<void> {
 function checkBlocks(theme: Theme): number {
   let combinations = 0;
 
-  for (const definition of blockDefinitions) {
-    if (theme.blocks[definition.type] === undefined) {
-      console.log(`SKIP ${definition.type} (not implemented by theme)`);
+  for (const design of designs) {
+    const definition = blockDefinitions.find((candidate) => candidate.type === design.category);
+
+    if (!definition) {
+      console.log(`SKIP ${design.id} (unknown category "${design.category}")`);
       continue;
     }
 
-    for (const variant of definition.variants) {
-      for (const fixture of fixtureNames) {
-        theme.tones.forEach((_tone, toneIndex) => {
-          for (const locale of locales) {
-            combinations += 1;
-            checkBlock(theme, definition, variant, fixture, toneIndex, locale);
-          }
-        });
-      }
+    for (const fixture of fixtureNames) {
+      theme.tones.forEach((_tone, toneIndex) => {
+        for (const locale of locales) {
+          combinations += 1;
+          checkBlock(theme, definition, design, fixture, toneIndex, locale);
+        }
+      });
     }
   }
 

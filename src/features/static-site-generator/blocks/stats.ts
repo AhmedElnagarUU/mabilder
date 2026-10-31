@@ -13,7 +13,6 @@ export type StatsProps = z.infer<typeof statsSchema>;
 export const statsBlock = {
   type: "stats" as const,
   kind: "fact",
-  variants: ["dark", "light"] as const,
   schema: statsSchema,
   needs: (facts) => {
     const sources = [

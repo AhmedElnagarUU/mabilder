@@ -6,7 +6,7 @@ import type { BusinessProfile } from "./profile";
 export type BlockPromptInput = {
   id: string;
   type: string;
-  variant: string;
+  design: string;
   fields: object;
   current: Record<string, unknown>;
 };
@@ -84,7 +84,7 @@ Rules:
 ${blockOutputRules}
 - Write new text for every field. The current text is a placeholder or the previous version: do not copy it, and do not reuse its names, places, or claims.
 - Write everything in ${language}. Keep the business name and every fact exactly as given.
-- Fit each block's type and variant: titles are short (at most 10 words), bodies 1-3 sentences, list items concise.
+- Fit each block's type and design: titles are short (at most 10 words), bodies 1-3 sentences, list items concise.
 - Do not invent awards, clients, numbers, credentials, dates, prices, or personal names.`;
 }
 

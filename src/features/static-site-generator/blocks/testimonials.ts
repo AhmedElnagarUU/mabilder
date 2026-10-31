@@ -19,7 +19,6 @@ export type TestimonialsProps = z.infer<typeof testimonialsSchema>;
 export const testimonialsBlock = {
   type: "testimonials" as const,
   kind: "fact",
-  variants: ["default"] as const,
   schema: testimonialsSchema,
   needs: (facts) => facts.testimonials.length >= 1,
   fixtures: {

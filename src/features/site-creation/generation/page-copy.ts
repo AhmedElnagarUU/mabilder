@@ -177,7 +177,7 @@ async function writeBlocksCopy(
   return copies;
 }
 
-// Replaces only the props of the given blocks; id, variant, hidden and order stay.
+// Replaces only the props of the given blocks; id, design, hidden and order stay.
 function applyCopy(content: SiteContent, copies: Map<string, LocalizedProps>): SiteContent {
   return siteContentSchema.parse({
     ...content,

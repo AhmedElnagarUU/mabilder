@@ -40,7 +40,7 @@ export type ThemeBlock<T extends BlockType = BlockType> = T extends BlockType
   ? {
       id: string;
       type: T;
-      variant: BlockOfType<T>["variant"];
+      design: string;
       props: NonNullable<BlockOfType<T>["props"]["en"]>;
     }
   : never;
@@ -59,5 +59,4 @@ export type Theme = {
   renderNav: (context: PageContext) => string;
   renderFooter: (context: PageContext) => string;
   renderProject: (detail: ProjectDetail, context: PageContext) => string;
-  blocks: { [T in BlockType]?: BlockRenderer<T> };
 };

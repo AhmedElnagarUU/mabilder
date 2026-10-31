@@ -16,7 +16,6 @@ export type FeatureSplitProps = z.infer<typeof featureSplitSchema>;
 export const featureSplitBlock = {
   type: "feature-split" as const,
   kind: "copy",
-  variants: ["image-right", "image-left"] as const,
   schema: featureSplitSchema,
   needs: () => true,
   fixtures: {

@@ -14,7 +14,6 @@ export type ServicesProps = z.infer<typeof servicesSchema>;
 export const servicesBlock = {
   type: "services" as const,
   kind: "copy",
-  variants: ["columns", "list"] as const,
   schema: servicesSchema,
   needs: () => true,
   fixtures: {

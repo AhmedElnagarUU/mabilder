@@ -82,7 +82,7 @@ test("slots are derived from the catalog: copy blocks only", () => {
   assert.deepEqual(slotTypes().sort(), ["feature-split", "hero", "intro"]);
 });
 
-test("empty copy-block image slots get stock photos with credits and the image variant", async () => {
+test("empty copy-block image slots get stock photos with credits and the image design", async () => {
   withKey("test-key");
   const current = composeFor(thinBrief);
   const stub = stubFetch();
@@ -90,7 +90,7 @@ test("empty copy-block image slots get stock photos with credits and the image v
   const hero = copyBlocks(generated).find((block) => block.type === "hero");
 
   assert.ok(hero);
-  assert.notEqual(hero.variant, "text-only");
+  assert.notEqual(hero.design, "agenvo/hero-text-only");
   assert.match(imagesOf(hero)[0].src, /^https:\/\/images\.pexels\.com\//);
   assert.match(imagesOf(hero)[0].credit?.name ?? "", /^Photographer /);
   assert.match(imagesOf(hero)[0].credit?.url ?? "", /^https:\/\/www\.pexels\.com\/photo\//);
@@ -146,7 +146,7 @@ test("Pexels failing or no key: generation succeeds, hero stays text-only, one l
 
   for (const generated of [failing, keyless]) {
     const hero = copyBlocks(generated).find((block) => block.type === "hero");
-    assert.equal(hero?.variant, "text-only");
+    assert.equal(hero?.design, "agenvo/hero-text-only");
     assert.equal(imagesOf(hero as Block).length, 0);
   }
 
@@ -177,7 +177,7 @@ test("regenerate keeps the chosen images and makes no Pexels call; re-render nev
   for (const block of copyBlocks(first)) {
     const after = allBlocks(regenerated).find((item) => item.id === block.id);
     assert.deepEqual(imagesOf(after as Block), imagesOf(block));
-    assert.equal(after?.variant, block.variant);
+    assert.equal(after?.design, block.design);
   }
 
   const globalFetch = t.mock.method(globalThis, "fetch", () => {

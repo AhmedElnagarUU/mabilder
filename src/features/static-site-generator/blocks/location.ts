@@ -23,7 +23,6 @@ export type LocationProps = z.infer<typeof locationSchema>;
 export const locationBlock = {
   type: "location" as const,
   kind: "fact",
-  variants: ["default"] as const,
   schema: locationSchema,
   needs: (facts) => facts.address !== undefined,
   fixtures: {

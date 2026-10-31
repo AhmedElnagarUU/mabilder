@@ -3,7 +3,7 @@ import type { PageSlug } from "../../static-site-generator/site-content";
 
 export type RecipeBlock = {
   type: BlockType;
-  variant?: string;
+  design?: string;
   perService?: true;
   onlyWithoutContactPage?: true;
 };
@@ -22,25 +22,25 @@ export const pageRecipes: PageRecipe[] = [
     slug: "index",
     needsFacts: false,
     blocks: [
-      { type: "hero", variant: "full-image" },
+      { type: "hero", design: "agenvo/hero-full-image" },
       { type: "marquee" },
       { type: "stats" },
       { type: "intro" },
-      { type: "projects", variant: "featured" },
-      { type: "services", variant: "columns" },
+      { type: "projects", design: "agenvo/projects-featured" },
+      { type: "services", design: "agenvo/services-columns" },
       { type: "process" },
       { type: "testimonials" },
       { type: "clients" },
       { type: "cta" },
-      { type: "contact", variant: "split", onlyWithoutContactPage: true },
+      { type: "contact", design: "agenvo/contact-split", onlyWithoutContactPage: true },
     ],
   },
   {
     slug: "about",
     needsFacts: true,
     blocks: [
-      { type: "hero", variant: "page" },
-      { type: "intro", variant: "quote" },
+      { type: "hero", design: "agenvo/hero-page" },
+      { type: "intro", design: "agenvo/intro-quote" },
       { type: "values" },
       { type: "timeline" },
       { type: "team" },
@@ -52,8 +52,8 @@ export const pageRecipes: PageRecipe[] = [
     slug: "services",
     needsFacts: false,
     blocks: [
-      { type: "hero", variant: "page" },
-      { type: "services", variant: "list" },
+      { type: "hero", design: "agenvo/hero-page" },
+      { type: "services", design: "agenvo/services-list" },
       { type: "feature-split", perService: true },
       { type: "process" },
       { type: "faq" },
@@ -64,8 +64,8 @@ export const pageRecipes: PageRecipe[] = [
     slug: "projects",
     needsFacts: true,
     blocks: [
-      { type: "hero", variant: "page" },
-      { type: "projects", variant: "grid" },
+      { type: "hero", design: "agenvo/hero-page" },
+      { type: "projects", design: "agenvo/projects-grid" },
       { type: "stats" },
       { type: "clients" },
       { type: "cta" },
@@ -75,8 +75,8 @@ export const pageRecipes: PageRecipe[] = [
     slug: "contact",
     needsFacts: false,
     blocks: [
-      { type: "hero", variant: "page" },
-      { type: "contact", variant: "form-only" },
+      { type: "hero", design: "agenvo/hero-page" },
+      { type: "contact", design: "agenvo/contact-form-only" },
       { type: "location" },
       { type: "faq" },
     ],

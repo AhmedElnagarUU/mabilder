@@ -20,7 +20,6 @@ export type TimelineProps = z.infer<typeof timelineSchema>;
 export const timelineBlock = {
   type: "timeline" as const,
   kind: "fact",
-  variants: ["default"] as const,
   schema: timelineSchema,
   needs: (facts) =>
     facts.yearsInBusiness !== undefined && facts.yearsInBusiness >= 2,

@@ -14,7 +14,6 @@ export type FaqProps = z.infer<typeof faqSchema>;
 export const faqBlock = {
   type: "faq" as const,
   kind: "copy",
-  variants: ["default"] as const,
   schema: faqSchema,
   needs: () => true,
   fixtures: {

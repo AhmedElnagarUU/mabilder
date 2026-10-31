@@ -1,9 +1,12 @@
-import {
-  getBlockDefinition,
-  type Block,
-  type BlockType,
+import type {
+  Block,
+  BlockType,
 } from "../../static-site-generator/blocks/catalog";
 import type { Image } from "../../static-site-generator/blocks/common";
+import {
+  getDefaultDesign,
+  getDesign,
+} from "../../static-site-generator/designs/registry";
 import type { Locale } from "../../static-site-generator/locale";
 import {
   siteContentSchema,
@@ -43,8 +46,8 @@ const blockPurposes: Partial<Record<BlockType, { purpose: string; size: PhotoSiz
   "feature-split": { purpose: "at work", size: "large" },
 };
 
-// A block without image falls back to this variant (see composition); with an image it goes back to the default one.
-const imagelessVariants: Partial<Record<BlockType, string>> = {
+// A block without image falls back to this design (see composition); with an image it goes back to the default one.
+const imagelessDesigns: Partial<Record<BlockType, string>> = {
   hero: "text-only",
   intro: "quote",
 };
@@ -142,11 +145,11 @@ function fillBlock(content: SiteContent, block: Block, assignment: Assignment): 
     }
   }
 
-  const imageless = imagelessVariants[block.type];
-  const variant =
-    block.variant === imageless ? getBlockDefinition(block.type)?.variants[0] : block.variant;
+  const imageless = imagelessDesigns[block.type];
+  const design =
+    getDesign(block.design)?.name === imageless ? getDefaultDesign(block.type).id : block.design;
 
-  return { ...block, variant, props } as Block;
+  return { ...block, design, props } as Block;
 }
 
 function applyAssignments(content: SiteContent, assignments: Map<Block, Assignment>): SiteContent {

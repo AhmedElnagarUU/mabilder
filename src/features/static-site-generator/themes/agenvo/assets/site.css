@@ -2,6 +2,16 @@
    AGENVO — shared site styles
    ============================================================ */
 
+:root {
+  --site-bg: #f4efe6;
+  --site-ink: #1c1c1c;
+  --site-accent: #b8956c;
+  --site-font-display: "Cormorant Garamond", "IBM Plex Sans Arabic", serif;
+  --site-font-body: "DM Sans", "IBM Plex Sans Arabic", sans-serif;
+  --site-radius: 2px;
+  --site-space: 1rem;
+}
+
 html.lenis,
 html.lenis body {
   height: auto;
@@ -17,8 +27,8 @@ body {
 }
 
 ::selection {
-  background: #b8956c;
-  color: #1c1c1c;
+  background: var(--site-accent);
+  color: var(--site-ink);
 }
 
 /* Arabic letters must stay joined */
@@ -128,8 +138,8 @@ html[lang="ar"] body * {
   font-size: 10px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #1c1c1c;
-  background: #b8956c;
+  color: var(--site-ink);
+  background: var(--site-accent);
 }
 
 .project-status-inline {
@@ -139,7 +149,7 @@ html[lang="ar"] body * {
 .project-facts {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-  gap: 1.5rem 2rem;
+  gap: calc(var(--site-space) * 1.5) calc(var(--site-space) * 2);
 }
 
 /* Navigation */
@@ -197,7 +207,7 @@ html[lang="ar"] body * {
 /* Portfolio filters */
 .filter-btn {
   border: 1px solid rgba(28, 28, 28, 0.18);
-  padding: 0.6rem 1.15rem;
+  padding: calc(var(--site-space) * 0.6) calc(var(--site-space) * 1.15);
   font-size: 0.65rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -205,13 +215,13 @@ html[lang="ar"] body * {
 }
 
 .filter-btn:hover {
-  border-color: #1c1c1c;
+  border-color: var(--site-ink);
 }
 
 .filter-btn.active {
-  background: #1c1c1c;
-  border-color: #1c1c1c;
-  color: #f4efe6;
+  background: var(--site-ink);
+  border-color: var(--site-ink);
+  color: var(--site-bg);
 }
 
 .project-card.hide {
@@ -237,7 +247,7 @@ details.faq[open] .faq-icon {
 }
 
 details.faq[open] summary {
-  color: #b8956c;
+  color: var(--site-accent);
 }
 
 /* Subtle underline links */
@@ -276,10 +286,10 @@ details.faq[open] summary {
   width: 100%;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 2px;
-  padding: 0.9rem 1rem;
+  border-radius: var(--site-radius);
+  padding: calc(var(--site-space) * 0.9) var(--site-space);
   font-size: 0.875rem;
-  color: #f4efe6;
+  color: var(--site-bg);
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
@@ -289,19 +299,19 @@ details.faq[open] summary {
 
 .form-field:focus {
   outline: none;
-  border-color: #b8956c;
+  border-color: var(--site-accent);
   background: rgba(255, 255, 255, 0.06);
 }
 
 .form-field option {
-  background: #1c1c1c;
-  color: #f4efe6;
+  background: var(--site-ink);
+  color: var(--site-bg);
 }
 
 .light-field {
   background: rgba(28, 28, 28, 0.03);
   border-color: rgba(28, 28, 28, 0.16);
-  color: #1c1c1c;
+  color: var(--site-ink);
 }
 
 .light-field::placeholder {
@@ -310,7 +320,7 @@ details.faq[open] summary {
 
 .light-field:focus {
   background: #fff;
-  border-color: #b8956c;
+  border-color: var(--site-accent);
 }
 
 /* Portrait treatment */
@@ -356,7 +366,7 @@ details.faq[open] summary {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #b8956c;
+  background: var(--site-accent);
   transform: translateX(-50%);
 }
 

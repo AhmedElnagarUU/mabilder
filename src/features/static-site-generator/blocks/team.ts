@@ -21,7 +21,6 @@ export type TeamProps = z.infer<typeof teamSchema>;
 export const teamBlock = {
   type: "team" as const,
   kind: "fact",
-  variants: ["default"] as const,
   schema: teamSchema,
   needs: (facts) => facts.team.length >= 1,
   fixtures: {

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { getDesignsForCategory, legacyDesignId } from "../designs/registry";
 import { localized } from "../locale";
 import { awardsBlock } from "./awards";
 import { clientsBlock } from "./clients";
@@ -54,115 +55,125 @@ const blockBaseSchema = z.object({
   hidden: z.boolean(),
 });
 
+function designSchema(category: BlockType) {
+  const ids = getDesignsForCategory(category).map((design) => design.id);
+
+  if (ids.length === 0) {
+    throw new Error(`No design registered for block category "${category}".`);
+  }
+
+  return z.enum(ids as [string, ...string[]]);
+}
+
 const heroBlockSchema = blockBaseSchema.extend({
   type: z.literal("hero"),
-  variant: z.enum(heroBlock.variants),
+  design: designSchema("hero"),
   props: localized(heroBlock.schema),
 });
 
 const marqueeBlockSchema = blockBaseSchema.extend({
   type: z.literal("marquee"),
-  variant: z.enum(marqueeBlock.variants),
+  design: designSchema("marquee"),
   props: localized(marqueeBlock.schema),
 });
 
 const introBlockSchema = blockBaseSchema.extend({
   type: z.literal("intro"),
-  variant: z.enum(introBlock.variants),
+  design: designSchema("intro"),
   props: localized(introBlock.schema),
 });
 
 const featureSplitBlockSchema = blockBaseSchema.extend({
   type: z.literal("feature-split"),
-  variant: z.enum(featureSplitBlock.variants),
+  design: designSchema("feature-split"),
   props: localized(featureSplitBlock.schema),
 });
 
 const servicesBlockSchema = blockBaseSchema.extend({
   type: z.literal("services"),
-  variant: z.enum(servicesBlock.variants),
+  design: designSchema("services"),
   props: localized(servicesBlock.schema),
 });
 
 const valuesBlockSchema = blockBaseSchema.extend({
   type: z.literal("values"),
-  variant: z.enum(valuesBlock.variants),
+  design: designSchema("values"),
   props: localized(valuesBlock.schema),
 });
 
 const processBlockSchema = blockBaseSchema.extend({
   type: z.literal("process"),
-  variant: z.enum(processBlock.variants),
+  design: designSchema("process"),
   props: localized(processBlock.schema),
 });
 
 const faqBlockSchema = blockBaseSchema.extend({
   type: z.literal("faq"),
-  variant: z.enum(faqBlock.variants),
+  design: designSchema("faq"),
   props: localized(faqBlock.schema),
 });
 
 const ctaBlockSchema = blockBaseSchema.extend({
   type: z.literal("cta"),
-  variant: z.enum(ctaBlock.variants),
+  design: designSchema("cta"),
   props: localized(ctaBlock.schema),
 });
 
 const contactBlockSchema = blockBaseSchema.extend({
   type: z.literal("contact"),
-  variant: z.enum(contactBlock.variants),
+  design: designSchema("contact"),
   props: localized(contactBlock.schema),
 });
 
 const statsBlockSchema = blockBaseSchema.extend({
   type: z.literal("stats"),
-  variant: z.enum(statsBlock.variants),
+  design: designSchema("stats"),
   props: localized(statsBlock.schema),
 });
 
 const clientsBlockSchema = blockBaseSchema.extend({
   type: z.literal("clients"),
-  variant: z.enum(clientsBlock.variants),
+  design: designSchema("clients"),
   props: localized(clientsBlock.schema),
 });
 
 const awardsBlockSchema = blockBaseSchema.extend({
   type: z.literal("awards"),
-  variant: z.enum(awardsBlock.variants),
+  design: designSchema("awards"),
   props: localized(awardsBlock.schema),
 });
 
 const timelineBlockSchema = blockBaseSchema.extend({
   type: z.literal("timeline"),
-  variant: z.enum(timelineBlock.variants),
+  design: designSchema("timeline"),
   props: localized(timelineBlock.schema),
 });
 
 const projectsBlockSchema = blockBaseSchema.extend({
   type: z.literal("projects"),
-  variant: z.enum(projectsBlock.variants),
+  design: designSchema("projects"),
   props: localized(projectsBlock.schema),
 });
 
 const teamBlockSchema = blockBaseSchema.extend({
   type: z.literal("team"),
-  variant: z.enum(teamBlock.variants),
+  design: designSchema("team"),
   props: localized(teamBlock.schema),
 });
 
 const testimonialsBlockSchema = blockBaseSchema.extend({
   type: z.literal("testimonials"),
-  variant: z.enum(testimonialsBlock.variants),
+  design: designSchema("testimonials"),
   props: localized(testimonialsBlock.schema),
 });
 
 const locationBlockSchema = blockBaseSchema.extend({
   type: z.literal("location"),
-  variant: z.enum(locationBlock.variants),
+  design: designSchema("location"),
   props: localized(locationBlock.schema),
 });
 
-export const blockSchema = z.discriminatedUnion("type", [
+const blockUnionSchema = z.discriminatedUnion("type", [
   heroBlockSchema,
   marqueeBlockSchema,
   introBlockSchema,
@@ -182,5 +193,25 @@ export const blockSchema = z.discriminatedUnion("type", [
   testimonialsBlockSchema,
   locationBlockSchema,
 ]);
+
+function migrateVariant(block: unknown): unknown {
+  if (typeof block !== "object" || block === null) {
+    return block;
+  }
+
+  const record = block as Record<string, unknown>;
+
+  if (
+    typeof record.design === "string" ||
+    typeof record.type !== "string" ||
+    typeof record.variant !== "string"
+  ) {
+    return block;
+  }
+
+  return { ...record, design: legacyDesignId(record.type, record.variant) };
+}
+
+export const blockSchema = z.preprocess(migrateVariant, blockUnionSchema);
 
 export type Block = z.infer<typeof blockSchema>;

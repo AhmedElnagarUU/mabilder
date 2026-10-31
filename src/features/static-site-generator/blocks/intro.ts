@@ -16,7 +16,6 @@ export type IntroProps = z.infer<typeof introSchema>;
 export const introBlock = {
   type: "intro" as const,
   kind: "copy",
-  variants: ["images", "quote"] as const,
   schema: introSchema,
   needs: () => true,
   fixtures: {

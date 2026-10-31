@@ -1,4 +1,4 @@
-import type { Block, BlockType } from "./blocks/catalog";
+import type { Block } from "./blocks/catalog";
 import { imageSchema } from "./blocks/common";
 import { escapeAttribute } from "./content/html";
 import {
@@ -6,13 +6,13 @@ import {
   type ProjectDetail,
   type ProjectPage,
 } from "./content/project-pages";
+import { getDesign } from "./designs/registry";
 import type { Locale } from "./locale";
 import type { Page, SiteContent } from "./site-content";
 import { getTheme } from "./themes/registry";
 import type {
   AlternatePage,
   BlockContext,
-  BlockRenderer,
   PageContext,
   PhotoCredit,
   Theme,
@@ -42,12 +42,12 @@ export function toThemeBlock(block: Block, locale: Locale): ThemeBlock {
     throw new Error(`Block "${block.id}" has no content for locale "${locale}".`);
   }
 
-  return { id: block.id, type: block.type, variant: block.variant, props } as ThemeBlock;
+  return { id: block.id, type: block.type, design: block.design, props } as ThemeBlock;
 }
 
-function getVisibleBlocks(theme: Theme, page: Page, locale: Locale): ThemeBlock[] {
+function getVisibleBlocks(page: Page, locale: Locale): ThemeBlock[] {
   return page.blocks
-    .filter((block) => !block.hidden && theme.blocks[block.type] !== undefined)
+    .filter((block) => !block.hidden && getDesign(block.design) !== undefined)
     .map((block) => toThemeBlock(block, locale));
 }
 
@@ -114,14 +114,14 @@ export function createPageContext(
   };
 }
 
-export function renderBlock(theme: Theme, block: ThemeBlock, context: BlockContext): string {
-  const render = theme.blocks[block.type] as BlockRenderer<BlockType> | undefined;
+export function renderBlock(block: ThemeBlock, context: BlockContext): string {
+  const design = getDesign(block.design);
 
-  if (!render) {
-    throw new Error(`Theme "${theme.id}" cannot render block type "${block.type}".`);
+  if (!design) {
+    throw new Error(`Unknown design "${block.design}".`);
   }
 
-  return render(block, context);
+  return design.render(block, context);
 }
 
 function getTone(theme: Theme, index: number): Tone {
@@ -135,12 +135,12 @@ function renderPage(
   locale: Locale,
   headExtra: string,
 ): RenderedFile {
-  const blocks = getVisibleBlocks(theme, page, locale);
+  const blocks = getVisibleBlocks(page, locale);
   const context = createPageContext(content, page, locale, blocks);
   const body = [
     theme.renderNav(context),
     ...blocks.map((block, index) =>
-      renderBlock(theme, block, { ...context, tone: getTone(theme, index) }),
+      renderBlock(block, { ...context, tone: getTone(theme, index) }),
     ),
     theme.renderFooter(context),
   ].join("\n");

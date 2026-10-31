@@ -33,7 +33,7 @@ export function renderFeatureSplit(
 ): string {
   const { props } = block;
   const style = getToneStyle(context.tone);
-  const imageFirst = block.variant === "image-left";
+  const imageFirst = block.design === "agenvo/feature-split-image-left";
 
   const text = `
       <div class="lg:col-span-5${imageFirst ? " lg:order-2" : ""}">

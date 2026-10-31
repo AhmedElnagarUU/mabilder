@@ -19,7 +19,6 @@ export type AwardsProps = z.infer<typeof awardsSchema>;
 export const awardsBlock = {
   type: "awards" as const,
   kind: "fact",
-  variants: ["default"] as const,
   schema: awardsSchema,
   needs: (facts) => facts.awards.length >= 1,
   fixtures: {

@@ -56,7 +56,7 @@ export function renderSection(
   const anchor = anchorId ? ` id="${escapeAttribute(anchorId)}"` : "";
 
   return `
-  <section data-block="${escapeAttribute(block.id)}" data-block-type="${escapeAttribute(block.type)}"${anchor} class="${classes}">${inner}
+  <section data-block="${escapeAttribute(block.id)}" data-design="${escapeAttribute(block.design)}" data-block-type="${escapeAttribute(block.type)}"${anchor} class="${classes}">${inner}
   </section>`;
 }
 

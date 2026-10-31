@@ -88,7 +88,7 @@ function renderFormOnly(block: ThemeBlock<"contact">, style: ToneStyle): string 
 export function renderContact(block: ThemeBlock<"contact">, context: BlockContext): string {
   const style = getToneStyle(context.tone);
   const inner =
-    block.variant === "form-only"
+    block.design === "agenvo/contact-form-only"
       ? renderFormOnly(block, style)
       : renderSplit(block, context, style);
 

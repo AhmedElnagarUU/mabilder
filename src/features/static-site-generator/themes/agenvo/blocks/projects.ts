@@ -72,7 +72,7 @@ function renderFeaturedProject(project: Project, index: number, style: ToneStyle
 export function renderProjects(block: ThemeBlock<"projects">, context: BlockContext): string {
   const { props } = block;
   const style = getToneStyle(context.tone);
-  const featured = block.variant === "featured";
+  const featured = block.design === "agenvo/projects-featured";
   const grid = featured
     ? "grid md:grid-cols-12 gap-x-4 gap-y-12"
     : "grid md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12";

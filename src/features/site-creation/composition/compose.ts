@@ -5,6 +5,11 @@ import {
 import type { Facts } from "../../static-site-generator/blocks/facts";
 import type { HeroProps } from "../../static-site-generator/blocks/hero";
 import type { IntroProps } from "../../static-site-generator/blocks/intro";
+import {
+  getDefaultDesign,
+  getDesignByName,
+  getDesignsForCategory,
+} from "../../static-site-generator/designs/registry";
 import type { Locale } from "../../static-site-generator/locale";
 import {
   siteContentSchema,
@@ -27,7 +32,7 @@ type Localized<Value> = Partial<Record<Locale, Value>>;
 
 type BlockSlot = {
   type: BlockType;
-  variant: string;
+  design: string;
 };
 
 type DraftBlock = BlockSlot & {
@@ -59,7 +64,11 @@ function listBlockSlots(
   keptSlugs: PageSlug[],
 ): BlockSlot[] {
   return recipe.blocks.flatMap((block) => {
-    const variants = requireDefinition(block.type).variants;
+    const designs = getDesignsForCategory(block.type);
+
+    if (designs.length === 0) {
+      throw new Error(`No design for block category "${block.type}".`);
+    }
 
     if (block.onlyWithoutContactPage && keptSlugs.includes("contact")) {
       return [];
@@ -68,10 +77,10 @@ function listBlockSlots(
     if (block.perService) {
       return facts.services
         .slice(0, maxFeatureSplits)
-        .map((_service, index) => ({ type: block.type, variant: variants[index % 2] }));
+        .map((_service, index) => ({ type: block.type, design: designs[index % 2].id }));
     }
 
-    return [{ type: block.type, variant: block.variant ?? variants[0] }];
+    return [{ type: block.type, design: block.design ?? getDefaultDesign(block.type).id }];
   });
 }
 
@@ -105,16 +114,16 @@ function buildProps(
   return props[input.defaultLocale] === undefined ? undefined : props;
 }
 
-function pickVariant(slot: BlockSlot, props: unknown): string {
+function pickDesign(slot: BlockSlot, props: unknown): string {
   if (slot.type === "hero" && (props as HeroProps).image === undefined) {
-    return "text-only";
+    return getDesignByName("hero", "text-only").id;
   }
 
   if (slot.type === "intro" && (props as IntroProps).images.length === 0) {
-    return "quote";
+    return getDesignByName("intro", "quote").id;
   }
 
-  return slot.variant;
+  return slot.design;
 }
 
 function composeBlocks(
@@ -138,7 +147,7 @@ function composeBlocks(
       {
         id: `${recipe.slug}-${slot.type}-${count}`,
         type: slot.type,
-        variant: pickVariant(slot, props[input.defaultLocale]),
+        design: pickDesign(slot, props[input.defaultLocale]),
         hidden: false,
         props,
       },

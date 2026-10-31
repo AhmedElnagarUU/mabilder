@@ -15,7 +15,6 @@ export type CtaProps = z.infer<typeof ctaSchema>;
 export const ctaBlock = {
   type: "cta" as const,
   kind: "copy",
-  variants: ["dark", "light"] as const,
   schema: ctaSchema,
   needs: () => true,
   fixtures: {

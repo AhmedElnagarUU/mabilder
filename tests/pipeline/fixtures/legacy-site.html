@@ -1,0 +1,521 @@
+### index.html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nour Studio</title>
+  <meta name="description" content="Interior design" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&amp;family=DM+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['DM Sans', 'sans-serif'], display: ['Cormorant Garamond', 'serif'] },
+          colors: { cream: '#F4EFE6', charcoal: '#1C1C1C', brass: '#B8956C', sand: '#E9E2D6' }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="assets/site.css" />
+
+</head>
+<body class="bg-cream text-charcoal font-sans">
+
+  <nav id="site-nav" class="fixed top-0 inset-x-0 z-50 text-white">
+    <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 py-5 flex items-center justify-between gap-6">
+      <a href="index.html" class="font-display text-2xl font-semibold tracking-wide">Nour Studio</a>
+      <div class="hidden lg:flex items-center gap-9 text-[11px] uppercase tracking-[0.2em]">
+        <a href="index.html" class="nav-link" aria-current="page">Home</a>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+      <div class="flex items-center gap-4">
+        
+        <a href="contact.html" class="hidden sm:inline-flex text-[11px] uppercase tracking-[0.2em] border border-white/30 px-5 py-2.5 hover:bg-white hover:text-charcoal transition">Get in touch</a>
+        <button id="menu-toggle" class="lg:hidden p-1" aria-label="Menu" aria-expanded="false"><i data-lucide="menu" class="w-5 h-5"></i></button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="menu-panel lg:hidden bg-charcoal/95 border-t border-white/10">
+      <div class="px-6 py-6 flex flex-col text-sm uppercase tracking-[0.18em]">
+        <a href="index.html" class="py-3 border-b border-white/5">Home</a>
+        <a href="services.html" class="py-3 border-b border-white/5">Services</a>
+        <a href="contact.html" class="py-3 border-b border-white/5">Contact</a>
+        
+        <a href="contact.html" class="mt-4 text-center bg-brass text-charcoal px-5 py-3 text-[11px] font-semibold tracking-widest">Get in touch</a>
+      </div>
+    </div>
+  </nav>
+
+  <section data-block="index-hero-1" data-block-type="hero" class="relative min-h-[56vh] flex items-end bg-charcoal text-cream">
+    <div class="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-10 lg:px-16 pt-36 pb-16 lg:pb-24">
+      
+      <h1 class="font-display text-5xl md:text-7xl lg:text-8xl leading-[0.95] max-w-4xl reveal">A practice built on patience.</h1>
+      <p class="text-white/60 mt-7 max-w-xl text-sm leading-relaxed reveal">We are architects, engineers and interior designers working from Zurich and Dubai.</p>
+      
+    </div>
+  </section>
+
+  <section data-block="index-marquee-1" data-block-type="marquee" class="bg-cream text-charcoal py-5 overflow-hidden border-t border-charcoal/10">
+    <div class="flex marquee whitespace-nowrap">
+      <span class="text-[11px] uppercase tracking-[0.4em] mx-10 opacity-60">Corporate Tower — 2024</span>
+      <span class="text-[11px] uppercase tracking-[0.4em] mx-10 opacity-60">Water Pavilion — 2023</span>
+      <span class="text-[11px] uppercase tracking-[0.4em] mx-10 opacity-60">Forest Retreat — 2023</span>
+      <span class="text-[11px] uppercase tracking-[0.4em] mx-10 opacity-60">Corporate Tower — 2024</span>
+      <span class="text-[11px] uppercase tracking-[0.4em] mx-10 opacity-60">Water Pavilion — 2023</span>
+      <span class="text-[11px] uppercase tracking-[0.4em] mx-10 opacity-60">Forest Retreat — 2023</span>
+    </div>
+  </section>
+
+  <section data-block="index-intro-1" data-block-type="intro" class="bg-charcoal text-cream py-24 lg:py-32 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12 lg:gap-20">
+      <div class="lg:col-span-4">
+        <div class="h-px bg-brass line-draw mb-6" data-line></div>
+        
+        <h2 class="font-display text-4xl md:text-5xl leading-[1.05] reveal">Where precision meets poetry.</h2>
+        
+      </div>
+      <div class="lg:col-span-8 lg:pt-16">
+        
+        <div class="grid md:grid-cols-2 gap-8 mt-10 text-sm">
+          <p class="leading-relaxed text-white/50 reveal">Agenvo is a collective of architects, structural engineers, and interior designers working from Zurich and Dubai.</p>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <section data-block="index-services-1" data-block-type="services" class="bg-cream text-charcoal py-24 lg:py-32 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+        <div>
+          
+          <h2 class="font-display text-4xl md:text-5xl leading-tight reveal">Three disciplines, one studio.</h2>
+        </div>
+        
+      </div>
+      <div class="grid md:grid-cols-3 gap-12">
+        <div class="reveal">
+          <div class="w-12 h-px bg-brass mb-6"></div>
+          
+          <h3 class="font-display text-2xl mb-3">Architecture</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">Residential, commercial, and mixed-use projects from concept to completion documents.</p>
+        </div>
+        <div class="reveal">
+          <div class="w-12 h-px bg-brass mb-6"></div>
+          
+          <h3 class="font-display text-2xl mb-3">Engineering</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">Structural, MEP, and sustainability consulting integrated into every design decision.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-block="index-process-1" data-block-type="process" class="bg-charcoal text-cream py-24 lg:py-32 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+        <div>
+          
+          <h2 class="font-display text-4xl md:text-5xl leading-tight reveal">A disciplined creative process</h2>
+        </div>
+        
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        
+        <div class="border-t border-white/10 pt-6 reveal">
+          <span class="font-display text-4xl text-brass/50">01</span>
+          <h3 class="font-medium mt-3">Discovery</h3>
+          <p class="text-sm text-white/50 leading-relaxed mt-2">Site analysis, client vision workshops, and feasibility studies.</p>
+        </div>
+        <div class="border-t border-white/10 pt-6 reveal">
+          <span class="font-display text-4xl text-brass/50">02</span>
+          <h3 class="font-medium mt-3">Concept</h3>
+          <p class="text-sm text-white/50 leading-relaxed mt-2">Schematic design, 3D massing, and material palette exploration.</p>
+        </div>
+        <div class="border-t border-white/10 pt-6 reveal">
+          <span class="font-display text-4xl text-brass/50">03</span>
+          <h3 class="font-medium mt-3">Development</h3>
+          <p class="text-sm text-white/50 leading-relaxed mt-2">Detailed drawings, BIM coordination, and engineering integration.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-block="index-cta-1" data-block-type="cta" class="bg-cream text-charcoal py-24 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto bg-charcoal text-cream px-8 py-16 md:px-16 md:py-20 grid lg:grid-cols-2 gap-10 items-center reveal">
+      <div>
+        
+        <h2 class="font-display text-4xl md:text-5xl leading-tight">Tell us what you are trying to build.</h2>
+      </div>
+      <div class="lg:justify-self-end">
+        <p class="text-sm text-white/50 leading-relaxed mb-6 max-w-sm">We take on a limited number of commissions each year so that every project receives the attention it deserves.</p>
+        <div class="flex flex-wrap gap-3">
+          <a href="contact.html" class="inline-flex items-center gap-3 bg-brass text-charcoal hover:bg-cream text-[11px] uppercase tracking-[0.2em] px-8 py-4 transition">Start a conversation <i data-lucide="arrow-right" class="w-4 h-4 rtl:rotate-180"></i></a>
+          
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-charcoal text-cream border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 pt-16 pb-8">
+      <div class="grid gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-5">
+          <a href="index.html" class="font-display text-3xl">Nour Studio</a>
+          <p class="mt-5 text-sm text-white/45 leading-relaxed max-w-xs">Interior design</p>
+        </div>
+        <ul class="lg:col-span-3 space-y-3 text-sm text-white/55">
+          <li><a href="index.html" class="hover:text-cream transition">Home</a></li>
+          <li><a href="services.html" class="hover:text-cream transition">Services</a></li>
+          <li><a href="contact.html" class="hover:text-cream transition">Contact</a></li>
+        </ul>
+        <div class="lg:col-span-4 space-y-3 text-sm text-white/55 leading-relaxed">
+            
+        </div>
+      </div>
+      <div class="mt-14 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between gap-4 text-[11px] text-white/35">
+        <p>© 2026 Nour Studio. All rights reserved.</p>
+        
+      </div>
+    </div>
+  </footer>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>
+
+### services.html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services | Nour Studio</title>
+  <meta name="description" content="Interior design" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&amp;family=DM+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['DM Sans', 'sans-serif'], display: ['Cormorant Garamond', 'serif'] },
+          colors: { cream: '#F4EFE6', charcoal: '#1C1C1C', brass: '#B8956C', sand: '#E9E2D6' }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="assets/site.css" />
+
+</head>
+<body class="bg-cream text-charcoal font-sans">
+
+  <nav id="site-nav" class="fixed top-0 inset-x-0 z-50 text-white">
+    <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 py-5 flex items-center justify-between gap-6">
+      <a href="index.html" class="font-display text-2xl font-semibold tracking-wide">Nour Studio</a>
+      <div class="hidden lg:flex items-center gap-9 text-[11px] uppercase tracking-[0.2em]">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="services.html" class="nav-link" aria-current="page">Services</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+      <div class="flex items-center gap-4">
+        
+        <a href="contact.html" class="hidden sm:inline-flex text-[11px] uppercase tracking-[0.2em] border border-white/30 px-5 py-2.5 hover:bg-white hover:text-charcoal transition">Get in touch</a>
+        <button id="menu-toggle" class="lg:hidden p-1" aria-label="Menu" aria-expanded="false"><i data-lucide="menu" class="w-5 h-5"></i></button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="menu-panel lg:hidden bg-charcoal/95 border-t border-white/10">
+      <div class="px-6 py-6 flex flex-col text-sm uppercase tracking-[0.18em]">
+        <a href="index.html" class="py-3 border-b border-white/5">Home</a>
+        <a href="services.html" class="py-3 border-b border-white/5">Services</a>
+        <a href="contact.html" class="py-3 border-b border-white/5">Contact</a>
+        
+        <a href="contact.html" class="mt-4 text-center bg-brass text-charcoal px-5 py-3 text-[11px] font-semibold tracking-widest">Get in touch</a>
+      </div>
+    </div>
+  </nav>
+
+  <section data-block="services-hero-1" data-block-type="hero" class="relative min-h-[56vh] flex items-end bg-charcoal text-cream">
+    <div class="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-10 lg:px-16 pt-36 pb-16 lg:pb-24">
+      
+      <h1 class="font-display text-5xl md:text-7xl lg:text-8xl leading-[0.95] max-w-4xl reveal">A practice built on patience.</h1>
+      <p class="text-white/60 mt-7 max-w-xl text-sm leading-relaxed reveal">We are architects, engineers and interior designers working from Zurich and Dubai.</p>
+      
+    </div>
+  </section>
+
+  <section data-block="services-services-1" data-block-type="services" class="bg-cream text-charcoal py-24 lg:py-32 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+        <div>
+          
+          <h2 class="font-display text-4xl md:text-5xl leading-tight reveal">Three disciplines, one studio.</h2>
+        </div>
+        
+      </div>
+      <div class="grid md:grid-cols-2 gap-x-12 gap-y-10">
+        <div class="border-t border-charcoal/10 pt-6 reveal">
+          <div class="flex items-start justify-between gap-4">
+            <h3 class="font-display text-2xl">Architecture</h3>
+            
+          </div>
+          <p class="text-sm text-gray-600 leading-relaxed mt-3">Residential, commercial, and mixed-use projects from concept to completion documents.</p>
+        </div>
+        <div class="border-t border-charcoal/10 pt-6 reveal">
+          <div class="flex items-start justify-between gap-4">
+            <h3 class="font-display text-2xl">Engineering</h3>
+            
+          </div>
+          <p class="text-sm text-gray-600 leading-relaxed mt-3">Structural, MEP, and sustainability consulting integrated into every design decision.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-block="services-process-1" data-block-type="process" class="bg-charcoal text-cream py-24 lg:py-32 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+        <div>
+          
+          <h2 class="font-display text-4xl md:text-5xl leading-tight reveal">A disciplined creative process</h2>
+        </div>
+        
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        
+        <div class="border-t border-white/10 pt-6 reveal">
+          <span class="font-display text-4xl text-brass/50">01</span>
+          <h3 class="font-medium mt-3">Discovery</h3>
+          <p class="text-sm text-white/50 leading-relaxed mt-2">Site analysis, client vision workshops, and feasibility studies.</p>
+        </div>
+        <div class="border-t border-white/10 pt-6 reveal">
+          <span class="font-display text-4xl text-brass/50">02</span>
+          <h3 class="font-medium mt-3">Concept</h3>
+          <p class="text-sm text-white/50 leading-relaxed mt-2">Schematic design, 3D massing, and material palette exploration.</p>
+        </div>
+        <div class="border-t border-white/10 pt-6 reveal">
+          <span class="font-display text-4xl text-brass/50">03</span>
+          <h3 class="font-medium mt-3">Development</h3>
+          <p class="text-sm text-white/50 leading-relaxed mt-2">Detailed drawings, BIM coordination, and engineering integration.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-block="services-faq-1" data-block-type="faq" class="bg-cream text-charcoal py-24 lg:py-32 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-4">
+        
+        <h2 class="font-display text-4xl md:text-5xl leading-tight reveal">Before you write.</h2>
+        
+      </div>
+      <div class="lg:col-span-8 divide-y divide-charcoal/10 border-t border-charcoal/10">
+        
+        <details class="faq py-5 reveal">
+          <summary class="flex items-center justify-between gap-6">
+            <span class="font-display text-xl">Do you work outside Switzerland and the UAE?</span>
+            <i data-lucide="plus" class="faq-icon w-4 h-4 text-brass shrink-0"></i>
+          </summary>
+          <p class="text-sm text-gray-600 leading-relaxed mt-4 pe-10">Yes. We have built in sixteen countries across Europe, the Middle East and Asia.</p>
+        </details>
+        <details class="faq py-5 reveal">
+          <summary class="flex items-center justify-between gap-6">
+            <span class="font-display text-xl">What size projects do you take on?</span>
+            <i data-lucide="plus" class="faq-icon w-4 h-4 text-brass shrink-0"></i>
+          </summary>
+          <p class="text-sm text-gray-600 leading-relaxed mt-4 pe-10">Our work ranges from a single room or staircase to masterplans of several hundred thousand square metres.</p>
+        </details>
+        <details class="faq py-5 reveal">
+          <summary class="flex items-center justify-between gap-6">
+            <span class="font-display text-xl">How early should we contact you?</span>
+            <i data-lucide="plus" class="faq-icon w-4 h-4 text-brass shrink-0"></i>
+          </summary>
+          <p class="text-sm text-gray-600 leading-relaxed mt-4 pe-10">As early as possible — ideally before you have purchased a site.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section data-block="services-cta-1" data-block-type="cta" class="bg-charcoal text-cream py-24 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto bg-white/5 text-cream border border-white/10 px-8 py-16 md:px-16 md:py-20 grid lg:grid-cols-2 gap-10 items-center reveal">
+      <div>
+        
+        <h2 class="font-display text-4xl md:text-5xl leading-tight">Tell us what you are trying to build.</h2>
+      </div>
+      <div class="lg:justify-self-end">
+        <p class="text-sm text-white/50 leading-relaxed mb-6 max-w-sm">We take on a limited number of commissions each year so that every project receives the attention it deserves.</p>
+        <div class="flex flex-wrap gap-3">
+          <a href="contact.html" class="inline-flex items-center gap-3 bg-brass text-charcoal hover:bg-cream text-[11px] uppercase tracking-[0.2em] px-8 py-4 transition">Start a conversation <i data-lucide="arrow-right" class="w-4 h-4 rtl:rotate-180"></i></a>
+          
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-charcoal text-cream border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 pt-16 pb-8">
+      <div class="grid gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-5">
+          <a href="index.html" class="font-display text-3xl">Nour Studio</a>
+          <p class="mt-5 text-sm text-white/45 leading-relaxed max-w-xs">Interior design</p>
+        </div>
+        <ul class="lg:col-span-3 space-y-3 text-sm text-white/55">
+          <li><a href="index.html" class="hover:text-cream transition">Home</a></li>
+          <li><a href="services.html" class="hover:text-cream transition">Services</a></li>
+          <li><a href="contact.html" class="hover:text-cream transition">Contact</a></li>
+        </ul>
+        <div class="lg:col-span-4 space-y-3 text-sm text-white/55 leading-relaxed">
+            
+        </div>
+      </div>
+      <div class="mt-14 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between gap-4 text-[11px] text-white/35">
+        <p>© 2026 Nour Studio. All rights reserved.</p>
+        
+      </div>
+    </div>
+  </footer>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>
+
+### contact.html
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact | Nour Studio</title>
+  <meta name="description" content="Interior design" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&amp;family=DM+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['DM Sans', 'sans-serif'], display: ['Cormorant Garamond', 'serif'] },
+          colors: { cream: '#F4EFE6', charcoal: '#1C1C1C', brass: '#B8956C', sand: '#E9E2D6' }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="assets/site.css" />
+
+</head>
+<body class="bg-cream text-charcoal font-sans">
+
+  <nav id="site-nav" class="fixed top-0 inset-x-0 z-50 text-white">
+    <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 py-5 flex items-center justify-between gap-6">
+      <a href="index.html" class="font-display text-2xl font-semibold tracking-wide">Nour Studio</a>
+      <div class="hidden lg:flex items-center gap-9 text-[11px] uppercase tracking-[0.2em]">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="contact.html" class="nav-link" aria-current="page">Contact</a>
+      </div>
+      <div class="flex items-center gap-4">
+        
+        <a href="contact.html" class="hidden sm:inline-flex text-[11px] uppercase tracking-[0.2em] border border-white/30 px-5 py-2.5 hover:bg-white hover:text-charcoal transition">Get in touch</a>
+        <button id="menu-toggle" class="lg:hidden p-1" aria-label="Menu" aria-expanded="false"><i data-lucide="menu" class="w-5 h-5"></i></button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="menu-panel lg:hidden bg-charcoal/95 border-t border-white/10">
+      <div class="px-6 py-6 flex flex-col text-sm uppercase tracking-[0.18em]">
+        <a href="index.html" class="py-3 border-b border-white/5">Home</a>
+        <a href="services.html" class="py-3 border-b border-white/5">Services</a>
+        <a href="contact.html" class="py-3 border-b border-white/5">Contact</a>
+        
+        <a href="contact.html" class="mt-4 text-center bg-brass text-charcoal px-5 py-3 text-[11px] font-semibold tracking-widest">Get in touch</a>
+      </div>
+    </div>
+  </nav>
+
+  <section data-block="contact-hero-1" data-block-type="hero" class="relative min-h-[56vh] flex items-end bg-charcoal text-cream">
+    <div class="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-10 lg:px-16 pt-36 pb-16 lg:pb-24">
+      
+      <h1 class="font-display text-5xl md:text-7xl lg:text-8xl leading-[0.95] max-w-4xl reveal">A practice built on patience.</h1>
+      <p class="text-white/60 mt-7 max-w-xl text-sm leading-relaxed reveal">We are architects, engineers and interior designers working from Zurich and Dubai.</p>
+      
+    </div>
+  </section>
+
+  <section data-block="contact-contact-1" data-block-type="contact" id="contact" class="bg-cream text-charcoal py-24 lg:py-32 px-6 md:px-10 lg:px-16 scroll-mt-16">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-12">
+        
+        <h2 class="font-display text-4xl md:text-5xl leading-tight reveal">Let&#39;s build something remarkable.</h2>
+        <p class="text-gray-600 mt-6 text-sm leading-relaxed reveal">Tell us about the site, the brief, or the problem you are trying to solve.</p>
+      </div>
+      <div class="bg-charcoal text-cream border border-white/10 p-8 md:p-10 reveal">
+        <form data-form class="space-y-5">
+          <div class="grid sm:grid-cols-2 gap-4">
+            <input name="name" type="text" required placeholder="Name" aria-label="Name" class="form-field" />
+            <input name="email" type="email" required placeholder="Email" aria-label="Email" class="form-field" />
+          </div>
+          <textarea name="message" rows="5" required placeholder="Message" aria-label="Message" class="form-field resize-none"></textarea>
+          <button type="submit" class="inline-flex items-center justify-center gap-3 bg-brass text-charcoal text-[11px] uppercase tracking-[0.2em] font-semibold px-8 py-4 hover:bg-cream transition">Send <i data-lucide="arrow-right" class="w-4 h-4 rtl:rotate-180"></i></button>
+          <p data-form-message class="hidden text-sm text-brass border border-brass/40 bg-brass/10 px-4 py-3">Thank you — your enquiry has been noted.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section data-block="contact-faq-1" data-block-type="faq" class="bg-charcoal text-cream py-24 lg:py-32 px-6 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-4">
+        
+        <h2 class="font-display text-4xl md:text-5xl leading-tight reveal">Before you write.</h2>
+        
+      </div>
+      <div class="lg:col-span-8 divide-y divide-white/10 border-t border-white/10">
+        
+        <details class="faq py-5 reveal">
+          <summary class="flex items-center justify-between gap-6">
+            <span class="font-display text-xl">Do you work outside Switzerland and the UAE?</span>
+            <i data-lucide="plus" class="faq-icon w-4 h-4 text-brass shrink-0"></i>
+          </summary>
+          <p class="text-sm text-white/50 leading-relaxed mt-4 pe-10">Yes. We have built in sixteen countries across Europe, the Middle East and Asia.</p>
+        </details>
+        <details class="faq py-5 reveal">
+          <summary class="flex items-center justify-between gap-6">
+            <span class="font-display text-xl">What size projects do you take on?</span>
+            <i data-lucide="plus" class="faq-icon w-4 h-4 text-brass shrink-0"></i>
+          </summary>
+          <p class="text-sm text-white/50 leading-relaxed mt-4 pe-10">Our work ranges from a single room or staircase to masterplans of several hundred thousand square metres.</p>
+        </details>
+        <details class="faq py-5 reveal">
+          <summary class="flex items-center justify-between gap-6">
+            <span class="font-display text-xl">How early should we contact you?</span>
+            <i data-lucide="plus" class="faq-icon w-4 h-4 text-brass shrink-0"></i>
+          </summary>
+          <p class="text-sm text-white/50 leading-relaxed mt-4 pe-10">As early as possible — ideally before you have purchased a site.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-charcoal text-cream border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 pt-16 pb-8">
+      <div class="grid gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-5">
+          <a href="index.html" class="font-display text-3xl">Nour Studio</a>
+          <p class="mt-5 text-sm text-white/45 leading-relaxed max-w-xs">Interior design</p>
+        </div>
+        <ul class="lg:col-span-3 space-y-3 text-sm text-white/55">
+          <li><a href="index.html" class="hover:text-cream transition">Home</a></li>
+          <li><a href="services.html" class="hover:text-cream transition">Services</a></li>
+          <li><a href="contact.html" class="hover:text-cream transition">Contact</a></li>
+        </ul>
+        <div class="lg:col-span-4 space-y-3 text-sm text-white/55 leading-relaxed">
+            
+        </div>
+      </div>
+      <div class="mt-14 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between gap-4 text-[11px] text-white/35">
+        <p>© 2026 Nour Studio. All rights reserved.</p>
+        
+      </div>
+    </div>
+  </footer>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>

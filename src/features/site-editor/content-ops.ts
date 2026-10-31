@@ -11,7 +11,7 @@ export type EditableField = {
 };
 
 const longTextKeys = new Set(["body", "description", "quote", "answer"]);
-const skippedKeys = new Set(["href", "src", "alt", "credit", "id", "type", "variant"]);
+const skippedKeys = new Set(["href", "src", "alt", "credit", "id", "type", "design"]);
 const factKeys = new Set(["eyebrow", "title", "body"]);
 
 function isRecord(value: unknown): value is Record<string, unknown> {

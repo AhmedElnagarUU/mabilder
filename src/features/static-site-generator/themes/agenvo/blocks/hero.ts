@@ -2,20 +2,20 @@ import { renderText } from "../../../content/html";
 import type { ThemeBlock } from "../../types";
 import { renderButton, renderImage, renderSection } from "../parts";
 
-const heights: Record<ThemeBlock<"hero">["variant"], string> = {
-  "full-image": "h-screen min-h-[600px]",
-  page: "min-h-[72vh]",
-  "text-only": "min-h-[56vh]",
+const heights: Record<string, string> = {
+  "agenvo/hero-full-image": "h-screen min-h-[600px]",
+  "agenvo/hero-page": "min-h-[72vh]",
+  "agenvo/hero-text-only": "min-h-[56vh]",
 };
 
 function renderBackground(block: ThemeBlock<"hero">): string {
   const image = block.props.image;
 
-  if (block.variant === "text-only" || !image) {
+  if (block.design === "agenvo/hero-text-only" || !image) {
     return "";
   }
 
-  const opacity = block.variant === "page" ? " opacity-55" : "";
+  const opacity = block.design === "agenvo/hero-page" ? " opacity-55" : "";
 
   return `
     ${renderImage(image, `absolute inset-0 w-full h-full object-cover${opacity}`)}
@@ -35,7 +35,7 @@ export function renderHero(block: ThemeBlock<"hero">): string {
 
   return renderSection(
     block,
-    `relative ${heights[block.variant]} flex items-end bg-charcoal text-cream`,
+    `relative ${heights[block.design]} flex items-end bg-charcoal text-cream`,
     inner,
   );
 }

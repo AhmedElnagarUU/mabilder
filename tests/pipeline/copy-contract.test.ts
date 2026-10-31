@@ -16,6 +16,7 @@ import {
   type BlockType,
 } from "../../src/features/static-site-generator/blocks/catalog";
 import type { Locale } from "../../src/features/static-site-generator/locale";
+import { getDefaultDesign } from "../../src/features/static-site-generator/designs/registry";
 
 // If the schema we send to the model and the validation we apply to its answer ever
 // disagree, these tests fail before any token is spent. No AI and no network.
@@ -43,7 +44,7 @@ function blockFor(definition: Definition, props: Props, locale: Locale): Block {
   return {
     id: `${definition.type}-block`,
     type: definition.type,
-    variant: definition.variants[0],
+    design: getDefaultDesign(definition.type).id,
     hidden: false,
     props: { [locale]: props },
   } as Block;

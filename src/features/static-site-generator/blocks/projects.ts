@@ -25,7 +25,6 @@ export type ProjectsProps = z.infer<typeof projectsSchema>;
 export const projectsBlock = {
   type: "projects" as const,
   kind: "fact",
-  variants: ["featured", "grid"] as const,
   schema: projectsSchema,
   needs: (facts) => facts.projects.length >= 1,
   fixtures: {

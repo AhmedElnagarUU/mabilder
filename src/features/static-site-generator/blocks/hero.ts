@@ -15,7 +15,6 @@ export type HeroProps = z.infer<typeof heroSchema>;
 export const heroBlock = {
   type: "hero" as const,
   kind: "copy",
-  variants: ["full-image", "page", "text-only"] as const,
   schema: heroSchema,
   needs: () => true,
   fixtures: {

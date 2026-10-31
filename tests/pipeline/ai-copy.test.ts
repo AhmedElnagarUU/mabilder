@@ -127,14 +127,14 @@ test("a block that is still invalid after the retry fails the generate", async (
   );
 });
 
-test("regenerate keeps ids, variants, hidden flags, order and images and replaces the copy (block plan)", async () => {
+test("regenerate keeps ids, designs, hidden flags, order and images and replaces the copy (block plan)", async () => {
   const current = structuredClone(buildSiteContent(thin));
   const home = current.pages[0].blocks;
   const image = { src: "https://images.example.com/customer.jpg", alt: "Customer photo" };
 
   [home[1], home[2]] = [home[2], home[1]];
   home[3].hidden = true;
-  home[0].variant = "full-image";
+  home[0].design = "agenvo/hero-full-image";
   Object.assign(home[0].props.en ?? {}, { image });
 
   const stub = stubModel(() => markedAnswer(current, "AI"));
@@ -144,8 +144,8 @@ test("regenerate keeps ids, variants, hidden flags, order and images and replace
     const after = generated.pages[pageIndex].blocks;
 
     assert.deepEqual(
-      after.map(({ id, type, variant, hidden }) => ({ id, type, variant, hidden })),
-      page.blocks.map(({ id, type, variant, hidden }) => ({ id, type, variant, hidden })),
+      after.map(({ id, type, design, hidden }) => ({ id, type, design, hidden })),
+      page.blocks.map(({ id, type, design, hidden }) => ({ id, type, design, hidden })),
     );
 
     for (const block of after.filter(isCopy)) {
