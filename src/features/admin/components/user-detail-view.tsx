@@ -18,7 +18,7 @@ function Row({ label, value }: { label: string; value: string }) {
 }
 
 export function UserDetailView({ detail }: { detail: UserDetail }) {
-  const { user, plan, site, activity, feedback } = detail;
+  const { user, plan, site, activity, feedback, inquiries } = detail;
 
   return (
     <div className="grid gap-6 xl:grid-cols-2">
@@ -91,6 +91,16 @@ export function UserDetailView({ detail }: { detail: UserDetail }) {
         ) : (
           <p className="text-sm text-muted">This user has no website yet.</p>
         )}
+      </Card>
+
+      <Card className="p-6 xl:col-span-2">
+        <h2 className="mb-4 text-lg font-semibold">Website requests</h2>
+        <dl className="divide-y divide-line-soft">
+          <Row label="Total" value={String(inquiries.total)} />
+          <Row label="Valid" value={String(inquiries.valid)} />
+          <Row label="Spam" value={String(inquiries.spam)} />
+          <Row label="New (not handled yet)" value={String(inquiries.newCount)} />
+        </dl>
       </Card>
 
       <Card className="p-6 xl:col-span-2">

@@ -1,4 +1,4 @@
-export type TourId = "dashboard" | "projects" | "editor" | "seo" | "tracking";
+export type TourId = "dashboard" | "projects" | "editor" | "seo" | "tracking" | "inbox";
 
 export type TourStep = {
   target: string;
@@ -61,6 +61,14 @@ export const tours: Tour[] = [
       step("tracking", "intro", "tracking-intro"),
       step("tracking", "fields", "tracking-fields"),
       step("tracking", "save", "tracking-save"),
+    ],
+  },
+  {
+    id: "inbox",
+    steps: [
+      step("inbox", "intro", "inbox-intro"),
+      step("inbox", "filters", "inbox-filters"),
+      step("inbox", "whatsapp", "inbox-whatsapp"),
     ],
   },
 ];

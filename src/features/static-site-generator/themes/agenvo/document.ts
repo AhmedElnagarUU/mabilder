@@ -1,6 +1,7 @@
 import { escapeAttribute, escapeHtml } from "../../content/html";
 import type { Locale } from "../../locale";
 import type { AlternatePage, PageContext } from "../types";
+import { renderWhatsAppButton } from "./whatsapp-button";
 
 const latinFonts =
   "family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@400;500;600";
@@ -29,6 +30,16 @@ function renderAlternateLink(alternate: AlternatePage | undefined): string {
   <link rel="alternate" hreflang="${escapeAttribute(alternate.locale)}" href="${escapeAttribute(alternate.href)}" />`;
 }
 
+function renderRuntimeAttributes(context: PageContext): string {
+  const { siteId, endpoint } = context.runtime;
+
+  if (!siteId || !endpoint) {
+    return "";
+  }
+
+  return ` data-site-id="${escapeAttribute(siteId)}" data-endpoint="${escapeAttribute(endpoint)}"`;
+}
+
 export function renderDocument(context: PageContext, body: string, headExtra: string): string {
   const { locale, meta, rootPath } = context;
 
@@ -54,8 +65,8 @@ export function renderDocument(context: PageContext, body: string, headExtra: st
   <link rel="stylesheet" href="${escapeAttribute(rootPath)}assets/site.css" />
 ${headExtra}
 </head>
-<body class="bg-cream text-charcoal font-sans">
-${body}
+<body class="bg-cream text-charcoal font-sans"${renderRuntimeAttributes(context)}>
+${body}${renderWhatsAppButton(context)}
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="${escapeAttribute(rootPath)}assets/site.js"></script>
 </body>

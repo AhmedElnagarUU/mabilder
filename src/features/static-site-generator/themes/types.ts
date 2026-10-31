@@ -3,6 +3,7 @@ import type { Image } from "../blocks/common";
 import type { ProjectDetail } from "../content/project-pages";
 import type { Locale } from "../locale";
 import type { Page, SiteContent } from "../site-content";
+import type { SiteRuntime } from "../site-runtime";
 
 export type Tone = "light" | "dark";
 
@@ -28,6 +29,7 @@ export type PageContext = {
   linkPrefix: string;
   alternate?: AlternatePage;
   credits: PhotoCredit[];
+  runtime: SiteRuntime;
 };
 
 export type BlockContext = PageContext & {

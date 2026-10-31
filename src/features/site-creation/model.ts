@@ -7,6 +7,7 @@ const siteSchema = new Schema(
     brief: { type: Schema.Types.Mixed, required: true },
     content: { type: Schema.Types.Mixed, default: null },
     tracking: { type: Schema.Types.Mixed, default: {} },
+    whatsapp: { type: Schema.Types.Mixed, default: {} },
     status: {
       type: String,
       enum: ["draft", "generating", "ready", "error"],

@@ -12,6 +12,7 @@ export const NOTIFICATION_TYPES = [
   "plan_changed",
   "feedback_received",
   "feedback_replied",
+  "inquiry_received",
 ] as const;
 
 export type NotificationType = (typeof NOTIFICATION_TYPES)[number];
@@ -43,6 +44,7 @@ export const notificationParamSchemas = {
   plan_changed: z.object({ plan: z.enum(["trial", "pro", "expired"]) }),
   feedback_received: z.object({ userName: shortText }),
   feedback_replied: z.object({ reply: z.string().min(1).max(2000) }),
+  inquiry_received: z.object({ name: shortText }),
 } satisfies Record<NotificationType, z.ZodType>;
 
 export type NotificationParams = {

@@ -11,6 +11,7 @@ import { changeUserPlan, type PlanChangeResult } from "../billing/manual-plan";
 import { getPendingPaymentCount } from "../billing/payments/service";
 import { countPlans } from "../billing/plan-counts";
 import { getUserAccess } from "../billing/user-access";
+import { getInquiryCountsForOwner, getInquiryStats } from "../inquiries/service";
 import { listSites } from "../site-creation/service";
 import {
   countMatchingUsers,
@@ -27,6 +28,7 @@ import {
   USERS_PAGE_SIZE,
   userListQuerySchema,
   type AccountChangeResult,
+  type AdminInquiryStats,
   type OverviewStats,
   type UserDetail,
   type UserListPage,
@@ -37,6 +39,19 @@ const ACTIVITY_LIMIT = 50;
 
 function activeSince(now: Date, days: number): Record<string, unknown> {
   return { lastActiveAt: { $gte: new Date(now.getTime() - days * DAY_MS) } };
+}
+
+async function getAdminInquiryStats(now: Date): Promise<AdminInquiryStats> {
+  const stats = await getInquiryStats(now);
+  const topSites = await Promise.all(
+    stats.topSites.map(async (row) => ({
+      userId: row.ownerId,
+      businessName: (await listSites(row.ownerId))[0]?.businessName ?? "Unknown",
+      count: row.count,
+    })),
+  );
+
+  return { ...stats, topSites };
 }
 
 export async function getOverview(now: Date = new Date()): Promise<OverviewStats> {
@@ -52,6 +67,7 @@ export async function getOverview(now: Date = new Date()): Promise<OverviewStats
     newFeedback,
     pendingPayments,
     plans,
+    inquiries,
   ] = await Promise.all([
     countUsers({}),
     countUsers(activeSince(now, 1)),
@@ -64,6 +80,7 @@ export async function getOverview(now: Date = new Date()): Promise<OverviewStats
     countFeedbackWithStatus("new"),
     getPendingPaymentCount(),
     countPlans(now),
+    getAdminInquiryStats(now),
   ]);
 
   return {
@@ -80,6 +97,7 @@ export async function getOverview(now: Date = new Date()): Promise<OverviewStats
     trialUsers: plans.trial,
     proUsers: plans.active,
     expiredUsers: plans.expired,
+    inquiries,
   };
 }
 
@@ -115,11 +133,12 @@ export async function getUserDetail(userId: string): Promise<UserDetail | null> 
     return null;
   }
 
-  const [sites, activity, feedback, access] = await Promise.all([
+  const [sites, activity, feedback, access, inquiries] = await Promise.all([
     listSites(user.id),
     listRecentActivity(user.id, ACTIVITY_LIMIT),
     listFeedbackForUser(user.id),
     getUserAccess(user.id),
+    getInquiryCountsForOwner(user.id),
   ]);
   const until = access.trialEndsAt ?? access.renewsAt;
 
@@ -129,6 +148,7 @@ export async function getUserDetail(userId: string): Promise<UserDetail | null> 
     site: sites[0] ?? null,
     activity,
     feedback,
+    inquiries,
   };
 }
 

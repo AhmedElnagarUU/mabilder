@@ -48,7 +48,7 @@ test("the tour window texts exist in English and Arabic", () => {
 test("tour ids are unique, each tour has 3 to 5 steps and unique targets", () => {
   const ids = tours.map((tour) => tour.id);
   assert.deepEqual(new Set(ids).size, ids.length);
-  assert.deepEqual([...ids].sort(), ["dashboard", "editor", "projects", "seo", "tracking"]);
+  assert.deepEqual([...ids].sort(), ["dashboard", "editor", "inbox", "projects", "seo", "tracking"]);
 
   const allTargets: string[] = [];
 

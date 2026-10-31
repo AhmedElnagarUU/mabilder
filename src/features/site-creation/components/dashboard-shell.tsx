@@ -4,6 +4,7 @@ import { SignOutButton } from "@/features/auth/components/sign-out-button";
 import { PlanBadge } from "@/features/billing/components/plan-badge";
 import { SendFeedbackButton } from "@/features/feedback/components/send-feedback-button";
 import { NotificationBell } from "@/features/notifications/components/notification-bell";
+import { countNewInquiries } from "@/features/inquiries/service";
 import { HelpButton } from "@/features/onboarding/components/help-button";
 import type { TourId } from "@/features/onboarding/tours";
 import { LocaleSwitcher } from "@/shared/i18n/locale-switcher";
@@ -24,6 +25,7 @@ function SidebarLink({
   active = false,
   external = false,
   gold = false,
+  badge = 0,
 }: {
   href: string;
   label: string;
@@ -31,6 +33,7 @@ function SidebarLink({
   active?: boolean;
   external?: boolean;
   gold?: boolean;
+  badge?: number;
 }) {
   const baseText = gold ? "text-gold" : "text-soft";
   const hoverText = gold ? "hover:text-gold" : "hover:text-ink";
@@ -60,21 +63,37 @@ function SidebarLink({
   }
 
   return (
-    <Link href={href} className={className} aria-current={active ? "page" : undefined}>
+    <Link href={href} className={`${className} relative`} aria-current={active ? "page" : undefined}>
       {iconElement}
       <span className="hidden truncate text-sm min-[980px]:inline">{label}</span>
+      {badge > 0 ? (
+        <span className="absolute -top-1 -end-1 grid h-4 min-w-4 place-items-center rounded-full bg-accent px-1 text-[10px] font-medium leading-none text-canvas min-[980px]:static min-[980px]:ms-auto">
+          {badge > 9 ? "9+" : badge}
+        </span>
+      ) : null}
     </Link>
   );
 }
 
-export type DashboardNavId = "overview" | "seo" | "projects" | "tracking" | "billing";
+export type DashboardNavId = "overview" | "seo" | "projects" | "inbox" | "tracking" | "billing";
 
 const tourByNav: Partial<Record<DashboardNavId, TourId>> = {
   overview: "dashboard",
   seo: "seo",
   projects: "projects",
+  inbox: "inbox",
   tracking: "tracking",
 };
+
+// A broken count must never break the page around it.
+async function loadNewInquiryCount(userId: string): Promise<number> {
+  try {
+    return await countNewInquiries(userId);
+  } catch (error) {
+    console.error(error);
+    return 0;
+  }
+}
 
 export async function DashboardShell({
   user,
@@ -93,6 +112,7 @@ export async function DashboardShell({
   const common = await getTranslations("common");
   const seo = await getTranslations("seo");
   const tourId = active ? (tourByNav[active] ?? null) : null;
+  const newInquiries = site ? await loadNewInquiryCount(user.id) : 0;
 
   return (
     <div className="relative min-h-screen">
@@ -161,6 +181,13 @@ export async function DashboardShell({
                   active={active === "projects"}
                 />
                 <SidebarLink
+                  href="/dashboard/inbox"
+                  label={t("sidebar.inbox")}
+                  icon="inbox"
+                  active={active === "inbox"}
+                  badge={newInquiries}
+                />
+                <SidebarLink
                   href={`/preview/${site.id}/index.html`}
                   label={t("sidebar.previewSite")}
                   icon="monitor"
@@ -218,6 +245,14 @@ export async function DashboardShell({
                       className="grid h-9 w-9 place-items-center rounded-full border border-line bg-white/[0.045] text-soft"
                     >
                       <Icon name="pen" className="h-4 w-4" />
+                    </Link>
+                    <Link
+                      href="/dashboard/inbox"
+                      aria-label={t("sidebar.inbox")}
+                      title={t("sidebar.inbox")}
+                      className="grid h-9 w-9 place-items-center rounded-full border border-line bg-white/[0.045] text-soft"
+                    >
+                      <Icon name="inbox" className="h-4 w-4" />
                     </Link>
                     <a
                       href={`/preview/${site.id}/index.html`}

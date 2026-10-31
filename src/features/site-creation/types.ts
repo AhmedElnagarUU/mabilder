@@ -1,4 +1,5 @@
 import { z } from "zod";
+import type { WhatsAppSettings } from "../static-site-generator/content/whatsapp";
 import { localeSchema } from "../static-site-generator/locale";
 import type { SiteContent } from "../static-site-generator/site-content";
 import type { TrackingSettings } from "../tracking/types";
@@ -74,6 +75,7 @@ export type SiteRecord = SiteSummary & {
   brief: BusinessBrief;
   content: SiteContent | null;
   tracking: TrackingSettings;
+  whatsapp: WhatsAppSettings;
   error: string | null;
   createdAt: string;
 };

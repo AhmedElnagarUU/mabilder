@@ -100,6 +100,7 @@ Rules:
 ${blockOutputRules}
 - Write new text for every field. The current text is a placeholder or the previous version: do not copy it, and do not reuse its names, places, or claims.
 - Write everything in ${language}. Keep the business name and every fact exactly as given.
+- A contact form really sends the visitor's request to the business, which calls back. Write its success message as a true, warm confirmation (the request was received and the business will call soon). Never say it is a demo, a test, or that nothing is sent.
 - Fit each block's type and design: titles are short (at most 10 words), bodies 1-3 sentences, list items concise.
 - Do not invent awards, clients, numbers, credentials, dates, prices, or personal names.${toneHint(input.profile)}`;
 }

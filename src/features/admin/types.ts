@@ -1,6 +1,7 @@
 import { z } from "zod";
 import type { ActivityItem } from "../activity/types";
 import type { FeedbackEntry } from "../feedback/types";
+import type { InquiryCounts, InquiryStats } from "../inquiries/types";
 import type { PaymentItem } from "../billing/payments/types";
 import type { AccessState } from "../billing/types";
 import type { SiteStatus, SiteSummary } from "../site-creation/types";
@@ -33,6 +34,12 @@ export type OverviewStats = {
   trialUsers: number;
   proUsers: number;
   expiredUsers: number;
+  inquiries: AdminInquiryStats;
+};
+
+// Counts only: the admin never sees a visitor's name, phone or message.
+export type AdminInquiryStats = Omit<InquiryStats, "topSites"> & {
+  topSites: { userId: string; businessName: string; count: number }[];
 };
 
 export type UserListItem = {
@@ -74,6 +81,7 @@ export type UserDetail = {
   site: SiteSummary | null;
   activity: ActivityItem[];
   feedback: FeedbackEntry[];
+  inquiries: InquiryCounts;
 };
 
 export type AdminPaymentRow = PaymentItem & {

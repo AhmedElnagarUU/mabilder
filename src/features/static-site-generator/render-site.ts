@@ -9,6 +9,7 @@ import {
 import { getDesign } from "./designs/registry";
 import type { Locale } from "./locale";
 import type { Page, SiteContent } from "./site-content";
+import type { SiteRuntime } from "./site-runtime";
 import { getTheme } from "./themes/registry";
 import type {
   AlternatePage,
@@ -99,6 +100,7 @@ export function createPageContext(
   page: Page,
   locale: Locale,
   blocks: ThemeBlock[],
+  runtime: SiteRuntime = {},
 ): PageContext {
   return {
     content,
@@ -111,6 +113,7 @@ export function createPageContext(
     linkPrefix: "",
     alternate: getAlternate(content, page, locale),
     credits: getCredits(blocks),
+    runtime,
   };
 }
 
@@ -134,9 +137,10 @@ function renderPage(
   page: Page,
   locale: Locale,
   headExtra: string,
+  runtime: SiteRuntime,
 ): RenderedFile {
   const blocks = getVisibleBlocks(page, locale);
-  const context = createPageContext(content, page, locale, blocks);
+  const context = createPageContext(content, page, locale, blocks, runtime);
   const body = [
     theme.renderNav(context),
     ...blocks.map((block, index) =>
@@ -161,9 +165,10 @@ function createProjectContext(
   project: ProjectPage,
   detail: ProjectDetail,
   locale: Locale,
+  runtime: SiteRuntime,
 ): PageContext {
   const page = content.pages.find((candidate) => candidate.slug === "projects") ?? content.pages[0];
-  const base = createPageContext(content, page, locale, []);
+  const base = createPageContext(content, page, locale, [], runtime);
   const other = content.locales.find((candidate) => candidate !== locale);
   const credits = new Map<string, PhotoCredit>();
   collectCredits(detail, credits);
@@ -188,6 +193,7 @@ function renderProjectPages(
   theme: Theme,
   content: SiteContent,
   headExtra: string,
+  runtime: SiteRuntime,
 ): RenderedFile[] {
   return buildProjectPages(content).flatMap((project) =>
     content.locales.flatMap((locale) => {
@@ -197,7 +203,7 @@ function renderProjectPages(
         return [];
       }
 
-      const context = createProjectContext(content, project, detail, locale);
+      const context = createProjectContext(content, project, detail, locale, runtime);
       const body = [
         theme.renderNav(context),
         theme.renderProject(detail, context),
@@ -232,13 +238,17 @@ function renderLocaleRedirect(defaultLocale: Locale): RenderedFile {
   };
 }
 
-export function renderSite(content: SiteContent, headExtra = ""): RenderedFile[] {
+export function renderSite(
+  content: SiteContent,
+  headExtra = "",
+  runtime: SiteRuntime = {},
+): RenderedFile[] {
   const theme = getTheme(content.theme);
   const pages = [
     ...content.locales.flatMap((locale) =>
-      content.pages.map((page) => renderPage(theme, content, page, locale, headExtra)),
+      content.pages.map((page) => renderPage(theme, content, page, locale, headExtra, runtime)),
     ),
-    ...renderProjectPages(theme, content, headExtra),
+    ...renderProjectPages(theme, content, headExtra, runtime),
   ];
 
   if (!isMultilingual(content)) {

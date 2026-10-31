@@ -77,7 +77,7 @@ export async function rewriteContent(
       { ...parsed.data, instruction: parsed.data.instruction || undefined },
       { brief: site.brief },
     );
-    await generateSite(siteId, content, renderTags(site.tracking));
+    await generateSite(siteId, content, renderTags(site.tracking), site.whatsapp);
 
     const saved = await saveSiteContent(ownerId, siteId, content);
 

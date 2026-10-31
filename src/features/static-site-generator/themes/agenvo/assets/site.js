@@ -115,16 +115,77 @@
 
     /* Forms */
     document.querySelectorAll("form[data-form]").forEach(function (form) {
-      form.addEventListener("submit", function (event) {
-        event.preventDefault();
-        var message = form.querySelector("[data-form-message]");
-        if (message) {
-          message.classList.remove("hidden");
-          window.setTimeout(function () {
-            message.classList.add("hidden");
-          }, 8000);
+      var shownAt = Date.now();
+      var success = form.querySelector("[data-form-message]");
+      var failure = form.querySelector("[data-form-error]");
+      var button = form.querySelector("button[type=submit]");
+      var buttonLabel = form.querySelector("[data-submit-label]");
+      var idleLabel = buttonLabel ? buttonLabel.textContent : "";
+
+      function show(element) {
+        if (success) success.classList.add("hidden");
+        if (failure) failure.classList.add("hidden");
+        if (element) element.classList.remove("hidden");
+      }
+
+      function setLoading(loading) {
+        if (button) {
+          button.disabled = loading;
+          button.setAttribute("aria-busy", loading ? "true" : "false");
         }
-        form.reset();
+        if (buttonLabel) {
+          buttonLabel.textContent = loading
+            ? form.getAttribute("data-sending-label") || idleLabel
+            : idleLabel;
+        }
+      }
+
+      /* A visitor who came back from the no-JS form post sees the thank-you message */
+      if (/[?&]sent=1(&|$)/.test(window.location.search)) {
+        show(success);
+      }
+
+      form.addEventListener("submit", function (event) {
+        var endpoint = document.body.getAttribute("data-endpoint");
+        if (!endpoint) {
+          return;
+        }
+        event.preventDefault();
+
+        var payload = {};
+        new FormData(form).forEach(function (value, key) {
+          if (typeof value === "string" && value.trim() !== "") {
+            payload[key] = value;
+          }
+        });
+        if (form.elements.website) {
+          payload.website = form.elements.website.value;
+        }
+        payload.elapsedMs = Date.now() - shownAt;
+
+        show(null);
+        setLoading(true);
+
+        fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+          credentials: "omit",
+        })
+          .then(function (response) {
+            if (!response.ok) {
+              throw new Error("request failed");
+            }
+            form.reset();
+            shownAt = Date.now();
+            show(success);
+          })
+          .catch(function () {
+            show(failure);
+          })
+          .then(function () {
+            setLoading(false);
+          });
       });
     });
 

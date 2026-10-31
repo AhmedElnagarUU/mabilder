@@ -1,6 +1,10 @@
 import { isValidObjectId } from "mongoose";
 import { connectToDatabase } from "../../shared/db/mongoose";
 import {
+  readWhatsAppSettings,
+  whatsappSettingsSchema,
+} from "../static-site-generator/content/whatsapp";
+import {
   siteContentSchema,
   type SiteContent,
 } from "../static-site-generator/site-content";
@@ -20,6 +24,7 @@ type LeanSite = {
   brief: unknown;
   content: unknown;
   tracking?: unknown;
+  whatsapp?: unknown;
   status: SiteStatus;
   error?: string | null;
   createdAt: Date;
@@ -88,6 +93,7 @@ function toRecord(site: LeanSite): SiteRecord {
     brief,
     content,
     tracking: readTracking(site),
+    whatsapp: readWhatsAppSettings(site.whatsapp),
     error: site.error ?? null,
     createdAt: site.createdAt.toISOString(),
   };
@@ -197,6 +203,28 @@ export async function saveSiteTracking(
   const site = (await SiteModel.findOneAndUpdate(
     { _id: siteId, ownerId },
     { tracking },
+    { returnDocument: "after" },
+  ).lean()) as LeanSite | null;
+
+  return site ? toRecord(site) : null;
+}
+
+export async function saveSiteWhatsapp(
+  ownerId: string,
+  siteId: string,
+  whatsappInput: unknown,
+): Promise<SiteRecord | null> {
+  if (!isValidObjectId(siteId)) {
+    return null;
+  }
+
+  const parsed = whatsappSettingsSchema.parse(whatsappInput);
+  const whatsapp = { enabled: parsed.enabled, ...(parsed.number ? { number: parsed.number } : {}) };
+  await connectToDatabase();
+
+  const site = (await SiteModel.findOneAndUpdate(
+    { _id: siteId, ownerId },
+    { whatsapp },
     { returnDocument: "after" },
   ).lean()) as LeanSite | null;
 

@@ -323,6 +323,44 @@ details.faq[open] summary {
   border-color: var(--site-accent);
 }
 
+/* Spam trap: kept off-screen for people, still present for bots */
+.form-trap {
+  position: absolute;
+  inset-inline-start: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+select.form-field {
+  appearance: auto;
+}
+
+.form-error {
+  color: var(--site-accent);
+}
+
+/* WhatsApp button: bottom-end corner, so it flips in right-to-left pages */
+.wa-float {
+  position: fixed;
+  inset-inline-end: 1.25rem;
+  inset-block-end: 1.25rem;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 9999px;
+  background: #25d366;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease;
+}
+
+.wa-float:hover {
+  transform: scale(1.06);
+}
+
 /* Portrait treatment */
 .portrait img {
   filter: grayscale(100%);

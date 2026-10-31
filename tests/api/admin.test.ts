@@ -243,7 +243,7 @@ test("the admin routes answer 404 for unknown users and a missing preview", asyn
 // newFeedback and the payment / plan counts are left out: feedback.test.ts and payments.test.ts write in parallel.
 type OverviewDelta = Omit<
   Awaited<ReturnType<typeof getOverview>>,
-  "newFeedback" | "pendingPayments" | "trialUsers" | "proUsers" | "expiredUsers"
+  "newFeedback" | "pendingPayments" | "trialUsers" | "proUsers" | "expiredUsers" | "inquiries"
 >;
 
 // Real users are created "now"; moving the clock 400 days ahead keeps them out of every time window.

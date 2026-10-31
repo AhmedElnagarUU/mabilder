@@ -169,6 +169,18 @@ const templates: Templates = {
       path: dashboardPath,
     }),
   },
+  inquiry_received: {
+    en: ({ name }) => ({
+      subject: "New request from your website",
+      body: `${name} sent you a request. Call them back while they are still interested.`,
+      path: "/dashboard/inbox",
+    }),
+    ar: ({ name }) => ({
+      subject: "طلب جديد من موقعك",
+      body: `أرسل ${name} طلبًا إليك. تواصل معه سريعًا وهو لا يزال مهتمًا.`,
+      path: "/dashboard/inbox",
+    }),
+  },
 };
 
 function appUrl(locale: NotificationLocale, path: string): string {

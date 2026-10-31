@@ -1,7 +1,9 @@
 import { copyFile, mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
+import type { WhatsAppSettings } from "./content/whatsapp";
 import { renderSite, type RenderedFile } from "./render-site";
 import type { SiteContent } from "./site-content";
+import { createSiteRuntime } from "./site-runtime";
 import { getSiteDirectory, getThemeAssetsDirectory } from "./site-paths";
 import { getTheme } from "./themes/registry";
 import type { Theme } from "./themes/types";
@@ -31,10 +33,11 @@ export async function generateSite(
   siteId: string,
   content: SiteContent,
   headExtra = "",
+  whatsapp?: WhatsAppSettings,
 ): Promise<void> {
   const outputDirectory = getSiteDirectory(siteId);
   const theme = getTheme(content.theme);
-  const files = renderSite(content, headExtra);
+  const files = renderSite(content, headExtra, createSiteRuntime(siteId, whatsapp));
 
   await rm(outputDirectory, { recursive: true, force: true });
   await mkdir(outputDirectory, { recursive: true });

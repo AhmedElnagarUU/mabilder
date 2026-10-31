@@ -17,6 +17,7 @@ import {
   listSites as listSiteRecords,
   saveSiteContent as saveSiteContentRecord,
   saveSiteTracking as saveSiteTrackingRecord,
+  saveSiteWhatsapp as saveSiteWhatsappRecord,
   setSiteStatus,
 } from "./repository";
 import {
@@ -136,7 +137,7 @@ export async function saveContent(
   }
 
   try {
-    await generateSite(site.id, site.content, renderTags(site.tracking));
+    await generateSite(site.id, site.content, renderTags(site.tracking), site.whatsapp);
   } catch (error) {
     await setSiteStatus(ownerId, site.id, "error", errorMessage(error));
     throw error;
@@ -169,7 +170,35 @@ export async function saveTracking(
   }
 
   if (site.content) {
-    await generateSite(site.id, site.content, renderTags(site.tracking));
+    await generateSite(site.id, site.content, renderTags(site.tracking), site.whatsapp);
+  }
+
+  return { ok: true, site };
+}
+
+export async function saveWhatsapp(
+  ownerId: string,
+  siteId: string,
+  whatsappInput: unknown,
+): Promise<SaveContentResult> {
+  let site: SiteRecord | null;
+
+  try {
+    site = await saveSiteWhatsappRecord(ownerId, siteId, whatsappInput);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return { ok: false, errors: toIssues(error) };
+    }
+
+    throw error;
+  }
+
+  if (!site) {
+    return null;
+  }
+
+  if (site.content) {
+    await generateSite(site.id, site.content, renderTags(site.tracking), site.whatsapp);
   }
 
   return { ok: true, site };
@@ -198,7 +227,7 @@ export async function generateContent(
       site.content,
       fetchFunction,
     );
-    await generateSite(siteId, content, renderTags(site.tracking));
+    await generateSite(siteId, content, renderTags(site.tracking), site.whatsapp);
 
     const saved = await saveSiteContentRecord(ownerId, siteId, content);
 

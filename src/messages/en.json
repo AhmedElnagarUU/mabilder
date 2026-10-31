@@ -297,6 +297,7 @@
       "previewSite": "Preview site",
       "projects": "Projects",
       "tracking": "Tracking",
+      "inbox": "Inbox",
       "upgrade": "Upgrade to Pro"
     },
     "welcome": {
@@ -563,7 +564,118 @@
       "feedback_replied": {
         "title": "We replied to your feedback",
         "body": "{reply}"
+      },
+      "inquiry_received": {
+        "title": "New request from your website",
+        "body": "{name} sent you a request. Open your inbox to call them back."
       }
+    }
+  },
+  "inbox": {
+    "meta": {
+      "title": "Inbox",
+      "description": "Requests sent from your website."
+    },
+    "breadcrumb": "Inbox",
+    "title": "Inbox",
+    "subtitle": "Requests sent from your website appear here. Call people back while they are still interested.",
+    "noSite": "Create your website first, then your requests will appear here.",
+    "noSiteCta": "Create your website",
+    "filters": {
+      "aria": "Filter requests",
+      "all": "All",
+      "new": "New",
+      "contacted": "Contacted",
+      "won": "Won",
+      "lost": "Lost",
+      "spam": "Spam"
+    },
+    "status": {
+      "new": "New",
+      "contacted": "Contacted",
+      "won": "Won",
+      "lost": "Lost"
+    },
+    "list": {
+      "aria": "Requests"
+    },
+    "empty": {
+      "title": "No requests yet",
+      "filtered": "No requests in this tab.",
+      "body": "When a visitor sends the form on your website, the request appears here and you get a notification."
+    },
+    "details": {
+      "selectHint": "Select a request to see its details.",
+      "call": "Call",
+      "whatsapp": "Reply on WhatsApp",
+      "status": "Status",
+      "markSpam": "Mark as spam",
+      "notSpam": "Not spam",
+      "delete": "Delete"
+    },
+    "fields": {
+      "phone": "Phone",
+      "email": "Email",
+      "service": "Service",
+      "location": "Project location",
+      "budget": "Budget",
+      "startWhen": "Planned start",
+      "message": "Message",
+      "spamReason": "Why it is marked as spam"
+    },
+    "budget": {
+      "small": "Small project",
+      "medium": "Medium project",
+      "large": "Large project",
+      "unsure": "Not sure yet"
+    },
+    "start": {
+      "month": "Within a month",
+      "quarter": "In 1–3 months",
+      "later": "Later"
+    },
+    "spamReasons": {
+      "links": "The message contains links",
+      "name_link": "The name contains a link",
+      "gibberish": "The text looks like random characters",
+      "duplicate": "The same phone number already sent a request in the last 24 hours",
+      "owner": "You marked it as spam"
+    },
+    "delete": {
+      "title": "Delete this request?",
+      "body": "It will be removed for good.",
+      "confirm": "Delete",
+      "cancel": "Cancel"
+    },
+    "locked": {
+      "title": "{count, plural, =0 {No new requests} one {# new request is waiting for you} other {# new requests are waiting for you}}",
+      "body": "Your free trial has ended. Your requests are still being saved. Subscribe to read them and call people back.",
+      "cta": "Subscribe"
+    },
+    "whatsapp": {
+      "title": "WhatsApp button",
+      "description": "Visitors see a WhatsApp button on every page of your website. It uses your website phone ({phone}) unless you add another number below.",
+      "descriptionNoPhone": "Add a phone number to your website, or enter a WhatsApp number below, to show the button.",
+      "enabled": "Show the WhatsApp button on my website",
+      "numberLabel": "WhatsApp number (optional)",
+      "numberPlaceholder": "+20 100 123 4567",
+      "save": "Save",
+      "saving": "Saving...",
+      "saved": "Saved. Your website is updated.",
+      "errors": {
+        "invalid": "Enter a valid phone number.",
+        "default": "Could not save. Please try again."
+      }
+    },
+    "errors": {
+      "invalid_request": "Some details need attention.",
+      "site_not_found": "This website no longer exists.",
+      "inquiry_not_found": "This request no longer exists.",
+      "subscription_required": "Your free trial has ended. Subscribe to manage your requests.",
+      "database_unavailable": "The database is unreachable right now. Please try again in a moment.",
+      "save_failed": "Could not save your change. Please try again.",
+      "unauthorized": "Your session has ended. Please sign in again.",
+      "default": "Something went wrong. Please try again."
     }
   },
   "feedback": {
@@ -802,6 +914,20 @@
         "body": "Press Save to update your website with the new details."
       }
     },
+    "inbox": {
+      "intro": {
+        "title": "Requests from your website",
+        "body": "When a visitor fills in the form on your website, the request lands here and you get a notification."
+      },
+      "filters": {
+        "title": "Sort your requests",
+        "body": "Mark each request as contacted, won or lost. Spam is kept apart under its own tab, and you can rescue a real request from there."
+      },
+      "whatsapp": {
+        "title": "A WhatsApp button",
+        "body": "Turn the WhatsApp button on or off for your website, and choose which number visitors reach."
+      }
+    },
     "tracking": {
       "intro": {
         "title": "Know who visits",
@@ -1015,6 +1141,13 @@
       "messagePlaceholder": "Message placeholder",
       "submitLabel": "Send button",
       "successMessage": "Thank-you message",
+      "phonePlaceholder": "Phone placeholder",
+      "serviceLabel": "Service list label",
+      "locationPlaceholder": "Location placeholder",
+      "budgetLabel": "Budget list label",
+      "startLabel": "Start time list label",
+      "privacyNote": "Privacy note",
+      "errorMessage": "Error message",
       "value": "Value",
       "label": "Link text",
       "names": "Names",
