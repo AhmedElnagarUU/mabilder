@@ -13,6 +13,7 @@
     "check:theme": "tsc -p tsconfig.generator.json && node .generator-build/scripts/check-theme.js",
     "check:composition": "tsc -p tsconfig.generator.json && node .generator-build/scripts/check-composition.js",
     "test": "tsc -p tsconfig.generator.json && node --test \".generator-build/tests/pipeline/*.test.js\"",
+    "templates:render-sample": "tsc -p tsconfig.generator.json && node .generator-build/scripts/render-template-sample.js",
     "test:api": "tsc -p tsconfig.generator.json && node --env-file=.env .generator-build/scripts/run-api-tests.js"
   },
   "dependencies": {

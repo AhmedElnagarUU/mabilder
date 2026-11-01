@@ -115,7 +115,7 @@ export function DesignGallery({
         </div>
 
         <ul className="grid gap-4 overflow-y-auto p-4 sm:grid-cols-2 sm:p-5">
-          {designsForBlock(block).map((design) => {
+          {designsForBlock(block, content.theme).map((design) => {
             const label = designLabel(design.category, design.name, design.label);
             const isCurrent = design.id === current;
 

@@ -1,7 +1,15 @@
 # Flow: templates (pick a template after the content is written)
 
 Plan: `docs/templates-plan.md`. Status: **T1 built** (template model, Classic, `applyTemplate`, content-level
-image needs). T2–T8 (more templates, gallery, pick screens) are not built yet. This file is updated in each milestone.
+image needs) and **T2 built** (template Aurelia). T3–T8 (gallery, pick screens, more templates) are not built yet.
+This file is updated in each milestone.
+
+**Aurelia (T2), in plain words:** a dark luxury look: charcoal pages, thin gold lines, a faint diamond pattern over
+the hero photo, big gold serif titles with one italic line, and a gold-outlined menu button. It has its own menu,
+footer and style file (no outside scripts), a wave edge under the hero and above the numbers, and extra layouts:
+circle-icon services, photo panels, a big-number band and project cards with facts. Every section type has an
+Aurelia design, so any content fits. Preview locally with `npm run templates:render-sample -- aurelia`
+(writes `.template-samples/aurelia/`).
 
 Built in T1: `site-templates/` (registry, Classic = id `agenvo`), `applyTemplate` in `site-editor/apply-template.ts`,
 `content.theme` validated as a template id, template colors and fonts written as CSS variables in the page head

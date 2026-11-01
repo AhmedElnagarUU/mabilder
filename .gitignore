@@ -43,4 +43,5 @@ next-env.d.ts
 
 # static site generator build output
 /.generator-build/
+/.template-samples/
 /generated-sites/

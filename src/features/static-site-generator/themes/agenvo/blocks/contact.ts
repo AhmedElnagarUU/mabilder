@@ -177,7 +177,7 @@ function renderForm(kind: FormKind, form: ContactForm, context: BlockContext, fi
 }
 
 // Without JavaScript all forms are stacked; site.js shows the tab list and hides the inactive form.
-function renderForms(block: ThemeBlock<"contact">, context: BlockContext, fieldClass: string): string {
+export function renderForms(block: ThemeBlock<"contact">, context: BlockContext, fieldClass: string): string {
   const { form } = block.props;
   const labels = resolveFormLabels(form, context.locale);
   const tabLabels: Record<FormKind, string> = {

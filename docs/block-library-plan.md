@@ -27,7 +27,7 @@ stay exactly where they belong. New designs come from HTML/CSS templates the own
 | Design pack | `src/features/static-site-generator/designs/<pack>/`: `pack.ts` (id, name, preview), `tokens.css` mapping (see Styling), one render file per design `<category>/<design>.ts`, and the pack's CSS/JS assets. |
 | Design id | `<pack>/<design>`, e.g. `agenvo/hero-full-image`, `noor/hero-split`. Stored on the block as `design`. |
 | Swap | Editor → Structure mode → section → **Change design** → gallery of every design of that category, previewed with the site's real content → Apply. Only `design` changes; `props`, id, order and hidden stay. No AI call. |
-| Mixing packs | Allowed: a site can use a hero from one pack and services from another. Coherence comes from **site tokens** (below). |
+| Mixing packs | **Changed 2026-11-01 (templates plan):** each template has its own shell (nav, footer, CSS), so "Change design" offers only the designs of the site template's own pack. To get another pack's look, the customer changes the template (`docs/templates-plan.md`). |
 | Styling | Every design styles itself only through CSS variables (`--site-bg`, `--site-ink`, `--site-accent`, `--site-font-display`, `--site-font-body`, `--site-radius`, `--site-space`). The site has one token set (its "style"); packs ship default token values. Pack CSS is scoped to its sections (`[data-design^="<pack>/"]`). |
 | Conversion | **Developer-time, not runtime.** An agent converts a template into a design pack following the contract below; `npm run check:theme` (extended to all designs) proves it. No LLM at runtime, no HTML parsing at runtime. |
 | RTL + languages | Every design renders correctly in `ar` (RTL, logical CSS) and `en`, like today. |

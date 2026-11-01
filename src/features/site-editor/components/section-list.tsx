@@ -8,6 +8,7 @@ import { PanelToggle } from "./panel-toggle";
 
 type SectionListProps = {
   page: Page;
+  templateId: string;
   selectedBlockId: string | null;
   onSelect: (blockId: string) => void;
   onEditText: (blockId: string) => void;
@@ -24,6 +25,7 @@ const iconButtonClass =
 
 export function SectionList({
   page,
+  templateId,
   selectedBlockId,
   onSelect,
   onEditText,
@@ -91,7 +93,7 @@ export function SectionList({
                   >
                     <Icon name="pen" className="h-3.5 w-3.5" />
                   </button>
-                  {canChangeDesign(block) ? (
+                  {canChangeDesign(block, templateId) ? (
                     <button
                       type="button"
                       onClick={() => onChangeDesign(block.id)}

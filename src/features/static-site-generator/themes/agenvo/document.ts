@@ -7,7 +7,7 @@ const latinFonts =
   "family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@400;500;600";
 const arabicFont = "&family=IBM+Plex+Sans+Arabic:wght@400;500;600";
 
-function getDirection(locale: Locale): "rtl" | "ltr" {
+export function getDirection(locale: Locale): "rtl" | "ltr" {
   return locale === "ar" ? "rtl" : "ltr";
 }
 
@@ -21,7 +21,7 @@ function getFontFamilies(locale: Locale): string {
   return `sans: ['DM Sans', ${arabic}'sans-serif'], display: ['Cormorant Garamond', ${arabic}'serif']`;
 }
 
-function renderAlternateLink(alternate: AlternatePage | undefined): string {
+export function renderAlternateLink(alternate: AlternatePage | undefined): string {
   if (!alternate) {
     return "";
   }
@@ -30,7 +30,7 @@ function renderAlternateLink(alternate: AlternatePage | undefined): string {
   <link rel="alternate" hreflang="${escapeAttribute(alternate.locale)}" href="${escapeAttribute(alternate.href)}" />`;
 }
 
-function renderRuntimeAttributes(context: PageContext): string {
+export function renderRuntimeAttributes(context: PageContext): string {
   const { siteId, endpoint } = context.runtime;
 
   if (!siteId || !endpoint) {

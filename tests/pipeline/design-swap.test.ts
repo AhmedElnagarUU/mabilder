@@ -97,5 +97,6 @@ test("a design that is not in the block category falls back to the default desig
   const broken = { ...hero, design: "agenvo/services-columns" } as typeof hero;
 
   assert.equal(currentDesignId(broken), getDesignsForCategory("hero")[0].id);
-  assert.equal(canChangeDesign(hero), getDesignsForCategory("hero").length > 1);
+  assert.equal(canChangeDesign(hero, content.theme), getDesignsForCategory("hero").filter((design) => design.pack === "agenvo").length > 1);
+  assert.equal(canChangeDesign(hero, "aurelia"), getDesignsForCategory("hero").filter((design) => design.pack === "aurelia").length > 1);
 });

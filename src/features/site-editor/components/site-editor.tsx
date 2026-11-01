@@ -452,6 +452,7 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
             >
               <SectionList
                 page={page}
+                templateId={content.theme}
                 selectedBlockId={selectedBlockId}
                 onSelect={handleListSelect}
                 onEditText={handleEditText}

@@ -1,7 +1,8 @@
 import { agenvoTheme } from "./agenvo/theme";
+import { aureliaTheme } from "./aurelia/theme";
 import type { Theme } from "./types";
 
-export const themes: Theme[] = [agenvoTheme];
+export const themes: Theme[] = [agenvoTheme, aureliaTheme];
 
 export function getTheme(id: string): Theme {
   const theme = themes.find((candidate) => candidate.id === id);
