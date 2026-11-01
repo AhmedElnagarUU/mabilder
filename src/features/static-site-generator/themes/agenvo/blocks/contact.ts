@@ -13,9 +13,9 @@ import {
 } from "../parts";
 
 type ContactForm = ThemeBlock<"contact">["props"]["form"];
-type FormKind = "quote" | "visit";
+type FormKind = "quote" | "visit" | "review";
 
-const formKinds: FormKind[] = ["quote", "visit"];
+const formKinds: FormKind[] = ["quote", "visit", "review"];
 
 function renderInput(name: string, type: string, label: string, fieldClass: string, required = false): string {
   const requiredAttribute = required ? " required" : "";
@@ -97,21 +97,78 @@ function renderVisitFields(form: ContactForm, context: BlockContext, fieldClass:
           <textarea name="message" rows="3" placeholder="${escapeAttribute(labels.visitNotePlaceholder)}" aria-label="${escapeAttribute(labels.visitNotePlaceholder)}" class="${fieldClass} resize-none"></textarea>`;
 }
 
+const maxRating = 5;
+
+// Radios come in the order 5..1: site.css shows them reversed so "checked or after" lights the stars.
+function renderStarRating(name: string, label: string): string {
+  const stars = Array.from({ length: maxRating }, (_, index) => maxRating - index)
+    .map(
+      (value) =>
+        `<input type="radio" name="${name}" id="${name}-${value}" value="${value}" required /><label for="${name}-${value}" title="${value} / ${maxRating}"><span aria-hidden="true">★</span><span class="sr-only">${value} / ${maxRating}</span></label>`,
+    )
+    .join("");
+
+  return `<fieldset class="space-y-2"><legend class="text-xs opacity-70">${renderText(label)}</legend><div class="star-rating">${stars}</div></fieldset>`;
+}
+
+function renderReviewProjectSelect(context: BlockContext, label: string, fieldClass: string): string {
+  const { projects } = context.content.facts;
+  const slugs = projectSlugs(projects);
+  const options: [string, string][] = projects.map((project, index) => [
+    slugs[index],
+    projectInLocale(project, context.locale).title,
+  ]);
+
+  return options.length > 0 ? renderSelect("projectSlug", label, options, fieldClass) : "";
+}
+
+function renderReviewFields(form: ContactForm, context: BlockContext, fieldClass: string): string {
+  const labels = resolveFormLabels(form, context.locale);
+
+  return `
+          <div class="grid sm:grid-cols-2 gap-4">
+            ${renderInput("name", "text", form.namePlaceholder, fieldClass, true)}
+            ${renderReviewProjectSelect(context, labels.reviewProjectLabel, fieldClass)}
+          </div>
+          ${renderStarRating("rating", labels.reviewRatingLabel)}
+          <textarea name="comment" rows="4" required maxlength="600" placeholder="${escapeAttribute(labels.reviewCommentPlaceholder)}" aria-label="${escapeAttribute(labels.reviewCommentPlaceholder)}" class="${fieldClass} resize-none"></textarea>`;
+}
+
+function renderFormFields(kind: FormKind, form: ContactForm, context: BlockContext, fieldClass: string): string {
+  if (kind === "visit") {
+    return renderVisitFields(form, context, fieldClass);
+  }
+
+  return kind === "review"
+    ? renderReviewFields(form, context, fieldClass)
+    : renderQuoteFields(form, context, fieldClass);
+}
+
+function formTexts(kind: FormKind, form: ContactForm, labels: ReturnType<typeof resolveFormLabels>) {
+  if (kind === "visit") {
+    return { heading: labels.visitTabLabel, submit: labels.visitSubmitLabel, success: labels.visitSuccessMessage };
+  }
+
+  if (kind === "review") {
+    return { heading: labels.reviewTabLabel, submit: labels.reviewSubmitLabel, success: labels.reviewSuccessMessage };
+  }
+
+  return { heading: labels.quoteTabLabel, submit: form.submitLabel, success: form.successMessage };
+}
+
 function renderForm(kind: FormKind, form: ContactForm, context: BlockContext, fieldClass: string): string {
   const labels = resolveFormLabels(form, context.locale);
-  const isVisit = kind === "visit";
   const action = context.runtime.endpoint ? ` action="${escapeAttribute(context.runtime.endpoint)}"` : "";
-  const fields = isVisit ? renderVisitFields(form, context, fieldClass) : renderQuoteFields(form, context, fieldClass);
-  const heading = isVisit ? labels.visitTabLabel : labels.quoteTabLabel;
-  const submit = isVisit ? labels.visitSubmitLabel : form.submitLabel;
-  const success = isVisit ? labels.visitSuccessMessage : form.successMessage;
+  const fields = renderFormFields(kind, form, context, fieldClass);
+  const { heading, submit, success } = formTexts(kind, form, labels);
+  const projectFields = kind === "review" ? "" : renderProjectFields(context, labels.aboutLabel);
 
   return `
         <h3 data-panel-title class="font-display text-2xl mb-5">${renderText(heading)}</h3>
         <form data-form method="post"${action} class="space-y-5" data-sending-label="${escapeAttribute(labels.sendingLabel)}">${fields}
           <div class="form-trap" aria-hidden="true"><input name="website" type="text" tabindex="-1" autocomplete="off" /></div>
           <input type="hidden" name="locale" value="${escapeAttribute(context.locale)}" />
-          <input type="hidden" name="kind" value="${kind}" />${renderProjectFields(context, labels.aboutLabel)}
+          <input type="hidden" name="kind" value="${kind}" />${projectFields}
           <p class="text-xs opacity-60">${renderText(labels.privacyNote)}</p>
           <button type="submit" class="inline-flex items-center justify-center gap-3 bg-brass text-charcoal text-[11px] uppercase tracking-[0.2em] font-semibold px-8 py-4 hover:bg-cream transition disabled:opacity-60"><span data-submit-label>${renderText(submit)}</span> <i data-lucide="arrow-right" class="w-4 h-4 rtl:rotate-180"></i></button>
           <p data-form-message role="status" class="hidden text-sm text-brass border border-brass/40 bg-brass/10 px-4 py-3">${renderText(success)}</p>
@@ -119,11 +176,15 @@ function renderForm(kind: FormKind, form: ContactForm, context: BlockContext, fi
         </form>`;
 }
 
-// Without JavaScript both forms are stacked; site.js shows the tab list and hides the inactive form.
+// Without JavaScript all forms are stacked; site.js shows the tab list and hides the inactive form.
 function renderForms(block: ThemeBlock<"contact">, context: BlockContext, fieldClass: string): string {
   const { form } = block.props;
   const labels = resolveFormLabels(form, context.locale);
-  const tabLabels: Record<FormKind, string> = { quote: labels.quoteTabLabel, visit: labels.visitTabLabel };
+  const tabLabels: Record<FormKind, string> = {
+    quote: labels.quoteTabLabel,
+    visit: labels.visitTabLabel,
+    review: labels.reviewTabLabel,
+  };
   const tabs = formKinds
     .map((kind, index) => {
       const selected = index === 0;

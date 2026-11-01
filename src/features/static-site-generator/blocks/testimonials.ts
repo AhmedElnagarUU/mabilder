@@ -10,8 +10,11 @@ export const testimonialsSchema = z.object({
       quote: nonEmptyText,
       author: nonEmptyText,
       company: nonEmptyText.optional(),
+      rating: z.number().int().min(1).max(5).optional(),
     }),
   ),
+  averageRating: z.number().min(1).max(5).optional(),
+  reviewCount: z.number().int().positive().optional(),
 });
 
 export type TestimonialsProps = z.infer<typeof testimonialsSchema>;
@@ -20,7 +23,7 @@ export const testimonialsBlock = {
   type: "testimonials" as const,
   kind: "fact",
   schema: testimonialsSchema,
-  needs: (facts) => facts.testimonials.length >= 1,
+  needs: (facts) => facts.testimonials.length >= 1 || (facts.reviews ?? []).length >= 1,
   fixtures: {
     full: {
       eyebrow: "Client voices",

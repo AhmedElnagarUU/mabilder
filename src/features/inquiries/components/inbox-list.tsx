@@ -9,17 +9,26 @@ import { buttonClass } from "@/shared/ui/button";
 import { Card } from "@/shared/ui/card";
 import { ConfirmDialog } from "@/shared/ui/confirm-dialog";
 import { Icon } from "@/shared/ui/icon";
-import { inquiryStatuses, type InquiryItem, type InquiryStatus } from "../types";
+import {
+  inquiryStatuses,
+  reviewStatuses,
+  type InquiryItem,
+  type InquiryStatus,
+  type ReviewStatus,
+} from "../types";
 import { sendInquiryRequest } from "./inquiry-request";
 
-type Filter = "all" | InquiryStatus | "spam";
-type KindFilter = "all" | "quote" | "visit";
+type Filter = "all" | InquiryStatus | ReviewStatus | "spam";
+type KindFilter = "all" | "quote" | "visit" | "review";
+type UpdateBody = { status?: InquiryStatus; reviewStatus?: ReviewStatus; spam?: boolean };
 
 const filters: Filter[] = ["all", ...inquiryStatuses, "spam"];
-const kindFilters: KindFilter[] = ["all", "quote", "visit"];
+const reviewFilters: Filter[] = ["all", ...reviewStatuses, "spam"];
+const kindFilters: KindFilter[] = ["all", "quote", "visit", "review"];
 
+// Reviews have their own tab and their own statuses; the other tabs never list them.
 function matchesFilter(item: InquiryItem, filter: Filter, kind: KindFilter): boolean {
-  if (kind !== "all" && item.kind !== kind) {
+  if (kind === "all" ? item.kind === "review" : item.kind !== kind) {
     return false;
   }
 
@@ -27,7 +36,20 @@ function matchesFilter(item: InquiryItem, filter: Filter, kind: KindFilter): boo
     return item.spam;
   }
 
-  return !item.spam && (filter === "all" || item.status === filter);
+  const status = item.kind === "review" ? item.reviewStatus : item.status;
+
+  return !item.spam && (filter === "all" || status === filter);
+}
+
+function Stars({ rating }: { rating: number }) {
+  const t = useTranslations("inbox.reviews");
+
+  return (
+    <span role="img" aria-label={t("stars", { rating })} className="text-accent tracking-widest">
+      {"★".repeat(rating)}
+      {"☆".repeat(5 - rating)}
+    </span>
+  );
 }
 
 const selectClass =
@@ -66,7 +88,7 @@ export function InboxList({ siteId, items }: { siteId: string; items: InquiryIte
     return true;
   }
 
-  function update(item: InquiryItem, body: { status?: InquiryStatus; spam?: boolean }) {
+  function update(item: InquiryItem, body: UpdateBody) {
     return run(() => sendInquiryRequest(`${base}/${item.id}`, "PATCH", body));
   }
 
@@ -79,6 +101,21 @@ export function InboxList({ siteId, items }: { siteId: string; items: InquiryIte
 
   function formatDate(value: string): string {
     return format.dateTime(new Date(value), { dateStyle: "medium", timeStyle: "short" });
+  }
+
+  function isOpen(item: InquiryItem): boolean {
+    return item.kind === "review" ? item.reviewStatus === "pending" : item.status === "new";
+  }
+
+  function statusLabel(item: InquiryItem): string {
+    return item.kind === "review" && item.reviewStatus
+      ? t(`reviewStatus.${item.reviewStatus}`)
+      : t(`status.${item.status}`);
+  }
+
+  function filterLabel(value: Filter): string {
+    const isReviewStatus = kind === "review" && value !== "all" && value !== "spam";
+    return isReviewStatus ? t(`reviewStatus.${value}`) : t(`filters.${value}`);
   }
 
   function countFor(value: Filter): number {
@@ -95,6 +132,7 @@ export function InboxList({ siteId, items }: { siteId: string; items: InquiryIte
             aria-pressed={kind === value}
             onClick={() => {
               setKind(value);
+              setFilter("all");
               setSelectedId(null);
             }}
             className={buttonClass(kind === value ? "primary" : "secondary", "sm")}
@@ -105,7 +143,7 @@ export function InboxList({ siteId, items }: { siteId: string; items: InquiryIte
       </div>
 
       <div role="tablist" data-tour="inbox-filters" aria-label={t("filters.aria")} className="flex flex-wrap gap-2">
-        {filters.map((value) => (
+        {(kind === "review" ? reviewFilters : filters).map((value) => (
           <button
             key={value}
             type="button"
@@ -117,7 +155,7 @@ export function InboxList({ siteId, items }: { siteId: string; items: InquiryIte
             }}
             className={buttonClass(filter === value ? "primary" : "secondary", "sm", "gap-1.5")}
           >
-            {t(`filters.${value}`)}
+            {filterLabel(value)}
             <span className="text-xs opacity-70">{countFor(value)}</span>
           </button>
         ))}
@@ -128,8 +166,14 @@ export function InboxList({ siteId, items }: { siteId: string; items: InquiryIte
       {visible.length === 0 ? (
         <Card className="px-6 py-12 text-center">
           <Icon name="inbox" className="mx-auto h-6 w-6 text-faint" />
-          <p className="mt-3 text-base text-ink">{t(items.length === 0 ? "empty.title" : "empty.filtered")}</p>
-          {items.length === 0 ? <p className="mx-auto mt-1 max-w-md text-sm text-muted">{t("empty.body")}</p> : null}
+          {kind === "review" && filter === "all" ? (
+            <p className="mx-auto mt-3 max-w-md text-sm text-muted">{t("reviews.empty")}</p>
+          ) : (
+            <p className="mt-3 text-base text-ink">{t(items.length === 0 ? "empty.title" : "empty.filtered")}</p>
+          )}
+          {items.length === 0 && kind !== "review" ? (
+            <p className="mx-auto mt-1 max-w-md text-sm text-muted">{t("empty.body")}</p>
+          ) : null}
         </Card>
       ) : (
         <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
@@ -148,16 +192,22 @@ export function InboxList({ siteId, items }: { siteId: string; items: InquiryIte
                     <span className="truncate text-base font-medium text-ink">{item.name}</span>
                     <span className="flex shrink-0 gap-1.5">
                       <Badge tone="neutral">{t(`kind.${item.kind}`)}</Badge>
-                      <Badge tone={item.spam ? "danger" : item.status === "new" ? "success" : "neutral"}>
-                        {item.spam ? t("filters.spam") : t(`status.${item.status}`)}
+                      <Badge tone={item.spam ? "danger" : isOpen(item) ? "success" : "neutral"}>
+                        {item.spam ? t("filters.spam") : statusLabel(item)}
                       </Badge>
                     </span>
                   </span>
-                  <span className="mt-1 block truncate text-sm text-muted">
-                    <bdi dir="ltr">{item.phone}</bdi>
-                    {item.service ? ` · ${item.service}` : ""}
-                    {item.preferredDay ? ` · ${item.preferredDay}` : ""}
-                  </span>
+                  {item.kind === "review" && item.rating ? (
+                    <span className="mt-1 block truncate text-sm text-muted">
+                      <Stars rating={item.rating} /> {item.message}
+                    </span>
+                  ) : (
+                    <span className="mt-1 block truncate text-sm text-muted">
+                      <bdi dir="ltr">{item.phone}</bdi>
+                      {item.service ? ` · ${item.service}` : ""}
+                      {item.preferredDay ? ` · ${item.preferredDay}` : ""}
+                    </span>
+                  )}
                   <span className="mt-1 block text-xs text-faint">{formatDate(item.createdAt)}</span>
                 </button>
               </li>
@@ -222,10 +272,11 @@ function InquiryDetails({
   item: InquiryItem;
   busy: boolean;
   date: string;
-  onUpdate: (body: { status?: InquiryStatus; spam?: boolean }) => void;
+  onUpdate: (body: UpdateBody) => void;
   onDelete: () => void;
 }) {
   const t = useTranslations("inbox");
+  const isReview = item.kind === "review";
   const digits = toWhatsAppDigits(item.phone);
 
   return (
@@ -238,22 +289,34 @@ function InquiryDetails({
         {item.spam ? <Badge tone="danger">{t("filters.spam")}</Badge> : null}
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-2">
-        <a href={`tel:${item.phone}`} className={buttonClass("primary", "sm", "gap-1.5")}>
-          <Icon name="phone" className="h-3.5 w-3.5" />
-          {t("details.call")}
-        </a>
-        {digits ? (
-          <a
-            href={`https://wa.me/${digits}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={buttonClass("secondary", "sm", "gap-1.5")}
-          >
-            {t("details.whatsapp")}
+      {isReview ? (
+        <>
+          {item.rating ? (
+            <p className="mt-4 text-xl">
+              <Stars rating={item.rating} />
+            </p>
+          ) : null}
+          <p className="mt-2 text-sm whitespace-pre-wrap text-ink">{item.message}</p>
+          <p className="mt-3 text-xs text-faint">{t("reviews.approveHint")}</p>
+        </>
+      ) : (
+        <div className="mt-4 flex flex-wrap gap-2">
+          <a href={`tel:${item.phone}`} className={buttonClass("primary", "sm", "gap-1.5")}>
+            <Icon name="phone" className="h-3.5 w-3.5" />
+            {t("details.call")}
           </a>
-        ) : null}
-      </div>
+          {digits ? (
+            <a
+              href={`https://wa.me/${digits}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={buttonClass("secondary", "sm", "gap-1.5")}
+            >
+              {t("details.whatsapp")}
+            </a>
+          ) : null}
+        </div>
+      )}
 
       <dl className="mt-3 divide-y divide-line-soft">
         <Detail label={t("fields.phone")} value={item.phone} />
@@ -278,26 +341,51 @@ function InquiryDetails({
         ) : null}
         <Detail label={t("fields.budget")} value={item.budget ? t(`budget.${item.budget}`) : undefined} />
         <Detail label={t("fields.startWhen")} value={item.startWhen ? t(`start.${item.startWhen}`) : undefined} />
-        <Detail label={t("fields.message")} value={item.message} />
+        {isReview ? null : <Detail label={t("fields.message")} value={item.message} />}
         {item.spamReason ? <Detail label={t("fields.spamReason")} value={t(`spamReasons.${item.spamReason}`)} /> : null}
       </dl>
 
       <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-line-soft pt-4">
-        <label className="flex items-center gap-2 text-sm text-muted">
-          {t("details.status")}
-          <select
-            value={item.status}
-            disabled={busy}
-            onChange={(event) => onUpdate({ status: event.target.value as InquiryStatus })}
-            className={selectClass}
-          >
-            {inquiryStatuses.map((status) => (
-              <option key={status} value={status}>
-                {t(`status.${status}`)}
-              </option>
-            ))}
-          </select>
-        </label>
+        {isReview ? (
+          <>
+            {item.reviewStatus !== "approved" ? (
+              <button
+                type="button"
+                disabled={busy}
+                onClick={() => onUpdate({ reviewStatus: "approved" })}
+                className={buttonClass("primary", "sm")}
+              >
+                {t("details.approve")}
+              </button>
+            ) : null}
+            {item.reviewStatus !== "hidden" ? (
+              <button
+                type="button"
+                disabled={busy}
+                onClick={() => onUpdate({ reviewStatus: "hidden" })}
+                className={buttonClass("secondary", "sm")}
+              >
+                {t("details.hide")}
+              </button>
+            ) : null}
+          </>
+        ) : (
+          <label className="flex items-center gap-2 text-sm text-muted">
+            {t("details.status")}
+            <select
+              value={item.status}
+              disabled={busy}
+              onChange={(event) => onUpdate({ status: event.target.value as InquiryStatus })}
+              className={selectClass}
+            >
+              {inquiryStatuses.map((status) => (
+                <option key={status} value={status}>
+                  {t(`status.${status}`)}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
 
         <span className="ms-auto flex flex-wrap gap-2">
           <button

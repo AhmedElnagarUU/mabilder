@@ -17,6 +17,7 @@ import {
   updateInquiry,
 } from "./repository";
 import { listSiteProjects, matchProjectSlug } from "./projects";
+import { publishReviews } from "./reviews";
 import { findContentSpam } from "./spam";
 import {
   DUPLICATE_WINDOW_MS,
@@ -27,6 +28,7 @@ import {
   VALID_RETENTION_MONTHS,
   inquiryUpdateSchema,
   quoteSchema,
+  reviewSchema,
   submissionMetaSchema,
   visitSchema,
   type Inbox,
@@ -97,8 +99,10 @@ function isSilentDrop(meta: z.output<typeof submissionMetaSchema>): boolean {
 
 type Failure = ReturnType<typeof invalid>;
 
-type FormKind = "quote" | "visit";
-type FormFields = QuoteInput | VisitInput;
+type FormKind = "quote" | "visit" | "review";
+// A review is stored like a message: its comment is the message, and it has no phone.
+type ReviewFields = { name: string; message: string; rating: number; projectSlug?: string };
+type FormFields = QuoteInput | VisitInput | ReviewFields;
 
 type Submission =
   | { drop: true }
@@ -106,7 +110,22 @@ type Submission =
 
 type FieldsResult = { success: true; data: FormFields } | { success: false; error: z.ZodError };
 
+function parseReviewFields(fields: Record<string, unknown>): FieldsResult {
+  const parsed = reviewSchema.safeParse(fields);
+
+  if (!parsed.success) {
+    return parsed;
+  }
+
+  const { comment, ...rest } = parsed.data;
+  return { success: true, data: { ...rest, message: comment } };
+}
+
 function parseFields(kind: FormKind, fields: Record<string, unknown>): FieldsResult {
+  if (kind === "review") {
+    return parseReviewFields(fields);
+  }
+
   return kind === "visit" ? visitSchema.safeParse(fields) : quoteSchema.safeParse(fields);
 }
 
@@ -133,6 +152,12 @@ function parseSubmission(body: unknown, now: Date): Submission | Failure {
     return { ok: false, code: "invalid_request", errors: toIssues(parsed.error) };
   }
 
+  const formLocale = meta.data.locale ?? "en";
+
+  if (!("phone" in parsed.data)) {
+    return { drop: false, kind: formKind, input: parsed.data, locale: formLocale };
+  }
+
   const phone = normalizePhone(parsed.data.phone);
 
   if (!phone) {
@@ -143,12 +168,19 @@ function parseSubmission(body: unknown, now: Date): Submission | Failure {
     return invalid("preferredDay", "Choose a day from today up to 12 months ahead.");
   }
 
-  return {
-    drop: false,
-    kind: formKind,
-    input: { ...parsed.data, phone },
-    locale: meta.data.locale ?? "en",
-  };
+  return { drop: false, kind: formKind, input: { ...parsed.data, phone }, locale: formLocale };
+}
+
+// One review per visitor per site per day, stored spam included.
+async function hasReviewedToday(siteId: string, visitorHash: string, now: Date): Promise<boolean> {
+  const count = await countInquiries({
+    siteId,
+    visitorHash,
+    kind: "review",
+    createdAt: { $gte: new Date(now.getTime() - DAY_MS) },
+  });
+
+  return count > 0;
 }
 
 async function isOverRateLimit(siteId: string, visitorHash: string, now: Date): Promise<boolean> {
@@ -165,6 +197,10 @@ async function findSpamReason(siteId: string, input: FormFields, now: Date): Pro
 
   if (contentReason) {
     return contentReason;
+  }
+
+  if (!("phone" in input)) {
+    return null;
   }
 
   const recent = await countInquiries({
@@ -216,7 +252,11 @@ export async function submitInquiry(
 
   const visitorHash = hashVisitor(ip, siteId);
 
-  if (await isOverRateLimit(siteId, visitorHash, now)) {
+  const overLimit =
+    (await isOverRateLimit(siteId, visitorHash, now)) ||
+    (submission.kind === "review" && (await hasReviewedToday(siteId, visitorHash, now)));
+
+  if (overLimit) {
     return { ok: false, code: "rate_limited" };
   }
 
@@ -228,6 +268,7 @@ export async function submitInquiry(
   await insertInquiry({
     ...submission.input,
     kind: submission.kind,
+    reviewStatus: submission.kind === "review" ? "pending" : undefined,
     projectSlug,
     siteId,
     ownerId,
@@ -313,12 +354,22 @@ export async function updateInquiryState(
     return { ok: false, code: "inquiry_not_found" };
   }
 
-  const { status, spam } = parsed.data;
+  const { status, reviewStatus, spam } = parsed.data;
+  const isReview = existing.kind === "review";
+
+  if ((isReview && status !== undefined) || (!isReview && reviewStatus !== undefined)) {
+    return invalid(isReview ? "status" : "reviewStatus", "This status does not apply to this kind of request.");
+  }
+
   const set: Record<string, unknown> = {};
   const unset: Record<string, ""> = {};
 
   if (status !== undefined) {
     set.status = status;
+  }
+
+  if (reviewStatus !== undefined) {
+    set.reviewStatus = reviewStatus;
   }
 
   if (spam === true) {
@@ -343,10 +394,11 @@ export async function updateInquiryState(
   }
 
   if (rescuedWithoutNotice) {
-    await notify(ownerId, "inquiry_received", {
-      name: updated.name,
-      kind: updated.kind === "visit" ? "visit" : "quote",
-    });
+    await notify(ownerId, "inquiry_received", { name: updated.name, kind: updated.kind });
+  }
+
+  if (isReview) {
+    await publishReviews(ownerId, siteId);
   }
 
   return { ok: true, value: updated };
@@ -363,9 +415,17 @@ export async function deleteInquiry(
     return { ok: false, code: "site_not_found" };
   }
 
-  return (await deleteInquiryRecord(ownerId, siteId, inquiryId))
-    ? { ok: true, value: true }
-    : { ok: false, code: "inquiry_not_found" };
+  const existing = await findInquiry(ownerId, siteId, inquiryId);
+
+  if (!existing || !(await deleteInquiryRecord(ownerId, siteId, inquiryId))) {
+    return { ok: false, code: "inquiry_not_found" };
+  }
+
+  if (existing.kind === "review") {
+    await publishReviews(ownerId, siteId);
+  }
+
+  return { ok: true, value: true };
 }
 
 // Counts only, never visitor details: this is what the admin area reads.

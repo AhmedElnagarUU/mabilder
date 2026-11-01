@@ -71,6 +71,16 @@ export const factsSchema = z.object({
       company: nonEmptyText.optional(),
     }),
   ),
+  // Approved visitor reviews, newest first. Written by code from the Inbox, never by AI.
+  reviews: z
+    .array(
+      z.object({
+        name: nonEmptyText,
+        rating: z.number().int().min(1).max(5),
+        comment: nonEmptyText,
+      }),
+    )
+    .optional(),
 });
 
 export type Facts = z.infer<typeof factsSchema>;

@@ -138,15 +138,16 @@ test("the inquiry model deletes documents by date: a TTL index on expiresAt exis
   assert.equal(ttl[1].expireAfterSeconds, 0);
 });
 
-test("the contact section shows a quote form and a visit form, each with its own hidden kind", () => {
+test("the contact section shows a quote, a visit and a review form, each with its own hidden kind", () => {
   const html = htmlOf(renderFiles(richBrief), "en/contact.html");
 
-  assert.equal(html.match(/<form data-form/g)?.length, 2);
+  assert.equal(html.match(/<form data-form/g)?.length, 3);
   assert.ok(html.includes('<input type="hidden" name="kind" value="quote" />'));
   assert.ok(html.includes('<input type="hidden" name="kind" value="visit" />'));
+  assert.ok(html.includes('<input type="hidden" name="kind" value="review" />'));
   assert.match(html, /role="tablist"[^>]*data-tablist class="hidden/);
-  assert.equal(html.match(/role="tab"/g)?.length, 2);
-  assert.equal(html.match(/role="tabpanel"/g)?.length, 2);
+  assert.equal(html.match(/role="tab"/g)?.length, 3);
+  assert.equal(html.match(/role="tabpanel"/g)?.length, 3);
   assert.ok(html.includes(`>${contactFormLabels.en.quoteTabLabel}</button>`));
   assert.ok(html.includes(`>${contactFormLabels.en.visitTabLabel}</button>`));
   assert.match(html, /<input name="preferredDay" type="date" required data-visit-day/);

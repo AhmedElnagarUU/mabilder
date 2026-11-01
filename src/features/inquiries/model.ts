@@ -1,6 +1,6 @@
 import { Schema, model, models, type InferSchemaType, type Model } from "mongoose";
 import { budgetKeys, startKeys } from "../static-site-generator/blocks/contact-options";
-import { inquiryKinds, inquiryStatuses, preferredTimes, spamReasons } from "./types";
+import { inquiryKinds, inquiryStatuses, preferredTimes, reviewStatuses, spamReasons } from "./types";
 
 const inquirySchema = new Schema(
   {
@@ -8,7 +8,13 @@ const inquirySchema = new Schema(
     ownerId: { type: String, required: true },
     kind: { type: String, enum: inquiryKinds, required: true, default: "quote" },
     name: { type: String, required: true },
-    phone: { type: String, required: true },
+    // Reviews have no phone.
+    phone: {
+      type: String,
+      required: function (this: { kind?: string }) {
+        return this.kind !== "review";
+      },
+    },
     email: { type: String },
     message: { type: String },
     service: { type: String },
@@ -20,6 +26,7 @@ const inquirySchema = new Schema(
     preferredTime: { type: String, enum: preferredTimes },
     projectSlug: { type: String },
     rating: { type: Number, min: 1, max: 5 },
+    reviewStatus: { type: String, enum: reviewStatuses },
     locale: { type: String, enum: ["en", "ar"], required: true },
     status: { type: String, enum: inquiryStatuses, required: true, default: "new" },
     spam: { type: Boolean, required: true, default: false },
@@ -36,6 +43,7 @@ inquirySchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 inquirySchema.index({ ownerId: 1, siteId: 1, createdAt: -1 });
 inquirySchema.index({ siteId: 1, phone: 1, createdAt: -1 });
 inquirySchema.index({ siteId: 1, visitorHash: 1, createdAt: -1 });
+inquirySchema.index({ siteId: 1, kind: 1, reviewStatus: 1, createdAt: -1 });
 
 export type InquiryDocument = InferSchemaType<typeof inquirySchema>;
 

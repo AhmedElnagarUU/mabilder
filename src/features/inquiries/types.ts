@@ -6,11 +6,14 @@ export const inquiryKinds = ["quote", "visit", "review"] as const;
 export const inquiryStatuses = ["new", "contacted", "won", "lost"] as const;
 export const spamReasons = ["links", "name_link", "gibberish", "duplicate", "owner"] as const;
 export const preferredTimes = ["morning", "evening"] as const;
+// Reviews have their own status, separate from the quote and visit status.
+export const reviewStatuses = ["pending", "approved", "hidden"] as const;
 
 export const inquiryKindSchema = z.enum(inquiryKinds);
 
 export type InquiryKind = (typeof inquiryKinds)[number];
 export type InquiryStatus = (typeof inquiryStatuses)[number];
+export type ReviewStatus = (typeof reviewStatuses)[number];
 export type SpamReason = (typeof spamReasons)[number];
 
 export const RATE_LIMIT_PER_VISITOR_HOUR = 5;
@@ -52,26 +55,41 @@ export const visitSchema = z
   })
   .strict();
 
+export const MAX_REVIEW_CHARS = 600;
+
+// A review has no phone. The rating arrives as a number or as the text of a radio button.
+export const reviewSchema = z
+  .object({
+    name: z.string().trim().min(1).max(80),
+    rating: z.coerce.number().int().min(1).max(5),
+    comment: z.string().trim().min(1).max(MAX_REVIEW_CHARS),
+    projectSlug: optionalText(120),
+  })
+  .strict();
+
 export type QuoteInput = z.infer<typeof quoteSchema>;
 export type VisitInput = z.infer<typeof visitSchema>;
+export type ReviewInput = z.infer<typeof reviewSchema>;
 
 // Sent by the form next to the fields, never stored: honeypot, fill time, page language, form type.
 export const submissionMetaSchema = z.object({
   website: z.string().optional(),
   elapsedMs: z.coerce.number().optional(),
   locale: localeSchema.optional().catch(undefined),
-  kind: z.enum(["quote", "visit"]).optional(),
+  kind: z.enum(["quote", "visit", "review"]).optional(),
 });
 
 export const inquiryUpdateSchema = z
   .object({
     status: z.enum(inquiryStatuses).optional(),
+    reviewStatus: z.enum(reviewStatuses).optional(),
     spam: z.boolean().optional(),
   })
   .strict()
-  .refine((value) => value.status !== undefined || value.spam !== undefined, {
-    message: "Send a status or a spam flag.",
-  });
+  .refine(
+    (value) => value.status !== undefined || value.reviewStatus !== undefined || value.spam !== undefined,
+    { message: "Send a status or a spam flag." },
+  );
 
 export type InquiryUpdate = z.infer<typeof inquiryUpdateSchema>;
 
@@ -90,6 +108,8 @@ export type InquiryItem = {
   preferredDay?: string;
   preferredTime?: (typeof preferredTimes)[number];
   projectSlug?: string;
+  rating?: number;
+  reviewStatus?: ReviewStatus;
   projectTitle?: string;
   projectHref?: string;
   locale: "en" | "ar";

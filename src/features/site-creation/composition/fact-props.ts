@@ -17,7 +17,7 @@ import type { Locale } from "../../static-site-generator/locale";
 import type { PageSlug } from "../../static-site-generator/site-content";
 import { toMapsHref } from "../text";
 import type { SiteLabels } from "./labels";
-import { maxHomeProjects } from "./recipes";
+import { maxHomeProjects, maxHomeReviews, minReviewsForAverage } from "./recipes";
 
 export type FactContext = {
   facts: Facts;
@@ -146,8 +146,25 @@ function buildTeamProps({ facts }: FactContext): TeamProps | undefined {
   return items.length === 0 ? undefined : { title: teamBlock.fixtures.minimal.title, items };
 }
 
+function averageOf(ratings: number[]): number {
+  const total = ratings.reduce((sum, rating) => sum + rating, 0);
+  return Math.round((total / ratings.length) * 10) / 10;
+}
+
+// Approved reviews come first (newest first, as stored); the average counts all of them, not only the shown ones.
 function buildTestimonialsProps({ facts }: FactContext): TestimonialsProps {
-  return { title: testimonialsBlock.fixtures.minimal.title, items: facts.testimonials };
+  const reviews = facts.reviews ?? [];
+  const shown = reviews
+    .slice(0, maxHomeReviews)
+    .map((review) => ({ quote: review.comment, author: review.name, rating: review.rating }));
+  const showAverage = reviews.length >= minReviewsForAverage;
+
+  return {
+    title: testimonialsBlock.fixtures.minimal.title,
+    items: [...shown, ...facts.testimonials],
+    averageRating: showAverage ? averageOf(reviews.map((review) => review.rating)) : undefined,
+    reviewCount: showAverage ? reviews.length : undefined,
+  };
 }
 
 function buildLocationProps({ facts }: FactContext): LocationProps {

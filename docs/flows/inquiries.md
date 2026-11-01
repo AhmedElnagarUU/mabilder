@@ -59,6 +59,33 @@ flowchart TD
   NT --> IB[Inbox: kind badge, kind filter, preferred day and time, project title link to the preview page]
 ```
 
+Reviews with owner approval (W3):
+
+```mermaid
+flowchart TD
+  RF[Contact section, third tab Leave a review: name, accessible radio stars 1-5, comment max 600, optional project, hidden kind=review] --> R[POST /api/public/sites/siteId/inquiries]
+  R --> PS[parseSubmission: reviewSchema, no phone; comment is stored as message]
+  PS -- rating not 1-5 integer, comment over 600, unknown field --> B400[400 invalid_request shown on the form]
+  PS -- ok --> SD{Honeypot, under 3 s, or rate limit?}
+  SD -- yes --> DR[200 silent drop, or 429 rate_limited]
+  SD -- no --> RD{hasReviewedToday: same visitorHash, same site, last 24 h?}
+  RD -- yes --> B429[429 rate_limited, nothing stored]
+  RD -- no --> CS{findContentSpam on name and comment: links, gibberish}
+  CS -- spam --> SS[Save review spam=true, reviewStatus pending, no notification]
+  CS -- valid --> SV[Save review, reviewStatus pending, expires in 12 months]
+  SV --> NT[notify owner: inquiry_received with kind review, en and ar]
+  NT --> IB[Inbox Reviews tab: InboxList shows stars, comment, Approve and show, Hide, Delete]
+  SS --> IB
+  IB --> PA[PATCH reviewStatus or DELETE /api/sites/siteId/inquiries/inquiryId]
+  PA --> US[updateInquiryState / deleteInquiry: owner check, 404 for user B]
+  US --> PR[publishReviews in inquiries/reviews.ts]
+  PR --> LR[listApprovedReviews: approved, not spam, newest first]
+  LR --> RF2[refreshFactBlocks with reviews: facts.reviews, testimonials block props from buildTestimonialsProps]
+  RF2 --> SC[saveContent renders the site again, no AI call]
+  SC --> SH[Home testimonials: up to 6 reviews, escaped by renderText; average stars only with 3 or more approved reviews]
+  RF2 -- no approved reviews and no brief testimonials --> GONE[Fact block dropped as before]
+```
+
 Admin counts and the WhatsApp button:
 
 ```mermaid

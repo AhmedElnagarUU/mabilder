@@ -67,12 +67,13 @@ export function refreshFactBlocks(
   brief: BusinessBrief,
   projects: Facts["projects"],
   currentYear = new Date().getFullYear(),
+  reviews: Facts["reviews"] = content.facts.reviews,
 ): SiteContent {
   const fresh = composeSite({
     theme: content.theme,
     locales: content.locales,
     defaultLocale: content.defaultLocale,
-    facts: buildFacts(brief, projects),
+    facts: buildFacts(brief, projects, reviews),
     currentYear,
   });
   const currentPages = new Map(content.pages.map((page) => [page.id, page]));

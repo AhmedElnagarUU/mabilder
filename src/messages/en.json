@@ -566,8 +566,8 @@
         "body": "{reply}"
       },
       "inquiry_received": {
-        "title": "{kind, select, visit {New site visit request} other {New request from your website}}",
-        "body": "{kind, select, visit {{name} asked for a site visit. Open your inbox to call them back.} other {{name} sent you a request. Open your inbox to call them back.}}"
+        "title": "{kind, select, visit {New site visit request} review {New review waiting for your approval} other {New request from your website}}",
+        "body": "{kind, select, visit {{name} asked for a site visit. Open your inbox to call them back.} review {{name} left a review on your website. Approve it in your inbox to show it.} other {{name} sent you a request. Open your inbox to call them back.}}"
       }
     }
   },
@@ -585,7 +585,18 @@
       "aria": "Filter by type",
       "all": "All types",
       "quote": "Quotes",
-      "visit": "Site visits"
+      "visit": "Site visits",
+      "review": "Reviews"
+    },
+    "reviewStatus": {
+      "pending": "Waiting",
+      "approved": "Shown on website",
+      "hidden": "Hidden"
+    },
+    "reviews": {
+      "empty": "No reviews yet. Visitors can leave a review from your contact page. You approve each one before it shows.",
+      "stars": "{rating} out of 5",
+      "approveHint": "Approved reviews are shown in the client reviews section of your home page. Your website is updated when you approve or hide one."
     },
     "kind": {
       "quote": "Quote",
@@ -626,9 +637,13 @@
       "status": "Status",
       "markSpam": "Mark as spam",
       "notSpam": "Not spam",
-      "delete": "Delete"
+      "delete": "Delete",
+      "approve": "Approve and show",
+      "hide": "Hide from website"
     },
     "fields": {
+      "rating": "Rating",
+      "comment": "Review",
       "phone": "Phone",
       "email": "Email",
       "service": "Service",
@@ -1176,6 +1191,12 @@
       "visitEveningLabel": "Evening option",
       "visitNotePlaceholder": "Visit note placeholder",
       "visitSuccessMessage": "Visit thank-you message",
+      "reviewTabLabel": "Review tab label",
+      "reviewSubmitLabel": "Review send button",
+      "reviewRatingLabel": "Review rating label",
+      "reviewCommentPlaceholder": "Review comment placeholder",
+      "reviewProjectLabel": "Review project list label",
+      "reviewSuccessMessage": "Review thank-you message",
       "value": "Value",
       "label": "Link text",
       "names": "Names",

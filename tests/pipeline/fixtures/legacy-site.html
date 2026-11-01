@@ -447,7 +447,7 @@
       </div>
       <div class="bg-charcoal text-cream border border-white/10 p-8 md:p-10 reveal">
       <div data-contact-tabs class="space-y-10">
-        <div role="tablist" aria-label="Choose a request type" data-tablist class="hidden gap-2 border-b border-current/20"><button type="button" role="tab" id="contact-contact-1-tab-quote" aria-controls="contact-contact-1-panel-quote" aria-selected="true" tabindex="0" data-tab="quote" class="form-tab">Request a quote</button><button type="button" role="tab" id="contact-contact-1-tab-visit" aria-controls="contact-contact-1-panel-visit" aria-selected="false" tabindex="-1" data-tab="visit" class="form-tab">Book a site visit</button></div>
+        <div role="tablist" aria-label="Choose a request type" data-tablist class="hidden gap-2 border-b border-current/20"><button type="button" role="tab" id="contact-contact-1-tab-quote" aria-controls="contact-contact-1-panel-quote" aria-selected="true" tabindex="0" data-tab="quote" class="form-tab">Request a quote</button><button type="button" role="tab" id="contact-contact-1-tab-visit" aria-controls="contact-contact-1-panel-visit" aria-selected="false" tabindex="-1" data-tab="visit" class="form-tab">Book a site visit</button><button type="button" role="tab" id="contact-contact-1-tab-review" aria-controls="contact-contact-1-panel-review" aria-selected="false" tabindex="-1" data-tab="review" class="form-tab">Leave a review</button></div>
       <div role="tabpanel" id="contact-contact-1-panel-quote" aria-labelledby="contact-contact-1-tab-quote" data-panel="quote" class="space-y-5">
         <h3 data-panel-title class="font-display text-2xl mb-5">Request a quote</h3>
         <form data-form method="post" class="space-y-5" data-sending-label="Sending…">
@@ -495,6 +495,24 @@
           <p class="text-xs opacity-60">We only use your details to reply to you.</p>
           <button type="submit" class="inline-flex items-center justify-center gap-3 bg-brass text-charcoal text-[11px] uppercase tracking-[0.2em] font-semibold px-8 py-4 hover:bg-cream transition disabled:opacity-60"><span data-submit-label>Request a visit</span> <i data-lucide="arrow-right" class="w-4 h-4 rtl:rotate-180"></i></button>
           <p data-form-message role="status" class="hidden text-sm text-brass border border-brass/40 bg-brass/10 px-4 py-3">Thank you — we received your visit request and will call you to confirm.</p>
+          <p data-form-error role="alert" class="hidden text-sm form-error border border-current px-4 py-3">Something went wrong. Please check your details and try again.</p>
+        </form>
+      </div>
+      <div role="tabpanel" id="contact-contact-1-panel-review" aria-labelledby="contact-contact-1-tab-review" data-panel="review" class="space-y-5">
+        <h3 data-panel-title class="font-display text-2xl mb-5">Leave a review</h3>
+        <form data-form method="post" class="space-y-5" data-sending-label="Sending…">
+          <div class="grid sm:grid-cols-2 gap-4">
+            <input name="name" type="text" required placeholder="Name" aria-label="Name" class="form-field" />
+            
+          </div>
+          <fieldset class="space-y-2"><legend class="text-xs opacity-70">Your rating</legend><div class="star-rating"><input type="radio" name="rating" id="rating-5" value="5" required /><label for="rating-5" title="5 / 5"><span aria-hidden="true">★</span><span class="sr-only">5 / 5</span></label><input type="radio" name="rating" id="rating-4" value="4" required /><label for="rating-4" title="4 / 5"><span aria-hidden="true">★</span><span class="sr-only">4 / 5</span></label><input type="radio" name="rating" id="rating-3" value="3" required /><label for="rating-3" title="3 / 5"><span aria-hidden="true">★</span><span class="sr-only">3 / 5</span></label><input type="radio" name="rating" id="rating-2" value="2" required /><label for="rating-2" title="2 / 5"><span aria-hidden="true">★</span><span class="sr-only">2 / 5</span></label><input type="radio" name="rating" id="rating-1" value="1" required /><label for="rating-1" title="1 / 5"><span aria-hidden="true">★</span><span class="sr-only">1 / 5</span></label></div></fieldset>
+          <textarea name="comment" rows="4" required maxlength="600" placeholder="Tell us about your experience" aria-label="Tell us about your experience" class="form-field resize-none"></textarea>
+          <div class="form-trap" aria-hidden="true"><input name="website" type="text" tabindex="-1" autocomplete="off" /></div>
+          <input type="hidden" name="locale" value="en" />
+          <input type="hidden" name="kind" value="review" />
+          <p class="text-xs opacity-60">We only use your details to reply to you.</p>
+          <button type="submit" class="inline-flex items-center justify-center gap-3 bg-brass text-charcoal text-[11px] uppercase tracking-[0.2em] font-semibold px-8 py-4 hover:bg-cream transition disabled:opacity-60"><span data-submit-label>Send review</span> <i data-lucide="arrow-right" class="w-4 h-4 rtl:rotate-180"></i></button>
+          <p data-form-message role="status" class="hidden text-sm text-brass border border-brass/40 bg-brass/10 px-4 py-3">Thank you — your review was received and will appear once it is approved.</p>
           <p data-form-error role="alert" class="hidden text-sm form-error border border-current px-4 py-3">Something went wrong. Please check your details and try again.</p>
         </form>
       </div>

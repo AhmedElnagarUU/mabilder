@@ -16,6 +16,12 @@ type FormLabels = {
   visitEveningLabel: string;
   visitNotePlaceholder: string;
   visitSuccessMessage: string;
+  reviewTabLabel: string;
+  reviewSubmitLabel: string;
+  reviewRatingLabel: string;
+  reviewCommentPlaceholder: string;
+  reviewProjectLabel: string;
+  reviewSuccessMessage: string;
   aboutLabel: string;
   tabsLabel: string;
   phonePlaceholder: string;
@@ -41,6 +47,12 @@ export const contactFormLabels: Record<Locale, FormLabels> = {
     visitEveningLabel: "Evening",
     visitNotePlaceholder: "Anything we should know before the visit?",
     visitSuccessMessage: "Thank you — we received your visit request and will call you to confirm.",
+    reviewTabLabel: "Leave a review",
+    reviewSubmitLabel: "Send review",
+    reviewRatingLabel: "Your rating",
+    reviewCommentPlaceholder: "Tell us about your experience",
+    reviewProjectLabel: "Project (optional)",
+    reviewSuccessMessage: "Thank you — your review was received and will appear once it is approved.",
     aboutLabel: "About:",
     tabsLabel: "Choose a request type",
     phonePlaceholder: "Phone number",
@@ -69,6 +81,12 @@ export const contactFormLabels: Record<Locale, FormLabels> = {
     visitEveningLabel: "مساءً",
     visitNotePlaceholder: "هل هناك ما يجب أن نعرفه قبل الزيارة؟",
     visitSuccessMessage: "شكرًا لك — استلمنا طلب الزيارة وسنتصل بك للتأكيد.",
+    reviewTabLabel: "اترك تقييمًا",
+    reviewSubmitLabel: "أرسل التقييم",
+    reviewRatingLabel: "تقييمك",
+    reviewCommentPlaceholder: "حدثنا عن تجربتك",
+    reviewProjectLabel: "المشروع (اختياري)",
+    reviewSuccessMessage: "شكرًا لك — استلمنا تقييمك وسيظهر بعد اعتماده.",
     aboutLabel: "حول:",
     tabsLabel: "اختر نوع الطلب",
     phonePlaceholder: "رقم الهاتف",
@@ -99,6 +117,12 @@ type OptionalLabelKey =
   | "visitEveningLabel"
   | "visitNotePlaceholder"
   | "visitSuccessMessage"
+  | "reviewTabLabel"
+  | "reviewSubmitLabel"
+  | "reviewRatingLabel"
+  | "reviewCommentPlaceholder"
+  | "reviewProjectLabel"
+  | "reviewSuccessMessage"
   | "phonePlaceholder"
   | "serviceLabel"
   | "locationPlaceholder"
@@ -125,6 +149,12 @@ export function resolveFormLabels(
     visitEveningLabel: form.visitEveningLabel ?? fixed.visitEveningLabel,
     visitNotePlaceholder: form.visitNotePlaceholder ?? fixed.visitNotePlaceholder,
     visitSuccessMessage: form.visitSuccessMessage ?? fixed.visitSuccessMessage,
+    reviewTabLabel: form.reviewTabLabel ?? fixed.reviewTabLabel,
+    reviewSubmitLabel: form.reviewSubmitLabel ?? fixed.reviewSubmitLabel,
+    reviewRatingLabel: form.reviewRatingLabel ?? fixed.reviewRatingLabel,
+    reviewCommentPlaceholder: form.reviewCommentPlaceholder ?? fixed.reviewCommentPlaceholder,
+    reviewProjectLabel: form.reviewProjectLabel ?? fixed.reviewProjectLabel,
+    reviewSuccessMessage: form.reviewSuccessMessage ?? fixed.reviewSuccessMessage,
     phonePlaceholder: form.phonePlaceholder ?? fixed.phonePlaceholder,
     serviceLabel: form.serviceLabel ?? fixed.serviceLabel,
     locationPlaceholder: form.locationPlaceholder ?? fixed.locationPlaceholder,

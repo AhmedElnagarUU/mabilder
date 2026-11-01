@@ -171,19 +171,33 @@ const templates: Templates = {
   },
   inquiry_received: {
     en: ({ name, kind }) => ({
-      subject: kind === "visit" ? "New site visit request from your website" : "New request from your website",
+      subject:
+        kind === "review"
+          ? "New review waiting for your approval"
+          : kind === "visit"
+            ? "New site visit request from your website"
+            : "New request from your website",
       body:
-        kind === "visit"
-          ? `${name} asked for a site visit. Call them back to agree on a day.`
-          : `${name} sent you a request. Call them back while they are still interested.`,
+        kind === "review"
+          ? `${name} left a review on your website. Approve it in your inbox to show it.`
+          : kind === "visit"
+            ? `${name} asked for a site visit. Call them back to agree on a day.`
+            : `${name} sent you a request. Call them back while they are still interested.`,
       path: "/dashboard/inbox",
     }),
     ar: ({ name, kind }) => ({
-      subject: kind === "visit" ? "طلب زيارة موقع جديد من موقعك" : "طلب جديد من موقعك",
+      subject:
+        kind === "review"
+          ? "تقييم جديد بانتظار موافقتك"
+          : kind === "visit"
+            ? "طلب زيارة موقع جديد من موقعك"
+            : "طلب جديد من موقعك",
       body:
-        kind === "visit"
-          ? `طلب ${name} زيارة للموقع. تواصل معه للاتفاق على اليوم.`
-          : `أرسل ${name} طلبًا إليك. تواصل معه سريعًا وهو لا يزال مهتمًا.`,
+        kind === "review"
+          ? `ترك ${name} تقييمًا على موقعك. وافق عليه من صندوق الوارد ليظهر.`
+          : kind === "visit"
+            ? `طلب ${name} زيارة للموقع. تواصل معه للاتفاق على اليوم.`
+            : `أرسل ${name} طلبًا إليك. تواصل معه سريعًا وهو لا يزال مهتمًا.`,
       path: "/dashboard/inbox",
     }),
   },

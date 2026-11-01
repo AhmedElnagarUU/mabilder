@@ -16,7 +16,6 @@ export type NewInquiry = Pick<
   InquiryItem,
   | "kind"
   | "name"
-  | "phone"
   | "email"
   | "message"
   | "service"
@@ -27,10 +26,13 @@ export type NewInquiry = Pick<
   | "preferredDay"
   | "preferredTime"
   | "projectSlug"
+  | "rating"
+  | "reviewStatus"
   | "locale"
   | "spam"
   | "spamReason"
 > & {
+  phone?: string;
   siteId: string;
   ownerId: string;
   notified: boolean;
@@ -43,7 +45,7 @@ function toItem(document: LeanInquiry): InquiryItem {
     id: document._id.toString(),
     kind: document.kind,
     name: document.name,
-    phone: document.phone,
+    phone: document.phone ?? "",
     email: document.email ?? undefined,
     message: document.message ?? undefined,
     service: document.service ?? undefined,
@@ -54,6 +56,8 @@ function toItem(document: LeanInquiry): InquiryItem {
     preferredDay: document.preferredDay ?? undefined,
     preferredTime: document.preferredTime ?? undefined,
     projectSlug: document.projectSlug ?? undefined,
+    rating: document.rating ?? undefined,
+    reviewStatus: document.reviewStatus ?? undefined,
     locale: document.locale as "en" | "ar",
     status: document.status,
     spam: document.spam,
@@ -115,6 +119,28 @@ export async function listInquiries(
   return documents.map(toItem);
 }
 
+export async function listApprovedReviews(
+  siteId: string,
+): Promise<{ name: string; rating: number; comment: string }[]> {
+  await connectToDatabase();
+
+  const documents = (await InquiryModel.find({
+    siteId,
+    kind: "review",
+    reviewStatus: "approved",
+    spam: false,
+  })
+    .sort({ createdAt: -1 })
+    .limit(LIST_LIMIT)
+    .lean()) as unknown as LeanInquiry[];
+
+  return documents.flatMap((document) =>
+    document.rating && document.message
+      ? [{ name: document.name, rating: document.rating, comment: document.message }]
+      : [],
+  );
+}
+
 export async function findInquiry(
   ownerId: string,
   siteId: string,
@@ -173,7 +199,14 @@ export async function countOwnerInquiries(ownerId: string): Promise<InquiryCount
   const [total, spam, newCount] = await Promise.all([
     countInquiries({ ownerId }),
     countInquiries({ ownerId, spam: true }),
-    countInquiries({ ownerId, spam: false, status: "new" }),
+    countInquiries({
+      ownerId,
+      spam: false,
+      $or: [
+        { kind: { $ne: "review" }, status: "new" },
+        { kind: "review", reviewStatus: "pending" },
+      ],
+    }),
   ]);
 
   return { total, valid: total - spam, spam, newCount };

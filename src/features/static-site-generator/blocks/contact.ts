@@ -28,6 +28,12 @@ export const contactSchema = z.object({
     visitEveningLabel: nonEmptyText.optional(),
     visitNotePlaceholder: nonEmptyText.optional(),
     visitSuccessMessage: nonEmptyText.optional(),
+    reviewTabLabel: nonEmptyText.optional(),
+    reviewSubmitLabel: nonEmptyText.optional(),
+    reviewRatingLabel: nonEmptyText.optional(),
+    reviewCommentPlaceholder: nonEmptyText.optional(),
+    reviewProjectLabel: nonEmptyText.optional(),
+    reviewSuccessMessage: nonEmptyText.optional(),
   }),
 });
 
@@ -65,6 +71,12 @@ export const contactBlock = {
         visitEveningLabel: "Evening",
         visitNotePlaceholder: "Anything we should know before the visit?",
         visitSuccessMessage: "Thank you — we received your visit request and will call you to confirm.",
+        reviewTabLabel: "Leave a review",
+        reviewSubmitLabel: "Send review",
+        reviewRatingLabel: "Your rating",
+        reviewCommentPlaceholder: "Tell us about your experience",
+        reviewProjectLabel: "Project (optional)",
+        reviewSuccessMessage: "Thank you — your review was received and will appear once it is approved.",
       },
     },
     minimal: {

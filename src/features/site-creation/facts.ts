@@ -18,6 +18,7 @@ function parseAwards(value: string | undefined): Facts["awards"] {
 export function buildFacts(
   brief: BusinessBrief,
   projects: Facts["projects"] = [],
+  reviews: NonNullable<Facts["reviews"]> = [],
 ): Facts {
   return factsSchema.parse({
     businessName: brief.businessName,
@@ -34,5 +35,6 @@ export function buildFacts(
     projects,
     team: [],
     testimonials: [],
+    reviews: reviews.length > 0 ? reviews : undefined,
   });
 }

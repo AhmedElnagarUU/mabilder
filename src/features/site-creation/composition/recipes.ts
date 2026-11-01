@@ -16,6 +16,8 @@ export type PageRecipe = {
 
 export const maxFeatureSplits = 3;
 export const maxHomeProjects = 6;
+export const maxHomeReviews = 6;
+export const minReviewsForAverage = 3;
 
 export const pageRecipes: PageRecipe[] = [
   {
