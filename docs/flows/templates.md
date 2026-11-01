@@ -1,8 +1,22 @@
 # Flow: templates (pick a template after the content is written)
 
 Plan: `docs/templates-plan.md`. Status: **T1 built** (template model, Classic, `applyTemplate`, content-level
-image needs) and **T2 built** (template Aurelia). T3–T8 (gallery, pick screens, more templates) are not built yet.
-This file is updated in each milestone.
+image needs), **T2 built** (template Aurelia) and **T3 built** (public template gallery with live demo previews).
+T4–T8 (pick screens, more templates) are not built yet. This file is updated in each milestone.
+
+**T3, in plain words:** a public gallery page at `/[locale]/templates` shows one card per template, each with a
+small CSS mock of the demo home page, the template name and its mood text in the visitor's language, and an
+"Open preview" link that opens `/{locale}/templates/{id}/preview` in a new tab. The preview route renders the
+fixed demo studio ("Masar Studio", bilingual English/Arabic, photos from Pexels saved once in the fixture) with
+that template, injects a `<base>` tag so the demo's own internal links keep working, and adds a small visible
+ribbon saying it is a demo with a link back to the gallery. Theme styles and scripts for the preview are served
+by the same route (`.../preview/assets/site.css` and `site.js`). Nothing calls the AI, Pexels or the database
+when the gallery or a preview is opened, and pages are served cache-friendly. Files:
+gallery page `src/app/[locale]/templates/page.tsx`, preview
+`src/app/[locale]/templates/[id]/preview/[[...file]]/route.ts`, demo fixture
+`src/features/templates-gallery/demo/demo-content.ts` (+ `photo-slots.ts`, `photos.json`, dev script
+`scripts/templates-demo-photos.ts` / `npm run templates:demo-photos`), rendering in
+`src/features/templates-gallery/preview.ts`, components in `src/features/templates-gallery/components/`.
 
 **Aurelia (T2), in plain words:** a dark luxury look: charcoal pages, thin gold lines, a faint diamond pattern over
 the hero photo, big gold serif titles with one italic line, and a gold-outlined menu button. It has its own menu,
@@ -27,9 +41,11 @@ footer, and one design for each type of section. Every template knows how to sho
 content fits any template. If a template has no own design for a section type, it uses the basic design, which
 still takes the template's colors and fonts.
 
-**3. Looking at templates costs nothing.** The gallery shows each template with fixed demo text and fixed demo
-photos (chosen once by us). "Preview" opens the full demo site in a new tab. No AI and no Pexels search happen
-when someone looks at the gallery.
+**3. Looking at templates costs nothing.** The public gallery at `/{locale}/templates` shows each template with
+fixed demo text and fixed demo photos (chosen once by us, then stored in `photos.json`). "Open preview" leads to
+`/{locale}/templates/{id}/preview`, which renders the whole demo site (all pages and project stories) in a new
+tab. No AI, no Pexels search and no database call happen when someone looks at the gallery or a preview; the
+preview shows a visible demo ribbon instead of a working contact form.
 
 **4. Applying a template only changes the look.** When the customer clicks "Use this template", the system sets
 the template on the site and gives every section that template's design. The text, photos, services, projects,
@@ -51,13 +67,14 @@ flowchart TD
     D2 --> E
     E --> F[Wizard step: Choose your template]
 
-    G[Visitor or customer opens /templates gallery] --> H[Template cards from site-templates registry: listTemplates]
+    G[Visitor opens /[locale]/templates - src/app/[locale]/templates/page.tsx] --> H[Template cards: templates-gallery components, listTemplates]
     F --> H
-    H --> I[Preview button]
-    I --> J[New tab /templates/id/preview]
-    J --> K[render-site with demo fixture and fixed demo photos]
+    H --> I[Open preview link, open in new tab]
+    I --> J[New tab /[locale]/templates/id/preview/[[...file]] route.ts - generateStaticParams from listPreviewParams]
+    J --> K[preview.ts: applyTemplate on demo fixture Masar Studio, renderSite, base href tag, demo ribbon]
+    K --> K2[assets/site.css and assets/site.js read from theme folder in the same route]
 
-    H --> L[Use this template]
+    H --> L[Use this template, T4 pick flow, not built yet]
     L --> M[applyTemplate: set content.theme, map each block to getTemplateDesign, base design if none]
     M --> N[PUT /api/sites/siteId/content]
     N --> O{siteContentSchema: theme is a registered template id, designs valid?}

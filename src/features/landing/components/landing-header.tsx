@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { LocaleSwitcher } from "@/shared/i18n/locale-switcher";
+import { Link } from "@/shared/i18n/navigation";
 import { Logo } from "@/shared/ui/logo";
 import { LandingAccountActions } from "./landing-account-actions";
 import { LandingMobileMenu } from "./landing-mobile-menu";
@@ -17,19 +18,26 @@ export async function LandingHeader() {
         <Logo />
 
         <div className="hidden items-center gap-0.5 rounded-full border border-white/[0.075] bg-[rgba(16,16,19,0.55)] p-[5px] shadow-[0_10px_40px_rgba(0,0,0,0.35)] backdrop-blur-[22px] backdrop-saturate-120 lg:flex">
-          {landingNavLinks.map((link) => (
-            <a
-              key={link.key}
-              href={link.href}
-              className={
-                link.key === "home"
-                  ? "inline-flex h-[34px] items-center rounded-full bg-[#f0f0ec] px-4 text-[11.5px] font-medium text-[#09090b]"
-                  : "inline-flex h-[34px] items-center rounded-full px-4 text-[11.5px] text-[#a2a2a9] transition-colors hover:text-[#efefec]"
-              }
-            >
-              {t(link.key)}
-            </a>
-          ))}
+          {landingNavLinks.map((link) => {
+            const className =
+              link.key === "home"
+                ? "inline-flex h-[34px] items-center rounded-full bg-[#f0f0ec] px-4 text-[11.5px] font-medium text-[#09090b]"
+                : "inline-flex h-[34px] items-center rounded-full px-4 text-[11.5px] text-[#a2a2a9] transition-colors hover:text-[#efefec]";
+
+            if (link.key === "templates") {
+              return (
+                <Link key={link.key} href={link.href} className={className}>
+                  {t(link.key)}
+                </Link>
+              );
+            }
+
+            return (
+              <a key={link.key} href={link.href} className={className}>
+                {t(link.key)}
+              </a>
+            );
+          })}
         </div>
 
         <div className="flex items-center justify-end gap-3.5">

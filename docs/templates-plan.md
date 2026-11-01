@@ -96,4 +96,5 @@ Each milestone is its own commit with all gates, and updates `docs/flows/templat
 |---|---|
 | Schema | **Approved:** `services.items[].image` (optional), filled from Pexels at generation. |
 | Gallery | **Public** `/[locale]/templates`, linked from the landing page and the dashboard. |
+| Source cleanup | When all templates from `templates/` are converted (T2, T5, T6, T7 done), delete the source HTML files and reference images from `templates/` (keep `templates/README.md`). They were never committed. |
 | Names | Build with the ids Aurelia, Arhitect, Atelier, Dar, Classic; the owner may rename the display names later (one place per template). |

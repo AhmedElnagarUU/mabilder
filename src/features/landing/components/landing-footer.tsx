@@ -4,6 +4,7 @@ import { Link } from "@/shared/i18n/navigation";
 import { Logo } from "@/shared/ui/logo";
 
 const productLinks = [
+  { key: "templates", href: "/templates" },
   { key: "howItWorks", href: "#how" },
   { key: "capabilities", href: "#capabilities" },
   { key: "languages", href: "#languages" },
@@ -29,15 +30,25 @@ export async function LandingFooter() {
               {t("product")}
             </h4>
             <div className="grid gap-2.5">
-              {productLinks.map((link) => (
-                <a
-                  key={link.key}
-                  href={link.href}
-                  className="text-[10.5px] text-[#96969d] transition-colors hover:text-[#f0f0ed]"
-                >
-                  {t(link.key)}
-                </a>
-              ))}
+              {productLinks.map((link) =>
+                link.key === "templates" ? (
+                  <Link
+                    key={link.key}
+                    href={link.href}
+                    className="text-[10.5px] text-[#96969d] transition-colors hover:text-[#f0f0ed]"
+                  >
+                    {t(link.key)}
+                  </Link>
+                ) : (
+                  <a
+                    key={link.key}
+                    href={link.href}
+                    className="text-[10.5px] text-[#96969d] transition-colors hover:text-[#f0f0ed]"
+                  >
+                    {t(link.key)}
+                  </a>
+                ),
+              )}
             </div>
           </div>
 

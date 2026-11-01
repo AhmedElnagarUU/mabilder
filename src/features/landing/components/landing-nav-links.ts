@@ -4,4 +4,5 @@ export const landingNavLinks = [
   { key: "capabilities", href: "#capabilities" },
   { key: "languages", href: "#languages" },
   { key: "principle", href: "#principle" },
+  { key: "templates", href: "/templates" },
 ] as const;

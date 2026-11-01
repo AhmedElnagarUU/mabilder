@@ -1,0 +1,96 @@
+{
+  "generatedAt": "2026-11-01T15:19:04.294Z",
+  "photos": {
+    "hero": {
+      "src": "https://images.pexels.com/photos/16573669/pexels-photo-16573669.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "credit": {
+        "name": "Eyecon Design",
+        "url": "https://www.pexels.com/photo/luxury-villa-house-16573669/"
+      }
+    },
+    "intro-studio": {
+      "src": "https://images.pexels.com/photos/9617369/pexels-photo-9617369.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+      "credit": {
+        "name": "Ron Lach",
+        "url": "https://www.pexels.com/photo/adult-man-sitting-on-chair-by-deck-and-drawing-9617369/"
+      }
+    },
+    "intro-model": {
+      "src": "https://images.pexels.com/photos/35630637/pexels-photo-35630637.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+      "credit": {
+        "name": "Blackcurrant Great",
+        "url": "https://www.pexels.com/photo/modern-architectural-model-in-focus-35630637/"
+      }
+    },
+    "intro-detail": {
+      "src": "https://images.pexels.com/photos/6980724/pexels-photo-6980724.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+      "credit": {
+        "name": "Max Vakhtbovych",
+        "url": "https://www.pexels.com/photo/television-against-sofa-in-modern-living-room-6980724/"
+      }
+    },
+    "svc-architecture": {
+      "src": "https://images.pexels.com/photos/9808879/pexels-photo-9808879.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+      "credit": {
+        "name": "Plato Terentev",
+        "url": "https://www.pexels.com/photo/wall-of-the-concrete-building-with-windows-9808879/"
+      }
+    },
+    "svc-interiors": {
+      "src": "https://images.pexels.com/photos/39733066/pexels-photo-39733066.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+      "credit": {
+        "name": "shaza jocarlos",
+        "url": "https://www.pexels.com/photo/modern-twin-bedroom-with-sleek-design-39733066/"
+      }
+    },
+    "svc-engineering": {
+      "src": "https://images.pexels.com/photos/8961146/pexels-photo-8961146.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+      "credit": {
+        "name": "Mikael Blomkvist",
+        "url": "https://www.pexels.com/photo/a-man-and-woman-wearing-safety-helmets-8961146/"
+      }
+    },
+    "cover-marina": {
+      "src": "https://images.pexels.com/photos/38542332/pexels-photo-38542332.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "credit": {
+        "name": "Sedat Pala",
+        "url": "https://www.pexels.com/photo/scenic-view-of-istanbul-waterfront-mansion-38542332/"
+      }
+    },
+    "gallery-marina": {
+      "src": "https://images.pexels.com/photos/27626169/pexels-photo-27626169.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+      "credit": {
+        "name": "Ahmet ÇÖTÜR",
+        "url": "https://www.pexels.com/photo/an-aerial-view-of-a-house-with-a-pool-and-a-pool-27626169/"
+      }
+    },
+    "cover-offices": {
+      "src": "https://images.pexels.com/photos/15202224/pexels-photo-15202224.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "credit": {
+        "name": "Sonny Sixteen",
+        "url": "https://www.pexels.com/photo/downtown-modern-architecture-15202224/"
+      }
+    },
+    "gallery-offices": {
+      "src": "https://images.pexels.com/photos/5483188/pexels-photo-5483188.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+      "credit": {
+        "name": "cottonbro studio",
+        "url": "https://www.pexels.com/photo/laptop-on-a-desk-5483188/"
+      }
+    },
+    "cover-cafe": {
+      "src": "https://images.pexels.com/photos/26730484/pexels-photo-26730484.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "credit": {
+        "name": "Şengül  Keleş",
+        "url": "https://www.pexels.com/photo/table-and-chairs-near-windows-of-cafe-26730484/"
+      }
+    },
+    "gallery-cafe": {
+      "src": "https://images.pexels.com/photos/17609723/pexels-photo-17609723.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+      "credit": {
+        "name": "Emre  Akyol",
+        "url": "https://www.pexels.com/photo/employee-hand-holding-coffee-cup-17609723/"
+      }
+    }
+  }
+}

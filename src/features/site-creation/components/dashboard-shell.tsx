@@ -202,6 +202,11 @@ export async function DashboardShell({
               </>
             ) : null}
             <SidebarLink
+              href="/templates"
+              label={t("sidebar.templates")}
+              icon="grid"
+            />
+            <SidebarLink
               href="/billing"
               label={t("sidebar.upgrade")}
               icon="upgrade"

@@ -22,6 +22,7 @@
       "capabilities": "Capabilities",
       "languages": "Languages",
       "principle": "Principle",
+      "templates": "Templates",
       "startTrial": "Start free trial",
       "dashboard": "Dashboard",
       "signIn": "Sign in",
@@ -230,6 +231,7 @@
       "capabilities": "Capabilities",
       "languages": "Languages",
       "principle": "Principle",
+      "templates": "Templates",
       "dashboard": "Dashboard",
       "startTrial": "Start free trial",
       "copyright": "© 2026 Website Studio",
@@ -298,6 +300,7 @@
       "projects": "Projects",
       "tracking": "Tracking",
       "inbox": "Inbox",
+      "templates": "Templates",
       "upgrade": "Upgrade to Pro"
     },
     "welcome": {
@@ -1403,6 +1406,27 @@
         "unauthorized": "Your session has ended. Please sign in again.",
         "default": "Something went wrong. Please try again."
       }
+    }
+  },
+  "templatesGallery": {
+    "meta": {
+      "title": "Website templates",
+      "description": "Starter templates for architecture, interior design and construction studios."
+    },
+    "header": {
+      "aria": "Templates gallery navigation",
+      "home": "Back to home"
+    },
+    "page": {
+      "eyebrow": "Gallery",
+      "title": "Starting points, fully built.",
+      "subtitle": "Every template below is rendered live with the same demo studio. Open one to walk its pages as your visitors would — then start your website from it.",
+      "preview": "Open preview",
+      "coverAria": "Open the {name} preview in a new tab",
+      "newTab": "Opens in a new tab",
+      "demoNote": "The previews on this page are built from fixed demo content for a fictional studio, so no account is needed and nothing is saved. Photography via Pexels; the photographers are credited on every preview.",
+      "ribbon": "This is a demo template with fixed content —",
+      "ribbonLink": "back to the gallery"
     }
   }
 }

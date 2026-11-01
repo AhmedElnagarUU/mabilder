@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { LocaleSwitcher } from "@/shared/i18n/locale-switcher";
+import { Link } from "@/shared/i18n/navigation";
 import { Icon } from "@/shared/ui/icon";
 import { LandingAccountActions } from "./landing-account-actions";
 import { landingNavLinks } from "./landing-nav-links";
@@ -30,16 +31,27 @@ export function LandingMobileMenu() {
           className="absolute inset-x-0 top-[calc(100%+10px)] z-50 rounded-[18px] border border-white/[0.11] bg-[rgba(13,13,16,0.92)] p-2.5 shadow-[0_24px_60px_rgba(0,0,0,0.55)] backdrop-blur-[24px] backdrop-saturate-120 lg:hidden"
         >
           <nav aria-label={t("main")} className="grid">
-            {landingNavLinks.map((link) => (
-              <a
-                key={link.key}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="flex items-center justify-between rounded-[11px] px-3.5 py-3 text-[13px] text-[#c9c9c6] transition-colors hover:bg-white/[0.055] hover:text-white"
-              >
-                {t(link.key)}
-              </a>
-            ))}
+            {landingNavLinks.map((link) =>
+              link.key === "templates" ? (
+                <Link
+                  key={link.key}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className="flex items-center justify-between rounded-[11px] px-3.5 py-3 text-[13px] text-[#c9c9c6] transition-colors hover:bg-white/[0.055] hover:text-white"
+                >
+                  {t(link.key)}
+                </Link>
+              ) : (
+                <a
+                  key={link.key}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className="flex items-center justify-between rounded-[11px] px-3.5 py-3 text-[13px] text-[#c9c9c6] transition-colors hover:bg-white/[0.055] hover:text-white"
+                >
+                  {t(link.key)}
+                </a>
+              ),
+            )}
             <LocaleSwitcher className="flex items-center justify-between rounded-[11px] px-3.5 py-3 text-start text-[13px] text-[#c9c9c6] transition-colors hover:bg-white/[0.055] hover:text-white" />
             <LandingAccountActions
               variant="menu"
