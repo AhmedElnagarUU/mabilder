@@ -4,7 +4,7 @@ import {
   type Block,
   type BlockType,
 } from "../../static-site-generator/blocks/catalog";
-import { linkSchema, type Link } from "../../static-site-generator/blocks/common";
+import { imageSchema, linkSchema, type Link } from "../../static-site-generator/blocks/common";
 
 export type Props = Record<string, unknown>;
 
@@ -93,11 +93,19 @@ function toModelField(field: z.ZodType): z.ZodType {
   return toModelSchema(field);
 }
 
+function isImageField(field: z.ZodType): boolean {
+  return (field instanceof z.ZodOptional ? field.unwrap() : field) === imageSchema;
+}
+
 export function toModelSchema(schema: z.ZodType): z.ZodType {
   if (schema instanceof z.ZodObject) {
     const shape = schema.shape as Record<string, z.ZodType>;
     return z.object(
-      Object.fromEntries(Object.entries(shape).map(([key, field]) => [key, toModelField(field)])),
+      Object.fromEntries(
+        Object.entries(shape)
+          .filter(([, field]) => !isImageField(field))
+          .map(([key, field]) => [key, toModelField(field)]),
+      ),
     );
   }
 
@@ -147,11 +155,30 @@ function mergeWrittenFields(type: BlockType, current: Props, written: Props): Pr
     if (linkKeys.includes(key)) {
       merged[key] = { label: writtenLabel(written[key]), href: (current[key] as Link).href };
     } else if (written[key] !== undefined) {
-      merged[key] = written[key];
+      merged[key] = keepItemImages(current[key], written[key]);
     }
   }
 
   return merged;
+}
+
+// The AI never writes list-item images: the photo chosen for the same position stays.
+function keepItemImages(current: unknown, written: unknown): unknown {
+  if (!Array.isArray(current) || !Array.isArray(written)) {
+    return written;
+  }
+
+  return written.map((item, index) => {
+    if (typeof item !== "object" || item === null || Array.isArray(item)) {
+      return item;
+    }
+
+    const before: unknown = current[index];
+    const image = typeof before === "object" && before !== null ? (before as Props).image : undefined;
+    const text = Object.fromEntries(Object.entries(item).filter(([key]) => key !== "image"));
+
+    return image === undefined ? text : { ...text, image };
+  });
 }
 
 function formatIssues(error: z.ZodError): string[] {

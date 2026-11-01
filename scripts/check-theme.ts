@@ -17,6 +17,11 @@ import {
   type SiteContent,
 } from "../src/features/static-site-generator/site-content";
 import { getThemeAssetsDirectory } from "../src/features/static-site-generator/site-paths";
+import {
+  getTemplateDesign,
+  listTemplates,
+} from "../src/features/static-site-generator/site-templates/registry";
+import type { SiteTemplate } from "../src/features/static-site-generator/site-templates/types";
 import { getTheme } from "../src/features/static-site-generator/themes/registry";
 import type { Theme } from "../src/features/static-site-generator/themes/types";
 
@@ -93,9 +98,14 @@ function buildPage(slug: string, blocks: unknown[], siteLocales: Locale[]): unkn
   };
 }
 
-function buildContent(siteLocales: Locale[], defaultLocale: Locale, pages: unknown[]): SiteContent {
+function buildContent(
+  siteLocales: Locale[],
+  defaultLocale: Locale,
+  pages: unknown[],
+  templateId = themeId,
+): SiteContent {
   return siteContentSchema.parse({
-    theme: themeId,
+    theme: templateId,
     locales: siteLocales,
     defaultLocale,
     facts,
@@ -127,6 +137,17 @@ function findOutputProblems(html: string): string[] {
   return forbiddenOutput
     .filter((text) => html.includes(text))
     .map((text) => `output contains "${text}"`);
+}
+
+// Classic's document loads these two CDN scripts today; a template may not add any other outside script.
+const legacyScripts = ["https://cdn.tailwindcss.com", "https://unpkg.com/lucide@latest"];
+
+function findScriptProblems(html: string): string[] {
+  const sources = [...html.matchAll(/<script[^>]*\ssrc="([^"]*)"/g)].map((match) => match[1]);
+
+  return sources
+    .filter((src) => !/^(\.\.\/)*assets\//.test(src) && !legacyScripts.includes(src))
+    .map((src) => `script src outside the pack assets: ${src}`);
 }
 
 function findDirectionProblems(html: string, locale: Locale): string[] {
@@ -178,6 +199,7 @@ function checkBlock(
     const problems = [
       ...(blockHtml.trim().startsWith(root) ? [] : [`root element is not ${root}`]),
       ...findOutputProblems(documentHtml),
+      ...findScriptProblems(documentHtml),
       ...findDirectionProblems(documentHtml, locale),
     ];
 
@@ -254,7 +276,11 @@ function checkSampleFiles(
     const locale = getFileLocale(file.fileName, defaultLocale);
     const problems = isRedirect
       ? findRedirectProblems(file.html, defaultLocale)
-      : [...findOutputProblems(file.html), ...findDirectionProblems(file.html, locale)];
+      : [
+          ...findOutputProblems(file.html),
+          ...findScriptProblems(file.html),
+          ...findDirectionProblems(file.html, locale),
+        ];
 
     if (problems.length > 0) {
       fail(fileLabel, problems);
@@ -350,11 +376,65 @@ function checkBlocks(theme: Theme): number {
   return combinations;
 }
 
+function checkTemplateBlock(
+  template: SiteTemplate,
+  definition: AnyBlockDefinition,
+  fixture: FixtureName,
+  locale: Locale,
+): void {
+  const designId = getTemplateDesign(template, definition.type);
+  const label = `template:${template.id} ${designId} fixture:${fixture} locale:${locale}`;
+
+  try {
+    const blockId = `index-${definition.type}-1`;
+    const block = buildBlock(definition, designId, fixture, blockId, [locale]);
+    const content = buildContent([locale], locale, [buildPage("index", [block], [locale])], template.id);
+    const files = renderSite(content);
+    const problems = files.flatMap((file) => [
+      ...findOutputProblems(file.html),
+      ...findScriptProblems(file.html),
+      ...findDirectionProblems(file.html, locale),
+      ...(file.html.includes(`<section data-block="${blockId}" data-design="${designId}"`)
+        ? []
+        : [`${file.fileName}: root element missing for ${designId}`]),
+    ]);
+
+    if (problems.length > 0) {
+      fail(label, problems);
+      return;
+    }
+
+    pass();
+  } catch (error) {
+    fail(label, [error instanceof Error ? error.message : String(error)]);
+  }
+}
+
+// Every registered template must render every block type, full and minimal, in both languages.
+function checkTemplates(): number {
+  let combinations = 0;
+
+  for (const template of listTemplates()) {
+    for (const definition of blockDefinitions) {
+      for (const fixture of fixtureNames) {
+        for (const locale of locales) {
+          combinations += 1;
+          checkTemplateBlock(template, definition, fixture, locale);
+        }
+      }
+    }
+  }
+
+  return combinations;
+}
+
 async function main(): Promise<void> {
   const theme = getTheme(themeId);
   const combinations = checkBlocks(theme);
+  const templateCombinations = checkTemplates();
   await checkSamples(theme);
 
+  console.log(`Rendered ${templateCombinations} template combinations.`);
   console.log(`Rendered ${combinations} block combinations; ${passCount} checks passed.`);
   console.log(`Samples written to ${samplesDirectory}`);
 

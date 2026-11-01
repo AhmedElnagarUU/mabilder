@@ -92,7 +92,53 @@ function slotTypes(): string[] {
 }
 
 test("slots are derived from the catalog: copy blocks only", () => {
-  assert.deepEqual(slotTypes().sort(), ["feature-split", "hero", "intro"]);
+  assert.deepEqual(slotTypes().sort(), ["feature-split", "hero", "intro", "services"]);
+});
+
+function servicesOf(content: SiteContent, locale: "en" | "ar" = "en") {
+  const block = allBlocks(content).find((item) => item.type === "services");
+  assert.ok(block && block.type === "services");
+  return block.props[locale]!.items;
+}
+
+test("services get one stock photo per service title, with credit, in every language", async () => {
+  withKey("test-key");
+  const stub = stubFetch();
+  const generated = await generate(composeFor(thinBrief, [], ["en", "ar"]), thin, stub.fetch);
+  const english = servicesOf(generated);
+  const arabic = servicesOf(generated, "ar");
+
+  assert.ok(english.length >= 2);
+
+  for (const [index, item] of english.entries()) {
+    assert.match(item.image?.src ?? "", /^https:\/\/images\.pexels\.com\//);
+    assert.match(item.image?.credit?.name ?? "", /^Photographer /);
+    assert.equal(arabic[index].image?.src, item.image?.src);
+    assert.ok(
+      stub.urls.some((url) => queryOf(url).includes(item.title)),
+      `no search for ${item.title}`,
+    );
+  }
+
+  const sources = english.map((item) => item.image?.src);
+  assert.equal(new Set(sources).size, sources.length, "a photo was used twice");
+});
+
+test("service photos already chosen are kept; Pexels failing leaves services without image", async (t) => {
+  t.mock.method(console, "error", () => undefined);
+  withKey("test-key");
+  const first = await generate(composeFor(thinBrief), thin, stubFetch().fetch);
+  const again = stubFetch();
+  const regenerated = await generate(first, thin, again.fetch);
+
+  assert.equal(again.urls.length, 0);
+  assert.deepEqual(
+    servicesOf(regenerated).map((item) => item.image),
+    servicesOf(first).map((item) => item.image),
+  );
+
+  const failing = await generate(composeFor(thinBrief), thin, stubFetch(500).fetch);
+  assert.ok(servicesOf(failing).every((item) => item.image === undefined));
 });
 
 test("empty copy-block image slots get stock photos with credits and the image design", async () => {
@@ -108,13 +154,17 @@ test("empty copy-block image slots get stock photos with credits and the image d
   assert.match(imagesOf(hero)[0].credit?.name ?? "", /^Photographer /);
   assert.match(imagesOf(hero)[0].credit?.url ?? "", /^https:\/\/www\.pexels\.com\/photo\//);
 
-  for (const block of copyBlocks(generated).filter((item) => slotTypes().includes(item.type))) {
+  const topLevel = listImageSlots()
+    .filter((slot) => slot.itemKey === undefined)
+    .map((slot) => slot.type);
+
+  for (const block of copyBlocks(generated).filter((item) => topLevel.includes(item.type))) {
     assert.ok(imagesOf(block).length > 0, `${block.id} has no image`);
   }
 
   const searches = new Set(stub.urls);
   assert.equal(searches.size, stub.urls.length, "the same search ran twice");
-  assert.ok(stub.urls.length <= slotTypes().length);
+  assert.ok(stub.urls.length <= slotTypes().length + servicesOf(generated).length);
   assert.match(decodeURIComponent(stub.urls[0]), /Interior\+design|Interior design/);
 });
 

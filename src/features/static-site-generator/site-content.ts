@@ -3,6 +3,7 @@ import { blockSchema } from "./blocks/catalog";
 import { linkSchema, nonEmptyText } from "./blocks/common";
 import { factsSchema } from "./blocks/facts";
 import { localeSchema, localized, type Locale } from "./locale";
+import { isTemplateId } from "./site-templates/registry";
 
 export const pageSlugSchema = z.enum([
   "index",
@@ -52,7 +53,7 @@ function checkLocaleKeys(
 
 export const siteContentSchema = z
   .object({
-    theme: nonEmptyText,
+    theme: nonEmptyText.refine(isTemplateId, "theme must be a registered template id."),
     locales: z.array(localeSchema).min(1).max(2),
     defaultLocale: localeSchema,
     facts: factsSchema,

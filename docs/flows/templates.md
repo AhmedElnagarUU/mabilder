@@ -1,6 +1,11 @@
 # Flow: templates (pick a template after the content is written)
 
-Plan: `docs/templates-plan.md`. Status: **planned** (T1–T8 not built yet). This file is updated in each milestone.
+Plan: `docs/templates-plan.md`. Status: **T1 built** (template model, Classic, `applyTemplate`, content-level
+image needs). T2–T8 (more templates, gallery, pick screens) are not built yet. This file is updated in each milestone.
+
+Built in T1: `site-templates/` (registry, Classic = id `agenvo`), `applyTemplate` in `site-editor/apply-template.ts`,
+`content.theme` validated as a template id, template colors and fonts written as CSS variables in the page head
+(nothing extra for Classic, so old sites render the same bytes), and `services.items[].image` filled from Pexels.
 
 ## In plain words
 
@@ -32,25 +37,25 @@ editor, and still change one section alone with "Change design" (L2).
 flowchart TD
     A[Customer submits brief in wizard] --> B[POST /api/sites/siteId/generate]
     B --> C[site-creation: AI writes content per section type]
-    C --> D[fill-images: Pexels search per content image need]
+    C --> D[fillImages: Pexels search per block-type image need, services one per title]
     D -->|Pexels fails| D2[Keep section without photo, design hides empty image]
-    D --> E[(Mongo: site content saved, template = Classic)]
+    D --> E[(Mongo: site content saved, content.theme = agenvo = Classic)]
     D2 --> E
     E --> F[Wizard step: Choose your template]
 
-    G[Visitor or customer opens /templates gallery] --> H[Template cards from site-templates registry]
+    G[Visitor or customer opens /templates gallery] --> H[Template cards from site-templates registry: listTemplates]
     F --> H
     H --> I[Preview button]
     I --> J[New tab /templates/id/preview]
     J --> K[render-site with demo fixture and fixed demo photos]
 
     H --> L[Use this template]
-    L --> M[applyTemplate: set theme, map each block to template design]
+    L --> M[applyTemplate: set content.theme, map each block to getTemplateDesign, base design if none]
     M --> N[PUT /api/sites/siteId/content]
-    N --> O{zod: template and designs valid?}
+    N --> O{siteContentSchema: theme is a registered template id, designs valid?}
     O -->|no| P[400, nothing saved]
     O -->|yes| Q[(Mongo: content saved, props unchanged)]
-    Q --> R[render-site: tokens + shell + designs to static HTML]
+    Q --> R[renderSite: getTemplate gives shell theme; renderTemplateHead writes tokens as :root variables; designs to static HTML]
     R --> S[Editor preview shows the new look, toast with Undo]
     S -->|Undo| M
     S --> T[Optional: Change design on one section, L2]

@@ -11,7 +11,7 @@ function getDirection(locale: Locale): "rtl" | "ltr" {
   return locale === "ar" ? "rtl" : "ltr";
 }
 
-function getFontUrl(locale: Locale): string {
+export function getFontUrl(locale: Locale): string {
   const arabic = locale === "ar" ? arabicFont : "";
   return `https://fonts.googleapis.com/css2?${latinFonts}${arabic}&display=swap`;
 }

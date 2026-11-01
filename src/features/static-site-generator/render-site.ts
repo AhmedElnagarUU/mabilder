@@ -10,6 +10,8 @@ import { getDesign } from "./designs/registry";
 import type { Locale } from "./locale";
 import type { Page, SiteContent } from "./site-content";
 import type { SiteRuntime } from "./site-runtime";
+import { renderTemplateHead } from "./site-templates/head";
+import { getTemplate } from "./site-templates/registry";
 import { getTheme } from "./themes/registry";
 import type {
   AlternatePage,
@@ -243,12 +245,14 @@ export function renderSite(
   headExtra = "",
   runtime: SiteRuntime = {},
 ): RenderedFile[] {
-  const theme = getTheme(content.theme);
+  const template = getTemplate(content.theme);
+  const theme = getTheme(template.shell);
+  const head = `${renderTemplateHead(template)}${headExtra}`;
   const pages = [
     ...content.locales.flatMap((locale) =>
-      content.pages.map((page) => renderPage(theme, content, page, locale, headExtra, runtime)),
+      content.pages.map((page) => renderPage(theme, content, page, locale, head, runtime)),
     ),
-    ...renderProjectPages(theme, content, headExtra, runtime),
+    ...renderProjectPages(theme, content, head, runtime),
   ];
 
   if (!isMultilingual(content)) {

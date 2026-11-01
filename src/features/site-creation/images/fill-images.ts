@@ -2,7 +2,6 @@ import type {
   Block,
   BlockType,
 } from "../../static-site-generator/blocks/catalog";
-import type { Image } from "../../static-site-generator/blocks/common";
 import {
   getDefaultDesign,
   getDesign,
@@ -21,6 +20,7 @@ import {
   type PhotoSize,
   type StockPhoto,
 } from "./pexels";
+import { fillItemImages } from "./item-images";
 import {
   isSlotEmpty,
   listImageSlots,
@@ -28,6 +28,7 @@ import {
   type ImageSlot,
   type Props,
 } from "./slots";
+import { isUsable, toImage } from "./stock-image";
 
 export type ImageBackground = {
   brief: BusinessBrief;
@@ -61,7 +62,7 @@ function propsOf(content: SiteContent, block: Block, locale: Locale = content.de
 }
 
 function findNeeds(content: SiteContent): SlotNeed[] {
-  const slots = listImageSlots();
+  const slots = listImageSlots().filter((slot) => slot.itemKey === undefined);
 
   return content.pages
     .flatMap((page) => page.blocks)
@@ -99,10 +100,6 @@ function buildQuery(type: BlockType, background: ImageBackground): string {
     .join(" ");
 }
 
-function isUsable(photo: StockPhoto): boolean {
-  return photo.photographer.trim() !== "";
-}
-
 // Takes unused photos for every empty slot of the group; a photo id is never used twice per site.
 function assignPhotos(group: SlotNeed[], found: StockPhoto[], used: Set<number>): Map<Block, Assignment> {
   const assignments = new Map<Block, Assignment>();
@@ -119,14 +116,6 @@ function assignPhotos(group: SlotNeed[], found: StockPhoto[], used: Set<number>)
   }
 
   return assignments;
-}
-
-function toImage(photo: StockPhoto, size: PhotoSize, alt: string): Image {
-  return {
-    src: photo.src[size],
-    alt,
-    credit: { name: photo.photographer.trim(), url: photo.url },
-  };
 }
 
 // Pexels alt text is English; other languages use the business name.
@@ -214,5 +203,7 @@ export async function fillImages(
     }
   }
 
-  return groups.length === 0 ? content : applyAssignments(content, assignments);
+  const filled = groups.length === 0 ? content : applyAssignments(content, assignments);
+
+  return fillItemImages(filled, background, fetchFunction, used, logFailure);
 }

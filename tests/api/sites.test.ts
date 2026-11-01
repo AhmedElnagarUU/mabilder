@@ -269,6 +269,23 @@ test("saving an unknown design or a design of another category gets 400", async 
   }
 });
 
+test("saving content with an unknown theme gets 400; the Classic template id (agenvo) gets 200", async () => {
+  const unknown = await request(`/api/sites/${siteId}/content`, {
+    method: "PUT",
+    cookie: ownerCookie,
+    body: { ...(siteContent as object), theme: "does-not-exist" },
+  });
+  assert.equal(unknown.status, 400);
+  assert.equal(await readCode(unknown), "invalid_request");
+
+  const classic = await request(`/api/sites/${siteId}/content`, {
+    method: "PUT",
+    cookie: ownerCookie,
+    body: { ...(siteContent as object), theme: "agenvo" },
+  });
+  assert.equal(classic.status, 200, await classic.clone().text());
+});
+
 test("user B cannot change the design of user A's section", async () => {
   const hero = homeBlock(siteContent, "hero");
   const other = getDesignsForCategory("hero").find((design) => design.id !== hero.design);
