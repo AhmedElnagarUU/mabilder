@@ -33,11 +33,19 @@ Read `AGENTS.md`, `CODE_RULES.md`, then the docs your task touches:
 | D2 | Dashboard: active sidebar item, website health cards | `accfc57` |
 | X4 | Feedback: customer dialog, admin inbox, reply | `56fd00b` |
 | B2 | Egyptian wallet payments with admin approval, manual plan change, payment settings | `56fd00b` |
+| U1 | S3 image uploads from the browser (projects, editor) | `b75e6f2` |
+| P2 | Projects v2: details, multi-photo upload, 4:3 cards, a page per project | `b34706d` |
+| UI | SEO one page at a time with save prompt; Tracking connected list; gold Upgrade to Pro | `b2ecb5b`, `214694f` |
+| L1 | Design registry: `block.design`, old `variant` read, `data-design`, site tokens, check:theme over all designs | `75676ae` |
+| R1 | Professional first result: AI page SEO per locale, business-matched photo searches | `913d23b` |
+| W1 | Quote requests + spam checks, WhatsApp button, dashboard Inbox, admin request counts | `39a4dd3` |
+| W2 | Site-visit requests, Ask about this project | `972da26` |
+| W3 | Reviews with owner approval, shown as testimonials | `8b549b3` |
 
 ## Next, in order
 
-1. Done: **C1** AI credits (`45b45c3`), **M8** website languages (`23347ad`), **G1** tours (see log)
-2. **U1** S3 uploads — needs `S3_REGION`, `S3_BUCKET`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_PUBLIC_BASE_URL` in `.env` and bucket CORS allowing PUT
+1. **L2** editor Change design, then **L3** site style, then **L4** first template from `templates/` (`docs/block-library-plan.md`)
+2. Public publishing (needed so real visitors reach forms, `docs/site-functions-plan.md`)
 3. Later: real email provider, Paymob gateway (`docs/owner-system-plan.md`)
 
 ## Current state of the app
@@ -51,6 +59,7 @@ Read `AGENTS.md`, `CODE_RULES.md`, then the docs your task touches:
 
 - After the trial ends without payment: should **preview** stay available, or be locked too?
   (The current plan keeps preview and locks editing + AI.)
+- Browser check still needed: P2 form/photos, SEO + Tracking screens, Inbox, quote/visit/review forms, WhatsApp button, RTL.
 - Review the Arabic in `src/messages/ar.json`. It was written by an AI agent (incl. new `auth.*` keys) and `site-creation/composition/labels.ts` (generated-site labels).
 - Composition drops projects without an image and awards without a year (catalog needs them). P1/M6 must give projects an image (customer photo or Pexels).
 - Seed now needs a user id: `npm run seed:site -- <userId>`. One old site without `ownerId` remains in the DB (unreachable; safe to delete).
