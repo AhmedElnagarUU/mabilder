@@ -2,10 +2,13 @@ import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { after, before, test } from "node:test";
 import { buildSiteContent } from "../../src/features/site-creation/build-content";
+import { getDesignsForCategory } from "../../src/features/static-site-generator/designs/registry";
 import { businessBriefSchema } from "../../src/features/site-creation/types";
 import { deleteAllSites, request, signUp } from "./client";
 import {
+  homeBlock,
   homeBlockIds,
+  withHomeBlockDesign,
   withHomeBlockHidden,
   withHomeBlocksSwapped,
   withHomeTitle,
@@ -234,4 +237,47 @@ test("a site created with both languages returns them on GET (M8)", async () => 
 
   const body = (await fetched.json()) as { site: { brief: { languages: unknown } } };
   assert.deepEqual(body.site.brief.languages, languages);
+});
+
+test("saving a valid other design of the same category re-renders with the new data-design", async () => {
+  const hero = homeBlock(siteContent, "hero");
+  const other = getDesignsForCategory("hero").find((design) => design.id !== hero.design);
+  assert.ok(other, "hero has only one design");
+
+  const save = await request(`/api/sites/${siteId}/content`, {
+    method: "PUT",
+    cookie: ownerCookie,
+    body: withHomeBlockDesign(siteContent, hero.id, other.id),
+  });
+  assert.equal(save.status, 200, await save.clone().text());
+
+  const html = await readPreview(siteId, ownerCookie);
+  assert.ok(html.includes(`<section data-block="${hero.id}" data-design="${other.id}"`));
+});
+
+test("saving an unknown design or a design of another category gets 400", async () => {
+  const hero = homeBlock(siteContent, "hero");
+
+  for (const designId of ["agenvo/hero-does-not-exist", "agenvo/services-columns"]) {
+    const save = await request(`/api/sites/${siteId}/content`, {
+      method: "PUT",
+      cookie: ownerCookie,
+      body: withHomeBlockDesign(siteContent, hero.id, designId),
+    });
+    assert.equal(save.status, 400, designId);
+    assert.equal(await readCode(save), "invalid_request");
+  }
+});
+
+test("user B cannot change the design of user A's section", async () => {
+  const hero = homeBlock(siteContent, "hero");
+  const other = getDesignsForCategory("hero").find((design) => design.id !== hero.design);
+  assert.ok(other);
+
+  const save = await request(`/api/sites/${siteId}/content`, {
+    method: "PUT",
+    cookie: otherCookie,
+    body: withHomeBlockDesign(siteContent, hero.id, other.id),
+  });
+  assert.equal(save.status, 404);
 });

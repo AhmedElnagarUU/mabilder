@@ -1120,6 +1120,48 @@
         "generic": "لم تنجح إعادة الكتابة ولم يُخصم أي رصيد. حاول مرة أخرى."
       }
     },
+    "designs": {
+      "open": "تغيير التصميم",
+      "title": "تغيير التصميم: {name}",
+      "hint": "اختر شكلًا لهذا القسم. تبقى نصوصك وصورك وبياناتك كما هي تمامًا، ولا يُخصم أي رصيد.",
+      "close": "إغلاق",
+      "current": "الحالي",
+      "apply": "استخدم هذا التصميم",
+      "previewLabel": "معاينة التصميم: {design}",
+      "loading": "جارٍ تحميل المعاينة…",
+      "changed": "تم تغيير التصميم",
+      "undo": "تراجع",
+      "undone": "تمت استعادة التصميم السابق",
+      "labels": {
+        "hero-full-image": "صورة كاملة",
+        "hero-page": "ترويسة صفحة",
+        "hero-text-only": "نص فقط",
+        "marquee-default": "شريط متحرك",
+        "intro-images": "صور",
+        "intro-quote": "اقتباس",
+        "feature-split-image-right": "الصورة في النهاية",
+        "feature-split-image-left": "الصورة في البداية",
+        "services-columns": "أعمدة",
+        "services-list": "قائمة",
+        "values-default": "القيم",
+        "process-default": "الخطوات",
+        "faq-default": "الأسئلة",
+        "cta-dark": "لوحة داكنة",
+        "cta-light": "لوحة فاتحة",
+        "contact-split": "مقسّم",
+        "contact-form-only": "نموذج فقط",
+        "stats-dark": "شريط",
+        "stats-light": "مقسّم",
+        "clients-default": "العملاء",
+        "awards-default": "الجوائز",
+        "timeline-default": "خط زمني",
+        "projects-featured": "مميّز",
+        "projects-grid": "معرض",
+        "team-default": "الفريق",
+        "testimonials-default": "آراء العملاء",
+        "location-default": "الموقع"
+      }
+    },
     "languages": {
       "en": "الإنجليزية",
       "ar": "العربية"

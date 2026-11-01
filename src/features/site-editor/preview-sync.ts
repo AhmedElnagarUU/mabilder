@@ -82,9 +82,13 @@ export function syncPreviewSections(
   let changed = false;
 
   for (const block of visible) {
-    if (findBlockElement(doc, block.id)) {
+    const existing = findBlockElement(doc, block.id);
+
+    if (existing && existing.dataset.design === block.design) {
       continue;
     }
+
+    existing?.remove();
 
     const section = createRenderedSection(doc, content, page.slug, block.id, locale);
 

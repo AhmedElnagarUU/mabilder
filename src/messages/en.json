@@ -1120,6 +1120,48 @@
         "generic": "The rewrite didn't work and no credit was used. Please try again."
       }
     },
+    "designs": {
+      "open": "Change design",
+      "title": "Change design: {name}",
+      "hint": "Pick a look for this section. Your text, photos and details stay exactly the same. It costs no credits.",
+      "close": "Close",
+      "current": "Current",
+      "apply": "Use this design",
+      "previewLabel": "Preview of the {design} design",
+      "loading": "Loading preview…",
+      "changed": "Design changed",
+      "undo": "Undo",
+      "undone": "Design restored",
+      "labels": {
+        "hero-full-image": "Full image",
+        "hero-page": "Page header",
+        "hero-text-only": "Text only",
+        "marquee-default": "Moving banner",
+        "intro-images": "Photos",
+        "intro-quote": "Quote",
+        "feature-split-image-right": "Image at the end",
+        "feature-split-image-left": "Image at the start",
+        "services-columns": "Columns",
+        "services-list": "List",
+        "values-default": "Values",
+        "process-default": "Steps",
+        "faq-default": "Questions",
+        "cta-dark": "Dark panel",
+        "cta-light": "Light panel",
+        "contact-split": "Split",
+        "contact-form-only": "Form only",
+        "stats-dark": "Band",
+        "stats-light": "Split",
+        "clients-default": "Clients",
+        "awards-default": "Awards",
+        "timeline-default": "Timeline",
+        "projects-featured": "Featured",
+        "projects-grid": "Gallery",
+        "team-default": "Team",
+        "testimonials-default": "Testimonials",
+        "location-default": "Location"
+      }
+    },
     "languages": {
       "en": "English",
       "ar": "Arabic"

@@ -39,3 +39,29 @@ flowchart TD
   H -- throws --> X
   X --> R[Exit code 1]
 ```
+
+Swapping a section's design in the editor (L2). Only `block.design` changes; no AI call, no credits.
+
+```mermaid
+flowchart TD
+  A[SectionList: Change design button] --> B{canChangeDesign: category has 2+ designs?}
+  B -- no --> B1[Button hidden]
+  B -- yes --> C[DesignGallery dialog: getDesignsForCategory]
+  C --> D[DesignPreviewFrame renders when visible]
+  D --> E[buildDesignPreviewDocument: changeBlockDesign + renderSite with real props and locale]
+  E --> F[Sandboxed scaled iframe srcDoc]
+  C --> G{Escape or close?}
+  G -- yes --> H[Dialog closes, nothing changes]
+  C --> I[Use this design: handleApplyDesign]
+  I --> J[changeBlockDesign: design only, props id order hidden kept]
+  J --> K[syncPreviewSections replaces the section with new data-design]
+  J --> L[Autosave: PUT /api/sites/siteId/content]
+  L --> M{Owner and siteContentSchema valid? design exists for block category}
+  M -- not owner --> N[404 site_not_found]
+  M -- unknown design or other category --> O[400 invalid_request]
+  M -- ok --> P[saveContent re-renders site HTML with new data-design]
+  P --> Q[Toast: saved + Undo]
+  O --> R[Toast: errors.invalid]
+  Q --> S[Undo: changeBlockDesign with previous design]
+  S --> L
+```

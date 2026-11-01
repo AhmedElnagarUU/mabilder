@@ -4,7 +4,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import type { Locale } from "../../static-site-generator/locale";
 import type { SiteContent } from "../../static-site-generator/site-content";
+import { currentDesignId } from "../block-designs";
 import {
+  changeBlockDesign,
   editableFields,
   hideBlock,
   moveBlock,
@@ -28,6 +30,9 @@ import { useCredits } from "../../credits/components/use-credits";
 import { requestRewrite, type RewriteError } from "../rewrite-request";
 import { rewriteSections, type RewriteScope } from "../rewrite-sections";
 import { RewriteDialog } from "./rewrite-dialog";
+import { DesignGallery } from "./design-gallery";
+
+type DesignUndo = { pageId: string; blockId: string; designId: string };
 
 type SiteEditorProps = {
   siteId: string;
@@ -61,8 +66,12 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
   const revisionRef = useRef(0);
   const attemptedRef = useRef(0);
   const savingRef = useRef(false);
+  const undoRef = useRef<DesignUndo | null>(null);
+  const undoDesignRef = useRef<() => void>(() => {});
+  const [designBlockId, setDesignBlockId] = useState<string | null>(null);
 
   const page = content.pages.find((candidate) => candidate.id === pageId) ?? content.pages[0];
+  const designBlock = page.blocks.find((block) => block.id === designBlockId) ?? null;
 
   useEffect(() => {
     contentRef.current = content;
@@ -73,10 +82,23 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
   }, [dirty]);
 
   const showToast = useCallback(
-    (kind: SaveToastMessage["kind"], message: string, link?: SaveToastMessage["link"]): void => {
-      setToast({ id: Date.now(), kind, message, link });
+    (
+      kind: SaveToastMessage["kind"],
+      message: string,
+      link?: SaveToastMessage["link"],
+      action?: SaveToastMessage["action"],
+    ): void => {
+      setToast({ id: Date.now(), kind, message, link, action });
     },
     [],
+  );
+
+  const undoAction = useCallback(
+    (): SaveToastMessage["action"] =>
+      undoRef.current
+        ? { label: t("designs.undo"), onClick: () => undoDesignRef.current() }
+        : undefined,
+    [t],
   );
 
   const saveContent = useCallback(async (): Promise<boolean> => {
@@ -118,7 +140,7 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
 
       if (revisionRef.current === startedRevision) {
         setDirty(false);
-        showToast("success", t("panel.saved"));
+        showToast("success", t("panel.saved"), undefined, undoAction());
       }
 
       return true;
@@ -129,7 +151,7 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
       savingRef.current = false;
       setSaving(false);
     }
-  }, [showToast, siteId, t]);
+  }, [showToast, siteId, t, undoAction]);
 
   useEffect(() => {
     if (!dirty || saving || attemptedRef.current >= revision) {
@@ -148,7 +170,10 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
       return;
     }
 
-    const timer = setTimeout(() => setToast(null), 3000);
+    const timer = setTimeout(() => {
+      setToast(null);
+      undoRef.current = null;
+    }, toast.action ? 8000 : 3000);
     return () => clearTimeout(timer);
   }, [toast]);
 
@@ -171,6 +196,7 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
       return;
     }
 
+    undoRef.current = null;
     contentRef.current = next;
     setContent(next);
     revisionRef.current += 1;
@@ -206,6 +232,37 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
 
     apply(next);
   }
+
+  function handleApplyDesign(designId: string): void {
+    const block = page.blocks.find((candidate) => candidate.id === designBlockId);
+
+    setDesignBlockId(null);
+
+    if (!block) {
+      return;
+    }
+
+    const previous = { pageId: page.id, blockId: block.id, designId: currentDesignId(block) };
+
+    apply(changeBlockDesign(contentRef.current, page.id, block.id, designId));
+    undoRef.current = previous;
+    showToast("success", t("designs.changed"), undefined, undoAction());
+  }
+
+  function undoDesign(): void {
+    const undo = undoRef.current;
+
+    if (!undo) {
+      return;
+    }
+
+    apply(changeBlockDesign(contentRef.current, undo.pageId, undo.blockId, undo.designId));
+    showToast("success", t("designs.undone"));
+  }
+
+  useEffect(() => {
+    undoDesignRef.current = undoDesign;
+  });
 
   function handleMove(blockId: string, direction: "up" | "down"): void {
     apply(moveBlock(contentRef.current, page.id, blockId, direction));
@@ -398,6 +455,7 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
                 selectedBlockId={selectedBlockId}
                 onSelect={handleListSelect}
                 onEditText={handleEditText}
+                onChangeDesign={setDesignBlockId}
                 onMove={handleMove}
                 onHide={handleHide}
                 onRestore={handleRestore}
@@ -457,6 +515,18 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
           error={rewriteError}
           onConfirm={(blockIds, instruction) => void handleRewrite(blockIds, instruction)}
           onClose={closeRewrite}
+        />
+      ) : null}
+
+      {designBlock ? (
+        <DesignGallery
+          content={content}
+          siteId={siteId}
+          pageId={page.id}
+          block={designBlock}
+          locale={locale}
+          onApply={handleApplyDesign}
+          onClose={() => setDesignBlockId(null)}
         />
       ) : null}
 

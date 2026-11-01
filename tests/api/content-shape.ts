@@ -47,3 +47,25 @@ export function withHomeBlockHidden(content: unknown, blockId: string): SiteCont
   block.hidden = true;
   return copy;
 }
+
+export function homeBlock(content: unknown, type: string): SiteContent["pages"][number]["blocks"][number] {
+  const block = homePage(content as SiteContent).blocks.find((candidate) => candidate.type === type);
+
+  if (!block) {
+    throw new Error(`The home page has no ${type} block.`);
+  }
+
+  return block;
+}
+
+export function withHomeBlockDesign(content: unknown, blockId: string, design: string): SiteContent {
+  const copy = structuredClone(content) as SiteContent;
+  const block = homePage(copy).blocks.find((candidate) => candidate.id === blockId);
+
+  if (!block) {
+    throw new Error(`The home page has no block "${blockId}".`);
+  }
+
+  (block as { design: string }).design = design;
+  return copy;
+}

@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Icon } from "../../../shared/ui/icon";
 import type { Page } from "../../static-site-generator/site-content";
+import { canChangeDesign } from "../block-designs";
 import { PanelToggle } from "./panel-toggle";
 
 type SectionListProps = {
@@ -10,6 +11,7 @@ type SectionListProps = {
   selectedBlockId: string | null;
   onSelect: (blockId: string) => void;
   onEditText: (blockId: string) => void;
+  onChangeDesign: (blockId: string) => void;
   onMove: (blockId: string, direction: "up" | "down") => void;
   onHide: (blockId: string) => void;
   onRestore: (blockId: string) => void;
@@ -25,6 +27,7 @@ export function SectionList({
   selectedBlockId,
   onSelect,
   onEditText,
+  onChangeDesign,
   onMove,
   onHide,
   onRestore,
@@ -88,6 +91,17 @@ export function SectionList({
                   >
                     <Icon name="pen" className="h-3.5 w-3.5" />
                   </button>
+                  {canChangeDesign(block) ? (
+                    <button
+                      type="button"
+                      onClick={() => onChangeDesign(block.id)}
+                      aria-label={t("designs.open")}
+                      title={t("designs.open")}
+                      className={iconButtonClass}
+                    >
+                      <Icon name="layout" className="h-3.5 w-3.5" />
+                    </button>
+                  ) : null}
                   {visibleIndex > 0 ? (
                     <>
                     <button

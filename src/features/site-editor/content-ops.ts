@@ -1,4 +1,5 @@
 import { getBlockDefinition, type Block } from "../static-site-generator/blocks/catalog";
+import { getDesign } from "../static-site-generator/designs/registry";
 import type { Locale } from "../static-site-generator/locale";
 import type { SiteContent } from "../static-site-generator/site-content";
 
@@ -235,6 +236,30 @@ export function restoreBlock(
   }
 
   block.hidden = false;
+  return next;
+}
+
+export function changeBlockDesign(
+  content: SiteContent,
+  pageId: string,
+  blockId: string,
+  designId: string,
+): SiteContent {
+  const block = findPage(content, pageId)?.blocks.find((candidate) => candidate.id === blockId);
+  const design = getDesign(designId);
+
+  if (!block || !design || design.category !== block.type || block.design === designId) {
+    return content;
+  }
+
+  const next = structuredClone(content);
+  const nextBlock = findPage(next, pageId)?.blocks.find((candidate) => candidate.id === blockId);
+
+  if (!nextBlock) {
+    return content;
+  }
+
+  nextBlock.design = designId as typeof nextBlock.design;
   return next;
 }
 

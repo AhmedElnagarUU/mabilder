@@ -8,6 +8,7 @@ export type SaveToastMessage = {
   kind: "success" | "error";
   message: string;
   link?: { href: string; label: string };
+  action?: { label: string; onClick: () => void };
 };
 
 export function SaveToast({ toast }: { toast: SaveToastMessage | null }) {
@@ -32,6 +33,15 @@ export function SaveToast({ toast }: { toast: SaveToastMessage | null }) {
           <Link href={toast.link.href} className="pointer-events-auto font-semibold underline">
             {toast.link.label}
           </Link>
+        ) : null}
+        {toast.action ? (
+          <button
+            type="button"
+            onClick={toast.action.onClick}
+            className="pointer-events-auto font-semibold underline"
+          >
+            {toast.action.label}
+          </button>
         ) : null}
       </div>
     </div>
