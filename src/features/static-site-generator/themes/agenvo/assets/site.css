@@ -340,6 +340,31 @@ select.form-field {
   color: var(--site-accent);
 }
 
+/* Quote / site visit choice: both forms show without JavaScript, tabs appear with it */
+.form-tab {
+  padding: 0.75rem 1.25rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border-block-end: 2px solid transparent;
+  opacity: 0.6;
+  transition: opacity 0.3s ease, border-color 0.3s ease;
+}
+
+.form-tab:hover,
+.form-tab[aria-selected="true"] {
+  opacity: 1;
+}
+
+.form-tab[aria-selected="true"] {
+  border-color: var(--site-accent);
+}
+
+.form-tab:focus-visible {
+  outline: 2px solid var(--site-accent);
+  outline-offset: 2px;
+}
+
 /* WhatsApp button: bottom-end corner, so it flips in right-to-left pages */
 .wa-float {
   position: fixed;

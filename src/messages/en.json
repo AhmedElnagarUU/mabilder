@@ -566,8 +566,8 @@
         "body": "{reply}"
       },
       "inquiry_received": {
-        "title": "New request from your website",
-        "body": "{name} sent you a request. Open your inbox to call them back."
+        "title": "{kind, select, visit {New site visit request} other {New request from your website}}",
+        "body": "{kind, select, visit {{name} asked for a site visit. Open your inbox to call them back.} other {{name} sent you a request. Open your inbox to call them back.}}"
       }
     }
   },
@@ -581,6 +581,21 @@
     "subtitle": "Requests sent from your website appear here. Call people back while they are still interested.",
     "noSite": "Create your website first, then your requests will appear here.",
     "noSiteCta": "Create your website",
+    "kindFilters": {
+      "aria": "Filter by type",
+      "all": "All types",
+      "quote": "Quotes",
+      "visit": "Site visits"
+    },
+    "kind": {
+      "quote": "Quote",
+      "visit": "Site visit",
+      "review": "Review"
+    },
+    "preferredTime": {
+      "morning": "Morning",
+      "evening": "Evening"
+    },
     "filters": {
       "aria": "Filter requests",
       "all": "All",
@@ -621,6 +636,10 @@
       "budget": "Budget",
       "startWhen": "Planned start",
       "message": "Message",
+      "kind": "Type",
+      "preferredDay": "Preferred day",
+      "preferredTime": "Preferred time",
+      "project": "Asked about project",
       "spamReason": "Why it is marked as spam"
     },
     "budget": {
@@ -1148,6 +1167,15 @@
       "startLabel": "Start time list label",
       "privacyNote": "Privacy note",
       "errorMessage": "Error message",
+      "quoteTabLabel": "Quote tab label",
+      "visitTabLabel": "Site visit tab label",
+      "visitSubmitLabel": "Site visit send button",
+      "visitDayLabel": "Visit day label",
+      "visitTimeLabel": "Visit time label",
+      "visitMorningLabel": "Morning option",
+      "visitEveningLabel": "Evening option",
+      "visitNotePlaceholder": "Visit note placeholder",
+      "visitSuccessMessage": "Visit thank-you message",
       "value": "Value",
       "label": "Link text",
       "names": "Names",

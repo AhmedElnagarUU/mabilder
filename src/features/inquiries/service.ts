@@ -16,6 +16,7 @@ import {
   listInquiries,
   updateInquiry,
 } from "./repository";
+import { listSiteProjects, matchProjectSlug } from "./projects";
 import { findContentSpam } from "./spam";
 import {
   DUPLICATE_WINDOW_MS,
@@ -27,13 +28,17 @@ import {
   inquiryUpdateSchema,
   quoteSchema,
   submissionMetaSchema,
+  visitSchema,
   type Inbox,
   type InquiryCounts,
   type InquiryItem,
+  type InquiryKind,
   type InquiryStats,
   type QuoteInput,
   type SpamReason,
+  type VisitInput,
 } from "./types";
+import { isVisitDayAllowed } from "./visit-day";
 
 const HOUR_MS = 60 * 60 * 1000;
 const DAY_MS = 24 * HOUR_MS;
@@ -92,9 +97,20 @@ function isSilentDrop(meta: z.output<typeof submissionMetaSchema>): boolean {
 
 type Failure = ReturnType<typeof invalid>;
 
-type Submission = { drop: true } | { drop: false; input: QuoteInput; locale: "en" | "ar" };
+type FormKind = "quote" | "visit";
+type FormFields = QuoteInput | VisitInput;
 
-function parseSubmission(body: unknown): Submission | Failure {
+type Submission =
+  | { drop: true }
+  | { drop: false; kind: FormKind; input: FormFields; locale: "en" | "ar" };
+
+type FieldsResult = { success: true; data: FormFields } | { success: false; error: z.ZodError };
+
+function parseFields(kind: FormKind, fields: Record<string, unknown>): FieldsResult {
+  return kind === "visit" ? visitSchema.safeParse(fields) : quoteSchema.safeParse(fields);
+}
+
+function parseSubmission(body: unknown, now: Date): Submission | Failure {
   if (!isPlainObject(body)) {
     return invalid("request", "Send the request as a JSON object or a form.");
   }
@@ -110,7 +126,8 @@ function parseSubmission(body: unknown): Submission | Failure {
     return { drop: true };
   }
 
-  const parsed = quoteSchema.safeParse(withoutEmptyValues(fields));
+  const formKind = meta.data.kind ?? "quote";
+  const parsed = parseFields(formKind, withoutEmptyValues(fields));
 
   if (!parsed.success) {
     return { ok: false, code: "invalid_request", errors: toIssues(parsed.error) };
@@ -122,7 +139,16 @@ function parseSubmission(body: unknown): Submission | Failure {
     return invalid("phone", "Enter a valid phone number.");
   }
 
-  return { drop: false, input: { ...parsed.data, phone }, locale: meta.data.locale ?? "en" };
+  if ("preferredDay" in parsed.data && !isVisitDayAllowed(parsed.data.preferredDay, now)) {
+    return invalid("preferredDay", "Choose a day from today up to 12 months ahead.");
+  }
+
+  return {
+    drop: false,
+    kind: formKind,
+    input: { ...parsed.data, phone },
+    locale: meta.data.locale ?? "en",
+  };
 }
 
 async function isOverRateLimit(siteId: string, visitorHash: string, now: Date): Promise<boolean> {
@@ -134,7 +160,7 @@ async function isOverRateLimit(siteId: string, visitorHash: string, now: Date): 
   return visitorCount >= RATE_LIMIT_PER_VISITOR_HOUR || siteCount >= RATE_LIMIT_PER_SITE_DAY;
 }
 
-async function findSpamReason(siteId: string, input: QuoteInput, now: Date): Promise<SpamReason | null> {
+async function findSpamReason(siteId: string, input: FormFields, now: Date): Promise<SpamReason | null> {
   const contentReason = findContentSpam(input);
 
   if (contentReason) {
@@ -161,6 +187,10 @@ async function findActiveOwnerId(siteId: string): Promise<string | null> {
   return ownerId;
 }
 
+async function resolveProjectSlug(siteId: string, slug: string | undefined): Promise<string | undefined> {
+  return slug === undefined ? undefined : matchProjectSlug(await listSiteProjects(siteId), slug);
+}
+
 // Every request is saved, even when the owner's trial ended: it is never lost.
 export async function submitInquiry(
   siteId: string,
@@ -174,7 +204,7 @@ export async function submitInquiry(
     return { ok: false, code: "site_not_found" };
   }
 
-  const submission = parseSubmission(body);
+  const submission = parseSubmission(body, now);
 
   if ("ok" in submission) {
     return submission;
@@ -193,8 +223,12 @@ export async function submitInquiry(
   const spamReason = await findSpamReason(siteId, submission.input, now);
   const spam = spamReason !== null;
 
+  const projectSlug = await resolveProjectSlug(siteId, submission.input.projectSlug);
+
   await insertInquiry({
     ...submission.input,
+    kind: submission.kind,
+    projectSlug,
     siteId,
     ownerId,
     locale: submission.locale,
@@ -206,7 +240,7 @@ export async function submitInquiry(
   });
 
   if (!spam) {
-    await notify(ownerId, "inquiry_received", { name: submission.input.name });
+    await notify(ownerId, "inquiry_received", { name: submission.input.name, kind: submission.kind });
   }
 
   return { ok: true };
@@ -221,7 +255,24 @@ export function countNewInquiries(ownerId: string): Promise<number> {
 }
 
 // Read access: trial and Pro. After the trial the owner only sees how many are waiting.
-export async function getInbox(ownerId: string, siteId: string): Promise<Inbox | null> {
+async function withProjects(siteId: string, items: InquiryItem[]): Promise<InquiryItem[]> {
+  if (!items.some((item) => item.projectSlug)) {
+    return items;
+  }
+
+  const projects = await listSiteProjects(siteId);
+
+  return items.map((item) => {
+    const project = projects.find((candidate) => candidate.slug === item.projectSlug);
+    return project ? { ...item, projectTitle: project.title, projectHref: project.href } : item;
+  });
+}
+
+export async function getInbox(
+  ownerId: string,
+  siteId: string,
+  kind?: InquiryKind,
+): Promise<Inbox | null> {
   if (!(await ownsSite(ownerId, siteId))) {
     return null;
   }
@@ -232,7 +283,9 @@ export async function getInbox(ownerId: string, siteId: string): Promise<Inbox |
     return { locked: true, newCount: counts.newCount };
   }
 
-  return { locked: false, newCount: counts.newCount, items: await listInquiries(ownerId, siteId) };
+  const items = await listInquiries(ownerId, siteId, kind);
+
+  return { locked: false, newCount: counts.newCount, items: await withProjects(siteId, items) };
 }
 
 export async function updateInquiryState(
@@ -290,7 +343,10 @@ export async function updateInquiryState(
   }
 
   if (rescuedWithoutNotice) {
-    await notify(ownerId, "inquiry_received", { name: updated.name });
+    await notify(ownerId, "inquiry_received", {
+      name: updated.name,
+      kind: updated.kind === "visit" ? "visit" : "quote",
+    });
   }
 
   return { ok: true, value: updated };

@@ -1,6 +1,7 @@
 import { budgetKeys, resolveFormLabels, startKeys } from "../../../blocks/contact-options";
 import type { Facts } from "../../../blocks/facts";
 import { escapeAttribute, renderText } from "../../../content/html";
+import { projectInLocale, projectSlugs } from "../../../content/project-pages";
 import type { BlockContext, ThemeBlock } from "../../types";
 import {
   getToneStyle,
@@ -12,6 +13,9 @@ import {
 } from "../parts";
 
 type ContactForm = ThemeBlock<"contact">["props"]["form"];
+type FormKind = "quote" | "visit";
+
+const formKinds: FormKind[] = ["quote", "visit"];
 
 function renderInput(name: string, type: string, label: string, fieldClass: string, required = false): string {
   const requiredAttribute = required ? " required" : "";
@@ -27,15 +31,35 @@ function renderSelect(name: string, label: string, options: [string, string][], 
   return `<select name="${name}" aria-label="${escapeAttribute(label)}" class="${fieldClass}"><option value="">${renderText(label)}</option>${items}</select>`;
 }
 
-function renderFormFields(form: ContactForm, context: BlockContext, fieldClass: string): string {
-  const labels = resolveFormLabels(form, context.locale);
+function renderServiceSelect(context: BlockContext, label: string, fieldClass: string): string {
   const services = context.content.facts.services.map((service): [string, string] => [service, service]);
+
+  return services.length > 0 ? renderSelect("service", label, services, fieldClass) : "";
+}
+
+// Remembers which project the visitor asked about: site.js fills the hidden field and the note.
+function renderProjectFields(context: BlockContext, aboutLabel: string): string {
+  const { projects } = context.content.facts;
+  const slugs = projectSlugs(projects);
+  const options = projects
+    .map(
+      (project, index) =>
+        `<span data-project-slug="${escapeAttribute(slugs[index])}" data-project-title="${escapeAttribute(projectInLocale(project, context.locale).title)}"></span>`,
+    )
+    .join("");
+
+  return `
+          <input type="hidden" name="projectSlug" value="" />
+          <p data-project-note data-about-label="${escapeAttribute(aboutLabel)}" class="hidden text-sm text-brass"></p>
+          <div class="hidden" aria-hidden="true">${options}</div>`;
+}
+
+function renderQuoteFields(form: ContactForm, context: BlockContext, fieldClass: string): string {
+  const labels = resolveFormLabels(form, context.locale);
   const budgets = budgetKeys.map((key): [string, string] => [key, labels.budgetOptions[key]]);
   const starts = startKeys.map((key): [string, string] => [key, labels.startOptions[key]]);
   const selects = [
-    services.length > 0
-      ? renderSelect("service", labels.serviceLabel, services, fieldClass)
-      : "",
+    renderServiceSelect(context, labels.serviceLabel, fieldClass),
     renderSelect("budget", labels.budgetLabel, budgets, fieldClass),
     renderSelect("startWhen", labels.startLabel, starts, fieldClass),
   ].filter(Boolean);
@@ -50,22 +74,75 @@ function renderFormFields(form: ContactForm, context: BlockContext, fieldClass: 
           <div class="grid sm:grid-cols-2 gap-4">
             ${selects.join("\n            ")}
           </div>
-          <textarea name="message" rows="4" placeholder="${escapeAttribute(form.messagePlaceholder)}" aria-label="${escapeAttribute(form.messagePlaceholder)}" class="${fieldClass} resize-none"></textarea>
-          <div class="form-trap" aria-hidden="true"><input name="website" type="text" tabindex="-1" autocomplete="off" /></div>
-          <input type="hidden" name="locale" value="${escapeAttribute(context.locale)}" />
-          <p class="text-xs opacity-60">${renderText(labels.privacyNote)}</p>`;
+          <textarea name="message" rows="4" placeholder="${escapeAttribute(form.messagePlaceholder)}" aria-label="${escapeAttribute(form.messagePlaceholder)}" class="${fieldClass} resize-none"></textarea>`;
 }
 
-function renderForm(form: ContactForm, context: BlockContext, fieldClass: string): string {
+function renderVisitFields(form: ContactForm, context: BlockContext, fieldClass: string): string {
   const labels = resolveFormLabels(form, context.locale);
-  const action = context.runtime.endpoint ? ` action="${escapeAttribute(context.runtime.endpoint)}"` : "";
+  const times: [string, string][] = [
+    ["morning", labels.visitMorningLabel],
+    ["evening", labels.visitEveningLabel],
+  ];
+  const service = renderServiceSelect(context, labels.serviceLabel, fieldClass);
 
   return `
-        <form data-form method="post"${action} class="space-y-5" data-sending-label="${escapeAttribute(labels.sendingLabel)}">${renderFormFields(form, context, fieldClass)}
-          <button type="submit" class="inline-flex items-center justify-center gap-3 bg-brass text-charcoal text-[11px] uppercase tracking-[0.2em] font-semibold px-8 py-4 hover:bg-cream transition disabled:opacity-60"><span data-submit-label>${renderText(form.submitLabel)}</span> <i data-lucide="arrow-right" class="w-4 h-4 rtl:rotate-180"></i></button>
-          <p data-form-message role="status" class="hidden text-sm text-brass border border-brass/40 bg-brass/10 px-4 py-3">${renderText(form.successMessage)}</p>
+          <div class="grid sm:grid-cols-2 gap-4">
+            ${renderInput("name", "text", form.namePlaceholder, fieldClass, true)}
+            ${renderInput("phone", "tel", labels.phonePlaceholder, fieldClass, true)}
+            ${service}
+            ${renderInput("location", "text", labels.locationPlaceholder, fieldClass)}
+            <label class="block text-xs opacity-70">${renderText(labels.visitDayLabel)}<input name="preferredDay" type="date" required data-visit-day aria-label="${escapeAttribute(labels.visitDayLabel)}" class="${fieldClass} mt-1" /></label>
+            ${renderSelect("preferredTime", labels.visitTimeLabel, times, fieldClass)}
+          </div>
+          <textarea name="message" rows="3" placeholder="${escapeAttribute(labels.visitNotePlaceholder)}" aria-label="${escapeAttribute(labels.visitNotePlaceholder)}" class="${fieldClass} resize-none"></textarea>`;
+}
+
+function renderForm(kind: FormKind, form: ContactForm, context: BlockContext, fieldClass: string): string {
+  const labels = resolveFormLabels(form, context.locale);
+  const isVisit = kind === "visit";
+  const action = context.runtime.endpoint ? ` action="${escapeAttribute(context.runtime.endpoint)}"` : "";
+  const fields = isVisit ? renderVisitFields(form, context, fieldClass) : renderQuoteFields(form, context, fieldClass);
+  const heading = isVisit ? labels.visitTabLabel : labels.quoteTabLabel;
+  const submit = isVisit ? labels.visitSubmitLabel : form.submitLabel;
+  const success = isVisit ? labels.visitSuccessMessage : form.successMessage;
+
+  return `
+        <h3 data-panel-title class="font-display text-2xl mb-5">${renderText(heading)}</h3>
+        <form data-form method="post"${action} class="space-y-5" data-sending-label="${escapeAttribute(labels.sendingLabel)}">${fields}
+          <div class="form-trap" aria-hidden="true"><input name="website" type="text" tabindex="-1" autocomplete="off" /></div>
+          <input type="hidden" name="locale" value="${escapeAttribute(context.locale)}" />
+          <input type="hidden" name="kind" value="${kind}" />${renderProjectFields(context, labels.aboutLabel)}
+          <p class="text-xs opacity-60">${renderText(labels.privacyNote)}</p>
+          <button type="submit" class="inline-flex items-center justify-center gap-3 bg-brass text-charcoal text-[11px] uppercase tracking-[0.2em] font-semibold px-8 py-4 hover:bg-cream transition disabled:opacity-60"><span data-submit-label>${renderText(submit)}</span> <i data-lucide="arrow-right" class="w-4 h-4 rtl:rotate-180"></i></button>
+          <p data-form-message role="status" class="hidden text-sm text-brass border border-brass/40 bg-brass/10 px-4 py-3">${renderText(success)}</p>
           <p data-form-error role="alert" class="hidden text-sm form-error border border-current px-4 py-3">${renderText(labels.errorMessage)}</p>
         </form>`;
+}
+
+// Without JavaScript both forms are stacked; site.js shows the tab list and hides the inactive form.
+function renderForms(block: ThemeBlock<"contact">, context: BlockContext, fieldClass: string): string {
+  const { form } = block.props;
+  const labels = resolveFormLabels(form, context.locale);
+  const tabLabels: Record<FormKind, string> = { quote: labels.quoteTabLabel, visit: labels.visitTabLabel };
+  const tabs = formKinds
+    .map((kind, index) => {
+      const selected = index === 0;
+
+      return `<button type="button" role="tab" id="${escapeAttribute(`${block.id}-tab-${kind}`)}" aria-controls="${escapeAttribute(`${block.id}-panel-${kind}`)}" aria-selected="${selected}" tabindex="${selected ? 0 : -1}" data-tab="${kind}" class="form-tab">${renderText(tabLabels[kind])}</button>`;
+    })
+    .join("");
+  const panels = formKinds
+    .map(
+      (kind) => `
+      <div role="tabpanel" id="${escapeAttribute(`${block.id}-panel-${kind}`)}" aria-labelledby="${escapeAttribute(`${block.id}-tab-${kind}`)}" data-panel="${kind}" class="space-y-5">${renderForm(kind, form, context, fieldClass)}
+      </div>`,
+    )
+    .join("");
+
+  return `
+      <div data-contact-tabs class="space-y-10">
+        <div role="tablist" aria-label="${escapeAttribute(labels.tabsLabel)}" data-tablist class="hidden gap-2 border-b border-current/20">${tabs}</div>${panels}
+      </div>`;
 }
 
 function renderContactLine(icon: string, text: string | undefined, href?: string): string {
@@ -108,7 +185,7 @@ function renderSplit(block: ThemeBlock<"contact">, context: BlockContext, style:
         ${renderTitle(props.title)}
         <p class="${style.body} mt-6 text-sm leading-relaxed reveal">${renderText(props.body)}</p>${renderContactDetails(context.content.facts, style)}
       </div>
-      <div class="reveal">${renderForm(props.form, context, style.field)}
+      <div class="reveal">${renderForms(block, context, style.field)}
       </div>
     </div>`;
 }
@@ -123,7 +200,7 @@ function renderFormOnly(block: ThemeBlock<"contact">, context: BlockContext, sty
         ${renderTitle(props.title)}
         <p class="${style.body} mt-6 text-sm leading-relaxed reveal">${renderText(props.body)}</p>
       </div>
-      <div class="bg-charcoal text-cream border border-white/10 p-8 md:p-10 reveal">${renderForm(props.form, context, "form-field")}
+      <div class="bg-charcoal text-cream border border-white/10 p-8 md:p-10 reveal">${renderForms(block, context, "form-field")}
       </div>
     </div>`;
 }

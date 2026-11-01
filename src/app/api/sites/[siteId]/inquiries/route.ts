@@ -1,6 +1,7 @@
 import { requireSession, unauthorizedResponse } from "@/features/auth/session";
 import { inquiryErrorResponse } from "@/features/inquiries/responses";
 import { getInbox } from "@/features/inquiries/service";
+import { inquiryKindSchema } from "@/features/inquiries/types";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +17,8 @@ export async function GET(
     }
 
     const { siteId } = await context.params;
-    const inbox = await getInbox(user.id, siteId);
+    const kind = inquiryKindSchema.safeParse(new URL(request.url).searchParams.get("kind"));
+    const inbox = await getInbox(user.id, siteId, kind.success ? kind.data : undefined);
 
     if (!inbox) {
       return Response.json({ error: "Site not found.", code: "site_not_found" }, { status: 404 });

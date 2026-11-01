@@ -3,7 +3,10 @@ import { test } from "node:test";
 import { InquiryModel } from "../../src/features/inquiries/model";
 import { normalizePhone } from "../../src/features/inquiries/phone";
 import { findContentSpam } from "../../src/features/inquiries/spam";
-import { quoteSchema } from "../../src/features/inquiries/types";
+import { quoteSchema, visitSchema } from "../../src/features/inquiries/types";
+import { isVisitDayAllowed } from "../../src/features/inquiries/visit-day";
+import { renderEmail } from "../../src/features/notifications/templates";
+import type { Facts } from "../../src/features/static-site-generator/blocks/facts";
 import { contactBlock } from "../../src/features/static-site-generator/blocks/contact";
 import { contactFormLabels } from "../../src/features/static-site-generator/blocks/contact-options";
 import {
@@ -12,7 +15,7 @@ import {
 } from "../../src/features/static-site-generator/content/whatsapp";
 import { renderSite } from "../../src/features/static-site-generator/render-site";
 import { createSiteRuntime } from "../../src/features/static-site-generator/site-runtime";
-import { composeFor, richBrief, thinBrief } from "./samples";
+import { composeFor, richBrief, richProjects, thinBrief } from "./samples";
 
 const SITE_ID = "64b000000000000000000001";
 const APP_URL = "https://app.example.com";
@@ -133,4 +136,118 @@ test("the inquiry model deletes documents by date: a TTL index on expiresAt exis
 
   assert.ok(ttl, "expiresAt index missing");
   assert.equal(ttl[1].expireAfterSeconds, 0);
+});
+
+test("the contact section shows a quote form and a visit form, each with its own hidden kind", () => {
+  const html = htmlOf(renderFiles(richBrief), "en/contact.html");
+
+  assert.equal(html.match(/<form data-form/g)?.length, 2);
+  assert.ok(html.includes('<input type="hidden" name="kind" value="quote" />'));
+  assert.ok(html.includes('<input type="hidden" name="kind" value="visit" />'));
+  assert.match(html, /role="tablist"[^>]*data-tablist class="hidden/);
+  assert.equal(html.match(/role="tab"/g)?.length, 2);
+  assert.equal(html.match(/role="tabpanel"/g)?.length, 2);
+  assert.ok(html.includes(`>${contactFormLabels.en.quoteTabLabel}</button>`));
+  assert.ok(html.includes(`>${contactFormLabels.en.visitTabLabel}</button>`));
+  assert.match(html, /<input name="preferredDay" type="date" required data-visit-day/);
+  assert.ok(html.includes('<option value="morning">Morning</option>'));
+  assert.ok(html.includes('<option value="evening">Evening</option>'));
+  assert.equal(html.match(/name="projectSlug"/g)?.length, 2);
+  assert.ok(!html.includes("undefined"));
+});
+
+test("the visit form uses the arabic labels and the services from the facts", () => {
+  const html = htmlOf(renderFiles(richBrief), "ar/contact.html");
+
+  assert.ok(html.includes(`>${contactFormLabels.ar.visitTabLabel}</button>`));
+  assert.ok(html.includes('<option value="morning">صباحًا</option>'));
+  assert.ok(html.includes(`${contactFormLabels.ar.aboutLabel}`));
+  assert.equal(html.match(/<option value="Interiors">Interiors<\/option>/g)?.length, 2);
+});
+
+test("labels written for the visit form win over the fixed ones", () => {
+  const content = composeFor(richBrief, [], ["en"]);
+  const contactBlockOnPage = content.pages
+    .flatMap((page) => page.blocks)
+    .find((block) => block.type === "contact");
+  assert.ok(contactBlockOnPage && contactBlockOnPage.type === "contact");
+
+  const form = contactBlockOnPage.props.en?.form;
+  assert.ok(form);
+  form.visitTabLabel = "Visit us on site";
+  process.env.NEXT_PUBLIC_APP_URL = APP_URL;
+
+  const html = htmlOf(renderSite(content, "", createSiteRuntime(SITE_ID)), "contact.html");
+
+  assert.ok(html.includes(">Visit us on site</button>"));
+});
+
+test("the project page links to the contact page of the same language with the project slug", () => {
+  process.env.NEXT_PUBLIC_APP_URL = APP_URL;
+  const content = composeFor(richBrief, richProjects, ["en", "ar"]);
+  const files = renderSite(content, "", createSiteRuntime(SITE_ID));
+  const english = htmlOf(files, "en/projects/corporate-tower.html");
+  const arabic = htmlOf(files, "ar/projects/corporate-tower.html");
+
+  assert.ok(english.includes('href="../contact.html?project=corporate-tower" data-project-ask'));
+  assert.ok(english.includes("Ask about this project"));
+  assert.ok(arabic.includes('href="../contact.html?project=corporate-tower" data-project-ask'));
+  assert.ok(arabic.includes("اسأل عن هذا المشروع"));
+  assert.ok(!english.includes("undefined") && !arabic.includes("undefined"));
+});
+
+test("a single-language site links to its own contact page", () => {
+  process.env.NEXT_PUBLIC_APP_URL = APP_URL;
+  const content = composeFor(richBrief, richProjects, ["en"]);
+  const html = htmlOf(renderSite(content, "", createSiteRuntime(SITE_ID)), "projects/corporate-tower.html");
+
+  assert.ok(html.includes('href="../contact.html?project=corporate-tower" data-project-ask'));
+});
+
+test("the contact form carries each project's slug and escaped title for site.js", () => {
+  const tricky: Facts["projects"] = [
+    { ...richProjects[0], title: 'Villa "A" <script>alert(1)</script>' },
+    richProjects[0],
+  ];
+  process.env.NEXT_PUBLIC_APP_URL = APP_URL;
+  const html = htmlOf(
+    renderSite(composeFor(richBrief, tricky, ["en"]), "", createSiteRuntime(SITE_ID)),
+    "contact.html",
+  );
+
+  assert.ok(html.includes('data-project-slug="corporate-tower" data-project-title="Corporate Tower"'));
+  assert.ok(html.includes("&lt;script&gt;alert(1)&lt;/script&gt;"));
+  assert.ok(!html.includes("<script>alert(1)"));
+  assert.ok(!html.includes("undefined"));
+});
+
+test("the visit schema needs a day, limits the time of day and rejects unknown fields", () => {
+  const ok = { name: "Omar", phone: "01001234567", preferredDay: "2026-11-20" };
+
+  assert.ok(visitSchema.safeParse(ok).success);
+  assert.ok(visitSchema.safeParse({ ...ok, preferredTime: "evening" }).success);
+  assert.ok(!visitSchema.safeParse({ ...ok, preferredTime: "noon" }).success);
+  assert.ok(!visitSchema.safeParse({ name: "Omar", phone: "01001234567" }).success);
+  assert.ok(!visitSchema.safeParse({ ...ok, budget: "large" }).success);
+});
+
+test("a visit day is allowed from today to 12 months ahead for any time zone", () => {
+  const now = new Date("2026-11-01T10:00:00Z");
+
+  assert.ok(isVisitDayAllowed("2026-11-01", now));
+  assert.ok(isVisitDayAllowed("2026-10-31", now), "a visitor still on the previous day");
+  assert.ok(isVisitDayAllowed("2027-11-02", now), "a visitor already on the next day");
+  assert.ok(!isVisitDayAllowed("2026-10-30", now));
+  assert.ok(!isVisitDayAllowed("2027-11-03", now));
+  assert.ok(!isVisitDayAllowed("2026-02-31", now));
+  assert.ok(!isVisitDayAllowed("tomorrow", now));
+});
+
+test("the visit notification says it is a site visit, in both languages", () => {
+  const params = { name: "Omar", kind: "visit" as const };
+  const quoteParams = { name: "Omar", kind: "quote" as const };
+
+  assert.match(renderEmail("inquiry_received", "en", params).subject, /site visit/i);
+  assert.match(renderEmail("inquiry_received", "ar", params).text, /زيارة/);
+  assert.doesNotMatch(renderEmail("inquiry_received", "en", quoteParams).text, /site visit/i);
 });

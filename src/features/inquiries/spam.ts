@@ -1,4 +1,4 @@
-import type { QuoteInput, SpamReason } from "./types";
+import type { SpamReason } from "./types";
 
 const LINK_PATTERN = /https?:|www\./i;
 const DOMAIN_PATTERN = /\b[\w-]+\.(com|net|org|ru|cn|xyz|top|info|io|me|co|biz|site|online)\b/gi;
@@ -21,7 +21,7 @@ function isMostlyNonLetters(text: string, minChars: number): boolean {
 }
 
 // Content check on the text only; the duplicate check needs the database.
-export function findContentSpam(input: QuoteInput): SpamReason | null {
+export function findContentSpam(input: { name: string; message?: string }): SpamReason | null {
   if (LINK_PATTERN.test(input.name) || domainCount(input.name) > 0) {
     return "name_link";
   }

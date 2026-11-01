@@ -7,6 +7,8 @@ export const inquiryStatuses = ["new", "contacted", "won", "lost"] as const;
 export const spamReasons = ["links", "name_link", "gibberish", "duplicate", "owner"] as const;
 export const preferredTimes = ["morning", "evening"] as const;
 
+export const inquiryKindSchema = z.enum(inquiryKinds);
+
 export type InquiryKind = (typeof inquiryKinds)[number];
 export type InquiryStatus = (typeof inquiryStatuses)[number];
 export type SpamReason = (typeof spamReasons)[number];
@@ -33,17 +35,32 @@ export const quoteSchema = z
     area: optionalText(40),
     budget: z.enum(budgetKeys).optional(),
     startWhen: z.enum(startKeys).optional(),
+    projectSlug: optionalText(120),
+  })
+  .strict();
+
+export const visitSchema = z
+  .object({
+    name: z.string().trim().min(1).max(80),
+    phone: z.string().trim().min(7).max(20),
+    message: optionalText(2000),
+    service: optionalText(200),
+    location: optionalText(120),
+    preferredDay: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Choose a day."),
+    preferredTime: z.enum(preferredTimes).optional(),
+    projectSlug: optionalText(120),
   })
   .strict();
 
 export type QuoteInput = z.infer<typeof quoteSchema>;
+export type VisitInput = z.infer<typeof visitSchema>;
 
-// Sent by the form next to the fields, never stored: honeypot, fill time, page language.
+// Sent by the form next to the fields, never stored: honeypot, fill time, page language, form type.
 export const submissionMetaSchema = z.object({
   website: z.string().optional(),
   elapsedMs: z.coerce.number().optional(),
   locale: localeSchema.optional().catch(undefined),
-  kind: z.literal("quote").optional(),
+  kind: z.enum(["quote", "visit"]).optional(),
 });
 
 export const inquiryUpdateSchema = z
@@ -70,6 +87,11 @@ export type InquiryItem = {
   area?: string;
   budget?: (typeof budgetKeys)[number];
   startWhen?: (typeof startKeys)[number];
+  preferredDay?: string;
+  preferredTime?: (typeof preferredTimes)[number];
+  projectSlug?: string;
+  projectTitle?: string;
+  projectHref?: string;
   locale: "en" | "ar";
   status: InquiryStatus;
   spam: boolean;

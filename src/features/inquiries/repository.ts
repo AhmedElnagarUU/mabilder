@@ -5,6 +5,7 @@ import {
   LIST_LIMIT,
   type InquiryCounts,
   type InquiryItem,
+  type InquiryKind,
   type InquiryStats,
   type SpamReason,
 } from "./types";
@@ -13,7 +14,22 @@ type LeanInquiry = InquiryDocument & { _id: { toString(): string }; createdAt: D
 
 export type NewInquiry = Pick<
   InquiryItem,
-  "name" | "phone" | "email" | "message" | "service" | "location" | "area" | "budget" | "startWhen" | "locale" | "spam" | "spamReason"
+  | "kind"
+  | "name"
+  | "phone"
+  | "email"
+  | "message"
+  | "service"
+  | "location"
+  | "area"
+  | "budget"
+  | "startWhen"
+  | "preferredDay"
+  | "preferredTime"
+  | "projectSlug"
+  | "locale"
+  | "spam"
+  | "spamReason"
 > & {
   siteId: string;
   ownerId: string;
@@ -35,6 +51,9 @@ function toItem(document: LeanInquiry): InquiryItem {
     area: document.area ?? undefined,
     budget: document.budget ?? undefined,
     startWhen: document.startWhen ?? undefined,
+    preferredDay: document.preferredDay ?? undefined,
+    preferredTime: document.preferredTime ?? undefined,
+    projectSlug: document.projectSlug ?? undefined,
     locale: document.locale as "en" | "ar",
     status: document.status,
     spam: document.spam,
@@ -57,6 +76,20 @@ export async function findSiteOwnerId(siteId: string): Promise<string | null> {
   return typeof site?.ownerId === "string" ? site.ownerId : null;
 }
 
+// The stored website content, as saved by site-creation. Validated by the caller.
+export async function findSiteContent(siteId: string): Promise<unknown> {
+  if (!isValidObjectId(siteId)) {
+    return null;
+  }
+
+  const mongo = await connectToDatabase();
+  const site = await mongo.connection
+    .collection("sites")
+    .findOne({ _id: new mongoose.Types.ObjectId(siteId) }, { projection: { content: 1 } });
+
+  return site?.content ?? null;
+}
+
 export async function insertInquiry(input: NewInquiry): Promise<void> {
   await connectToDatabase();
   await InquiryModel.create(input);
@@ -67,10 +100,14 @@ export async function countInquiries(filter: QueryFilter<InquiryDocument>): Prom
   return InquiryModel.countDocuments(filter);
 }
 
-export async function listInquiries(ownerId: string, siteId: string): Promise<InquiryItem[]> {
+export async function listInquiries(
+  ownerId: string,
+  siteId: string,
+  kind?: InquiryKind,
+): Promise<InquiryItem[]> {
   await connectToDatabase();
 
-  const documents = (await InquiryModel.find({ ownerId, siteId })
+  const documents = (await InquiryModel.find(kind ? { ownerId, siteId, kind } : { ownerId, siteId })
     .sort({ createdAt: -1 })
     .limit(LIST_LIMIT)
     .lean()) as unknown as LeanInquiry[];

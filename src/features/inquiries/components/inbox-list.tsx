@@ -13,10 +13,16 @@ import { inquiryStatuses, type InquiryItem, type InquiryStatus } from "../types"
 import { sendInquiryRequest } from "./inquiry-request";
 
 type Filter = "all" | InquiryStatus | "spam";
+type KindFilter = "all" | "quote" | "visit";
 
 const filters: Filter[] = ["all", ...inquiryStatuses, "spam"];
+const kindFilters: KindFilter[] = ["all", "quote", "visit"];
 
-function matchesFilter(item: InquiryItem, filter: Filter): boolean {
+function matchesFilter(item: InquiryItem, filter: Filter, kind: KindFilter): boolean {
+  if (kind !== "all" && item.kind !== kind) {
+    return false;
+  }
+
   if (filter === "spam") {
     return item.spam;
   }
@@ -33,12 +39,13 @@ export function InboxList({ siteId, items }: { siteId: string; items: InquiryIte
   const format = useFormatter();
   const router = useRouter();
   const [filter, setFilter] = useState<Filter>("all");
+  const [kind, setKind] = useState<KindFilter>("all");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
-  const visible = items.filter((item) => matchesFilter(item, filter));
+  const visible = items.filter((item) => matchesFilter(item, filter, kind));
   const selected = visible.find((item) => item.id === selectedId) ?? null;
   const base = `/api/sites/${siteId}/inquiries`;
 
@@ -75,11 +82,28 @@ export function InboxList({ siteId, items }: { siteId: string; items: InquiryIte
   }
 
   function countFor(value: Filter): number {
-    return items.filter((item) => matchesFilter(item, value)).length;
+    return items.filter((item) => matchesFilter(item, value, kind)).length;
   }
 
   return (
     <div className="space-y-4">
+      <div role="group" aria-label={t("kindFilters.aria")} className="flex flex-wrap gap-2">
+        {kindFilters.map((value) => (
+          <button
+            key={value}
+            type="button"
+            aria-pressed={kind === value}
+            onClick={() => {
+              setKind(value);
+              setSelectedId(null);
+            }}
+            className={buttonClass(kind === value ? "primary" : "secondary", "sm")}
+          >
+            {t(`kindFilters.${value}`)}
+          </button>
+        ))}
+      </div>
+
       <div role="tablist" data-tour="inbox-filters" aria-label={t("filters.aria")} className="flex flex-wrap gap-2">
         {filters.map((value) => (
           <button
@@ -122,13 +146,17 @@ export function InboxList({ siteId, items }: { siteId: string; items: InquiryIte
                 >
                   <span className="flex items-center justify-between gap-3">
                     <span className="truncate text-base font-medium text-ink">{item.name}</span>
-                    <Badge tone={item.spam ? "danger" : item.status === "new" ? "success" : "neutral"}>
-                      {item.spam ? t("filters.spam") : t(`status.${item.status}`)}
-                    </Badge>
+                    <span className="flex shrink-0 gap-1.5">
+                      <Badge tone="neutral">{t(`kind.${item.kind}`)}</Badge>
+                      <Badge tone={item.spam ? "danger" : item.status === "new" ? "success" : "neutral"}>
+                        {item.spam ? t("filters.spam") : t(`status.${item.status}`)}
+                      </Badge>
+                    </span>
                   </span>
                   <span className="mt-1 block truncate text-sm text-muted">
                     <bdi dir="ltr">{item.phone}</bdi>
                     {item.service ? ` · ${item.service}` : ""}
+                    {item.preferredDay ? ` · ${item.preferredDay}` : ""}
                   </span>
                   <span className="mt-1 block text-xs text-faint">{formatDate(item.createdAt)}</span>
                 </button>
@@ -232,6 +260,22 @@ function InquiryDetails({
         <Detail label={t("fields.email")} value={item.email} />
         <Detail label={t("fields.service")} value={item.service} />
         <Detail label={t("fields.location")} value={item.location} />
+        <Detail label={t("fields.kind")} value={t(`kind.${item.kind}`)} />
+        <Detail label={t("fields.preferredDay")} value={item.preferredDay} />
+        <Detail
+          label={t("fields.preferredTime")}
+          value={item.preferredTime ? t(`preferredTime.${item.preferredTime}`) : undefined}
+        />
+        {item.projectTitle && item.projectHref ? (
+          <div className="py-2">
+            <dt className="font-mono text-[11px] tracking-[0.1em] text-muted uppercase">{t("fields.project")}</dt>
+            <dd className="mt-0.5 text-sm">
+              <a href={item.projectHref} target="_blank" rel="noopener noreferrer" className="text-accent underline">
+                {item.projectTitle}
+              </a>
+            </dd>
+          </div>
+        ) : null}
         <Detail label={t("fields.budget")} value={item.budget ? t(`budget.${item.budget}`) : undefined} />
         <Detail label={t("fields.startWhen")} value={item.startWhen ? t(`start.${item.startWhen}`) : undefined} />
         <Detail label={t("fields.message")} value={item.message} />

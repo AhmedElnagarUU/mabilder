@@ -566,8 +566,8 @@
         "body": "{reply}"
       },
       "inquiry_received": {
-        "title": "طلب جديد من موقعك",
-        "body": "أرسل {name} طلبًا إليك. افتح صندوق الطلبات للتواصل معه."
+        "title": "{kind, select, visit {طلب زيارة موقع جديد} other {طلب جديد من موقعك}}",
+        "body": "{kind, select, visit {طلب {name} زيارة للموقع. افتح صندوق الطلبات للتواصل معه.} other {أرسل {name} طلبًا إليك. افتح صندوق الطلبات للتواصل معه.}}"
       }
     }
   },
@@ -581,6 +581,21 @@
     "subtitle": "تظهر هنا الطلبات المرسلة من موقعك. تواصل مع أصحابها سريعًا وهم لا يزالون مهتمين.",
     "noSite": "أنشئ موقعك أولًا، ثم ستظهر طلباتك هنا.",
     "noSiteCta": "أنشئ موقعك",
+    "kindFilters": {
+      "aria": "تصفية حسب النوع",
+      "all": "كل الأنواع",
+      "quote": "عروض الأسعار",
+      "visit": "زيارات الموقع"
+    },
+    "kind": {
+      "quote": "عرض سعر",
+      "visit": "زيارة موقع",
+      "review": "تقييم"
+    },
+    "preferredTime": {
+      "morning": "صباحًا",
+      "evening": "مساءً"
+    },
     "filters": {
       "aria": "تصفية الطلبات",
       "all": "الكل",
@@ -621,6 +636,10 @@
       "budget": "الميزانية",
       "startWhen": "موعد البدء المخطط",
       "message": "الرسالة",
+      "kind": "النوع",
+      "preferredDay": "اليوم المفضل",
+      "preferredTime": "الوقت المفضل",
+      "project": "سأل عن المشروع",
       "spamReason": "سبب اعتبارها مزعجة"
     },
     "budget": {
@@ -1148,6 +1167,15 @@
       "startLabel": "عنوان قائمة موعد البدء",
       "privacyNote": "ملاحظة الخصوصية",
       "errorMessage": "رسالة الخطأ",
+      "quoteTabLabel": "عنوان تبويب عرض السعر",
+      "visitTabLabel": "عنوان تبويب زيارة الموقع",
+      "visitSubmitLabel": "زر إرسال طلب الزيارة",
+      "visitDayLabel": "عنوان اليوم المفضل",
+      "visitTimeLabel": "عنوان الوقت المفضل",
+      "visitMorningLabel": "خيار الصباح",
+      "visitEveningLabel": "خيار المساء",
+      "visitNotePlaceholder": "نص مساعد ملاحظة الزيارة",
+      "visitSuccessMessage": "رسالة شكر طلب الزيارة",
       "value": "القيمة",
       "label": "نص الرابط",
       "names": "الأسماء",

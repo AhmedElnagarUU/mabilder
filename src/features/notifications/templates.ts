@@ -170,14 +170,20 @@ const templates: Templates = {
     }),
   },
   inquiry_received: {
-    en: ({ name }) => ({
-      subject: "New request from your website",
-      body: `${name} sent you a request. Call them back while they are still interested.`,
+    en: ({ name, kind }) => ({
+      subject: kind === "visit" ? "New site visit request from your website" : "New request from your website",
+      body:
+        kind === "visit"
+          ? `${name} asked for a site visit. Call them back to agree on a day.`
+          : `${name} sent you a request. Call them back while they are still interested.`,
       path: "/dashboard/inbox",
     }),
-    ar: ({ name }) => ({
-      subject: "طلب جديد من موقعك",
-      body: `أرسل ${name} طلبًا إليك. تواصل معه سريعًا وهو لا يزال مهتمًا.`,
+    ar: ({ name, kind }) => ({
+      subject: kind === "visit" ? "طلب زيارة موقع جديد من موقعك" : "طلب جديد من موقعك",
+      body:
+        kind === "visit"
+          ? `طلب ${name} زيارة للموقع. تواصل معه للاتفاق على اليوم.`
+          : `أرسل ${name} طلبًا إليك. تواصل معه سريعًا وهو لا يزال مهتمًا.`,
       path: "/dashboard/inbox",
     }),
   },

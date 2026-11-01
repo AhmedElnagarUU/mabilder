@@ -35,6 +35,30 @@ flowchart TD
   US -- Not spam on a never-notified request --> NT
 ```
 
+Site visit request and "Ask about this project" (W2):
+
+```mermaid
+flowchart TD
+  PP[Project page: renderCtaSection button, href contact.html?project=slug in the same language] --> CP[Contact page loads site.js]
+  CP --> RP{slug matches a data-project-slug on the page?}
+  RP -- no --> NP[Ignored: forms stay without a project]
+  RP -- yes --> FP[fillProject: hidden projectSlug set, About: title shown with textContent]
+  CP --> TB[Tab list shown by JS: Request a quote or Book a site visit; without JS both forms are stacked]
+  TB --> VF[Visit form: name, phone, service, location, preferredDay, preferredTime, note, hidden kind=visit]
+  FP --> VF
+  VF --> R[POST /api/public/sites/siteId/inquiries]
+  R --> PS[parseSubmission in inquiries/service.ts: kind picks visitSchema or quoteSchema]
+  PS -- bad phone, bad time, or day not in the allowed range --> B400[400 invalid_request shown on the form]
+  PS -- ok --> SP[Same honeypot, fill time, rate limit and spam checks as W1]
+  SP --> RS[resolveProjectSlug: listSiteProjects with projectSlugs of the stored content]
+  RS -- slug not a project of this site --> DR[projectSlug dropped, request still saved]
+  RS -- match --> KP[projectSlug kept]
+  DR --> SV[insertInquiry with kind visit]
+  KP --> SV
+  SV --> NT[notify inquiry_received with kind visit: says site visit, en and ar]
+  NT --> IB[Inbox: kind badge, kind filter, preferred day and time, project title link to the preview page]
+```
+
 Admin counts and the WhatsApp button:
 
 ```mermaid

@@ -117,10 +117,13 @@ function renderPhotoGroup(title: string, images: Image[], part: string): string 
 function renderCtaSection(detail: ProjectDetail, context: PageContext): string {
   const href = escapeAttribute(pageHref(context, detail.cta.href));
 
+  const askHref = escapeAttribute(pageHref(context, detail.ask.href));
+
   return `
   <section data-project-part="cta" class="bg-charcoal text-cream ${sectionPadding}">
-    <div class="max-w-7xl mx-auto text-center">
-      <a href="${href}" class="inline-flex items-center gap-3 bg-brass text-charcoal text-[11px] uppercase tracking-[0.2em] px-8 py-4 transition hover:bg-cream">${renderText(detail.cta.label)} <i data-lucide="arrow-right" class="w-4 h-4 rtl:rotate-180"></i></a>
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-4">
+      <a href="${askHref}" data-project-ask class="inline-flex items-center gap-3 bg-brass text-charcoal text-[11px] uppercase tracking-[0.2em] px-8 py-4 transition hover:bg-cream">${renderText(detail.ask.label)} <i data-lucide="arrow-right" class="w-4 h-4 rtl:rotate-180"></i></a>
+      <a href="${href}" class="inline-flex items-center gap-3 border border-white/30 text-cream text-[11px] uppercase tracking-[0.2em] px-8 py-4 transition hover:bg-cream hover:text-charcoal">${renderText(detail.cta.label)}</a>
     </div>
   </section>`;
 }

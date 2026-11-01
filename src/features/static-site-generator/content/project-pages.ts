@@ -18,6 +18,7 @@ export type ProjectDetail = {
   before: Image[];
   beforeTitle: string;
   cta: Link;
+  ask: Link;
   backLink?: Link;
 };
 
@@ -40,6 +41,7 @@ type PageLabels = {
   gallery: string;
   before: string;
   after: string;
+  ask: string;
 };
 
 const pageLabels: Record<Locale, PageLabels> = {
@@ -57,6 +59,7 @@ const pageLabels: Record<Locale, PageLabels> = {
     gallery: "Gallery",
     before: "Before",
     after: "After",
+    ask: "Ask about this project",
   },
   ar: {
     location: "الموقع",
@@ -72,6 +75,7 @@ const pageLabels: Record<Locale, PageLabels> = {
     gallery: "معرض الصور",
     before: "قبل",
     after: "بعد",
+    ask: "اسأل عن هذا المشروع",
   },
 };
 
@@ -140,9 +144,17 @@ function findLink(content: SiteContent, locale: Locale, href: string): Link | un
   return content.nav[locale]?.items.find((item) => item.href === href);
 }
 
+// The contact page of the same language, or the contact section of the home page without one.
+function askHref(content: SiteContent, slug: string): string {
+  return content.pages.some((page) => page.slug === "contact")
+    ? `contact.html?project=${slug}`
+    : `index.html?project=${slug}#contact`;
+}
+
 function buildDetail(
   content: SiteContent,
   original: FactProject,
+  slug: string,
   locale: Locale,
 ): ProjectDetail | undefined {
   const project = projectInLocale(original, locale);
@@ -169,6 +181,7 @@ function buildDetail(
     before,
     beforeTitle: labels.before,
     cta: cta.href === "#contact" ? { ...cta, href: "index.html#contact" } : cta,
+    ask: { label: labels.ask, href: askHref(content, slug) },
     backLink: findLink(content, locale, "projects.html"),
   };
 }
@@ -180,7 +193,7 @@ export function buildProjectPages(content: SiteContent): ProjectPage[] {
   return content.facts.projects.flatMap((project, index) => {
     const details = Object.fromEntries(
       content.locales.flatMap((locale) => {
-        const detail = buildDetail(content, project, locale);
+        const detail = buildDetail(content, project, slugs[index], locale);
         return detail ? [[locale, detail]] : [];
       }),
     ) as ProjectPage["details"];

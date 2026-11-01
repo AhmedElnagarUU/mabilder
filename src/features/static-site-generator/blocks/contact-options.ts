@@ -7,6 +7,17 @@ export type BudgetKey = (typeof budgetKeys)[number];
 export type StartKey = (typeof startKeys)[number];
 
 type FormLabels = {
+  quoteTabLabel: string;
+  visitTabLabel: string;
+  visitSubmitLabel: string;
+  visitDayLabel: string;
+  visitTimeLabel: string;
+  visitMorningLabel: string;
+  visitEveningLabel: string;
+  visitNotePlaceholder: string;
+  visitSuccessMessage: string;
+  aboutLabel: string;
+  tabsLabel: string;
   phonePlaceholder: string;
   serviceLabel: string;
   locationPlaceholder: string;
@@ -21,6 +32,17 @@ type FormLabels = {
 
 export const contactFormLabels: Record<Locale, FormLabels> = {
   en: {
+    quoteTabLabel: "Request a quote",
+    visitTabLabel: "Book a site visit",
+    visitSubmitLabel: "Request a visit",
+    visitDayLabel: "Preferred day",
+    visitTimeLabel: "Preferred time",
+    visitMorningLabel: "Morning",
+    visitEveningLabel: "Evening",
+    visitNotePlaceholder: "Anything we should know before the visit?",
+    visitSuccessMessage: "Thank you — we received your visit request and will call you to confirm.",
+    aboutLabel: "About:",
+    tabsLabel: "Choose a request type",
     phonePlaceholder: "Phone number",
     serviceLabel: "Service",
     locationPlaceholder: "Project location",
@@ -38,6 +60,17 @@ export const contactFormLabels: Record<Locale, FormLabels> = {
     startOptions: { month: "Within a month", quarter: "In 1–3 months", later: "Later" },
   },
   ar: {
+    quoteTabLabel: "اطلب عرض سعر",
+    visitTabLabel: "احجز زيارة للموقع",
+    visitSubmitLabel: "اطلب زيارة",
+    visitDayLabel: "اليوم المفضل",
+    visitTimeLabel: "الوقت المفضل",
+    visitMorningLabel: "صباحًا",
+    visitEveningLabel: "مساءً",
+    visitNotePlaceholder: "هل هناك ما يجب أن نعرفه قبل الزيارة؟",
+    visitSuccessMessage: "شكرًا لك — استلمنا طلب الزيارة وسنتصل بك للتأكيد.",
+    aboutLabel: "حول:",
+    tabsLabel: "اختر نوع الطلب",
     phonePlaceholder: "رقم الهاتف",
     serviceLabel: "الخدمة",
     locationPlaceholder: "موقع المشروع",
@@ -57,6 +90,15 @@ export const contactFormLabels: Record<Locale, FormLabels> = {
 };
 
 type OptionalLabelKey =
+  | "quoteTabLabel"
+  | "visitTabLabel"
+  | "visitSubmitLabel"
+  | "visitDayLabel"
+  | "visitTimeLabel"
+  | "visitMorningLabel"
+  | "visitEveningLabel"
+  | "visitNotePlaceholder"
+  | "visitSuccessMessage"
   | "phonePlaceholder"
   | "serviceLabel"
   | "locationPlaceholder"
@@ -74,6 +116,15 @@ export function resolveFormLabels(
 
   return {
     ...fixed,
+    quoteTabLabel: form.quoteTabLabel ?? fixed.quoteTabLabel,
+    visitTabLabel: form.visitTabLabel ?? fixed.visitTabLabel,
+    visitSubmitLabel: form.visitSubmitLabel ?? fixed.visitSubmitLabel,
+    visitDayLabel: form.visitDayLabel ?? fixed.visitDayLabel,
+    visitTimeLabel: form.visitTimeLabel ?? fixed.visitTimeLabel,
+    visitMorningLabel: form.visitMorningLabel ?? fixed.visitMorningLabel,
+    visitEveningLabel: form.visitEveningLabel ?? fixed.visitEveningLabel,
+    visitNotePlaceholder: form.visitNotePlaceholder ?? fixed.visitNotePlaceholder,
+    visitSuccessMessage: form.visitSuccessMessage ?? fixed.visitSuccessMessage,
     phonePlaceholder: form.phonePlaceholder ?? fixed.phonePlaceholder,
     serviceLabel: form.serviceLabel ?? fixed.serviceLabel,
     locationPlaceholder: form.locationPlaceholder ?? fixed.locationPlaceholder,

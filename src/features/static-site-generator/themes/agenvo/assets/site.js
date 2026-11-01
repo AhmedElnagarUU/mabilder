@@ -113,8 +113,89 @@
       el.textContent = new Date().getFullYear();
     });
 
+    /* Quote / site visit tabs: without JavaScript both forms stay stacked */
+    document.querySelectorAll("[data-contact-tabs]").forEach(function (group) {
+      var tablist = group.querySelector("[data-tablist]");
+      var tabs = group.querySelectorAll("[role=tab]");
+      var panels = group.querySelectorAll("[data-panel]");
+      if (!tablist || tabs.length === 0) return;
+
+      tablist.classList.remove("hidden");
+      tablist.classList.add("flex");
+      group.querySelectorAll("[data-panel-title]").forEach(function (title) {
+        title.classList.add("hidden");
+      });
+
+      function select(kind, focus) {
+        tabs.forEach(function (tab) {
+          var active = tab.getAttribute("data-tab") === kind;
+          tab.setAttribute("aria-selected", active ? "true" : "false");
+          tab.setAttribute("tabindex", active ? "0" : "-1");
+          if (active && focus) tab.focus();
+        });
+        panels.forEach(function (panel) {
+          panel.classList.toggle("hidden", panel.getAttribute("data-panel") !== kind);
+        });
+      }
+
+      tabs.forEach(function (tab, index) {
+        tab.addEventListener("click", function () {
+          select(tab.getAttribute("data-tab"), false);
+        });
+        tab.addEventListener("keydown", function (event) {
+          var step = event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
+          if (!step) return;
+          var rtl = document.documentElement.dir === "rtl";
+          var next = tabs[(index + (rtl ? -step : step) + tabs.length) % tabs.length];
+          select(next.getAttribute("data-tab"), true);
+          event.preventDefault();
+        });
+      });
+
+      select(tabs[0].getAttribute("data-tab"), false);
+    });
+
+    /* "Ask about this project": the contact page link carries ?project=<slug> */
+    var projectParam = /[?&]project=([a-z0-9-]+)(&|#|$)/.exec(window.location.search + "&");
+    var askedProject = null;
+    if (projectParam) {
+      document.querySelectorAll("[data-project-slug]").forEach(function (option) {
+        if (!askedProject && option.getAttribute("data-project-slug") === projectParam[1]) {
+          askedProject = {
+            slug: option.getAttribute("data-project-slug"),
+            title: option.getAttribute("data-project-title") || "",
+          };
+        }
+      });
+    }
+
+    function fillProject(form) {
+      if (!askedProject) return;
+      var field = form.elements.projectSlug;
+      var note = form.querySelector("[data-project-note]");
+      if (field) field.value = askedProject.slug;
+      if (note) {
+        note.textContent = (note.getAttribute("data-about-label") || "") + " " + askedProject.title;
+        note.classList.remove("hidden");
+      }
+    }
+
+    /* Visit day: from today to 12 months ahead, in the visitor's own day */
+    function localDay(date) {
+      var month = String(date.getMonth() + 1).padStart(2, "0");
+      var day = String(date.getDate()).padStart(2, "0");
+      return date.getFullYear() + "-" + month + "-" + day;
+    }
+    document.querySelectorAll("input[data-visit-day]").forEach(function (input) {
+      var today = new Date();
+      var last = new Date(today.getFullYear(), today.getMonth() + 12, today.getDate());
+      input.min = localDay(today);
+      input.max = localDay(last);
+    });
+
     /* Forms */
     document.querySelectorAll("form[data-form]").forEach(function (form) {
+      fillProject(form);
       var shownAt = Date.now();
       var success = form.querySelector("[data-form-message]");
       var failure = form.querySelector("[data-form-error]");
@@ -177,6 +258,7 @@
               throw new Error("request failed");
             }
             form.reset();
+            fillProject(form);
             shownAt = Date.now();
             show(success);
           })

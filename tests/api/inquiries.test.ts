@@ -1,10 +1,14 @@
 import assert from "node:assert/strict";
-import { randomInt, randomUUID } from "node:crypto";
+import { randomInt } from "node:crypto";
 import { after, before, test } from "node:test";
 import { getOverview } from "../../src/features/admin/service";
 import { InquiryModel } from "../../src/features/inquiries/model";
 import type { InquiryItem } from "../../src/features/inquiries/types";
+import { composeSite } from "../../src/features/site-creation/composition/compose";
+import { buildFacts } from "../../src/features/site-creation/facts";
+import { businessBriefSchema } from "../../src/features/site-creation/types";
 import { connectToDatabase, disconnectFromDatabase } from "../../src/shared/db/mongoose";
+import { richProjects } from "../pipeline/samples";
 import { deleteAllSites, request, signUp } from "./client";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -32,6 +36,41 @@ function quote(overrides: Record<string, unknown> = {}) {
   return { name: "Sara Ali", phone: uniquePhone(), message: "I need a villa designed.", elapsedMs: 6000, ...overrides };
 }
 
+function dayFromNow(days: number): string {
+  return new Date(Date.now() + days * DAY_MS).toISOString().slice(0, 10);
+}
+
+function visit(overrides: Record<string, unknown> = {}) {
+  return {
+    kind: "visit",
+    name: "Omar Hassan",
+    phone: uniquePhone(),
+    service: "Interiors",
+    location: "New Cairo",
+    preferredDay: dayFromNow(7),
+    preferredTime: "morning",
+    message: "Please see the apartment before we decide.",
+    elapsedMs: 6000,
+    ...overrides,
+  };
+}
+
+async function saveProjects(owner: Owner): Promise<void> {
+  const content = composeSite({
+    theme: "agenvo",
+    locales: ["en"],
+    defaultLocale: "en",
+    facts: buildFacts(businessBriefSchema.parse(brief), richProjects),
+    currentYear: 2026,
+  });
+  const saved = await request(`/api/sites/${owner.siteId}/content`, {
+    method: "PUT",
+    cookie: owner.cookie,
+    body: content,
+  });
+  assert.equal(saved.status, 200, await saved.clone().text());
+}
+
 async function createOwner(name: string): Promise<Owner> {
   const cookie = await signUp(name);
   const session = await request("/api/auth/get-session", { cookie });
@@ -54,10 +93,16 @@ async function readInbox(owner: Owner): Promise<Inbox> {
   return (await response.json()) as Inbox;
 }
 
-async function inquiryNotifications(owner: Owner): Promise<number> {
+type NotificationItem = { type: string; params: { kind?: string } };
+
+async function inquiryNotificationItems(owner: Owner): Promise<NotificationItem[]> {
   const response = await request("/api/notifications", { cookie: owner.cookie });
-  const { items } = (await response.json()) as { items: { type: string }[] };
-  return items.filter((item) => item.type === "inquiry_received").length;
+  const { items } = (await response.json()) as { items: NotificationItem[] };
+  return items.filter((item) => item.type === "inquiry_received");
+}
+
+async function inquiryNotifications(owner: Owner): Promise<number> {
+  return (await inquiryNotificationItems(owner)).length;
 }
 
 async function reset(owner: Owner): Promise<void> {
@@ -76,6 +121,7 @@ before(async () => {
   ownerB = await createOwner("Inbox Owner B");
   lockedOwner = await createOwner("Inbox Locked Owner");
   inactiveOwner = await createOwner("Inbox Inactive Owner");
+  await saveProjects(ownerA);
 
   const mongo = await connectToDatabase();
   const users = mongo.connection.collection("user");
@@ -341,4 +387,130 @@ test("the admin sees counts only: numbers, no visitor name, phone or message", a
     assert.ok(!text.includes(secret), `admin user detail leaks ${secret}`);
     assert.ok(!overviewText.includes(secret), `admin overview leaks ${secret}`);
   }
+});
+
+test("a valid site visit request is saved with its day and time, and the owner is told it is a visit", async () => {
+  await reset(ownerA);
+  const before = await inquiryNotifications(ownerA);
+
+  const response = await submit(ownerA.siteId, visit({ locale: "ar" }));
+  const [item] = (await readInbox(ownerA)).items ?? [];
+
+  assert.equal(response.status, 200);
+  assert.equal(item.kind, "visit");
+  assert.equal(item.preferredDay, dayFromNow(7));
+  assert.equal(item.preferredTime, "morning");
+  assert.equal(item.service, "Interiors");
+  assert.equal(item.spam, false);
+  assert.equal(item.status, "new");
+  assert.equal(await inquiryNotifications(ownerA), before + 1);
+  assert.equal((await inquiryNotificationItems(ownerA)).filter((note) => note.params.kind === "visit").length >= 1, true);
+});
+
+test("a visit day that is in the past, over 12 months ahead, or not a date gives 400", async () => {
+  await reset(ownerA);
+
+  const past = await submit(ownerA.siteId, visit({ preferredDay: dayFromNow(-3) }));
+  const far = await submit(ownerA.siteId, visit({ preferredDay: dayFromNow(400) }));
+  const notADate = await submit(ownerA.siteId, visit({ preferredDay: "2026-02-31" }));
+  const missing = await submit(ownerA.siteId, visit({ preferredDay: undefined }));
+
+  for (const response of [past, far, notADate, missing]) {
+    assert.equal(response.status, 400);
+    assert.equal(((await response.json()) as { code: string }).code, "invalid_request");
+  }
+
+  assert.equal((await readInbox(ownerA)).items?.length, 0);
+});
+
+test("today and the day 12 months ahead are accepted", async () => {
+  await reset(ownerA);
+
+  const today = await submit(ownerA.siteId, visit({ preferredDay: dayFromNow(0) }));
+  const latest = new Date();
+  latest.setUTCMonth(latest.getUTCMonth() + 12);
+  const edge = await submit(ownerA.siteId, visit({ preferredDay: latest.toISOString().slice(0, 10) }));
+
+  assert.equal(today.status, 200);
+  assert.equal(edge.status, 200);
+  assert.equal((await readInbox(ownerA)).items?.length, 2);
+});
+
+test("a bad preferred time, an unknown field or a bad phone on a visit gives 400", async () => {
+  await reset(ownerA);
+
+  const time = await submit(ownerA.siteId, visit({ preferredTime: "midnight" }));
+  const unknown = await submit(ownerA.siteId, visit({ budget: "large" }));
+  const phone = await submit(ownerA.siteId, visit({ phone: "12345" }));
+
+  assert.equal(time.status, 400);
+  assert.equal(unknown.status, 400);
+  assert.equal(phone.status, 400);
+  assert.equal((await readInbox(ownerA)).items?.length, 0);
+});
+
+test("a visit keeps the same spam checks: honeypot stores nothing, a link is spam without a notification", async () => {
+  await reset(ownerA);
+  const before = await inquiryNotifications(ownerA);
+
+  const honeypot = await submit(ownerA.siteId, visit({ website: "http://bot.example" }));
+  const link = await submit(ownerA.siteId, visit({ message: "Visit http://spam.example now" }));
+  const items = (await readInbox(ownerA)).items ?? [];
+
+  assert.equal(honeypot.status, 200);
+  assert.equal(link.status, 200);
+  assert.equal(items.length, 1);
+  assert.equal(items[0].spam, true);
+  assert.equal(items[0].spamReason, "links");
+  assert.equal(await inquiryNotifications(ownerA), before);
+});
+
+test("a project slug of this site is kept with its title; an unknown one is dropped but the request is saved", async () => {
+  await reset(ownerA);
+
+  const known = await submit(ownerA.siteId, quote({ projectSlug: "corporate-tower" }));
+  const knownVisit = await submit(ownerA.siteId, visit({ projectSlug: "corporate-tower" }));
+  const unknown = await submit(ownerA.siteId, quote({ projectSlug: "not-a-project-of-this-site" }));
+  const items = (await readInbox(ownerA)).items ?? [];
+
+  assert.equal(known.status, 200);
+  assert.equal(knownVisit.status, 200);
+  assert.equal(unknown.status, 200);
+  assert.equal(items.length, 3);
+  assert.equal(items.filter((item) => item.projectSlug === "corporate-tower").length, 2);
+  assert.ok(items.filter((item) => item.projectSlug).every((item) => item.projectTitle === "Corporate Tower"));
+  assert.ok(items.filter((item) => item.projectSlug).every((item) => item.projectHref?.includes("/projects/corporate-tower.html")));
+  assert.equal(items.filter((item) => item.projectSlug === undefined).length, 1);
+  assert.equal(await InquiryModel.countDocuments({ siteId: ownerA.siteId, projectSlug: "not-a-project-of-this-site" }), 0);
+});
+
+test("a project slug of another site is dropped on a site without projects", async () => {
+  await reset(ownerB);
+
+  const response = await submit(ownerB.siteId, quote({ projectSlug: "corporate-tower" }));
+  const [item] = (await readInbox(ownerB)).items ?? [];
+
+  assert.equal(response.status, 200);
+  assert.equal(item.projectSlug, undefined);
+});
+
+test("the inbox can be filtered by kind, and user B still gets 404", async () => {
+  await reset(ownerA);
+  await submit(ownerA.siteId, quote());
+  await submit(ownerA.siteId, visit());
+
+  const visits = await request(`/api/sites/${ownerA.siteId}/inquiries?kind=visit`, { cookie: ownerA.cookie });
+  const quotes = await request(`/api/sites/${ownerA.siteId}/inquiries?kind=quote`, { cookie: ownerA.cookie });
+  const all = await request(`/api/sites/${ownerA.siteId}/inquiries?kind=nonsense`, { cookie: ownerA.cookie });
+  const other = await request(`/api/sites/${ownerA.siteId}/inquiries?kind=visit`, { cookie: ownerB.cookie });
+
+  const visitItems = ((await visits.json()) as Inbox).items ?? [];
+  const quoteItems = ((await quotes.json()) as Inbox).items ?? [];
+
+  assert.equal(visitItems.length, 1);
+  assert.equal(visitItems[0].kind, "visit");
+  assert.equal(quoteItems.length, 1);
+  assert.equal(quoteItems[0].kind, "quote");
+  assert.equal((((await all.json()) as Inbox).items ?? []).length, 2);
+  assert.equal(other.status, 404);
 });
