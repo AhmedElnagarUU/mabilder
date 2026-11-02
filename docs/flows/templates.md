@@ -3,8 +3,8 @@
 Plan: `docs/templates-plan.md`. Status: **T1 built** (template model, Classic, `applyTemplate`, content-level
 image needs), **T2 built** (template Aurelia), **T3 built** (public template gallery with live demo previews),
 **G1 built** (one demo photo set per template, gallery cover = scaled live preview iframe), **T4 built** (pick
-flow) and **T5 built** (template Arhitect). More templates (T6–T10) and T8 are not built yet. This file is
-updated in each milestone.
+flow), **T5 built** (template Arhitect) and **T6 built** (template Atelier). More templates (T7, T9–T11) and T8
+are not built yet. This file is updated in each milestone.
 
 **T4, in plain words:** right after the AI has written the content, the wizard sends the customer to
 "Choose your template" (`/{locale}/dashboard/sites/{siteId}/template`). It shows every template card (name, mood,
@@ -65,6 +65,18 @@ services; a 3-column project grid (place and year under each title); a counting 
 (`intro`); and the contact section with a dark form. The nav sits on top of the page (not fixed) and the footer is one
 centered gray strip. Extra designs stay as alternatives (split hero, service rows, project rows, giant stat, quote
 list). Preview locally with `npm run templates:render-sample -- arhitect`.
+
+**Atelier (T6), in plain words:** a light editorial magazine look: warm paper (`#f6f3ee`), near-black ink, an olive
+accent (`#5f6b3a`), Playfair Display titles and Manrope text (Amiri and Tajawal for Arabic), square corners and
+hairline rules. Signature details: the **last word of every title is set in italic olive** (rendered from the text, no
+italics in Arabic, only the colour), the **hero photo has a diagonal cut** (mirrored in Arabic), a **vertical rotated
+label** runs along the side of the intro and services sections on wide screens, and process steps hang on one hairline
+with dots. The nav has a centered wordmark with the links split to both sides; the footer is columns with thin rules.
+Default sections: split hero; 4 divided service columns with line icons; a title column beside 3 project cards with
+the place in olive; a thin stats row between hairlines; a dark quote band with dots. Alternatives (pack `atelier/`):
+centered hero over photo, dash-list services, project carousel with tags, stats beside the title, testimonials with a
+rating summary. Every section type has an Atelier design. Preview locally with
+`npm run templates:render-sample -- atelier`.
 
 Built in T1: `site-templates/` (registry, Classic = id `agenvo`), `applyTemplate` in `site-editor/apply-template.ts`,
 `content.theme` validated as a template id, template colors and fonts written as CSS variables in the page head
