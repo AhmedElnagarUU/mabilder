@@ -691,17 +691,20 @@
     },
     "whatsapp": {
       "title": "WhatsApp button",
-      "description": "Visitors see a WhatsApp button on every page of your website. It uses your website phone ({phone}) unless you add another number below.",
-      "descriptionNoPhone": "Add a phone number to your website, or enter a WhatsApp number below, to show the button.",
-      "enabled": "Show the WhatsApp button on my website",
-      "numberLabel": "WhatsApp number (optional)",
+      "description": "The WhatsApp button is off until you switch it on. When it is on, visitors see it on every page and it opens a chat with the number below.",
+      "descriptionNoPhone": "The WhatsApp button is off until you switch it on. Switch it on and enter the number visitors should message.",
+      "statusOn": "On — {number}",
+      "statusOff": "Off",
+      "enabled": "Show a WhatsApp button on my website",
+      "numberLabel": "WhatsApp number",
       "numberPlaceholder": "+20 100 123 4567",
       "save": "Save",
       "saving": "Saving...",
       "saved": "Saved. Your website is updated.",
       "errors": {
         "invalid": "Enter a valid phone number.",
-        "default": "Could not save. Please try again."
+        "default": "Could not save. Please try again.",
+        "numberRequired": "Enter the WhatsApp number to show the button."
       }
     },
     "errors": {
@@ -1207,7 +1210,7 @@
       "link": "Link",
       "items": "Items",
       "status": "Status",
-      "href": "Page link",
+      "href": "Link address",
       "paragraphs": "Paragraphs",
       "points": "Highlights",
       "quote": "Quote",
@@ -1261,8 +1264,7 @@
       "src": "Image address",
       "alt": "Image description",
       "credit": "Photo credit",
-      "url": "Credit link",
-      "href": "Link address"
+      "url": "Credit link"
     }
   },
   "tracking": {

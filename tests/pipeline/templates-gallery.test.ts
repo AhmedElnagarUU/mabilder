@@ -167,6 +167,17 @@ test("every template renders the demo in en and ar without broken output", () =>
   }
 });
 
+test("no template demo preview shows a WhatsApp button", () => {
+  for (const id of previewTemplateIds()) {
+    for (const locale of previewLocales()) {
+      const page = findPreviewPage(id, locale, [locale, "index.html"]);
+
+      assert.ok(page, `${id} ${locale}`);
+      assert.ok(!page.html.includes("data-whatsapp"), `${id} ${locale} shows a WhatsApp button`);
+    }
+  }
+});
+
 test("preview pages resolve internal links through the base href", () => {
   const page = findPreviewPage("agenvo", "en", ["en", "about.html"]);
 
