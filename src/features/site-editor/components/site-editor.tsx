@@ -31,16 +31,29 @@ import { requestRewrite, type RewriteError } from "../rewrite-request";
 import { rewriteSections, type RewriteScope } from "../rewrite-sections";
 import { RewriteDialog } from "./rewrite-dialog";
 import { DesignGallery } from "./design-gallery";
+import { TemplateDialog } from "./template-dialog";
+import { requestTemplate, type TemplateChoice } from "../template-choice";
+import { restoreLook } from "../restore-look";
 
 type DesignUndo = { pageId: string; blockId: string; designId: string };
 
 type SiteEditorProps = {
   siteId: string;
   content: SiteContent;
+  templateChoices: TemplateChoice[];
 };
 
-export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps) {
+const templateErrorKeys = {
+  invalid: "invalid",
+  subscription_required: "subscriptionRequired",
+  failed: "failed",
+} as const;
+
+export function SiteEditor({ siteId, content: initialContent, templateChoices }: SiteEditorProps) {
   const t = useTranslations("editor");
+  const tp = useTranslations("templatePicker");
+  const [templateOpen, setTemplateOpen] = useState(false);
+  const [templateBusyId, setTemplateBusyId] = useState<string | null>(null);
   const [content, setContent] = useState(initialContent);
   const [pageId, setPageId] = useState(initialContent.pages[0].id);
   const [locale, setLocale] = useState<Locale>(initialContent.defaultLocale);
@@ -68,6 +81,8 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
   const savingRef = useRef(false);
   const undoRef = useRef<DesignUndo | null>(null);
   const undoDesignRef = useRef<() => void>(() => {});
+  const templateUndoRef = useRef<SiteContent | null>(null);
+  const undoTemplateRef = useRef<() => void>(() => {});
   const [designBlockId, setDesignBlockId] = useState<string | null>(null);
 
   const page = content.pages.find((candidate) => candidate.id === pageId) ?? content.pages[0];
@@ -173,6 +188,7 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
     const timer = setTimeout(() => {
       setToast(null);
       undoRef.current = null;
+      templateUndoRef.current = null;
     }, toast.action ? 8000 : 3000);
     return () => clearTimeout(timer);
   }, [toast]);
@@ -197,6 +213,7 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
     }
 
     undoRef.current = null;
+    templateUndoRef.current = null;
     contentRef.current = next;
     setContent(next);
     revisionRef.current += 1;
@@ -361,6 +378,63 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
     showToast("success", t("rewrite.done"));
   }
 
+  // The new content replaces the editor's content only after the server has rebuilt the site, so
+  // the preview never loads the old template's style file.
+  async function handleUseTemplate(templateId: string): Promise<void> {
+    setTemplateBusyId(templateId);
+
+    const saved = await savePendingEdits();
+    const outcome = saved ? await requestTemplate(siteId, templateId) : null;
+
+    setTemplateBusyId(null);
+
+    if (!saved) {
+      return;
+    }
+
+    if (!outcome || !outcome.ok) {
+      showToast("error", tp(`errors.${templateErrorKeys[outcome ? outcome.code : "failed"]}`));
+      return;
+    }
+
+    const previous = contentRef.current;
+
+    contentRef.current = outcome.content;
+    setContent(outcome.content);
+    setTemplateOpen(false);
+    templateUndoRef.current = previous;
+    showToast("success", tp("toast.applied"), undefined, {
+      label: t("designs.undo"),
+      onClick: () => undoTemplateRef.current(),
+    });
+  }
+
+  async function undoTemplate(): Promise<void> {
+    const previous = templateUndoRef.current;
+
+    if (!previous || !(await savePendingEdits())) {
+      return;
+    }
+
+    templateUndoRef.current = null;
+
+    const before = contentRef.current;
+    const restored = restoreLook(before, previous);
+
+    contentRef.current = restored;
+
+    if (await saveContent()) {
+      setContent(restored);
+      showToast("success", tp("toast.undone"));
+    } else {
+      contentRef.current = before;
+    }
+  }
+
+  useEffect(() => {
+    undoTemplateRef.current = () => void undoTemplate();
+  });
+
   async function saveBeforeSwitchingLanguage(): Promise<boolean> {
     if (!dirty) {
       return true;
@@ -413,6 +487,7 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
         saving={saving}
         creditsLeft={balance?.left ?? null}
         onSave={() => void saveContent()}
+        onChangeTemplate={() => setTemplateOpen(true)}
         onBeforeSwitchLocale={saveBeforeSwitchingLanguage}
         onToggleDrawer={toggleDrawer}
         onSelectMode={handleSelectMode}
@@ -469,7 +544,7 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
         ) : null}
 
         <EditorCanvas
-          key={`${page.id}:${locale}`}
+          key={`${page.id}:${locale}:${content.theme}`}
           siteId={siteId}
           content={content}
           page={page}
@@ -528,6 +603,17 @@ export function SiteEditor({ siteId, content: initialContent }: SiteEditorProps)
           locale={locale}
           onApply={handleApplyDesign}
           onClose={() => setDesignBlockId(null)}
+        />
+      ) : null}
+
+      {templateOpen ? (
+        <TemplateDialog
+          siteId={siteId}
+          choices={templateChoices}
+          currentId={content.theme}
+          busyId={templateBusyId}
+          onUse={(templateId) => void handleUseTemplate(templateId)}
+          onClose={() => setTemplateOpen(false)}
         />
       ) : null}
 

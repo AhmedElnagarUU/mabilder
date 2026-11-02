@@ -1,9 +1,24 @@
 # Flow: templates (pick a template after the content is written)
 
 Plan: `docs/templates-plan.md`. Status: **T1 built** (template model, Classic, `applyTemplate`, content-level
-image needs), **T2 built** (template Aurelia), **T3 built** (public template gallery with live demo previews)
-and **G1 built** (one demo photo set per template, gallery cover = scaled live preview iframe).
-T4–T8 (pick screens, more templates) are not built yet. This file is updated in each milestone.
+image needs), **T2 built** (template Aurelia), **T3 built** (public template gallery with live demo previews),
+**G1 built** (one demo photo set per template, gallery cover = scaled live preview iframe) and **T4 built** (pick
+flow). More templates (T5–T10) and T8 are not built yet. This file is updated in each milestone.
+
+**T4, in plain words:** right after the AI has written the content, the wizard sends the customer to
+"Choose your template" (`/{locale}/dashboard/sites/{siteId}/template`). It shows every template card (name, mood,
+cover). "Preview" opens the customer's **own** content in that template in a new tab
+(`GET /api/sites/{siteId}/template-preview/{templateId}/...`, owner only, rendered on the fly, nothing saved, the
+contact form has no real endpoint). "Use this template" calls `POST /api/sites/{siteId}/template`
+(`{ templateId }`): the server loads the saved content, runs `applyTemplate`, and saves it through the same save as
+the editor (`saveContent`: validate, store, rebuild the site). Then the customer lands in the editor. "Skip" keeps
+the current look (Classic). In the editor, "Change template" in the top bar opens the same cards in a dialog (a
+dialog, not a page, so the editor keeps its state and can show Undo). After a pick the editor swaps in the returned
+content, reloads the preview, and shows a toast with Undo for 8 seconds; Undo puts back the old theme and designs
+(`restoreLook`, keeps edits made meanwhile) and saves with the normal content save. Nothing here calls the AI,
+credits or Pexels. Files: `site-editor/template-service.ts`, `template-preview.ts`, `restore-look.ts`,
+`template-choice.ts`, `components/{choose-template,template-choice-list,template-dialog}.tsx`,
+`templates-gallery/template-choices.tsx`.
 
 **T3, in plain words:** a public gallery page at `/[locale]/templates` shows one card per template, each with a
 small live preview of the demo home page, the template name and its mood text in the visitor's language, and an
@@ -79,7 +94,7 @@ flowchart TD
     D -->|Pexels fails| D2[Keep section without photo, design hides empty image]
     D --> E[(Mongo: site content saved, content.theme = agenvo = Classic)]
     D2 --> E
-    E --> F[Wizard step: Choose your template]
+    E --> F[create-site-wizard router.push /dashboard/sites/siteId/template - ChooseTemplate page]
 
     G[Visitor opens /[locale]/templates - src/app/[locale]/templates/page.tsx] --> H[Template cards: templates-gallery components, listTemplates]
     F --> H
@@ -92,14 +107,29 @@ flowchart TD
     J --> K[preview.ts: demoContentFor id, applyTemplate, renderSite, base href tag, demo ribbon]
     K --> K2[assets/site.css and assets/site.js read from theme folder in the same route]
 
-    H --> L[Use this template, T4 pick flow, not built yet]
-    L --> M[applyTemplate: set content.theme, map each block to getTemplateDesign, base design if none]
-    M --> N[PUT /api/sites/siteId/content]
+    F --> F1[TemplateChoiceList cards: buildTemplateChoices]
+    F1 --> F2[Preview, new tab: GET /api/sites/siteId/template-preview/templateId/... route.ts]
+    F2 --> F3{session owner of site and known template?}
+    F3 -->|no| F4[404]
+    F3 -->|yes| F5[renderOwnerTemplatePreview: applyTemplate on own content, renderSite, base href, no endpoint]
+    F --> F6[Skip: keep current look, go to /edit/siteId]
+    X[Editor top bar: Change template] --> Y[TemplateDialog: same TemplateChoiceList]
+
+    F1 --> L[Use this template: requestTemplate]
+    Y --> L
+    L --> L1[POST /api/sites/siteId/template template/route.ts]
+    L1 --> L2{session? templateId zod + isTemplateId? owner?}
+    L2 -->|no session| L3[401]
+    L2 -->|unknown template| L4[400]
+    L2 -->|not owner| L5[404]
+    L2 -->|ok| M[applyTemplateToSite: getSite, applyTemplate: set content.theme, map each block to getTemplateDesign, base design if none]
+    M --> N[saveContent: same path as PUT content]
     N --> O{siteContentSchema: theme is a registered template id, designs valid?}
     O -->|no| P[400, nothing saved]
     O -->|yes| Q[(Mongo: content saved, props unchanged)]
-    Q --> R[renderSite: getTemplate gives shell theme; renderTemplateHead writes tokens as :root variables; designs to static HTML]
-    R --> S[Editor preview shows the new look, toast with Undo]
-    S -->|Undo| M
+    Q --> R[generateSite: renderSite with shell theme, tokens as :root variables, designs to static HTML]
+    R --> S[Wizard: router.push /edit/siteId. Editor: SiteEditor swaps content, canvas remounts, toast with Undo 8s]
+    S -->|Undo| U[restoreLook: old theme + designs, keep newer edits]
+    U --> V[saveContent: PUT content, then canvas remounts]
     S --> T[Optional: Change design on one section, L2]
 ```

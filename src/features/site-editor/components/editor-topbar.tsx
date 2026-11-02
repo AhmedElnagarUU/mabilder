@@ -33,6 +33,7 @@ type EditorTopbarProps = {
   saving: boolean;
   creditsLeft: number | null;
   onSave: () => void;
+  onChangeTemplate: () => void;
   onBeforeSwitchLocale: () => Promise<boolean>;
   onToggleDrawer: (drawer: EditorDrawer) => void;
   onSelectMode: (mode: EditorMode) => void;
@@ -96,12 +97,14 @@ export function EditorTopbar({
   saving,
   creditsLeft,
   onSave,
+  onChangeTemplate,
   onBeforeSwitchLocale,
   onToggleDrawer,
   onSelectMode,
   onSelectDevice,
 }: EditorTopbarProps) {
   const t = useTranslations("editor");
+  const tp = useTranslations("templatePicker");
   const saveLabel = saving
     ? t("panel.saving")
     : dirty
@@ -183,6 +186,16 @@ export function EditorTopbar({
               </button>
             </>
           ) : null}
+          <button
+            type="button"
+            onClick={onChangeTemplate}
+            aria-label={tp("change.button")}
+            title={tp("change.button")}
+            className={buttonClass("secondary", "sm", "px-0 max-sm:w-9 sm:px-3")}
+          >
+            <Icon name="brush" className="h-4 w-4 sm:hidden" />
+            <span className="max-sm:hidden">{tp("change.button")}</span>
+          </button>
           <CreditBadge left={creditsLeft} />
           <HelpButton tourId="editor" />
           <LocaleSwitcher

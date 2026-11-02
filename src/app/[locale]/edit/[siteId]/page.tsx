@@ -4,6 +4,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { requirePageUser } from "@/features/auth/session";
 import { getSite } from "@/features/site-creation/service";
 import { SiteEditor } from "@/features/site-editor/components/site-editor";
+import { localeSchema } from "@/features/static-site-generator/locale";
+import { buildTemplateChoices } from "@/features/templates-gallery/template-choices";
 import { Link } from "@/shared/i18n/navigation";
 import { buttonClass } from "@/shared/ui/button";
 import { Card } from "@/shared/ui/card";
@@ -53,5 +55,13 @@ export default async function EditSitePage({
     );
   }
 
-  return <SiteEditor siteId={site.id} content={site.content} />;
+  const uiLocale = localeSchema.safeParse(locale);
+
+  return (
+    <SiteEditor
+      siteId={site.id}
+      content={site.content}
+      templateChoices={buildTemplateChoices(uiLocale.success ? uiLocale.data : "en")}
+    />
+  );
 }
