@@ -38,15 +38,14 @@ function renderSpecs(project: Project): string {
 }
 
 function renderTallCard(project: Project): string {
-  const category = project.category ? `<p class="au-eyebrow au-eyebrow-tight">${renderText(project.category)}</p>` : "";
   const body = project.body ? `<p class="au-small">${renderText(project.body)}</p>` : "";
+  const facts = project.category ? `${project.category} · ${project.meta}` : project.meta;
 
   return `${renderCover(project, "au-ratio-tall")}
           <div class="au-card-text">
-            ${category}
             <h3 class="au-card-title au-gold">${renderText(project.title)}</h3>
-            <p class="au-meta">${renderText(project.meta)}</p>
             ${body}
+            <p class="au-meta">${renderText(facts)}</p>
           </div>`;
 }
 

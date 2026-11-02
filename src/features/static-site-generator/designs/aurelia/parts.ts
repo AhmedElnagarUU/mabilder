@@ -78,13 +78,6 @@ export function renderTextLink(link: Link | undefined): string {
   return `<a href="${escapeAttribute(link.href)}" class="au-link au-reveal">${renderText(link.label)}${arrow}</a>`;
 }
 
-// Decorative edge between sections. Its color is the neighbour section's, found from the tone rhythm.
-export function renderWave(edge: "top" | "bottom", tone: Tone): string {
-  const neighbour = tone === "dark" ? "au-fill-band" : "au-fill-base";
-
-  return `<svg class="au-wave au-wave-${edge} ${neighbour}" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 60V34C240 6 480 6 720 30s480 28 720 4V60z"/></svg>`;
-}
-
 const iconShapes: Record<string, string> = {
   diamond: '<path d="M24 4L44 24 24 44 4 24z"/><path d="M24 12L36 24 24 36 12 24z"/>',
   target: '<circle cx="24" cy="24" r="18"/><circle cx="24" cy="24" r="8"/><path d="M24 6v10"/>',

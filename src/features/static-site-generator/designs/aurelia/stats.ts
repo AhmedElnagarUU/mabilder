@@ -8,13 +8,12 @@ import {
   renderHeading,
   renderIcon,
   renderStatNumber,
-  renderWave,
   sectionClasses,
 } from "./parts";
 
 function renderBandItem(item: Stat): string {
   return `
-        <div class="au-stat au-reveal">
+        <div class="au-stat">
           ${renderStatNumber(item.value, "au-num-md")}
           <p class="au-caps">${renderText(item.label)}</p>
         </div>`;
@@ -25,7 +24,7 @@ function renderBand(block: ThemeBlock<"stats">): string {
 
   return `
     <div class="au-wrap">${renderCenteredHead(props.eyebrow, props.title, undefined)}
-      <div class="au-clip"><div class="au-stat-row">${props.items.map(renderBandItem).join("")}
+      <div class="au-clip"><div class="au-stat-row au-reveal">${props.items.map(renderBandItem).join("")}
       </div></div>
     </div>`;
 }
@@ -62,8 +61,9 @@ function renderBigNumber(block: ThemeBlock<"stats">): string {
 }
 
 export function renderStats(block: ThemeBlock<"stats">, context: BlockContext): string {
-  const inner = block.design === "aurelia/stats-big-number" ? renderBigNumber(block) : renderBand(block);
-  const classes = sectionClasses(context.tone, "au-stats");
+  const bigNumber = block.design === "aurelia/stats-big-number";
+  const inner = bigNumber ? renderBigNumber(block) : renderBand(block);
+  const classes = sectionClasses(context.tone, bigNumber ? "au-stats" : "au-stats au-stats-band");
 
-  return renderSection(block, classes, `${renderWave("top", context.tone)}${inner}`);
+  return renderSection(block, classes, inner);
 }

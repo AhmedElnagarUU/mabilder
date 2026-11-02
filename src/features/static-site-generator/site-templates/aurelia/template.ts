@@ -14,7 +14,7 @@ export const aureliaTemplate: SiteTemplate = {
   },
   tokens: {
     bg: "#12100e",
-    ink: "#f3eee4",
+    ink: "#ffffff",
     accent: "#c9a962",
     fontDisplay: '"Cormorant Garamond", "Noto Naskh Arabic", serif',
     fontBody: '"Inter", "IBM Plex Sans Arabic", sans-serif',

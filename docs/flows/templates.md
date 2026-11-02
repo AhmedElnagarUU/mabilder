@@ -47,10 +47,13 @@ the preview route and the gallery cover use it. Sets exist even for templates no
 cover is now this template's real rendered demo home page in a sandboxed, scaled, lazy, non-interactive
 iframe (`TemplateCover`, like the editor's `DesignPreviewFrame`), so every card looks like its template.
 
-**Aurelia (T2), in plain words:** a dark luxury look: charcoal pages, thin gold lines, a faint diamond pattern over
-the hero photo, big gold serif titles with one italic line, and a gold-outlined menu button. It has its own menu,
-footer and style file (no outside scripts), a wave edge under the hero and above the numbers, and extra layouts:
-circle-icon services, photo panels, a big-number band and project cards with facts. Every section type has an
+**Aurelia (T2, fidelity pass 2026-11-02), in plain words:** faithful to the owner's page `templates/aurelia/index.html`:
+charcoal pages (`#12100e`, white text), thin gold lines, a faint 80px diamond pattern over a 60% black shade on the hero
+photo, big gold serif titles with one italic line, and a gold-outlined button in the menu. Default sections: centered
+hero; 3 divided service columns with line icons (`services`); 4:5 project cards that zoom on hover with title, text and
+facts under them; a 4-number band between gold lines; one big italic quote with a gold author line (`testimonials`);
+a compact footer strip. It has its own menu, footer and style file (no outside scripts, no wave edges), and extra
+alternative layouts: circle-icon services, photo panels, a big-number band and project cards with facts. Every section type has an
 Aurelia design, so any content fits. Preview locally with `npm run templates:render-sample -- aurelia`
 (writes `.template-samples/aurelia/`).
 

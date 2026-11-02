@@ -1,7 +1,7 @@
 import { renderText } from "../../content/html";
 import { renderImage, renderSection } from "../../themes/agenvo/parts";
-import type { BlockContext, ThemeBlock } from "../../themes/types";
-import { renderAccentTitle, renderButton, renderWave } from "./parts";
+import type { ThemeBlock } from "../../themes/types";
+import { renderAccentTitle, renderButton } from "./parts";
 
 function renderBackground(block: ThemeBlock<"hero">): string {
   const image = block.props.image;
@@ -12,12 +12,11 @@ function renderBackground(block: ThemeBlock<"hero">): string {
     <div class="au-pattern" aria-hidden="true"></div>`;
 }
 
-export function renderHero(block: ThemeBlock<"hero">, context: BlockContext): string {
+export function renderHero(block: ThemeBlock<"hero">): string {
   const { props } = block;
   const page = block.design === "aurelia/hero-page";
   const eyebrow = props.eyebrow ? `<p class="au-eyebrow au-reveal">${renderText(props.eyebrow)}</p>` : "";
   const button = props.primary ? `<div class="au-hero-action au-reveal">${renderButton(props.primary)}</div>` : "";
-  const wave = page ? "" : renderWave("bottom", context.tone);
 
   const inner = `${renderBackground(block)}
     <div class="au-hero-inner">
@@ -25,8 +24,7 @@ export function renderHero(block: ThemeBlock<"hero">, context: BlockContext): st
       <h1 class="au-hero-title au-reveal">${renderAccentTitle(props.title)}</h1>
       <p class="au-hero-body au-reveal">${renderText(props.body)}</p>
       ${button}
-    </div>
-    ${wave}`;
+    </div>`;
 
   return renderSection(block, `au-hero${page ? " au-hero-page" : ""}`, inner);
 }

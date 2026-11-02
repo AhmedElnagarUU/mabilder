@@ -7,9 +7,9 @@ type Props = ThemeBlock<"testimonials">["props"];
 type Testimonial = Props["items"][number];
 
 function renderAuthor(item: Testimonial): string {
-  const company = item.company ? ` — ${renderText(item.company)}` : "";
+  const company = item.company ? `, ${renderText(item.company)}` : "";
 
-  return `${renderText(item.author)}${company}`;
+  return `— ${renderText(item.author)}${company}`;
 }
 
 function renderAverage(props: Props): string {

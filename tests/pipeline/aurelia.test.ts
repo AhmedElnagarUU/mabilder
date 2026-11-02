@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import { applyTemplate } from "../../src/features/site-editor/apply-template";
 import { blockDefinitions } from "../../src/features/static-site-generator/blocks/catalog";
@@ -70,6 +71,26 @@ test("the Aurelia contact section keeps the three forms, the honeypot and the ta
   }
   assert.ok(section.includes("data-contact-tabs"));
   assert.ok(contact.html.includes("<body class=\"au\""));
+});
+
+test("Aurelia follows the source page: no wave edges, diamond pattern hero, plain gold-rule columns, quote marks from CSS", () => {
+  const files = renderSite(applyTemplate(classicSite(), "aurelia"));
+  const home = files.find((file) => file.fileName === "en/index.html");
+  const css = {
+    html: readFileSync("src/features/static-site-generator/themes/aurelia/assets/aurelia.css", "utf8"),
+  };
+  assert.ok(home);
+
+  assert.ok(!home.html.includes("au-wave"));
+  assert.ok(home.html.includes('class="au-pattern"'));
+  assert.ok(home.html.includes('class="au-hero-shade"'));
+  assert.ok(home.html.includes("au-stats-band"));
+
+  assert.ok(css.html.includes("rgba(0, 0, 0, 0.6)"));
+  assert.ok(css.html.includes("stroke-opacity='0.08'"));
+  assert.ok(css.html.includes("grid-template-columns: repeat(3, 1fr)"));
+  assert.ok(css.html.includes("aspect-ratio: 4 / 5"));
+  assert.ok(css.html.includes("content: open-quote"));
 });
 
 test("Aurelia designs show services with and without a photo, and several reviews in a snap row", () => {
