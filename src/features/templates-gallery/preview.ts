@@ -10,7 +10,7 @@ import {
 } from "../static-site-generator/site-templates/registry";
 import { getThemeAssetsDirectory } from "../static-site-generator/site-paths";
 import { getTheme } from "../static-site-generator/themes/registry";
-import { demoContent } from "./demo/demo-content";
+import { demoContentFor } from "./demo/demo-content";
 
 // Preview rendering for the templates gallery: the demo content rendered with one template and
 // served from one route handler. Pure and cache-friendly: no AI, no Pexels, no database, no session.
@@ -41,18 +41,20 @@ export function previewTemplateIds(): string[] {
 // Everything the file tree of a rendered demo contains, in the URL shape of the preview route:
 // [""] for the home page, the locale folder for page and project pages, and the theme's assets.
 export function listPreviewParams(): { locale: Locale; id: string; file: string[] }[] {
-  return previewTemplateIds().flatMap((id) =>
-    previewLocales().flatMap((locale) => {
-      const pages = demoContent.pages.flatMap((page) =>
-        demoContent.locales.includes(locale) ? [`${page.slug}.html`] : [],
+  return previewTemplateIds().flatMap((id) => {
+    const content = demoContentFor(id);
+
+    return previewLocales().flatMap((locale) => {
+      const pages = content.pages.flatMap((page) =>
+        content.locales.includes(locale) ? [`${page.slug}.html`] : [],
       );
-      const projectFiles = renderSite(demoContent)
+      const projectFiles = renderSite(content)
         .filter(
           (file) =>
-            file.fileName.startsWith(`${demoContent.defaultLocale}/projects/`) &&
+            file.fileName.startsWith(`${content.defaultLocale}/projects/`) &&
             file.fileName.endsWith(".html"),
         )
-        .map((file) => [locale, file.fileName.replace(`${demoContent.defaultLocale}/`, "")] as const);
+        .map((file) => [locale, file.fileName.replace(`${content.defaultLocale}/`, "")] as const);
       const assets = getTheme(getTemplate(id).shell).assets.map((asset) => ["assets", asset] as const);
 
       return [
@@ -61,8 +63,8 @@ export function listPreviewParams(): { locale: Locale; id: string; file: string[
         ...projectFiles.map(([folder, name]) => ({ locale, id, file: [folder, name] })),
         ...assets.map((file) => ({ locale, id, file: [...file] })),
       ];
-    }),
-  );
+    });
+  });
 }
 
 // The demo file the URL points at. `segments` is the optional catch-all path after "/preview".
@@ -82,7 +84,7 @@ export function findPreviewPage(
     return null;
   }
 
-  const file = renderSite(applyTemplate(demoContent, templateId)).find(
+  const file = renderSite(applyTemplate(demoContentFor(templateId), templateId)).find(
     (candidate) => candidate.fileName === fileName,
   );
 

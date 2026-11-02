@@ -1,11 +1,13 @@
 import { getTranslations } from "next-intl/server";
 import type { Locale } from "@/features/static-site-generator/locale";
 import type { SiteTemplate } from "@/features/static-site-generator/site-templates/types";
+import { findPreviewPage } from "@/features/templates-gallery/preview";
 import { TemplateCover } from "./template-cover";
 
 export async function TemplateCard({ template, locale }: { template: SiteTemplate; locale: Locale }) {
   const t = await getTranslations("templatesGallery.page");
   const previewHref = `/${locale}/templates/${template.id}/preview`;
+  const home = findPreviewPage(template.id, locale, undefined);
 
   return (
     <li className="group flex flex-col overflow-hidden rounded-3xl border border-line bg-panel transition-colors hover:border-white/20">
@@ -16,7 +18,7 @@ export async function TemplateCard({ template, locale }: { template: SiteTemplat
         aria-label={t("coverAria", { name: template.name })}
         className="block outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
       >
-        <TemplateCover template={template} locale={locale} />
+        <TemplateCover html={home?.html ?? ""} title={t("coverAria", { name: template.name })} />
       </a>
 
       <div className="flex flex-1 flex-col gap-2 p-5 pt-4">

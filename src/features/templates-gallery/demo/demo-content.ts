@@ -6,7 +6,7 @@ import type { Locale } from "../../static-site-generator/locale";
 import { siteContentSchema, type SiteContent } from "../../static-site-generator/site-content";
 import type { ThemeBlock } from "../../static-site-generator/themes/types";
 import photosJson from "./photos.json";
-import { photoSlots, type PhotoSlotKey } from "./photo-slots";
+import { fallbackPhotoSetId, photoSlots, type PhotoSlotKey } from "./photo-slots";
 
 // The fixed demo content behind the public template gallery: one made-up architecture and
 // interior design firm, written in natural English and Modern Standard Arabic. Photos come from
@@ -39,21 +39,41 @@ function block<T extends BlockType>(slug: string, type: T, designId: string, pro
 
 type PhotoRecord = { src: string; credit: { name: string; url: string } };
 
-// Indexable by slot key, so a slot without a photo in photos.json fails loudly here.
-const photos: Record<PhotoSlotKey, PhotoRecord | undefined> = photosJson.photos;
+// Indexable by unknown template id, so a template without its own set falls back to agenvo here.
+const photoSets = photosJson.sets as Record<
+  string,
+  Record<PhotoSlotKey, PhotoRecord | undefined> | undefined
+>;
 
-function photo(slot: PhotoSlotKey): PhotoRecord {
-  const found = photos[slot];
+export function photoSetFor(templateId: string): Record<PhotoSlotKey, PhotoRecord | undefined> {
+  const found = photoSets[templateId] ?? photoSets[fallbackPhotoSetId];
 
   if (!found) {
-    throw new Error(`photos.json has no photo for slot "${slot}". Run npm run templates:demo-photos.`);
+    throw new Error(
+      `photos.json has no set for "${fallbackPhotoSetId}". Run npm run templates:demo-photos.`,
+    );
   }
 
   return found;
 }
 
+function slotKeyForAlt(alt: string): PhotoSlotKey | null {
+  for (const slot of photoSlots) {
+    if (slot.alt.en === alt || slot.alt.ar === alt) {
+      return slot.key as PhotoSlotKey;
+    }
+  }
+
+  return null;
+}
+
 function image(slot: PhotoSlotKey, locale: Locale): Image {
-  const found = photo(slot);
+  const found = photoSetFor(fallbackPhotoSetId)[slot];
+
+  if (!found) {
+    throw new Error(`photos.json has no photo for slot "${slot}". Run npm run templates:demo-photos.`);
+  }
+
   const alt = photoSlots.find((candidate) => candidate.key === slot)?.alt[locale];
 
   if (!alt) {
@@ -867,22 +887,50 @@ const content = {
 // Validates on every import, so a typo in the demo content breaks the gallery at build time.
 export const demoContent: SiteContent = siteContentSchema.parse(content);
 
-export type DemoContent = typeof demoContent;
+// Every demo image comes from image() above and carries its slot's alt text, so the same demo text
+// works for every template: matching by alt swaps only src + credit to the template's own set, on
+// the fallback agenvo set for an unknown id.
+export function demoContentFor(templateId: string): SiteContent {
+  const photos = photoSetFor(templateId);
 
-export function heroPreviewImage(locale: Locale): Image {
-  const hero = demoContent.pages[0].blocks.find((candidate) => candidate.type === "hero");
+  function swapSet(value: unknown): unknown {
+    if (Array.isArray(value)) {
+      return value.map((item) => swapSet(item));
+    }
 
-  if (!hero || hero.type !== "hero") {
-    throw new Error("The demo content has no hero.");
+    if (!value || typeof value !== "object") {
+      return value;
+    }
+
+    const record = value as Record<string, unknown>;
+    const slot =
+      typeof record.src === "string" && typeof record.alt === "string"
+        ? slotKeyForAlt(record.alt)
+        : null;
+
+    if (!slot) {
+      return Object.fromEntries(
+        Object.entries(record).map(([field, item]) => [field, swapSet(item)]),
+      );
+    }
+
+    const found = photos[slot];
+
+    if (!found) {
+      throw new Error(
+        `photos.json has no photo for slot "${slot}". Run npm run templates:demo-photos.`,
+      );
+    }
+
+    return {
+      src: found.src,
+      alt: record.alt,
+      credit: { name: found.credit.name, url: found.credit.url },
+    };
   }
 
-  const found = hero.props[locale]?.image;
-
-  if (!found) {
-    throw new Error("The demo content has no hero image.");
-  }
-
-  return found;
+  // Validates on every call, like the base content above.
+  return siteContentSchema.parse(swapSet(demoContent));
 }
 
 export function heroTitleOf(locale: Locale): string {

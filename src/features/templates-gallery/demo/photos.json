@@ -1,95 +1,655 @@
 {
-  "generatedAt": "2026-11-01T15:19:04.294Z",
-  "photos": {
-    "hero": {
-      "src": "https://images.pexels.com/photos/16573669/pexels-photo-16573669.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-      "credit": {
-        "name": "Eyecon Design",
-        "url": "https://www.pexels.com/photo/luxury-villa-house-16573669/"
+  "generatedAt": "2026-11-02T01:38:35.894Z",
+  "sets": {
+    "agenvo": {
+      "hero": {
+        "src": "https://images.pexels.com/photos/16573669/pexels-photo-16573669.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Eyecon Design",
+          "url": "https://www.pexels.com/photo/luxury-villa-house-16573669/"
+        }
+      },
+      "intro-studio": {
+        "src": "https://images.pexels.com/photos/9617369/pexels-photo-9617369.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Ron Lach",
+          "url": "https://www.pexels.com/photo/adult-man-sitting-on-chair-by-deck-and-drawing-9617369/"
+        }
+      },
+      "intro-model": {
+        "src": "https://images.pexels.com/photos/35630637/pexels-photo-35630637.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Blackcurrant Great",
+          "url": "https://www.pexels.com/photo/modern-architectural-model-in-focus-35630637/"
+        }
+      },
+      "intro-detail": {
+        "src": "https://images.pexels.com/photos/6980724/pexels-photo-6980724.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Max Vakhtbovych",
+          "url": "https://www.pexels.com/photo/television-against-sofa-in-modern-living-room-6980724/"
+        }
+      },
+      "svc-architecture": {
+        "src": "https://images.pexels.com/photos/9808879/pexels-photo-9808879.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Plato Terentev",
+          "url": "https://www.pexels.com/photo/wall-of-the-concrete-building-with-windows-9808879/"
+        }
+      },
+      "svc-interiors": {
+        "src": "https://images.pexels.com/photos/39733066/pexels-photo-39733066.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "shaza jocarlos",
+          "url": "https://www.pexels.com/photo/modern-twin-bedroom-with-sleek-design-39733066/"
+        }
+      },
+      "svc-engineering": {
+        "src": "https://images.pexels.com/photos/8961146/pexels-photo-8961146.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Mikael Blomkvist",
+          "url": "https://www.pexels.com/photo/a-man-and-woman-wearing-safety-helmets-8961146/"
+        }
+      },
+      "cover-marina": {
+        "src": "https://images.pexels.com/photos/38542332/pexels-photo-38542332.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Sedat Pala",
+          "url": "https://www.pexels.com/photo/scenic-view-of-istanbul-waterfront-mansion-38542332/"
+        }
+      },
+      "gallery-marina": {
+        "src": "https://images.pexels.com/photos/27626169/pexels-photo-27626169.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Ahmet ÇÖTÜR",
+          "url": "https://www.pexels.com/photo/an-aerial-view-of-a-house-with-a-pool-and-a-pool-27626169/"
+        }
+      },
+      "cover-offices": {
+        "src": "https://images.pexels.com/photos/15202224/pexels-photo-15202224.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Sonny Sixteen",
+          "url": "https://www.pexels.com/photo/downtown-modern-architecture-15202224/"
+        }
+      },
+      "gallery-offices": {
+        "src": "https://images.pexels.com/photos/5483188/pexels-photo-5483188.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "cottonbro studio",
+          "url": "https://www.pexels.com/photo/laptop-on-a-desk-5483188/"
+        }
+      },
+      "cover-cafe": {
+        "src": "https://images.pexels.com/photos/26730484/pexels-photo-26730484.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Şengül  Keleş",
+          "url": "https://www.pexels.com/photo/table-and-chairs-near-windows-of-cafe-26730484/"
+        }
+      },
+      "gallery-cafe": {
+        "src": "https://images.pexels.com/photos/17609723/pexels-photo-17609723.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Emre  Akyol",
+          "url": "https://www.pexels.com/photo/employee-hand-holding-coffee-cup-17609723/"
+        }
       }
     },
-    "intro-studio": {
-      "src": "https://images.pexels.com/photos/9617369/pexels-photo-9617369.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-      "credit": {
-        "name": "Ron Lach",
-        "url": "https://www.pexels.com/photo/adult-man-sitting-on-chair-by-deck-and-drawing-9617369/"
+    "aurelia": {
+      "hero": {
+        "src": "https://images.pexels.com/photos/33074590/pexels-photo-33074590.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Sercan Kaval",
+          "url": "https://www.pexels.com/photo/elegant-nighttime-view-of-neoclassical-balcony-33074590/"
+        }
+      },
+      "intro-studio": {
+        "src": "https://images.pexels.com/photos/6585625/pexels-photo-6585625.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Max Vakhtbovych",
+          "url": "https://www.pexels.com/photo/wardrobe-and-bathroom-with-glass-walls-in-modern-bedroom-6585625/"
+        }
+      },
+      "intro-model": {
+        "src": "https://images.pexels.com/photos/40211701/pexels-photo-40211701.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Mehmet Turgut  Kirkgoz",
+          "url": "https://www.pexels.com/photo/elegant-spiral-staircase-with-wooden-panels-40211701/"
+        }
+      },
+      "intro-detail": {
+        "src": "https://images.pexels.com/photos/9902128/pexels-photo-9902128.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Ron Lach",
+          "url": "https://www.pexels.com/photo/room-with-curtains-drawn-9902128/"
+        }
+      },
+      "svc-architecture": {
+        "src": "https://images.pexels.com/photos/9376/groningen-the-netherlands.jpg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "ClickerHappy",
+          "url": "https://www.pexels.com/photo/high-rise-building-hotel-night-9376/"
+        }
+      },
+      "svc-interiors": {
+        "src": "https://images.pexels.com/photos/20604661/pexels-photo-20604661.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "TurnKey Apartments",
+          "url": "https://www.pexels.com/photo/interior-of-a-modern-bedroom-with-dark-walls-20604661/"
+        }
+      },
+      "svc-engineering": {
+        "src": "https://images.pexels.com/photos/9618115/pexels-photo-9618115.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Ron Lach",
+          "url": "https://www.pexels.com/photo/architect-working-at-home-at-desk-9618115/"
+        }
+      },
+      "cover-marina": {
+        "src": "https://images.pexels.com/photos/3195642/pexels-photo-3195642.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Vlad Chețan",
+          "url": "https://www.pexels.com/photo/house-near-trees-3195642/"
+        }
+      },
+      "gallery-marina": {
+        "src": "https://images.pexels.com/photos/28054849/pexels-photo-28054849.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Ahmet ÇÖTÜR",
+          "url": "https://www.pexels.com/photo/a-luxury-villa-with-a-swimming-pool-at-dusk-28054849/"
+        }
+      },
+      "cover-offices": {
+        "src": "https://images.pexels.com/photos/17648391/pexels-photo-17648391.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "卓浩 虞",
+          "url": "https://www.pexels.com/photo/skyscrapers-on-a-cloudy-evening-17648391/"
+        }
+      },
+      "gallery-offices": {
+        "src": "https://images.pexels.com/photos/16120131/pexels-photo-16120131.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Matheus Bertelli",
+          "url": "https://www.pexels.com/photo/elegant-decor-in-hallway-16120131/"
+        }
+      },
+      "cover-cafe": {
+        "src": "https://images.pexels.com/photos/11828428/pexels-photo-11828428.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Benhur Emmanuel",
+          "url": "https://www.pexels.com/photo/wine-bottles-on-bar-interior-11828428/"
+        }
+      },
+      "gallery-cafe": {
+        "src": "https://images.pexels.com/photos/5864479/pexels-photo-5864479.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Rachel Claire",
+          "url": "https://www.pexels.com/photo/a-candle-on-a-table-5864479/"
+        }
       }
     },
-    "intro-model": {
-      "src": "https://images.pexels.com/photos/35630637/pexels-photo-35630637.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-      "credit": {
-        "name": "Blackcurrant Great",
-        "url": "https://www.pexels.com/photo/modern-architectural-model-in-focus-35630637/"
+    "arhitect": {
+      "hero": {
+        "src": "https://images.pexels.com/photos/4328661/pexels-photo-4328661.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Steve Pancrate",
+          "url": "https://www.pexels.com/photo/a-concrete-building-under-the-blue-sky-4328661/"
+        }
+      },
+      "intro-studio": {
+        "src": "https://images.pexels.com/photos/17115288/pexels-photo-17115288.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Czapp Árpád",
+          "url": "https://www.pexels.com/photo/architect-drawing-a-design-sketch-17115288/"
+        }
+      },
+      "intro-model": {
+        "src": "https://images.pexels.com/photos/3882638/pexels-photo-3882638.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "d_odd_y",
+          "url": "https://www.pexels.com/photo/brown-concrete-building-under-blue-sky-3882638/"
+        }
+      },
+      "intro-detail": {
+        "src": "https://images.pexels.com/photos/15663488/pexels-photo-15663488.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "IAN",
+          "url": "https://www.pexels.com/photo/corner-of-hallway-15663488/"
+        }
+      },
+      "svc-architecture": {
+        "src": "https://images.pexels.com/photos/9408405/pexels-photo-9408405.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Airam Dato-on",
+          "url": "https://www.pexels.com/photo/brown-concrete-building-with-geometric-design-9408405/"
+        }
+      },
+      "svc-interiors": {
+        "src": "https://images.pexels.com/photos/28896667/pexels-photo-28896667.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Warren Griffiths",
+          "url": "https://www.pexels.com/photo/modern-concrete-staircase-in-canberra-australia-28896667/"
+        }
+      },
+      "svc-engineering": {
+        "src": "https://images.pexels.com/photos/36532609/pexels-photo-36532609.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Peter Dyllong",
+          "url": "https://www.pexels.com/photo/black-and-white-construction-site-framing-view-36532609/"
+        }
+      },
+      "cover-marina": {
+        "src": "https://images.pexels.com/photos/3285150/pexels-photo-3285150.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Markus Winkler",
+          "url": "https://www.pexels.com/photo/small-window-with-bars-in-wall-3285150/"
+        }
+      },
+      "gallery-marina": {
+        "src": "https://images.pexels.com/photos/31044663/pexels-photo-31044663.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Julian Dahl",
+          "url": "https://www.pexels.com/photo/modern-brutalist-architecture-at-salk-institute-31044663/"
+        }
+      },
+      "cover-offices": {
+        "src": "https://images.pexels.com/photos/7784902/pexels-photo-7784902.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Abdullah Efe",
+          "url": "https://www.pexels.com/photo/gray-concrete-tower-under-cloudy-sky-7784902/"
+        }
+      },
+      "gallery-offices": {
+        "src": "https://images.pexels.com/photos/14840813/pexels-photo-14840813.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Luis Quintero",
+          "url": "https://www.pexels.com/photo/abandoned-car-parking-on-shore-14840813/"
+        }
+      },
+      "cover-cafe": {
+        "src": "https://images.pexels.com/photos/3654216/pexels-photo-3654216.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "𝗛&𝗖𝗢 　",
+          "url": "https://www.pexels.com/photo/grayscale-photo-of-initials-on-concrete-surface-3654216/"
+        }
+      },
+      "gallery-cafe": {
+        "src": "https://images.pexels.com/photos/37097374/pexels-photo-37097374.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Michaela St",
+          "url": "https://www.pexels.com/photo/abstract-light-and-shadow-patterns-on-concrete-stairs-37097374/"
+        }
       }
     },
-    "intro-detail": {
-      "src": "https://images.pexels.com/photos/6980724/pexels-photo-6980724.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-      "credit": {
-        "name": "Max Vakhtbovych",
-        "url": "https://www.pexels.com/photo/television-against-sofa-in-modern-living-room-6980724/"
+    "atelier": {
+      "hero": {
+        "src": "https://images.pexels.com/photos/27953061/pexels-photo-27953061.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Jan van der Wolf",
+          "url": "https://www.pexels.com/photo/two-white-houses-with-blue-sky-in-the-background-27953061/"
+        }
+      },
+      "intro-studio": {
+        "src": "https://images.pexels.com/photos/20314949/pexels-photo-20314949.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "The Juggle Studio",
+          "url": "https://www.pexels.com/photo/a-cart-with-an-equipment-in-a-white-apartment-20314949/"
+        }
+      },
+      "intro-model": {
+        "src": "https://images.pexels.com/photos/3961748/pexels-photo-3961748.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Andreea Ch",
+          "url": "https://www.pexels.com/photo/miniature-clay-house-in-white-background-3961748/"
+        }
+      },
+      "intro-detail": {
+        "src": "https://images.pexels.com/photos/29012619/pexels-photo-29012619.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Beyza Kılıçdere",
+          "url": "https://www.pexels.com/photo/bright-modern-living-room-with-soft-white-interiors-29012619/"
+        }
+      },
+      "svc-architecture": {
+        "src": "https://images.pexels.com/photos/19381686/pexels-photo-19381686.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Jan van der Wolf",
+          "url": "https://www.pexels.com/photo/white-building-wall-19381686/"
+        }
+      },
+      "svc-interiors": {
+        "src": "https://images.pexels.com/photos/10554480/pexels-photo-10554480.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Ron Lach",
+          "url": "https://www.pexels.com/photo/bedroom-with-window-10554480/"
+        }
+      },
+      "svc-engineering": {
+        "src": "https://images.pexels.com/photos/30179842/pexels-photo-30179842.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Balotra News",
+          "url": "https://www.pexels.com/photo/group-of-construction-workers-on-site-visit-30179842/"
+        }
+      },
+      "cover-marina": {
+        "src": "https://images.pexels.com/photos/30820133/pexels-photo-30820133.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Marian Florinel Condruz",
+          "url": "https://www.pexels.com/photo/beautiful-spanish-villa-with-floral-accents-30820133/"
+        }
+      },
+      "gallery-marina": {
+        "src": "https://images.pexels.com/photos/2155202/pexels-photo-2155202.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Quang Nguyen Vinh",
+          "url": "https://www.pexels.com/photo/bikes-near-chairs-and-cantilever-parasol-2155202/"
+        }
+      },
+      "cover-offices": {
+        "src": "https://images.pexels.com/photos/11299563/pexels-photo-11299563.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Mathias Reding",
+          "url": "https://www.pexels.com/photo/white-buildings-on-blue-sky-11299563/"
+        }
+      },
+      "gallery-offices": {
+        "src": "https://images.pexels.com/photos/8297857/pexels-photo-8297857.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Mikhail Nilov",
+          "url": "https://www.pexels.com/photo/potted-plants-in-an-office-8297857/"
+        }
+      },
+      "cover-cafe": {
+        "src": "https://images.pexels.com/photos/18177056/pexels-photo-18177056.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Tranmautritam",
+          "url": "https://www.pexels.com/photo/chairs-in-front-of-a-cafe-18177056/"
+        }
+      },
+      "gallery-cafe": {
+        "src": "https://images.pexels.com/photos/32559187/pexels-photo-32559187.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Đan Thy Nguyễn Mai",
+          "url": "https://www.pexels.com/photo/cozy-local-coffee-shop-interior-with-retro-decor-32559187/"
+        }
       }
     },
-    "svc-architecture": {
-      "src": "https://images.pexels.com/photos/9808879/pexels-photo-9808879.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-      "credit": {
-        "name": "Plato Terentev",
-        "url": "https://www.pexels.com/photo/wall-of-the-concrete-building-with-windows-9808879/"
+    "dar": {
+      "hero": {
+        "src": "https://images.pexels.com/photos/15867424/pexels-photo-15867424.png?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Thới Nam Cao",
+          "url": "https://www.pexels.com/photo/furniture-in-minimalist-interior-design-15867424/"
+        }
+      },
+      "intro-studio": {
+        "src": "https://images.pexels.com/photos/6583355/pexels-photo-6583355.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "cottonbro studio",
+          "url": "https://www.pexels.com/photo/hand-of-a-person-holding-wooden-plank-samples-6583355/"
+        }
+      },
+      "intro-model": {
+        "src": "https://images.pexels.com/photos/7883882/pexels-photo-7883882.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Garrison Gao",
+          "url": "https://www.pexels.com/photo/a-scale-model-of-a-city-with-building-7883882/"
+        }
+      },
+      "intro-detail": {
+        "src": "https://images.pexels.com/photos/39134573/pexels-photo-39134573.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "hank yu",
+          "url": "https://www.pexels.com/photo/modern-living-room-with-elegant-sofa-and-decor-39134573/"
+        }
+      },
+      "svc-architecture": {
+        "src": "https://images.pexels.com/photos/12441383/pexels-photo-12441383.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Alyona Pastukhova",
+          "url": "https://www.pexels.com/photo/a-brown-wooden-house-12441383/"
+        }
+      },
+      "svc-interiors": {
+        "src": "https://images.pexels.com/photos/8082562/pexels-photo-8082562.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Max Vakhtbovych",
+          "url": "https://www.pexels.com/photo/interior-design-of-a-bedroom-8082562/"
+        }
+      },
+      "svc-engineering": {
+        "src": "https://images.pexels.com/photos/32357250/pexels-photo-32357250.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "HONG SON",
+          "url": "https://www.pexels.com/photo/carpenter-working-with-wood-on-industrial-saw-32357250/"
+        }
+      },
+      "cover-marina": {
+        "src": "https://images.pexels.com/photos/29145900/pexels-photo-29145900.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Chris F",
+          "url": "https://www.pexels.com/photo/coastal-homes-with-wooden-siding-in-sunny-setting-29145900/"
+        }
+      },
+      "gallery-marina": {
+        "src": "https://images.pexels.com/photos/18823963/pexels-photo-18823963.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Boris Ivas",
+          "url": "https://www.pexels.com/photo/empty-tables-on-restaurant-terrace-18823963/"
+        }
+      },
+      "cover-offices": {
+        "src": "https://images.pexels.com/photos/31771712/pexels-photo-31771712.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Pacific Business Park",
+          "url": "https://www.pexels.com/photo/warm-wooden-office-interior-decor-with-glass-doors-31771712/"
+        }
+      },
+      "gallery-offices": {
+        "src": "https://images.pexels.com/photos/7688155/pexels-photo-7688155.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Kindel Media",
+          "url": "https://www.pexels.com/photo/group-of-people-sitting-on-white-couch-in-the-office-lobby-while-looking-at-a-document-7688155/"
+        }
+      },
+      "cover-cafe": {
+        "src": "https://images.pexels.com/photos/32355734/pexels-photo-32355734.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "🇻🇳🇻🇳 Việt Anh Nguyễn 🇻🇳🇻🇳",
+          "url": "https://www.pexels.com/photo/cozy-indoor-seating-with-checkered-sofas-and-plants-32355734/"
+        }
+      },
+      "gallery-cafe": {
+        "src": "https://images.pexels.com/photos/6693557/pexels-photo-6693557.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "cottonbro studio",
+          "url": "https://www.pexels.com/photo/a-top-view-of-a-person-doing-pottery-6693557/"
+        }
       }
     },
-    "svc-interiors": {
-      "src": "https://images.pexels.com/photos/39733066/pexels-photo-39733066.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-      "credit": {
-        "name": "shaza jocarlos",
-        "url": "https://www.pexels.com/photo/modern-twin-bedroom-with-sleek-design-39733066/"
+    "nova": {
+      "hero": {
+        "src": "https://images.pexels.com/photos/9562581/pexels-photo-9562581.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Алексей Вечерин",
+          "url": "https://www.pexels.com/photo/gray-concrete-building-near-under-white-sky-9562581/"
+        }
+      },
+      "intro-studio": {
+        "src": "https://images.pexels.com/photos/30719069/pexels-photo-30719069.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Moin Uddin",
+          "url": "https://www.pexels.com/photo/construction-team-discussing-project-on-site-30719069/"
+        }
+      },
+      "intro-model": {
+        "src": "https://images.pexels.com/photos/4458205/pexels-photo-4458205.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Ivan S",
+          "url": "https://www.pexels.com/photo/a-photo-of-a-floor-plan-4458205/"
+        }
+      },
+      "intro-detail": {
+        "src": "https://images.pexels.com/photos/5567186/pexels-photo-5567186.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Bakyt Kosjan",
+          "url": "https://www.pexels.com/photo/interior-design-of-spacious-two-story-living-room-5567186/"
+        }
+      },
+      "svc-architecture": {
+        "src": "https://images.pexels.com/photos/31587194/pexels-photo-31587194.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Jan van der Wolf",
+          "url": "https://www.pexels.com/photo/modern-red-and-white-building-facade-close-up-31587194/"
+        }
+      },
+      "svc-interiors": {
+        "src": "https://images.pexels.com/photos/7511755/pexels-photo-7511755.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Max Vakhtbovych",
+          "url": "https://www.pexels.com/photo/corridor-with-decorated-wall-near-conference-room-7511755/"
+        }
+      },
+      "svc-engineering": {
+        "src": "https://images.pexels.com/photos/34965713/pexels-photo-34965713.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Tito Zzzz",
+          "url": "https://www.pexels.com/photo/yellow-construction-helmet-on-industrial-site-34965713/"
+        }
+      },
+      "cover-marina": {
+        "src": "https://images.pexels.com/photos/27026916/pexels-photo-27026916.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Kim Hort",
+          "url": "https://www.pexels.com/photo/birds-eye-view-of-the-villa-and-construction-sites-along-the-dirt-road-27026916/"
+        }
+      },
+      "gallery-marina": {
+        "src": "https://images.pexels.com/photos/30278762/pexels-photo-30278762.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Enes Beydilli",
+          "url": "https://www.pexels.com/photo/industrial-skyline-at-sunset-with-silhouetted-cranes-30278762/"
+        }
+      },
+      "cover-offices": {
+        "src": "https://images.pexels.com/photos/210723/pexels-photo-210723.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Pixabay",
+          "url": "https://www.pexels.com/photo/worm-s-eye-view-of-glass-building-210723/"
+        }
+      },
+      "gallery-offices": {
+        "src": "https://images.pexels.com/photos/36631699/pexels-photo-36631699.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "DOAN THANH BINH",
+          "url": "https://www.pexels.com/photo/spacious-modern-office-interior-with-open-cubicles-36631699/"
+        }
+      },
+      "cover-cafe": {
+        "src": "https://images.pexels.com/photos/5865422/pexels-photo-5865422.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Rachel Claire",
+          "url": "https://www.pexels.com/photo/modern-style-restaurant-interior-5865422/"
+        }
+      },
+      "gallery-cafe": {
+        "src": "https://images.pexels.com/photos/31258538/pexels-photo-31258538.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Airam Dato-on",
+          "url": "https://www.pexels.com/photo/construction-cranes-against-a-blue-sky-31258538/"
+        }
       }
     },
-    "svc-engineering": {
-      "src": "https://images.pexels.com/photos/8961146/pexels-photo-8961146.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-      "credit": {
-        "name": "Mikael Blomkvist",
-        "url": "https://www.pexels.com/photo/a-man-and-woman-wearing-safety-helmets-8961146/"
-      }
-    },
-    "cover-marina": {
-      "src": "https://images.pexels.com/photos/38542332/pexels-photo-38542332.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-      "credit": {
-        "name": "Sedat Pala",
-        "url": "https://www.pexels.com/photo/scenic-view-of-istanbul-waterfront-mansion-38542332/"
-      }
-    },
-    "gallery-marina": {
-      "src": "https://images.pexels.com/photos/27626169/pexels-photo-27626169.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-      "credit": {
-        "name": "Ahmet ÇÖTÜR",
-        "url": "https://www.pexels.com/photo/an-aerial-view-of-a-house-with-a-pool-and-a-pool-27626169/"
-      }
-    },
-    "cover-offices": {
-      "src": "https://images.pexels.com/photos/15202224/pexels-photo-15202224.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-      "credit": {
-        "name": "Sonny Sixteen",
-        "url": "https://www.pexels.com/photo/downtown-modern-architecture-15202224/"
-      }
-    },
-    "gallery-offices": {
-      "src": "https://images.pexels.com/photos/5483188/pexels-photo-5483188.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-      "credit": {
-        "name": "cottonbro studio",
-        "url": "https://www.pexels.com/photo/laptop-on-a-desk-5483188/"
-      }
-    },
-    "cover-cafe": {
-      "src": "https://images.pexels.com/photos/26730484/pexels-photo-26730484.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-      "credit": {
-        "name": "Şengül  Keleş",
-        "url": "https://www.pexels.com/photo/table-and-chairs-near-windows-of-cafe-26730484/"
-      }
-    },
-    "gallery-cafe": {
-      "src": "https://images.pexels.com/photos/17609723/pexels-photo-17609723.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-      "credit": {
-        "name": "Emre  Akyol",
-        "url": "https://www.pexels.com/photo/employee-hand-holding-coffee-cup-17609723/"
+    "riwaq": {
+      "hero": {
+        "src": "https://images.pexels.com/photos/18828972/pexels-photo-18828972.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Mehmet Turgut  Kirkgoz",
+          "url": "https://www.pexels.com/photo/minarets-over-courtyard-of-nurosmaniye-mosque-in-istanbul-18828972/"
+        }
+      },
+      "intro-studio": {
+        "src": "https://images.pexels.com/photos/32647381/pexels-photo-32647381.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Shailendra Dhakal",
+          "url": "https://www.pexels.com/photo/cozy-modern-restaurant-interior-with-booths-32647381/"
+        }
+      },
+      "intro-model": {
+        "src": "https://images.pexels.com/photos/4220977/pexels-photo-4220977.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Clive Kim",
+          "url": "https://www.pexels.com/photo/bahia-palace-in-marrakesh-morocco-4220977/"
+        }
+      },
+      "intro-detail": {
+        "src": "https://images.pexels.com/photos/34296099/pexels-photo-34296099.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Hassan Bouamoud",
+          "url": "https://www.pexels.com/photo/moroccan-mosaic-tile-floor-in-sunlight-34296099/"
+        }
+      },
+      "svc-architecture": {
+        "src": "https://images.pexels.com/photos/11910624/pexels-photo-11910624.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Crab Lens",
+          "url": "https://www.pexels.com/photo/facade-of-the-bayezid-ii-mosque-istanbul-turkey-11910624/"
+        }
+      },
+      "svc-interiors": {
+        "src": "https://images.pexels.com/photos/15531322/pexels-photo-15531322.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Moussa Idrissi",
+          "url": "https://www.pexels.com/photo/a-hotel-room-in-riad-palais-sebban-marrakesh-morocco-15531322/"
+        }
+      },
+      "svc-engineering": {
+        "src": "https://images.pexels.com/photos/6611208/pexels-photo-6611208.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Yan Krukau",
+          "url": "https://www.pexels.com/photo/a-person-holding-a-stainless-tool-on-a-flattened-clay-6611208/"
+        }
+      },
+      "cover-marina": {
+        "src": "https://images.pexels.com/photos/412050/pexels-photo-412050.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Tomas Anunziata",
+          "url": "https://www.pexels.com/photo/ornamental-arched-inner-yard-of-oriental-style-412050/"
+        }
+      },
+      "gallery-marina": {
+        "src": "https://images.pexels.com/photos/11829133/pexels-photo-11829133.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Zekai Zhu",
+          "url": "https://www.pexels.com/photo/brown-concrete-building-11829133/"
+        }
+      },
+      "cover-offices": {
+        "src": "https://images.pexels.com/photos/14802823/pexels-photo-14802823.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Mohamed Usama",
+          "url": "https://www.pexels.com/photo/ornamented-interior-of-qasr-al-watan-in-abu-dhabi-14802823/"
+        }
+      },
+      "gallery-offices": {
+        "src": "https://images.pexels.com/photos/10573397/pexels-photo-10573397.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Zakaria HANIF",
+          "url": "https://www.pexels.com/photo/courtyard-with-a-pool-in-riad-maktoub-hotel-ajt-bin-haddu-morocco-10573397/"
+        }
+      },
+      "cover-cafe": {
+        "src": "https://images.pexels.com/photos/8100592/pexels-photo-8100592.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "credit": {
+          "name": "Wesley Opanga",
+          "url": "https://www.pexels.com/photo/men-having-traditional-tea-8100592/"
+        }
+      },
+      "gallery-cafe": {
+        "src": "https://images.pexels.com/photos/31497982/pexels-photo-31497982.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+        "credit": {
+          "name": "Dennis Kemmerling",
+          "url": "https://www.pexels.com/photo/traditional-moroccan-tea-ceremony-in-draa-tafilalet-31497982/"
+        }
       }
     }
   }

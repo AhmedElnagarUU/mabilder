@@ -1,58 +1,69 @@
-import { demoContent, heroPreviewImage, heroTitleOf } from "@/features/templates-gallery/demo/demo-content";
-import type { Locale } from "@/features/static-site-generator/locale";
-import type { SiteTemplate } from "@/features/static-site-generator/site-templates/types";
+"use client";
 
-// The gallery card cover: a small CSS-only mock of the demo home page drawn with the template's
-// own tokens (colors, fonts) and the fixed demo content. No screenshot and no iframe needed.
-export async function TemplateCover({ template, locale }: { template: SiteTemplate; locale: Locale }) {
-  const { tokens } = template;
-  const heroImage = heroPreviewImage(locale);
-  const businessName = demoContent.facts.businessName;
-  const heroTitle = heroTitleOf(locale);
+import { useEffect, useRef, useState } from "react";
+
+// The gallery card cover: the template's real rendered demo home page in a sandboxed, scaled-down,
+// non-interactive iframe (same approach as the editor's DesignPreviewFrame). The HTML is rendered
+// on the server (findPreviewPage, no Pexels/AI/db call), the iframe mounts lazily and keeps
+// pointer events off, so the card keeps its own "Preview" link.
+const FRAME_WIDTH = 1440;
+const FRAME_HEIGHT = 900;
+
+export function TemplateCover({ html, title }: { html: string; title: string }) {
+  const boxRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    const box = boxRef.current;
+
+    if (!box) {
+      return;
+    }
+
+    const resize = new ResizeObserver(() => setWidth(box.clientWidth));
+    const intersect = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        setVisible(true);
+        intersect.disconnect();
+      }
+    });
+
+    resize.observe(box);
+    intersect.observe(box);
+
+    return () => {
+      resize.disconnect();
+      intersect.disconnect();
+    };
+  }, []);
+
+  const scale = width / FRAME_WIDTH;
 
   return (
     <div
-      dir={locale === "ar" ? "rtl" : "ltr"}
+      ref={boxRef}
+      dir="ltr"
       className="relative w-full overflow-hidden"
-      style={{ backgroundColor: tokens.bg, color: tokens.ink }}
+      style={{ height: Math.max(180, Math.round(FRAME_HEIGHT * scale)) }}
     >
-      <div className="flex items-center justify-between gap-3 px-4 py-3.5">
-        <span className="truncate text-[15px]" style={{ fontFamily: tokens.fontDisplay }}>
-          {businessName}
-        </span>
-        <span className="flex shrink-0 gap-1.5" aria-hidden>
-          <i className="h-[3px] w-6 rounded-full" style={{ backgroundColor: tokens.accent }} />
-          <i
-            className="h-[3px] w-6 rounded-full opacity-50"
-            style={{ backgroundColor: tokens.ink }}
-          />
-          <i
-            className="h-[3px] w-6 rounded-full opacity-50"
-            style={{ backgroundColor: tokens.ink }}
-          />
-        </span>
-      </div>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={heroImage.src}
-        alt={heroImage.alt}
-        loading="lazy"
-        className="h-36 w-full object-cover sm:h-40"
-      />
-      <div className="flex items-end justify-between gap-3 px-4 py-3.5">
-        <span
-          className="line-clamp-2 text-[17px] leading-snug"
-          style={{ fontFamily: tokens.fontDisplay }}
-        >
-          {heroTitle}
-        </span>
-        <span
-          className="shrink-0 rounded-full px-2.5 py-1 text-[10px] font-medium tracking-wide"
-          style={{ backgroundColor: tokens.accent, color: tokens.bg }}
-        >
-          {template.name}
-        </span>
-      </div>
+      {html && visible ? (
+        <iframe
+          title={title}
+          sandbox=""
+          srcDoc={html}
+          aria-hidden
+          tabIndex={-1}
+          scrolling="no"
+          loading="lazy"
+          className="pointer-events-none absolute start-0 top-0 origin-top-left border-0"
+          style={{
+            width: FRAME_WIDTH,
+            height: FRAME_HEIGHT,
+            transform: `scale(${scale})`,
+          }}
+        />
+      ) : null}
     </div>
   );
 }

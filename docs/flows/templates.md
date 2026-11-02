@@ -1,11 +1,12 @@
 # Flow: templates (pick a template after the content is written)
 
 Plan: `docs/templates-plan.md`. Status: **T1 built** (template model, Classic, `applyTemplate`, content-level
-image needs), **T2 built** (template Aurelia) and **T3 built** (public template gallery with live demo previews).
+image needs), **T2 built** (template Aurelia), **T3 built** (public template gallery with live demo previews)
+and **G1 built** (one demo photo set per template, gallery cover = scaled live preview iframe).
 T4–T8 (pick screens, more templates) are not built yet. This file is updated in each milestone.
 
 **T3, in plain words:** a public gallery page at `/[locale]/templates` shows one card per template, each with a
-small CSS mock of the demo home page, the template name and its mood text in the visitor's language, and an
+small live preview of the demo home page, the template name and its mood text in the visitor's language, and an
 "Open preview" link that opens `/{locale}/templates/{id}/preview` in a new tab. The preview route renders the
 fixed demo studio ("Masar Studio", bilingual English/Arabic, photos from Pexels saved once in the fixture) with
 that template, injects a `<base>` tag so the demo's own internal links keep working, and adds a small visible
@@ -17,6 +18,18 @@ gallery page `src/app/[locale]/templates/page.tsx`, preview
 `src/features/templates-gallery/demo/demo-content.ts` (+ `photo-slots.ts`, `photos.json`, dev script
 `scripts/templates-demo-photos.ts` / `npm run templates:demo-photos`), rendering in
 `src/features/templates-gallery/preview.ts`, components in `src/features/templates-gallery/components/`.
+
+**G1, in plain words:** every template owns its demo photo set. `photo-slots.ts` keeps the same slot keys and
+alt texts as before and lists one Pexels query per template and slot, written to match the template's mood
+(dark luxury, brutalist, warm interior…). `npm run templates:demo-photos` fills every set that is not saved
+yet and keeps the rest (`-- <templateId>` refills one set); it writes `photos.json` as
+`{ generatedAt, sets: { <templateId>: { <slotKey>: { src, credit } } } }` and never saves the same Pexels
+photo twice across sets (the next search result is taken). `demoContentFor(templateId)` returns the demo
+content — the same text — with the template's own set, falling back to the `agenvo` set for an unknown id;
+the preview route and the gallery cover use it. Sets exist even for templates not in the registry yet
+(arhitect, atelier, dar, nova, riwaq), so a later template milestone only adds the template. The gallery card
+cover is now this template's real rendered demo home page in a sandboxed, scaled, lazy, non-interactive
+iframe (`TemplateCover`, like the editor's `DesignPreviewFrame`), so every card looks like its template.
 
 **Aurelia (T2), in plain words:** a dark luxury look: charcoal pages, thin gold lines, a faint diamond pattern over
 the hero photo, big gold serif titles with one italic line, and a gold-outlined menu button. It has its own menu,
@@ -42,7 +55,8 @@ content fits any template. If a template has no own design for a section type, i
 still takes the template's colors and fonts.
 
 **3. Looking at templates costs nothing.** The public gallery at `/{locale}/templates` shows each template with
-fixed demo text and fixed demo photos (chosen once by us, then stored in `photos.json`). "Open preview" leads to
+fixed demo text and its own fixed photo set (chosen once by us, stored per template in `photos.json`). "Open
+preview" leads to
 `/{locale}/templates/{id}/preview`, which renders the whole demo site (all pages and project stories) in a new
 tab. No AI, no Pexels search and no database call happen when someone looks at the gallery or a preview; the
 preview shows a visible demo ribbon instead of a working contact form.
@@ -69,9 +83,13 @@ flowchart TD
 
     G[Visitor opens /[locale]/templates - src/app/[locale]/templates/page.tsx] --> H[Template cards: templates-gallery components, listTemplates]
     F --> H
-    H --> I[Open preview link, open in new tab]
+    H --> H2[TemplateCover: findPreviewPage renders the template's demo home, sandboxed scaled lazy iframe srcDoc]
+    PHOTOS[Dev script templates:demo-photos - Pexels search per template and slot, dedupe by photo id, writes photos.json, generatedAt + sets]
+    PHOTOS --> P1[(photos.json: sets.<templateId>.<slot>.src/credit, no photo twice across sets, unknown id falls back to agenvo)]
+    P1 --> H2
+    H2 --> I[Open preview link, open in new tab]
     I --> J[New tab /[locale]/templates/id/preview/[[...file]] route.ts - generateStaticParams from listPreviewParams]
-    J --> K[preview.ts: applyTemplate on demo fixture Masar Studio, renderSite, base href tag, demo ribbon]
+    J --> K[preview.ts: demoContentFor id, applyTemplate, renderSite, base href tag, demo ribbon]
     K --> K2[assets/site.css and assets/site.js read from theme folder in the same route]
 
     H --> L[Use this template, T4 pick flow, not built yet]
