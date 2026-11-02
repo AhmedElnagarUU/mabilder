@@ -1,8 +1,8 @@
 import type { Stat } from "../../blocks/common";
 import { renderText } from "../../content/html";
 import { renderSection } from "../../themes/agenvo/parts";
-import type { BlockContext, ThemeBlock } from "../../themes/types";
-import { renderHead, renderEyebrow, renderStatNumber, sectionClasses } from "./parts";
+import type { ThemeBlock } from "../../themes/types";
+import { renderEyebrow, renderStatNumber } from "./parts";
 
 function renderDividedItem(item: Stat): string {
   return `
@@ -12,12 +12,14 @@ function renderDividedItem(item: Stat): string {
           </div>`;
 }
 
-// Huge numbers separated by vertical hairlines.
+// The source band: hairlines top and bottom, centered light sand counters. The block's
+// title is kept as a small spaced line above them.
 function renderDivided(block: ThemeBlock<"stats">): string {
   const { props } = block;
 
   return `
-    <div class="ar-wrap">${renderHead(props.eyebrow, props.title, undefined)}
+    <div class="ar-wrap">
+      <h2 class="ar-stats-title ar-reveal">${renderText(props.title)}</h2>
       <div class="ar-stat-row">${props.items.map(renderDividedItem).join("")}
       </div>
     </div>`;
@@ -47,9 +49,9 @@ function renderGiant(block: ThemeBlock<"stats">): string {
     </div>`;
 }
 
-export function renderStats(block: ThemeBlock<"stats">, context: BlockContext): string {
+export function renderStats(block: ThemeBlock<"stats">): string {
   const giant = block.design === "arhitect/stats-giant";
   const inner = giant ? renderGiant(block) : renderDivided(block);
 
-  return renderSection(block, sectionClasses(context.tone, "ar-stats"), inner);
+  return renderSection(block, "ar-sec ar-stats", inner);
 }

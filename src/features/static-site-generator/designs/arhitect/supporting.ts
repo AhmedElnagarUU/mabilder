@@ -1,15 +1,13 @@
 import { escapeAttribute, renderText } from "../../content/html";
 import { renderImage, renderSection } from "../../themes/agenvo/parts";
 import type { BlockContext, ThemeBlock } from "../../themes/types";
-import { renderHead, renderIcon, renderIndex, sectionClasses } from "./parts";
+import { renderHead, renderIcon, sectionClasses } from "./parts";
 
 // Section types the owner's Arhitect source has no picture of. They follow the same
 // black grid, uppercase type and hairline language as the main designs.
 
 export function renderMarquee(block: ThemeBlock<"marquee">, context: BlockContext): string {
-  const items = block.props.items
-    .map((item, index) => `<li>${renderIndex(index, "ar-index-small")}${renderText(item)}</li>`)
-    .join("");
+  const items = block.props.items.map((item) => `<li>${renderText(item)}</li>`).join("");
 
   return renderSection(
     block,
@@ -31,8 +29,8 @@ export function renderValues(block: ThemeBlock<"values">, context: BlockContext)
     )
     .join("");
 
-  const inner = `
-    <div class="ar-wrap">${renderHead(props.eyebrow, props.title, props.body)}
+  const inner = `${renderHead(props.eyebrow, props.title, props.body)}
+    <div class="ar-wrap">
       <div class="ar-cols">${items}
       </div>
     </div>`;
@@ -101,10 +99,10 @@ export function renderTeam(block: ThemeBlock<"team">, context: BlockContext): st
   const { props } = block;
   const people = props.items
     .map(
-      (person, index) => `
+      (person) => `
           <article class="ar-person ar-reveal">
             ${person.image ? `<div class="ar-item-cover ar-ratio-tall">${renderImage(person.image, "ar-img-cover ar-photo")}</div>` : ""}
-            <div class="ar-caption-top">${renderIndex(index)}<span class="ar-caps-inline">${renderText(person.role)}</span></div>
+            <p class="ar-caps">${renderText(person.role)}</p>
             <h3 class="ar-card-title">${renderText(person.name)}</h3>
             <p class="ar-small">${renderText(person.bio)}</p>
           </article>`,

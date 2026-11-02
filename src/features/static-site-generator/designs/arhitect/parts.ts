@@ -2,7 +2,7 @@ import type { Link } from "../../blocks/common";
 import { escapeAttribute, renderText } from "../../content/html";
 import type { Tone } from "../../themes/types";
 
-// Tones alternate the pure black base and a slightly lifted band.
+// Tones alternate the near-black base and a slightly lifted band.
 export function sectionClasses(tone: Tone, extra = ""): string {
   const band = tone === "light" ? " ar-band" : "";
   return `ar-sec${band}${extra ? ` ${extra}` : ""}`;
@@ -12,7 +12,7 @@ export function renderArrow(): string {
   return '<svg class="ar-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M2 8h12M9 3l5 5-5 5"/></svg>';
 }
 
-// Index numbers are a signature of this pack: every listing row carries one.
+// Index numbers only remain in the "rows" alternative designs, as their differentiator.
 export function renderIndex(index: number, classes = "ar-index"): string {
   return `<span class="${classes}" dir="ltr">/${String(index + 1).padStart(2, "0")}</span>`;
 }
@@ -43,10 +43,11 @@ export function renderHead(eyebrow: string | undefined, title: string, body: str
       </header>`;
 }
 
-export function renderButton(link: Link, kind: "solid" | "outline" = "outline"): string {
+// Buttons follow the source: a sand block with no icon.
+export function renderButton(link: Link, kind: "solid" | "outline" = "solid"): string {
   const kindClass = kind === "solid" ? "ar-btn-solid" : "ar-btn-outline";
 
-  return `<a href="${escapeAttribute(link.href)}" class="ar-btn ${kindClass}">${renderText(link.label)}${renderArrow()}</a>`;
+  return `<a href="${escapeAttribute(link.href)}" class="ar-btn ${kindClass}">${renderText(link.label)}</a>`;
 }
 
 export function renderTextLink(link: Link | undefined): string {

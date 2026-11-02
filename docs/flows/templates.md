@@ -54,14 +54,14 @@ circle-icon services, photo panels, a big-number band and project cards with fac
 Aurelia design, so any content fits. Preview locally with `npm run templates:render-sample -- aurelia`
 (writes `.template-samples/aurelia/`).
 
-**Arhitect (T5), in plain words:** a black cinematic tech look: pure black pages, wide uppercase Archivo titles
-(Cairo for Arabic), hairline grey lines and one signal-red accent (`#e5322d`). Its own menu (nav links carry
-`/01` numbers), a giant uppercase wordmark across the bottom of the footer, and grayscale photos everywhere —
-a photo only gets its color when it is focused or hovered. Default sections: full-bleed hero with the tagline
-bottom-end, expanding photo panels for services, a big 2-column project grid with `/01` indexes, huge counting
-numbers with vertical dividers, and one big uppercase review on an inverted white band; there is also a black-white
-split hero, numbered service rows, project list rows, one giant stat number and a quote list, so "Change design"
-has choices. Preview locally with `npm run templates:render-sample -- arhitect`.
+**Arhitect (T5), in plain words:** faithful to the owner's page `templates/arhitect/index.html` (decision
+2026-11-02): black pages (`#0a0a0a`), light uppercase Inter titles with wide letter spacing (Cairo for Arabic), a sand
+accent (`#C4B5A0`), zinc-style hairlines, and no forced grayscale. Default sections: full-bleed hero with a parallax
+photo and a fade-in title, tagline and sand button; divided principle columns (`values`); expanding photo panels for
+services; a 3-column project grid (place and year under each title); a counting stats band; the white "about" band
+(`intro`); and the contact section with a dark form. The nav sits on top of the page (not fixed) and the footer is one
+centered gray strip. Extra designs stay as alternatives (split hero, service rows, project rows, giant stat, quote
+list). Preview locally with `npm run templates:render-sample -- arhitect`.
 
 Built in T1: `site-templates/` (registry, Classic = id `agenvo`), `applyTemplate` in `site-editor/apply-template.ts`,
 `content.theme` validated as a template id, template colors and fonts written as CSS variables in the page head

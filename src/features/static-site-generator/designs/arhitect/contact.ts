@@ -34,7 +34,7 @@ function renderDetails(facts: Facts): string {
   return lines.length === 0 ? "" : `<div class="ar-contact-details ar-reveal">${lines.join("")}</div>`;
 }
 
-// One half black, one half white: the split the whole template is built on.
+// Source layout: text and contact lines on one side, dark form on the other.
 export function renderContact(block: ThemeBlock<"contact">, context: BlockContext): string {
   const { props } = block;
 
@@ -46,9 +46,9 @@ export function renderContact(block: ThemeBlock<"contact">, context: BlockContex
         <p class="ar-body ar-reveal">${renderText(props.body)}</p>
         ${renderDetails(context.content.facts)}
       </div>
-      <div class="ar-contact-forms ar-reveal ar-forms">${renderForms(block, context, "form-field")}
+      <div class="ar-reveal ar-forms">${renderForms(block, context, "form-field")}
       </div>
     </div>`;
 
-  return renderSection(block, "ar-sec-tight ar-contact-sec", inner, "contact");
+  return renderSection(block, "ar-sec", inner, "contact");
 }

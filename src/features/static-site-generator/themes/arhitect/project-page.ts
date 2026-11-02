@@ -23,7 +23,7 @@ function renderBadges(detail: ProjectDetail): string {
     detail.status ? `<span class="ar-status ar-status-inline">${renderText(detail.status)}</span>` : "",
   ].filter(Boolean);
 
-  return badges.length === 0 ? "" : `<div class="ar-badges">${badges.join("")}</div>`;
+  return badges.join("");
 }
 
 function renderHeaderSection(detail: ProjectDetail, context: PageContext): string {
@@ -33,7 +33,7 @@ function renderHeaderSection(detail: ProjectDetail, context: PageContext): strin
   <section data-project-part="header" class="ar-project-head">
     <div class="ar-wrap">
       ${renderBackLink(detail, context)}
-      <div class="ar-caption-top"><span class="ar-index ar-index-large" dir="ltr">/ PROJECT</span>${renderBadges(detail)}</div>
+      ${detail.category || detail.status ? `<div class="ar-badges">${renderBadges(detail)}</div>` : ""}
       <h1 class="ar-hero-title">${renderText(detail.title)}</h1>
       ${summary}
     </div>
@@ -56,9 +56,9 @@ function renderFactsSection(detail: ProjectDetail): string {
 
   const rows = detail.facts
     .map(
-      (fact, index) => `
+      (fact) => `
         <div class="ar-stat">
-          <dt class="ar-caps"><span class="ar-index-small" dir="ltr">${String(index + 1).padStart(2, "0")}</span> ${renderText(fact.label)}</dt>
+          <dt class="ar-caps">${renderText(fact.label)}</dt>
           <dd class="ar-fact-value">${renderText(fact.value)}</dd>
         </div>`,
     )
@@ -78,9 +78,8 @@ function renderStorySection(detail: ProjectDetail): string {
 
   const steps = detail.story
     .map(
-      (step, index) => `
+      (step) => `
       <div class="ar-story-step ar-reveal">
-        <span class="ar-index ar-index-row" dir="ltr">/${String(index + 1).padStart(2, "0")}</span>
         <div>
           <h2 class="ar-title ar-title-sm">${renderText(step.heading)}</h2>
           <p class="ar-body">${renderText(step.body)}</p>
@@ -96,7 +95,7 @@ function renderStorySection(detail: ProjectDetail): string {
   </section>`;
 }
 
-function renderPhotoGroup(title: string, images: Image[], index: number, part: string): string {
+function renderPhotoGroup(title: string, images: Image[], part: string): string {
   if (images.length === 0) {
     return "";
   }
@@ -109,7 +108,7 @@ function renderPhotoGroup(title: string, images: Image[], index: number, part: s
   <section data-project-part="${part}" class="ar-sec ar-sec-tight">
     <div class="ar-wrap">
       <div class="ar-head">
-        <h2 class="ar-title ar-title-sm ar-reveal"><span class="ar-index ar-index-small" dir="ltr">/${String(index + 1).padStart(2, "0")}</span> ${renderText(title)}</h2>
+        <h2 class="ar-title ar-title-sm ar-reveal">${renderText(title)}</h2>
       </div>
       <div class="ar-photo-grid">
         ${photos}
@@ -139,8 +138,8 @@ export function renderProject(detail: ProjectDetail, context: PageContext): stri
     renderCoverSection(detail),
     renderFactsSection(detail),
     renderStorySection(detail),
-    renderPhotoGroup(detail.beforeTitle, detail.before, 0, "before"),
-    renderPhotoGroup(detail.galleryTitle, detail.gallery, 1, "gallery"),
+    renderPhotoGroup(detail.beforeTitle, detail.before, "before"),
+    renderPhotoGroup(detail.galleryTitle, detail.gallery, "gallery"),
     renderCtaSection(detail, context),
   ].join("");
 }

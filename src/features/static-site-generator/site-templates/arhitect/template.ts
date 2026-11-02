@@ -1,25 +1,24 @@
 import type { SiteTemplate } from "../types";
 
-// Archivo (800, uppercase) and IBM Plex Sans for Latin; Cairo (display) and IBM Plex Sans Arabic
-// (body) for Arabic. The red bands, muted text and hairlines in arhitect.css are mixed from these
-// three colors.
+// Inter for Latin; Cairo for Arabic. The near-white ink, the sand accent and the hairlines in
+// arhitect.css are mixed from these three colors.
 const fontUrl =
-  "https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600&family=Cairo:wght@400;600;800&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap";
+  "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cairo:wght@400;600;700&display=swap";
 
 export const arhitectTemplate: SiteTemplate = {
   id: "arhitect",
   name: "Arhitect",
   mood: {
-    en: "Black cinematic tech: pure black, wide uppercase type and a signal-red accent",
-    ar: "أسلوب تقني سينمائي داكن: أسود نقي، خطوط عريضة بأحرف كبيرة، وأحمر إشارة",
+    en: "Black tech: near-black pages, light uppercase type and a sand accent",
+    ar: "أسلوب تقني داكن: صفحات سوداء عملياً، خطوط فاتحة بأحرف كبيرة، ولون رملي",
   },
   tokens: {
     bg: "#0a0a0a",
-    ink: "#ededed",
-    accent: "#e5322d",
-    fontDisplay: '"Archivo", "Cairo", sans-serif',
-    fontBody: '"IBM Plex Sans", "IBM Plex Sans Arabic", sans-serif',
-    radius: "0px",
+    ink: "#f5f5f5",
+    accent: "#C4B5A0",
+    fontDisplay: '"Inter", "Cairo", sans-serif',
+    fontBody: '"Inter", "Cairo", sans-serif',
+    radius: "0.25rem",
     space: "1rem",
     fontStylesheets: [fontUrl],
   },
@@ -35,7 +34,7 @@ export const arhitectTemplate: SiteTemplate = {
     stats: "arhitect/stats-divided",
     faq: "arhitect/faq-default",
     projects: "arhitect/projects-grid",
-    testimonials: "arhitect/testimonials-invert",
+    testimonials: "arhitect/testimonials-list",
     marquee: "arhitect/marquee-default",
     values: "arhitect/values-columns",
     clients: "arhitect/clients-default",

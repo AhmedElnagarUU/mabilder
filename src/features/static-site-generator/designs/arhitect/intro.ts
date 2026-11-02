@@ -26,5 +26,5 @@ export function renderIntro(block: ThemeBlock<"intro">): string {
       ${photos}
     </div>`;
 
-  return renderSection(block, "ar-sec ar-invert", inner);
+  return renderSection(block, "ar-sec ar-invert ar-intro", inner);
 }

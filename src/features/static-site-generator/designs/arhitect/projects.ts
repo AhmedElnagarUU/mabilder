@@ -5,17 +5,12 @@ import { renderHead, renderIndex, renderTextLink, sectionClasses } from "./parts
 
 type Project = ThemeBlock<"projects">["props"]["items"][number];
 
-// Two columns of big cards. Each card opens with its index number.
-function renderGridCard(project: Project, index: number): string {
-  const caption = `
-            <div class="ar-caption-top">${renderIndex(index)}${project.category ? `<span class="ar-caps-inline">${renderText(project.category)}</span>` : ""}</div>
-            <h3 class="ar-card-title">${renderText(project.title)}</h3>
-            <p class="ar-meta">${renderText(project.meta)}</p>
-            ${project.body ? `<p class="ar-small">${renderText(project.body)}</p>` : ""}`;
+// The card from the source: photo block of fixed height, small uppercase title, place and year.
+function renderGridCard(project: Project): string {
   const inner = `
           <div class="ar-item-cover">${renderImage(project.image, "ar-img-cover ar-photo")}</div>
-          <div class="ar-card-text">${caption}
-          </div>`;
+          <h3 class="ar-card-title">${renderText(project.title)}</h3>
+          <p class="ar-meta">${renderText(project.meta)}</p>`;
   const content = project.href
     ? `<a href="${escapeAttribute(project.href)}" class="ar-cover-link">${inner}</a>`
     : inner;
@@ -25,7 +20,7 @@ function renderGridCard(project: Project, index: number): string {
         </article>`;
 }
 
-// One row per project across the full width; the thumb grows when the row has focus or hover.
+// The alternative: one row per project across the full width, with an index number.
 function renderRowCard(project: Project, index: number): string {
   const text = `
               <h3 class="ar-caps-title">${renderText(project.title)}</h3>
@@ -47,7 +42,7 @@ export function renderProjects(block: ThemeBlock<"projects">, context: BlockCont
   const { props } = block;
   const rows = block.design === "arhitect/projects-rows";
   const items = props.items
-    .map((project, index) => (rows ? renderRowCard(project, index) : renderGridCard(project, index)))
+    .map((project, index) => (rows ? renderRowCard(project, index) : renderGridCard(project)))
     .join("");
 
   const grid = rows
@@ -58,8 +53,8 @@ export function renderProjects(block: ThemeBlock<"projects">, context: BlockCont
       <div class="ar-projects-grid">${items}
       </div>`;
 
-  const inner = `
-    <div class="ar-wrap">${renderHead(props.eyebrow, props.title, props.body)}${grid}
+  const inner = `${renderHead(props.eyebrow, props.title, props.body)}
+    <div class="ar-wrap">${grid}
       <div class="ar-end-row">${renderTextLink(props.link)}</div>
     </div>`;
 

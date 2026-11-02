@@ -18,7 +18,7 @@ function classicSite() {
 test("Arhitect is registered with its own shell and a design of the right category for every type", () => {
   assert.equal(arhitect.id, "arhitect");
   assert.equal(arhitect.shell, "arhitect");
-  assert.ok(arhitect.tokens.fontStylesheets[0].includes("Archivo"));
+  assert.ok(arhitect.tokens.fontStylesheets[0].includes("Inter"));
   assert.ok(arhitect.tokens.fontStylesheets[0].includes("Cairo"));
   assert.ok(arhitect.mood.ar.length > 0);
 
@@ -61,7 +61,7 @@ test("applying Arhitect keeps every prop and renders each page in en and ar", ()
     assert.ok(file.html.includes("assets/arhitect.css"), file.fileName);
     assert.ok(!file.html.includes("cdn.tailwindcss.com") && !file.html.includes("unpkg.com"), file.fileName);
     assert.ok(file.html.includes("--site-bg: #0a0a0a;"), file.fileName);
-    assert.ok(file.html.includes("--site-accent: #e5322d;"), file.fileName);
+    assert.ok(file.html.includes("--site-accent: #C4B5A0;"), file.fileName);
     assert.ok(file.html.includes("fonts.googleapis.com"), file.fileName);
     assert.ok(file.html.includes('<body class="ar"'), file.fileName);
     assert.ok(file.html.includes(file.fileName.startsWith("ar/") ? 'dir="rtl"' : 'dir="ltr"'), file.fileName);

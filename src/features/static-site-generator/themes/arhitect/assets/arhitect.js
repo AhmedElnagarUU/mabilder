@@ -5,13 +5,13 @@
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function init() {
-    var nav = document.getElementById("site-nav");
-    if (nav) {
-      var setNav = function () {
-        nav.classList.toggle("ar-nav-scrolled", window.scrollY > 40);
+    /* Hero photo moves down at 45% of the scroll speed (the source's parallax) */
+    var heroBg = document.querySelector("[data-parallax]");
+    if (heroBg && !reduceMotion) {
+      var moveHero = function () {
+        heroBg.style.transform = "translateY(" + window.scrollY * 0.45 + "px) scale(1.1)";
       };
-      setNav();
-      window.addEventListener("scroll", setNav, { passive: true });
+      window.addEventListener("scroll", moveHero, { passive: true });
     }
 
     var toggle = document.getElementById("menu-toggle");
@@ -40,7 +40,7 @@
             }
           });
         },
-        { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+        { threshold: 0.15 }
       );
       revealEls.forEach(function (el) {
         revealObserver.observe(el);
