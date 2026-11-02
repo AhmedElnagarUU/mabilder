@@ -1428,5 +1428,39 @@
       "ribbon": "This is a demo template with fixed content —",
       "ribbonLink": "back to the gallery"
     }
+  },
+  "templatePicker": {
+    "meta": {
+      "title": "Choose your template",
+      "description": "Pick the look of your website. Your text and photos stay the same."
+    },
+    "page": {
+      "crumb": "Choose your template",
+      "title": "Choose your template",
+      "subtitle": "Your text and photos are ready. Pick the look you like, preview it with your own content, and change it any time. It costs no credits.",
+      "skip": "Skip and keep the current look"
+    },
+    "card": {
+      "preview": "Preview",
+      "newTab": "{name} with your content, opens in a new tab",
+      "use": "Use this template",
+      "using": "Applying…",
+      "current": "Current"
+    },
+    "change": {
+      "button": "Change template",
+      "title": "Change template",
+      "hint": "Only the look changes. Your text, photos and details stay exactly the same, and it costs no credits.",
+      "close": "Close"
+    },
+    "toast": {
+      "applied": "Template changed",
+      "undone": "Previous look restored"
+    },
+    "errors": {
+      "invalid": "This template cannot be applied. Please try another one.",
+      "subscriptionRequired": "Your trial has ended. Subscribe to keep editing your website.",
+      "failed": "We could not change the template. Please try again."
+    }
   }
 }

@@ -213,7 +213,7 @@ export function CreateSiteWizard() {
         return;
       }
 
-      router.push(`/edit/${siteId}`);
+      router.push(`/dashboard/sites/${siteId}/template`);
     } catch {
       setError({ code: "default" });
       setStatusKey(null);
