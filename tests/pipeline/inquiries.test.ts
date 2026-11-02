@@ -76,7 +76,7 @@ test("the demo sentence is gone from the contact fixtures", () => {
 });
 
 test("the WhatsApp link holds only digits and an encoded message in the page language", () => {
-  const files = renderFiles(richBrief);
+  const files = renderFiles(richBrief, { enabled: true });
   const english = htmlOf(files, "en/index.html");
   const arabic = htmlOf(files, "ar/index.html");
 
@@ -92,8 +92,13 @@ test("a separate WhatsApp number wins, and an Egyptian local number gets the cou
   assert.equal(buildWhatsAppUrl("+20 (100) 123-4567", "en")?.split("?")[0], "https://wa.me/201001234567");
 });
 
+test("the WhatsApp button is off unless the owner switches it on", () => {
+  assert.ok(!htmlOf(renderFiles(richBrief), "en/index.html").includes("data-whatsapp"));
+  assert.ok(!htmlOf(renderFiles(richBrief, {} as { enabled: boolean }), "en/index.html").includes("data-whatsapp"));
+});
+
 test("there is no WhatsApp button without a phone, or when it is switched off", () => {
-  assert.ok(!htmlOf(renderFiles(thinBrief), "en/index.html").includes("data-whatsapp"));
+  assert.ok(!htmlOf(renderFiles(thinBrief, { enabled: true }), "en/index.html").includes("data-whatsapp"));
   assert.ok(!htmlOf(renderFiles(richBrief, { enabled: false }), "en/index.html").includes("data-whatsapp"));
   assert.equal(buildWhatsAppUrl("abc", "en"), null);
 });

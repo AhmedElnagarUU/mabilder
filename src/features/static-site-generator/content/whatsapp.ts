@@ -6,7 +6,7 @@ const MIN_DIGITS = 8;
 const MAX_DIGITS = 15;
 
 export const whatsappSettingsSchema = z.object({
-  enabled: z.boolean().default(true),
+  enabled: z.boolean().default(false),
   number: z
     .string()
     .trim()
@@ -26,12 +26,12 @@ export const whatsappLabels: Record<Locale, string> = {
   ar: "تواصل عبر واتساب",
 };
 
-// Stored settings are read leniently: a bad value means "on, use the site phone".
+// The button is opt-in: stored settings are read leniently and a missing or bad value means "off".
 export function readWhatsAppSettings(value: unknown): WhatsAppSettings {
   const parsed = whatsappSettingsSchema.safeParse(value ?? {});
 
   if (!parsed.success) {
-    return { enabled: true };
+    return { enabled: false };
   }
 
   return { enabled: parsed.data.enabled, number: parsed.data.number || undefined };
@@ -58,13 +58,14 @@ export function buildWhatsAppUrl(phone: string, locale: Locale): string | null {
   return digits ? `https://wa.me/${digits}?text=${encodeURIComponent(whatsappMessages[locale])}` : null;
 }
 
-// The button needs the site to be on and a number: the separate one, else the site phone.
+// The button shows only when the owner switched it on and there is a number: the separate one, else the site phone.
+// No settings (gallery demo, template previews) means no button.
 export function resolveWhatsAppUrl(
   settings: WhatsAppSettings | undefined,
   sitePhone: string | undefined,
   locale: Locale,
 ): string | null {
-  const resolved = settings ?? { enabled: true };
+  const resolved = settings ?? { enabled: false };
   const phone = resolved.number || sitePhone;
 
   return resolved.enabled && phone ? buildWhatsAppUrl(phone, locale) : null;

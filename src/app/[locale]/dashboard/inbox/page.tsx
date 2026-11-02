@@ -64,11 +64,13 @@ export default async function InboxPage({ params }: PageProps<"/[locale]/dashboa
               {t("noSiteCta")}
             </Link>
           </div>
-        ) : inbox.locked ? (
-          <InboxLocked newCount={inbox.newCount} />
         ) : (
           <>
-            <InboxList siteId={site.id} items={inbox.items} />
+            {inbox.locked ? (
+              <InboxLocked newCount={inbox.newCount} />
+            ) : (
+              <InboxList siteId={site.id} items={inbox.items} />
+            )}
             <WhatsAppSettingsForm
               siteId={site.id}
               initial={site.whatsapp}

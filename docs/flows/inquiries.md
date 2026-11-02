@@ -94,8 +94,13 @@ flowchart TD
   GO --> GS[getInquiryStats / getInquiryCountsForOwner in inquiries/service.ts]
   GS --> DB[(inquiries collection: counts only)]
   DB --> AV[OverviewCards and UserDetailView show numbers, never names, phones or messages]
-  W[Owner toggles WhatsApp in the Inbox page] --> WP[PUT /api/sites/siteId/whatsapp]
+  W[Owner opens /dashboard/inbox: WhatsAppSettingsForm shows even when the inbox is locked, status On with number or Off] --> SWT{Switch on?}
+  SWT -- off --> WP[PUT /api/sites/siteId/whatsapp enabled=false]
+  SWT -- on, number empty --> NR[Form error numberRequired, no request]
+  SWT -- on, number --> WP2[PUT /api/sites/siteId/whatsapp enabled=true and number]
+  WP2 -- invalid number --> B400[400 invalid_request shown as form error]
   WP --> SW[saveWhatsapp in site-creation/service.ts]
+  WP2 -- valid --> SW
   SW --> GN[generateSite renders the site again with the new setting]
-  GN --> BTN[renderWhatsAppButton: wa.me with digits and encoded text, only when there is a phone]
+  GN --> BTN[resolveWhatsAppUrl: wa.me button only when enabled with a number; default and demo previews: no button]
 ```
