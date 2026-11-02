@@ -1,13 +1,14 @@
 import type { BlockType } from "../blocks/catalog";
 import { getDefaultDesign, getDesign } from "../designs/registry";
 import { classicTemplate } from "./agenvo/template";
+import { arhitectTemplate } from "./arhitect/template";
 import { aureliaTemplate } from "./aurelia/template";
 import type { SiteTemplate } from "./types";
 
 // The base template: unknown ids render as it, and it supplies the design of any section a template lacks.
 export const baseTemplate: SiteTemplate = classicTemplate;
 
-const templates: SiteTemplate[] = [classicTemplate, aureliaTemplate];
+const templates: SiteTemplate[] = [classicTemplate, aureliaTemplate, arhitectTemplate];
 
 export function listTemplates(): SiteTemplate[] {
   return [...templates];

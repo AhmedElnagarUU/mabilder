@@ -75,29 +75,32 @@ and the same gallery cover layout. Rules for every template from now on:
 |---|---|---|---|---|---|
 | `agenvo` Classic | Warm calm (exists) | `#f4efe6` / `#1c1c1c` / `#b8956c` | Cormorant + DM Sans | 2px | — |
 | `aurelia` | Dark luxury (exists) | `#12100e` / `#f3eee4` / `#c9a962` | Cormorant + Inter | 0 | Diamond line pattern, gold hairlines |
-| `arhitect` | Black cinematic tech, Swiss | `#0a0a0a` / `#ededed` / `#e5322d` signal red | Archivo (800, uppercase, wide tracking) + IBM Plex Sans · Cairo + IBM Plex Sans Arabic | 0 | All photos grayscale, color on hover/focus; giant uppercase wordmark in footer; index numbers `/01` |
+| `aurelia` source rule | **Owner 2026-11-02:** Aurelia must follow `templates/aurelia/index.html` section by section (layout, spacing, type sizes, lines, pattern, hover/reveal effects), converted to plain CSS | | | | |
+| `arhitect` | Black tech, **faithful to `templates/arhitect/index.html`** (owner 2026-11-02) | `#0a0a0a` / `#f5f5f5` / `#C4B5A0` sand | Inter (uppercase, wide tracking, as in the source) · Cairo | 0 | Exactly the source: parallax hero, divided principle columns, expanding image panels, place/year project grid, counting stats, white about band, split contact |
+| `blueprint` (new) | Technical drawing, engineered | `#0d2b4e` navy / `#e8f0f8` / `#5ec8e5` cyan | Sora + IBM Plex Mono (labels) · Alexandria | 4px | Blueprint grid background (CSS lines), crop-mark frames on photos, dimension-line dividers with labels, mono "SEC. 02" labels, footer as a drawing title block |
 | `atelier` | Light editorial magazine | `#f6f3ee` / `#1f1d1a` / `#5f6b3a` olive | Playfair Display (italic accents) + Manrope · Amiri + Tajawal | 0 | Last word of hero/section titles in italic accent (`<em>`, rendered from the text); hairline rules; diagonal photo cut; vertical rotated labels |
 | `dar` | Warm soft home interior | `#efe6da` / `#3b2a20` / `#b8643c` terracotta | Fraunces + Nunito Sans · Markazi Text + Almarai | 28px | Arch-topped photos (round top), floating pill nav, soft cream cards with round icon badges |
 | `nova` | Bold modern contractor, bright | `#ffffff` / `#111111` / `#ffcc00` yellow | Space Grotesk (700) + Work Sans · Readex Pro | 20px | Bento grid, yellow marker highlight behind one title word, rotated sticker badge, hazard-stripe CTA edge |
 | `riwaq` | Arabic heritage, calm, symmetric | `#f7f1e3` ivory / `#0e3b33` deep green / `#23468c` lapis | Marcellus + Lato · El Messiri + Noto Kufi Arabic | 0 (arches) | Pointed-arch photo masks, 8-point-star geometric pattern bands (inline SVG), centered symmetric layout, ornament dividers |
 
-Section by section (each template's default design first, extra designs after "/"):
+Section by section for the new directions (each template's default design first, extra designs after "/").
+Aurelia and Arhitect follow their source `index.html` instead of this table.
 
-| Section | arhitect | atelier | dar | nova | riwaq |
+| Section | blueprint | atelier | dar | nova | riwaq |
 |---|---|---|---|---|---|
-| Nav | Logo start, uppercase small links with numbers, thin line under | Centered wordmark, links split start/end | Floating rounded pill bar on cream | White bar, yellow pill CTA | Centered logo, links on both sides, ornament line |
-| Hero | Full-bleed grayscale photo, giant uppercase title bottom-start, tagline bottom-end / split black-white | Split: serif title with italic last word + diagonal-cut photo / centered text over photo | Inset rounded photo (margin around), huge serif title centered on it / split with arch photo | Heavy headline with yellow marker word, rounded photo card + rotated sticker (first stat) / full-width photo with bold box | Centered title + large pointed-arch photo, pattern band below / two arches side by side |
-| Services | Expanding image panels (focus/hover widens; stacked on phone) / numbered rows table | Vertical label + 4 columns with line icons and hairline dividers / list with em-dash | Category cards: photo top + round icon badge + label / soft icon chips | Bento grid (1 big photo card + yellow, black, grey cards) / numbered pill list | Three tall arch-topped cards / bordered tiles with star icon |
-| Projects | 2-column big grid with `/01` index, place + year line / full-width list rows with hover photo | Title column + 3 cards with location in olive / carousel with tags | Arched photo strip, horizontal scroll-snap, alternate offsets / rounded masonry | Cards with tag pills + arrow buttons / large feature card + 2 small | Arch-masked grid, centered captions / alternating arch + text rows |
-| Stats | Huge numbers with vertical dividers, counting / single giant number | Thin row between hairlines / numbers beside a quote | Soft rounded chips / big number in a circle | Black block, yellow numbers / sticker circles | Numbers inside 8-point-star outlines / row with ornament dividers |
-| Testimonials | One big uppercase quote on an inverted white band / list of quotes with lines | Dark band, large serif quote, dots / rating summary "4.8" + quote + photo | Cream rounded cards with round avatars / one centered soft quote | Card grid with star rating / big quote in yellow block | Centered quote in an ornamental frame / two framed quotes |
-| Process | Table rows with numbers and lines | 01–05 on a horizontal hairline with dots | Rounded step cards | Numbered circles joined by a line | Vertical timeline with star nodes |
-| CTA | Full-width red bar, uppercase | Quiet line + underlined link | Terracotta rounded band with photo | Hazard-stripe edged black block | Green band with pattern |
-| Contact | Split black / white | 3 columns: text / form / address | Rounded form card | Yellow form card on black | Centered form inside a bordered frame |
-| Footer | Giant brand wordmark across the bottom | Columns with thin rules | Simple soft, rounded | Black, bold | Deep green with pattern strip |
+| Nav | Thin bar, mono links, sheet number "A-01" | Centered wordmark, links split start/end | Floating rounded pill bar on cream | White bar, yellow pill CTA | Centered logo, links on both sides, ornament line |
+| Hero | Title on the grid with dimension lines measuring it + photo in a crop-mark frame / full photo with navy duotone overlay | Split: serif title with italic last word + diagonal-cut photo / centered text over photo | Inset rounded photo (margin around), huge serif title centered on it / split with arch photo | Heavy headline with yellow marker word, rounded photo card + rotated sticker (first stat) / full-width photo with bold box | Centered title + large pointed-arch photo, pattern band below / two arches side by side |
+| Services | Spec-sheet rows (code, name, text) / cards with crop-mark corners | Vertical label + 4 columns with line icons and hairline dividers / list with em-dash | Category cards: photo top + round icon badge + label / soft icon chips | Bento grid (1 big photo card + yellow, black, grey cards) / numbered pill list | Three tall arch-topped cards / bordered tiles with star icon |
+| Projects | Cards with a drawing title block (name, place, year) / one feature with numbered callouts | Title column + 3 cards with location in olive / carousel with tags | Arched photo strip, horizontal scroll-snap, alternate offsets / rounded masonry | Cards with tag pills + arrow buttons / large feature card + 2 small | Arch-masked grid, centered captions / alternating arch + text rows |
+| Stats | Numbers on dimension lines / numbers in outlined boxes | Thin row between hairlines / numbers beside a quote | Soft rounded chips / big number in a circle | Black block, yellow numbers / sticker circles | Numbers inside 8-point-star outlines / row with ornament dividers |
+| Testimonials | Quote as an annotation note with a leader line / grid of note cards | Dark band, large serif quote, dots / rating summary "4.8" + quote + photo | Cream rounded cards with round avatars / one centered soft quote | Card grid with star rating / big quote in yellow block | Centered quote in an ornamental frame / two framed quotes |
+| Process | Steps on a dashed axis with grid-axis markers A, B, C | 01–05 on a horizontal hairline with dots | Rounded step cards | Numbered circles joined by a line | Vertical timeline with star nodes |
+| CTA | Outlined box with a "REV. A" mono label | Quiet line + underlined link | Terracotta rounded band with photo | Hazard-stripe edged black block | Green band with pattern |
+| Contact | Form as a ruled spec sheet | 3 columns: text / form / address | Rounded form card | Yellow form card on black | Centered form inside a bordered frame |
+| Footer | Drawing title block (name, address, sheet no.) | Columns with thin rules | Simple soft, rounded | Black, bold | Deep green with pattern strip |
 
 Demo photo queries per template (gallery only; real sites use the content's own Pexels photos):
-arhitect = black-and-white concrete / brutalist / minimal night buildings; atelier = bright minimalist white
+arhitect = black-and-white concrete / brutalist / minimal night buildings; blueprint = architectural drawings, engineers with plans, steel structures, modern facades in blue hour; atelier = bright minimalist white
 houses and interiors in natural light; dar = warm beige living rooms, wood, ceramics; nova = construction
 sites, cranes, workers in helmets, bright modern buildings; riwaq = Islamic arches, riad courtyards, mosaic
 tiles, majlis interiors; aurelia = luxury villas at night, dark interiors; Classic keeps today's set.
@@ -115,11 +118,13 @@ OpenCode (DeepSeek or GLM) when its free limit allows, otherwise Sonnet.
 | T3 | Gallery: demo fixture en/ar, demo-photos script (Pexels, run once), `/templates` list + preview in new tab, landing + dashboard links | **OpenCode GLM** (fallback Sonnet) | Pages work in en/ar, mobile, dark; no AI/Pexels call at view time |
 | T4 | Pick flow: wizard step "Choose your template", editor/dashboard "Change template", Undo | **Sonnet** | No AI call; content unchanged after switch; works in RTL |
 | G1 | Gallery: one demo photo set per template (`photos.json` keyed by template id, own queries), gallery cover = scaled live preview of the template's demo home | **OpenCode GLM** | Each template's preview uses its own photos; covers look different |
-| T5 | Template **Arhitect** (see Template directions) | **OpenCode GLM**, reviewed by Opus | As T2 + its row in Template directions |
+| T5 | Template **Arhitect**, faithful to `templates/arhitect/index.html` | **OpenCode GLM**, reviewed by Opus | As T2 + its row in Template directions |
 | T6 | Template **Atelier** | **OpenCode GLM**, reviewed by Opus | As T5 |
 | T7 | Template **Dar** | **OpenCode GLM**, reviewed by Opus | As T5 |
 | T9 | Template **Nova** (new) | **OpenCode GLM**, reviewed by Opus | As T5 |
 | T10 | Template **Riwaq** (new) | **OpenCode GLM**, reviewed by Opus | As T5 |
+| T11 | Template **Blueprint** (new) | **OpenCode GLM**, reviewed by Opus | As T5 |
+| T2b | Aurelia fidelity pass: match `templates/aurelia/index.html` section by section | **OpenCode GLM**, reviewed by Opus with side-by-side screenshots | Looks like the source; checks pass |
 | T8 | Improve Classic (agenvo) weak variants: hero split, services cards with images, projects masonry, testimonials slider | **OpenCode DeepSeek** (fallback Sonnet), reviewed by Opus | `check:theme` passes, fixtures updated on purpose only |
 
 Order: T0 → T1 → T2 → T3 → then in parallel: T4 (Sonnet, main tree) and G1 → T5 → T6 → T7 → T9 → T10 (OpenCode, one at a time, own worktree) → T8.

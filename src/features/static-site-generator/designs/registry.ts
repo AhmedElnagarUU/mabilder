@@ -1,9 +1,10 @@
 import type { BlockType } from "../blocks/catalog";
 import { agenvoPack } from "./agenvo/pack";
+import { arhitectPack } from "./arhitect/pack";
 import { aureliaPack } from "./aurelia/pack";
 import type { BlockDesign, DesignPack } from "./types";
 
-export const designPacks: DesignPack[] = [agenvoPack, aureliaPack];
+export const designPacks: DesignPack[] = [agenvoPack, aureliaPack, arhitectPack];
 
 export const designs: BlockDesign[] = designPacks.flatMap((pack) => pack.designs);
 

@@ -2,8 +2,9 @@
 
 Plan: `docs/templates-plan.md`. Status: **T1 built** (template model, Classic, `applyTemplate`, content-level
 image needs), **T2 built** (template Aurelia), **T3 built** (public template gallery with live demo previews),
-**G1 built** (one demo photo set per template, gallery cover = scaled live preview iframe) and **T4 built** (pick
-flow). More templates (T5–T10) and T8 are not built yet. This file is updated in each milestone.
+**G1 built** (one demo photo set per template, gallery cover = scaled live preview iframe), **T4 built** (pick
+flow) and **T5 built** (template Arhitect). More templates (T6–T10) and T8 are not built yet. This file is
+updated in each milestone.
 
 **T4, in plain words:** right after the AI has written the content, the wizard sends the customer to
 "Choose your template" (`/{locale}/dashboard/sites/{siteId}/template`). It shows every template card (name, mood,
@@ -52,6 +53,15 @@ footer and style file (no outside scripts), a wave edge under the hero and above
 circle-icon services, photo panels, a big-number band and project cards with facts. Every section type has an
 Aurelia design, so any content fits. Preview locally with `npm run templates:render-sample -- aurelia`
 (writes `.template-samples/aurelia/`).
+
+**Arhitect (T5), in plain words:** a black cinematic tech look: pure black pages, wide uppercase Archivo titles
+(Cairo for Arabic), hairline grey lines and one signal-red accent (`#e5322d`). Its own menu (nav links carry
+`/01` numbers), a giant uppercase wordmark across the bottom of the footer, and grayscale photos everywhere —
+a photo only gets its color when it is focused or hovered. Default sections: full-bleed hero with the tagline
+bottom-end, expanding photo panels for services, a big 2-column project grid with `/01` indexes, huge counting
+numbers with vertical dividers, and one big uppercase review on an inverted white band; there is also a black-white
+split hero, numbered service rows, project list rows, one giant stat number and a quote list, so "Change design"
+has choices. Preview locally with `npm run templates:render-sample -- arhitect`.
 
 Built in T1: `site-templates/` (registry, Classic = id `agenvo`), `applyTemplate` in `site-editor/apply-template.ts`,
 `content.theme` validated as a template id, template colors and fonts written as CSS variables in the page head
